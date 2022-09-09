@@ -14,7 +14,7 @@ Content:
 Will contain:
 - BloC for state management.
 - Clean architecture.
-- Day/night mode and right theming in general (ttps://docs.flutter.dev/cookbook/design/themes).
+- Day/night mode and right theming in general (https://docs.flutter.dev/cookbook/design/themes).
 - Localization (ENG/UKR). 
 - Introducing screen.
 
