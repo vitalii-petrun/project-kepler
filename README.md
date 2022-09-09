@@ -1,12 +1,26 @@
-# flutter_project_template
-📖 Template for flutter projects using solid_lints, CI for tests and analysis.
+# Project Kepler App 
+📖 App about exploring of space by humanity.
 
-- Uses latest stable flutter
-- Repo name as your project name
-- Organization from your profile email address or default
+Made on Dart&Flutter in educational purposes.
 
-# Usage
-1. Press "Use this template" on the menu.
-2. Fill Github form with your new repo name and press "Create repository from template"
-3. Wait for it to be created and set up action is complete. In a couple of minutes, you'll see the flutter project created in your repo once Github Actions are complete.
-4. Clone and code.
+Based on https://thespacedevs.com/llapi API and inspired by Space Launch Now and Go4liftoff apps.
+
+Content:
+- launch dates of rockets/space missions.
+- thematic news&events.
+- ? list of vehicles. 
+- ? tab with videos from https://www.youtube.com/channel/UCi0Z9L9HrhD7oYpMs2pLxSw channel, in case UA localization is choosen.
+
+Will contain:
+- clean architecture.
+- day/night mode and right theming in general (ttps://docs.flutter.dev/cookbook/design/themes).
+- localization (ENG/UKR). 
+- introducing screen.
+
+
+Packages and tools to create app:
+- json_serialazible
+- freezed
+- provider
+- dio
+
