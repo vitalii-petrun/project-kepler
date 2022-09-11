@@ -1,6 +1,6 @@
 
 
-![logo_planet](https://user-images.githubusercontent.com/87064627/189515895-e9ea5f3d-57b8-4705-811f-c06427c1519e.png | width=100)
+![logo_planet](https://user-images.githubusercontent.com/87064627/189515895-e9ea5f3d-57b8-4705-811f-c06427c1519e.png =250x250)
 # Project Kepler App 
 📖 App about exploring of space by humanity.
 
