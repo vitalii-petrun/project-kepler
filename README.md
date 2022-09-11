@@ -23,9 +23,10 @@ Will contain:
 
 
 Packages and tools to create app:
-- json_serialazible
-- freezed
-- provider
+- retrofit
 - dio
+- json_serialazible
+- bloc
+
 
 
