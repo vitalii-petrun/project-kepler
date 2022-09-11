@@ -1,7 +1,7 @@
 
-![ic_launcher_adaptive_fore](https://user-images.githubusercontent.com/87064627/189515835-7288b2db-9657-471e-954c-8775a98138a6.png)
 
-# Project Kepler App 
+
+#![ic_launcher_adaptive_fore](https://user-images.githubusercontent.com/87064627/189515835-7288b2db-9657-471e-954c-8775a98138a6.png ) Project Kepler App 
 📖 App about exploring of space by humanity.
 
 
