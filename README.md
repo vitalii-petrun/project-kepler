@@ -1,4 +1,4 @@
-![ic_launcher_adaptive_fore](https://user-images.githubusercontent.com/87064627/189515823-6fae991d-9e2b-457f-805a-722ee4394d54.png)
+
 ![ic_launcher_adaptive_fore](https://user-images.githubusercontent.com/87064627/189515835-7288b2db-9657-471e-954c-8775a98138a6.png)
 
 # Project Kepler App 
