@@ -1,10 +1,8 @@
 
 
-
+![logo_planet](https://user-images.githubusercontent.com/87064627/189515895-e9ea5f3d-57b8-4705-811f-c06427c1519e.png)
 # Project Kepler App 
 📖 App about exploring of space by humanity.
-
-![ic_launcher_adaptive_fore](https://user-images.githubusercontent.com/87064627/189515835-7288b2db-9657-471e-954c-8775a98138a6.png )
 
 Made on Dart&Flutter in educational purposes.
 
@@ -29,4 +27,5 @@ Packages and tools to create app:
 - freezed
 - provider
 - dio
+
 
