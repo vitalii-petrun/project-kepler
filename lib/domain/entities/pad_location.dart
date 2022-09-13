@@ -12,9 +12,11 @@ class PadLocation {
   /// Name of launch pad.
   final String name;
 
+  @JsonKey(name: 'total_launch_count')
   /// Total launch count
   final int? totalLaunchCount;
 
+  @JsonKey(name: 'total_landing_count')
   /// Total landing count.
   final int? totalLandingCount;
 

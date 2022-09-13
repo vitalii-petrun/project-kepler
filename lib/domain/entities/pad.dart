@@ -9,6 +9,8 @@ class Pad {
   /// ID of object.
   final int id;
 
+
+  @JsonKey(name: 'agency_id')
   /// ID of agency which provides the launch.
   final int agencyID;
 

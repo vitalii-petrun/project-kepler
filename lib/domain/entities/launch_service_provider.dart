@@ -27,3 +27,5 @@ class LaunchServiceProvider {
   ///Converter from  [LaunchServiceProvider] object to json.
   Map<String, dynamic> toJson() => _$LaunchServiceProviderToJson(this);
 }
+
+

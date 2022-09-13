@@ -20,9 +20,10 @@ class Launch {
   /// Launch status.
   final LaunchStatus status;
 
-  /// Time of launch TODO maybe not.
+  /// Time of launch
   final String net;
 
+  @JsonKey(name: 'launch_service_provider')
   /// Company that provides launch.
   final LaunchServiceProvider launchServiceProvider;
 

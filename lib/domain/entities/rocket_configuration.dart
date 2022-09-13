@@ -15,6 +15,8 @@ class RocketConfiguration {
   /// Rocket's family.
   final String family;
 
+
+  @JsonKey(name: 'full_name')
   /// Full name.
   final String fullName;
 

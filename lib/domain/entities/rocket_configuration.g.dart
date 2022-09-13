@@ -11,7 +11,7 @@ RocketConfiguration _$RocketConfigurationFromJson(Map<String, dynamic> json) =>
       json['id'] as int,
       json['name'] as String,
       json['family'] as String,
-      json['fullName'] as String,
+      json['full_name'] as String,
       json['variant'] as String,
     );
 
@@ -21,6 +21,6 @@ Map<String, dynamic> _$RocketConfigurationToJson(
       'id': instance.id,
       'name': instance.name,
       'family': instance.family,
-      'fullName': instance.fullName,
+      'full_name': instance.fullName,
       'variant': instance.variant,
     };

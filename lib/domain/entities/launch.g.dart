@@ -12,7 +12,7 @@ Launch _$LaunchFromJson(Map<String, dynamic> json) => Launch(
       LaunchStatus.fromJson(json['status'] as Map<String, dynamic>),
       json['net'] as String,
       LaunchServiceProvider.fromJson(
-          json['launchServiceProvider'] as Map<String, dynamic>),
+          json['launch_service_provider'] as Map<String, dynamic>),
       Rocket.fromJson(json['rocket'] as Map<String, dynamic>),
       Mission.fromJson(json['mission'] as Map<String, dynamic>),
       Pad.fromJson(json['pad'] as Map<String, dynamic>),
@@ -24,7 +24,7 @@ Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
       'name': instance.name,
       'status': instance.status.toJson(),
       'net': instance.net,
-      'launchServiceProvider': instance.launchServiceProvider.toJson(),
+      'launch_service_provider': instance.launchServiceProvider.toJson(),
       'rocket': instance.rocket.toJson(),
       'mission': instance.mission.toJson(),
       'pad': instance.pad.toJson(),
