@@ -11,7 +11,7 @@ LaunchServiceProvider _$LaunchServiceProviderFromJson(
     LaunchServiceProvider(
       json['id'] as int,
       json['name'] as String,
-      json['type'] as String,
+      json['type'] as String?,
     );
 
 Map<String, dynamic> _$LaunchServiceProviderToJson(

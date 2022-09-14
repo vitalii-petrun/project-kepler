@@ -14,7 +14,9 @@ Launch _$LaunchFromJson(Map<String, dynamic> json) => Launch(
       LaunchServiceProvider.fromJson(
           json['launch_service_provider'] as Map<String, dynamic>),
       Rocket.fromJson(json['rocket'] as Map<String, dynamic>),
-      Mission.fromJson(json['mission'] as Map<String, dynamic>),
+      json['mission'] == null
+          ? null
+          : Mission.fromJson(json['mission'] as Map<String, dynamic>),
       Pad.fromJson(json['pad'] as Map<String, dynamic>),
       json['image'] as String,
     );
@@ -26,7 +28,7 @@ Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
       'net': instance.net,
       'launch_service_provider': instance.launchServiceProvider.toJson(),
       'rocket': instance.rocket.toJson(),
-      'mission': instance.mission.toJson(),
+      'mission': instance.mission?.toJson(),
       'pad': instance.pad.toJson(),
       'image': instance.image,
     };

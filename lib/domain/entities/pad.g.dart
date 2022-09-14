@@ -8,7 +8,7 @@ part of 'pad.dart';
 
 Pad _$PadFromJson(Map<String, dynamic> json) => Pad(
       json['id'] as int,
-      json['agency_id'] as int,
+      json['agency_id'] as int?,
       json['name'] as String,
       PadLocation.fromJson(json['location'] as Map<String, dynamic>),
     );

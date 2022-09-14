@@ -8,38 +8,26 @@ import 'package:project_kepler/domain/entities/rocket.dart';
 part 'launch.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-
-/// Describes a launch settings.
 class Launch {
-  /// ID of launch.
   final String id;
 
-  /// Name of launch.
   final String name;
 
-  /// Launch status.
   final LaunchStatus status;
 
-  /// Time of launch
   final String net;
 
   @JsonKey(name: 'launch_service_provider')
-  /// Company that provides launch.
   final LaunchServiceProvider launchServiceProvider;
 
-  /// Rocket to launch.
   final Rocket rocket;
 
-  /// Space mission.
-  final Mission mission;
+  final Mission? mission;
 
-  /// Place where launch of rocket is provided.
   final Pad pad;
 
-  /// Link to image.
   final String image;
 
-  ///Creates [Launch] object
   Launch(
     this.id,
     this.name,

@@ -13,7 +13,7 @@ class LaunchServiceProvider {
   final String name;
 
   /// Type of company.
-  final String type;
+  final String? type;
 
   /// Creates [LaunchServiceProvider] object.
   LaunchServiceProvider(
