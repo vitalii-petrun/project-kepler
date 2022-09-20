@@ -20,7 +20,6 @@ class ApiRepositoryImpl implements ApiRepository {
     } else {
     throw Exception('Failed to load launch list');
   }
-    //print(result);
     return result;
   }
 }
