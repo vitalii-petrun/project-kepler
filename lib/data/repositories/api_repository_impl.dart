@@ -7,6 +7,7 @@ class ApiRepositoryImpl implements ApiRepository {
   final _dio = Dio();
   late List<Launch> result;
   final _baseUrl = 'https://lldev.thespacedevs.com/2.2.0';
+
   @override
   Future<List<Launch>> getLaunchList() async {
     final response = await _dio.get(_baseUrl + "/launch/upcoming/");

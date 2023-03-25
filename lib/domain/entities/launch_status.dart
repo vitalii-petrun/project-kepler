@@ -3,19 +3,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'launch_status.g.dart';
 
 @JsonSerializable()
-
-/// Describes single launch status.
 class LaunchStatus {
-  /// ID of launch status.
   final int id;
-
-  /// Status of launch.
   final String name;
-
-  /// Detailed description.
   final String description;
 
-  /// Default constructor.
   LaunchStatus(this.id, this.name, this.description);
 
   ///Converter from json to [LaunchStatus] object.

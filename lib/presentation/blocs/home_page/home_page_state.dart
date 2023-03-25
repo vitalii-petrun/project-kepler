@@ -8,3 +8,9 @@ class LaunchesLoaded extends HomePageState {
   final List<Launch> launches;
   LaunchesLoaded(this.launches);
 }
+
+class LaunchesError extends HomePageState {
+  final String message;
+
+  LaunchesError(this.message);
+}
