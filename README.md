@@ -1,6 +1,8 @@
 
-![output-onlinepngtools](https://user-images.githubusercontent.com/87064627/189515989-2d3c9b90-e222-4a8f-83b8-e02f894f5030.png)
+ ![ic_launcher_round](https://user-images.githubusercontent.com/87064627/227796621-c135771d-8554-40aa-b913-9aa6c96a5cf3.png)
 
+ 
+ 
 # Project Kepler App 
 📖 App about exploring of space by humanity.
 
