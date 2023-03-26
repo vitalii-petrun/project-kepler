@@ -6,5 +6,7 @@
     "light": "Світла",
     "dark": "Темна",
     "system": "Системна",
-    "home": "Головна"
+    "home": "Головна",
+    "noDescriptionProvided": "Опис відсутній",
+    "explore": "Огляд"
 }

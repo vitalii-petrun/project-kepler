@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/blocs/home_page/home_page_cubit.dart';
 import '../blocs/home_page/home_page_state.dart';
+import '../widgets/launch_card.dart';
 import '../widgets/space_drawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,16 +30,21 @@ class _HomePageState extends State<HomePage> {
           if (state is LaunchesLoaded) {
             return RefreshIndicator(
               onRefresh: () async => context.read<HomePageCubit>().fetch(),
-              child: ListView.builder(
-                itemCount: state.launches.length,
-                itemBuilder: (context, index) {
-                  final launch = state.launches[index];
-                  return ListTile(
-                    title: Text(launch.name),
-                    subtitle: Text(launch.launchServiceProvider.name),
-                  );
-                },
-              ),
+              child: ListView.separated(
+                  itemCount: state.launches.length,
+                  itemBuilder: (context, index) {
+                    final launch = state.launches[index];
+                    return LaunchCard(
+                      net: launch.net,
+                      launchName: launch.name,
+                      launchStatus: launch.status.name,
+                      padLocation: launch.pad.location.name,
+                      launchServiceProvider: launch.launchServiceProvider.name,
+                      missionDescription: launch.mission?.description,
+                      image: launch.image,
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(height: 20)),
             );
           } else if (state is LaunchesError) {
             return Center(child: Text(state.message));
