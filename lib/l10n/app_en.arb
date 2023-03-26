@@ -8,5 +8,9 @@
   "system": "System",
   "home": "Home",
   "noDescriptionProvided": "No description provided.",
-  "explore": "Explore"
+  "explore": "Explore",
+  "days": "days",
+  "hours": "hours",
+  "minutes": "minutes",
+  "seconds": "seconds"
 }

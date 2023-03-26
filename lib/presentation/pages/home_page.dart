@@ -34,15 +34,7 @@ class _HomePageState extends State<HomePage> {
                   itemCount: state.launches.length,
                   itemBuilder: (context, index) {
                     final launch = state.launches[index];
-                    return LaunchCard(
-                      net: launch.net,
-                      launchName: launch.name,
-                      launchStatus: launch.status.name,
-                      padLocation: launch.pad.location.name,
-                      launchServiceProvider: launch.launchServiceProvider.name,
-                      missionDescription: launch.mission?.description,
-                      image: launch.image,
-                    );
+                    return LaunchCard(launch: launch);
                   },
                   separatorBuilder: (_, __) => const SizedBox(height: 20)),
             );

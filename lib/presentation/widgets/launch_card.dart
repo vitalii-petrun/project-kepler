@@ -1,24 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
+import '../../domain/entities/launch.dart';
+
 class LaunchCard extends StatefulWidget {
-  final String net;
-  final String image;
-  final String launchName;
-  final String padLocation;
-  final String launchStatus;
-  final String launchServiceProvider;
-  final String? missionDescription;
+  final Launch launch;
 
   const LaunchCard({
-    required this.net,
-    required this.image,
-    required this.launchName,
-    required this.padLocation,
-    required this.launchStatus,
-    required this.launchServiceProvider,
-    required this.missionDescription,
+    required this.launch,
     Key? key,
   }) : super(key: key);
 
@@ -48,14 +39,20 @@ class _LaunchCardState extends State<LaunchCard> {
         child: Column(
           children: [
             _HeaderSection(
-              launchName: widget.launchName,
-              padLocation: widget.padLocation,
-              launchServiceProvider: widget.launchServiceProvider,
+              launchName: widget.launch.name,
+              padLocation: widget.launch.pad.location.name,
+              launchServiceProvider: widget.launch.launchServiceProvider.name,
             ),
-            _ImageSection(image: widget.image),
-            _TimerSection(net: widget.net, launchStatus: widget.launchStatus),
-            _BodySection(missionDescription: widget.missionDescription),
-            _FooterSection()
+            _ImageSection(image: widget.launch.image),
+            _TimerSection(
+                net: widget.launch.net,
+                launchStatus: widget.launch.status.name),
+            SizedBox(height: 8),
+            _BodySection(
+                missionDescription: widget.launch.mission?.description),
+            SizedBox(height: 8),
+            _FooterSection(),
+            SizedBox(height: 8),
           ],
         ),
       ),
@@ -137,17 +134,123 @@ class _TimerSection extends StatefulWidget {
 }
 
 class _TimerSectionState extends State<_TimerSection> {
+  late Timer _timer;
+  late Duration _duration;
+
+  @override
+  void initState() {
+    super.initState();
+    final launchTimestamp = DateTime.parse(widget.net);
+    _duration = launchTimestamp.difference(DateTime.now());
+    _duration = _duration.isNegative ? Duration.zero : _duration;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_duration.inSeconds == 0) {
+        _timer.cancel();
+      } else {
+        setState(() {
+          _duration -= Duration(seconds: 1);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final days = _duration.inDays;
+    final hours = _duration.inHours.remainder(24);
+    final minutes = _duration.inMinutes.remainder(60);
+    final seconds = _duration.inSeconds.remainder(60);
+
     return Column(
       children: [
-        Text(
-          widget.launchStatus,
-          style: TextStyle(fontSize: 32),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: _DividerWithStatusChip(launchStatus: widget.launchStatus),
         ),
-        Text(
-          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.parse(widget.net)),
-          style: TextStyle(fontSize: 32),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _CountdownItem(number: days, label: context.l10n.days),
+            _CountdownItemsDivider(),
+            _CountdownItem(number: hours, label: context.l10n.hours),
+            _CountdownItemsDivider(),
+            _CountdownItem(number: minutes, label: context.l10n.minutes),
+            _CountdownItemsDivider(),
+            _CountdownItem(number: seconds, label: context.l10n.seconds),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _CountdownItem extends StatelessWidget {
+  final int number;
+  final String label;
+
+  const _CountdownItem({
+    required this.number,
+    required this.label,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 64,
+      child: Column(
+        children: [
+          Text(
+            number.toString().padLeft(2, '0'),
+            style: context.theme.textTheme.headlineMedium,
+          ),
+          Text(label.toUpperCase()),
+        ],
+      ),
+    );
+  }
+}
+
+class _CountdownItemsDivider extends StatelessWidget {
+  const _CountdownItemsDivider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      ":",
+      style: context.theme.textTheme.headlineMedium,
+    );
+  }
+}
+
+class _DividerWithStatusChip extends StatelessWidget {
+  final String launchStatus;
+
+  const _DividerWithStatusChip({
+    required this.launchStatus,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Divider(),
+        Positioned(
+          top: -8,
+          left: 0,
+          right: 0,
+          child: Chip(
+              label:
+                  Text(launchStatus, style: context.theme.textTheme.headline6)),
         ),
       ],
     );

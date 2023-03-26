@@ -8,5 +8,9 @@
     "system": "Системна",
     "home": "Головна",
     "noDescriptionProvided": "Опис відсутній",
-    "explore": "Огляд"
+    "explore": "Огляд",
+    "days" : "днів",
+    "hours" : "годин",
+    "minutes" : "хвилин",
+    "seconds" : "секунд"
 }
