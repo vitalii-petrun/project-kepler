@@ -13,9 +13,7 @@ class ApiRepositoryImpl implements ApiRepository {
     final response = await _dio.get(_baseUrl + "/launch/upcoming/");
     if (response.statusCode == 200) {
       final launchList = response.data["results"] as List;
-      print(launchList);
       result = launchList.map((json) {
-        print(Launch.fromJson(json));
         return Launch.fromJson(json);
       }).toList();
     } else {
