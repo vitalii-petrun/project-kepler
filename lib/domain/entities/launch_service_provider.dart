@@ -3,19 +3,11 @@ import 'package:json_annotation/json_annotation.dart';
 part 'launch_service_provider.g.dart';
 
 @JsonSerializable()
-
-/// Company which handles launch.
 class LaunchServiceProvider {
-  /// ID of object.
   final int id;
-
-  /// Name of company.
   final String name;
-
-  /// Type of company.
   final String? type;
 
-  /// Creates [LaunchServiceProvider] object.
   LaunchServiceProvider(
     this.id,
     this.name,

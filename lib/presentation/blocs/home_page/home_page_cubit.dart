@@ -9,6 +9,8 @@ class HomePageCubit extends Cubit<HomePageState> {
   void fetch() async {
     await repository
         .getLaunchList()
-        .then((launches) => emit(LaunchesLoaded(launches)));
+        .then((launches) => emit(LaunchesLoaded(launches)))
+        .catchError((e) => emit(LaunchesError(e.toString())));
+    ;
   }
 }
