@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
 class SpaceDrawer extends StatelessWidget {
   const SpaceDrawer({super.key});
@@ -8,18 +9,18 @@ class SpaceDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
-        children: <Widget>[
+        children: [
           DrawerHeader(
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-              )),
+            child: Text('Space Launches'),
+            decoration:
+                BoxDecoration(color: Theme.of(context).colorScheme.primary),
+          ),
           ListTile(
-            title: Text('Settings'),
+            title: Text(context.l10n.settings),
             onTap: () => Navigator.pushNamed(context, '/settings'),
           ),
           ListTile(
-            title: Text('About'),
+            title: Text(context.l10n.about),
             onTap: () {},
           ),
         ],
