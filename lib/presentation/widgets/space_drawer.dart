@@ -11,7 +11,7 @@ class SpaceDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            child: Text('Space Launches'),
+            child: Text('Project Kepler'),
             decoration:
                 BoxDecoration(color: Theme.of(context).colorScheme.primary),
           ),

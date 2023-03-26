@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/blocs/home_page/home_page_cubit.dart';
 import '../blocs/home_page/home_page_state.dart';
 import '../widgets/space_drawer.dart';
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Space Launches")),
+      appBar: AppBar(title: Text(context.l10n.home)),
       drawer: SpaceDrawer(),
       body: BlocBuilder<HomePageCubit, HomePageState>(
         builder: (context, state) {
