@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../l10n/locale_provider.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -8,36 +11,51 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Settings")),
+      appBar: AppBar(title: Text(context.l10n.settings)),
       body: Column(
         children: [
           Consumer<AppThemeProvider>(
             builder: (context, provider, child) {
-              return DropdownButton<String>(
-                value: provider.currentTheme,
-                items: [
-                  DropdownMenuItem<String>(
-                    value: 'light',
-                    child: Text(
-                      'Light',
-                    ),
+              return Column(
+                children: [
+                  Text(context.l10n.theme),
+                  DropdownButton<String>(
+                    value: provider.currentTheme,
+                    items: [
+                      DropdownMenuItem<String>(
+                        value: 'light',
+                        child: Text(context.l10n.light),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'dark',
+                        child: Text(context.l10n.dark),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'system',
+                        child: Text(context.l10n.system),
+                      ),
+                    ],
+                    onChanged: (String? value) {
+                      provider.changeTheme(value ?? 'system');
+                    },
                   ),
-                  DropdownMenuItem<String>(
-                    value: 'dark',
-                    child: Text(
-                      'Dark',
-                    ),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'system',
-                    child: Text(
-                      'System',
-                    ),
+                  SizedBox(height: 20),
+                  Text(context.l10n.language),
+                  DropdownButton(
+                    value: context.read<LocaleProvider>().currentLocale,
+                    items: [
+                      DropdownMenuItem<String>(
+                          child: Text('English'), value: 'en'),
+                      DropdownMenuItem<String>(
+                          child: Text('Українська'), value: 'uk')
+                    ],
+                    onChanged: (String? value) {
+                      context
+                          .read<LocaleProvider>()
+                          .changeLocale(value ?? 'en');
+                    },
                   ),
                 ],
-                onChanged: (String? value) {
-                  provider.changeTheme(value ?? 'system');
-                },
               );
             },
           ),
