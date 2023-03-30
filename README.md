@@ -21,6 +21,7 @@ Will contain:
 - Clean architecture.
 - Day/night mode and right theming in general (https://docs.flutter.dev/cookbook/design/themes).
 - Localization (ENG/UKR). 
+- Deep links
 - Introducing screen.
 
 
