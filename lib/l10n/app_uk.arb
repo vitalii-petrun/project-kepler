@@ -9,8 +9,8 @@
     "home": "Головна",
     "noDescriptionProvided": "Опис відсутній",
     "explore": "Огляд",
-    "days" : "днів",
-    "hours" : "годин",
-    "minutes" : "хвилин",
-    "seconds" : "секунд"
+    "days": "днів",
+    "hours": "годин",
+    "minutes": "хвилин",
+    "seconds": "секунд"
 }

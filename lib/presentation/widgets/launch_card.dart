@@ -181,7 +181,8 @@ class _TimerSectionState extends State<_TimerSection> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: _DividerWithStatusChip(launchStatus: widget.launchStatus),
+          child: _DividerWithStatusChip(
+              launchStatus: LaunchStatus.fromString(widget.launchStatus)),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -240,13 +241,58 @@ class _CountdownItemsDivider extends StatelessWidget {
   }
 }
 
+enum LaunchStatus {
+  goForLaunch("Go For Launch"),
+  toBeConfirmed("To Be Confirmed"),
+  toBeDetermined("To Be Determined"),
+  successfulLaunch("Successful Launch"),
+  launchFailure("Launch Failure");
+
+  final String value;
+  const LaunchStatus(this.value);
+
+  static LaunchStatus fromString(String launchStatus) {
+    switch (launchStatus) {
+      case "Go For Launch":
+        return LaunchStatus.goForLaunch;
+      case "To Be Confirmed":
+        return LaunchStatus.toBeConfirmed;
+      case "To Be Determined":
+        return LaunchStatus.toBeDetermined;
+      case "Successful Launch":
+        return LaunchStatus.successfulLaunch;
+      case "Launch Failure":
+        return LaunchStatus.launchFailure;
+      default:
+        return LaunchStatus.toBeDetermined;
+    }
+  }
+}
+
 class _DividerWithStatusChip extends StatelessWidget {
-  final String launchStatus;
+  final LaunchStatus launchStatus;
 
   const _DividerWithStatusChip({
     required this.launchStatus,
     Key? key,
   }) : super(key: key);
+
+  Color get _chipColorByStatus {
+    switch (launchStatus) {
+      case LaunchStatus.successfulLaunch:
+        return Colors.green;
+      case LaunchStatus.launchFailure:
+        return Colors.red;
+      case LaunchStatus.goForLaunch:
+        return Colors.greenAccent;
+      case LaunchStatus.toBeConfirmed:
+        return Colors.grey;
+      case LaunchStatus.toBeDetermined:
+        return Colors.grey;
+      default:
+        return Colors.grey;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -259,8 +305,10 @@ class _DividerWithStatusChip extends StatelessWidget {
           left: 0,
           right: 0,
           child: Chip(
-              label:
-                  Text(launchStatus, style: context.theme.textTheme.headline6)),
+            backgroundColor: _chipColorByStatus,
+            label: Text(launchStatus.value,
+                style: context.theme.textTheme.headline6),
+          ),
         ),
       ],
     );

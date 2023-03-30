@@ -17,7 +17,7 @@ class ApiRepositoryImpl implements ApiRepository {
         return Launch.fromJson(json);
       }).toList();
     } else {
-      throw Exception('Failed to load launch list');
+      throw Exception('Failed to load upcoming launch list');
     }
 
     return result;
