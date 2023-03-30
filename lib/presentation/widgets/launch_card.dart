@@ -47,12 +47,12 @@ class _LaunchCardState extends State<LaunchCard> {
             _TimerSection(
                 net: widget.launch.net,
                 launchStatus: widget.launch.status.name),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _BodySection(
                 missionDescription: widget.launch.mission?.description),
-            SizedBox(height: 8),
-            _FooterSection(),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
+            const _FooterSection(),
+            const SizedBox(height: 8),
           ],
         ),
       ),
@@ -108,14 +108,16 @@ class _ImageSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-        aspectRatio: 21 / 8,
-        child: Container(
-            decoration: BoxDecoration(
+      aspectRatio: 21 / 8,
+      child: Container(
+        decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(image),
             fit: BoxFit.cover,
           ),
-        )));
+        ),
+      ),
+    );
   }
 }
 
@@ -137,21 +139,29 @@ class _TimerSectionState extends State<_TimerSection> {
   late Timer _timer;
   late Duration _duration;
 
-  @override
-  void initState() {
-    super.initState();
-    final launchTimestamp = DateTime.parse(widget.net);
+  void calculateDurationBeforeLaunch(DateTime launchTimestamp) {
     _duration = launchTimestamp.difference(DateTime.now());
     _duration = _duration.isNegative ? Duration.zero : _duration;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  }
+
+  void initTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_duration.inSeconds == 0) {
         _timer.cancel();
       } else {
-        setState(() {
-          _duration -= Duration(seconds: 1);
-        });
+        setState(() => _duration -= const Duration(seconds: 1));
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    final launchTimestamp = DateTime.parse(widget.net);
+    calculateDurationBeforeLaunch(launchTimestamp);
+
+    initTimer();
   }
 
   @override
@@ -178,11 +188,11 @@ class _TimerSectionState extends State<_TimerSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _CountdownItem(number: days, label: context.l10n.days),
-            _CountdownItemsDivider(),
+            const _CountdownItemsDivider(),
             _CountdownItem(number: hours, label: context.l10n.hours),
-            _CountdownItemsDivider(),
+            const _CountdownItemsDivider(),
             _CountdownItem(number: minutes, label: context.l10n.minutes),
-            _CountdownItemsDivider(),
+            const _CountdownItemsDivider(),
             _CountdownItem(number: seconds, label: context.l10n.seconds),
           ],
         ),
@@ -243,7 +253,7 @@ class _DividerWithStatusChip extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Divider(),
+        const Divider(),
         Positioned(
           top: -8,
           left: 0,
@@ -276,8 +286,8 @@ class _FooterSection extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
-                    Icon(Icons.explore),
-                    SizedBox(width: 8),
+                    const Icon(Icons.explore),
+                    const SizedBox(width: 8),
                     Text(context.l10n.explore),
                   ],
                 ),
@@ -287,11 +297,11 @@ class _FooterSection extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.live_tv),
+                  icon: const Icon(Icons.live_tv),
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.share),
+                  icon: const Icon(Icons.share),
                 ),
               ],
             ),

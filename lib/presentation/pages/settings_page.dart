@@ -39,15 +39,19 @@ class SettingsPage extends StatelessWidget {
                       provider.changeTheme(value ?? 'system');
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(context.l10n.language),
                   DropdownButton(
                     value: context.read<LocaleProvider>().currentLocale,
-                    items: [
+                    items: const [
                       DropdownMenuItem<String>(
-                          child: Text('English'), value: 'en'),
+                        value: 'en',
+                        child: Text('English'),
+                      ),
                       DropdownMenuItem<String>(
-                          child: Text('Українська'), value: 'uk')
+                        value: 'uk',
+                        child: Text('Українська'),
+                      )
                     ],
                     onChanged: (String? value) {
                       context

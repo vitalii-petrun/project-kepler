@@ -11,6 +11,5 @@ class HomePageCubit extends Cubit<HomePageState> {
         .getLaunchList()
         .then((launches) => emit(LaunchesLoaded(launches)))
         .catchError((e) => emit(LaunchesError(e.toString())));
-    ;
   }
 }

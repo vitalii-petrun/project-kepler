@@ -30,13 +30,13 @@ class Application extends StatelessWidget {
           return MaterialApp(
               theme: AppTheme.light,
               darkTheme: AppTheme.dark,
-              home: HomePage(),
+              home: const HomePage(),
               themeMode: themeProvider.themeMode,
               locale: Locale(localeProvider.currentLocale),
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
               routes: {
-                '/settings': (context) => SettingsPage(),
+                '/settings': (context) => const SettingsPage(),
               });
         },
       ),

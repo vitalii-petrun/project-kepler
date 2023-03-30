@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.home)),
-      drawer: SpaceDrawer(),
+      drawer: const SpaceDrawer(),
       body: BlocBuilder<HomePageCubit, HomePageState>(
         builder: (context, state) {
           if (state is LaunchesLoaded) {
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
           } else if (state is LaunchesError) {
             return Center(child: Text(state.message));
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
