@@ -16,7 +16,7 @@ Contains:
 - ? list of vehicles. 
 - ? tab with videos from https://www.youtube.com/channel/UCi0Z9L9HrhD7oYpMs2pLxSw channel, in case UA localization is choosen.
 
-Will contain:
+Technologies:
 - BloC for state management. ✓
 - Clean architecture. ✓
 - Day/night mode and right theming in general (https://docs.flutter.dev/cookbook/design/themes). ✓
@@ -26,9 +26,10 @@ Will contain:
 
 
 Packages and tools to create app:
-- dio
-- json_serialazible
-- bloc
+- dio (http requests)
+- json_serialazible (code gen)
+- bloc (advanced state management)
+- shared_preferences (to keep app settings)
 
 
 
