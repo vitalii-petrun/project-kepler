@@ -10,7 +10,7 @@ class ApiRepositoryImpl implements ApiRepository {
 
   @override
   Future<List<Launch>> getLaunchList() async {
-    final response = await _dio.get(_baseUrl + "/launch/upcoming/");
+    final response = await _dio.get("$_baseUrl/launch/upcoming/");
     if (response.statusCode == 200) {
       final launchList = response.data["results"] as List;
       result = launchList.map((json) {

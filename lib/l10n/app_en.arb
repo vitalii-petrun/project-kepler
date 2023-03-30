@@ -6,5 +6,11 @@
   "dark": "Dark",
   "light": "Light",
   "system": "System",
-  "home": "Home"
+  "home": "Home",
+  "noDescriptionProvided": "No description provided.",
+  "explore": "Explore",
+  "days": "days",
+  "hours": "hours",
+  "minutes": "minutes",
+  "seconds": "seconds"
 }
