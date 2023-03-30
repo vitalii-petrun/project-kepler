@@ -4,11 +4,13 @@
  
  
 # Project Kepler App 
-📖 Made on Dart&Flutter in educational purposes.
+📖 An app about space: launches, news, etc.
+
+Made on Dart&Flutter in educational purposes.
 
 Based on https://thespacedevs.com/llapi API and inspired by Space Launch Now and Go4liftoff apps.
 
-Content:
+Contains:
 - Launch dates of rockets/space missions. ✓
 - Thematic news&events.
 - ? list of vehicles. 
