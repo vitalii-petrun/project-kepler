@@ -28,6 +28,7 @@ class ApiRepositoryImpl implements ApiRepository {
     final response = await _dio.get("$_baseUrl/launch/upcoming/$id/");
     if (response.statusCode == 200) {
       final launch = Launch.fromJson(response.data);
+      print(launch);
       return launch;
     } else {
       throw Exception('Failed to load launch details');

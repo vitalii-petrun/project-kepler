@@ -7,9 +7,23 @@ import '../blocs/launch_details/launch_details_page_state.dart';
 import '../widgets/space_drawer.dart';
 
 @RoutePage()
-class LaunchDetailsPage extends StatelessWidget {
+class LaunchDetailsPage extends StatefulWidget {
   final String launchId;
-  const LaunchDetailsPage({Key? key, required this.launchId}) : super(key: key);
+
+  const LaunchDetailsPage(
+      {Key? key, @PathParam('launchId') required this.launchId})
+      : super(key: key);
+
+  @override
+  State<LaunchDetailsPage> createState() => _LaunchDetailsPageState();
+}
+
+class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
+  @override
+  void initState() {
+    context.read<LaunchDetailsPageCubit>().getLaunchDetails(widget.launchId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +36,7 @@ class LaunchDetailsPage extends StatelessWidget {
             return RefreshIndicator(
               onRefresh: () async => context
                   .read<LaunchDetailsPageCubit>()
-                  .getLaunchDetails(launchId),
+                  .getLaunchDetails(widget.launchId),
               child: Text(state.launch.name),
             );
           } else if (state is LaunchDetailsPageStateError) {

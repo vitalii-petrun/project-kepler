@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/presentation/navigation/app_router.dart';
 
 import '../../domain/entities/launch.dart';
 
@@ -20,40 +22,44 @@ class LaunchCard extends StatefulWidget {
 class _LaunchCardState extends State<LaunchCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: context.theme.cardColor,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Column(
-          children: [
-            _HeaderSection(
-              launchName: widget.launch.name,
-              padLocation: widget.launch.pad.location.name,
-              launchServiceProvider: widget.launch.launchServiceProvider.name,
+    return GestureDetector(
+      onTap: () =>
+          context.router.push(LaunchDetailsRoute(launchId: widget.launch.id)),
+      child: Container(
+        margin: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: context.theme.cardColor,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
             ),
-            _ImageSection(image: widget.launch.image),
-            _TimerSection(
-                net: widget.launch.net,
-                launchStatus: widget.launch.status.name),
-            const SizedBox(height: 8),
-            _BodySection(
-                missionDescription: widget.launch.mission?.description),
-            const SizedBox(height: 8),
-            const _FooterSection(),
-            const SizedBox(height: 8),
           ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Column(
+            children: [
+              _HeaderSection(
+                launchName: widget.launch.name,
+                padLocation: widget.launch.pad.location.name,
+                launchServiceProvider: widget.launch.launchServiceProvider.name,
+              ),
+              _ImageSection(image: widget.launch.image),
+              _TimerSection(
+                  net: widget.launch.net,
+                  launchStatus: widget.launch.status.name),
+              const SizedBox(height: 8),
+              _BodySection(
+                  missionDescription: widget.launch.mission?.description),
+              const SizedBox(height: 8),
+              const _FooterSection(),
+              const SizedBox(height: 8),
+            ],
+          ),
         ),
       ),
     );
@@ -85,15 +91,15 @@ class _HeaderSection extends StatelessWidget {
         children: [
           Text(
             launchName,
-            style: textTheme.headline6?.copyWith(color: colorScheme.onPrimary),
+            style: textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary),
           ),
           Text(
             padLocation,
-            style: textTheme.bodyText1?.copyWith(color: colorScheme.onPrimary),
+            style: textTheme.bodyLarge?.copyWith(color: colorScheme.onPrimary),
           ),
           Text(
             launchServiceProvider,
-            style: textTheme.bodyText2?.copyWith(color: colorScheme.onPrimary),
+            style: textTheme.bodyMedium?.copyWith(color: colorScheme.onPrimary),
           ),
         ],
       ),
@@ -307,7 +313,7 @@ class _DividerWithStatusChip extends StatelessWidget {
           child: Chip(
             backgroundColor: _chipColorByStatus,
             label: Text(launchStatus.value,
-                style: context.theme.textTheme.headline6),
+                style: context.theme.textTheme.titleLarge),
           ),
         ),
       ],

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
@@ -17,7 +18,7 @@ class SpaceDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(context.l10n.settings),
-            onTap: () => Navigator.pushNamed(context, '/settings'),
+            onTap: () => context.router.pushNamed('/settings'),
           ),
           ListTile(
             title: Text(context.l10n.about),
