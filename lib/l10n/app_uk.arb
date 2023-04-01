@@ -12,5 +12,11 @@
     "days": "днів",
     "hours": "годин",
     "minutes": "хвилин",
-    "seconds": "секунд"
+    "seconds": "секунд",
+    "details": "Деталі",
+    "mission": "Місія",
+    "agency": "Агенція",
+    "statusUpdates": "Оновлення статусу",
+    "launchDate":  "Дата запуску",
+    "launchTime":  "Час запуску"
 }

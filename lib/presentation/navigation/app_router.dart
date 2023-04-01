@@ -19,7 +19,8 @@ class AppRouter extends _$AppRouter {
       path: '/',
       children: [
         AutoRoute(path: '', page: HomeRoute.page),
-        AutoRoute(path: 'details/:launchId', page: LaunchDetailsRoute.page),
+        AutoRoute(
+            path: 'launch_details/:launchId', page: LaunchDetailsRoute.page),
       ],
     ),
     AutoRoute(page: SettingsRoute.page, path: '/settings'),

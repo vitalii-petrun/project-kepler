@@ -12,5 +12,12 @@
   "days": "days",
   "hours": "hours",
   "minutes": "minutes",
-  "seconds": "seconds"
+  "seconds": "seconds",
+  "details": "Details",
+  "mission": "Mission",
+  "agency": "Agency",
+  "statusUpdates": "Status Updates",
+  "launchDate": "Launch Date",
+  "launchTime": "Launch Time",
+  "missionDetails": "Mission Details"
 }
