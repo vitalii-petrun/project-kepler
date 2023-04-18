@@ -85,6 +85,9 @@ class _BodyState extends State<_Body> with SingleTickerProviderStateMixin {
           collapsedHeight: collapsedHeight,
           backgroundColor: theme.colorScheme.background,
           pinned: true,
+          iconTheme: IconThemeData(
+            color: context.theme.colorScheme.onBackground,
+          ),
           flexibleSpace: FlexibleSpaceBar(
             collapseMode: CollapseMode.pin,
             title: Text(
@@ -93,7 +96,7 @@ class _BodyState extends State<_Body> with SingleTickerProviderStateMixin {
                   .copyWith(color: theme.colorScheme.onBackground),
             ),
             titlePadding: const EdgeInsets.only(
-              left: 16,
+              left: 52,
               bottom: 16,
             ),
             background:
@@ -295,8 +298,19 @@ class _LaunchDetails extends StatelessWidget {
           TitledDetailsCard(
             title: context.l10n.agencyInformaton,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
+                Image.network(agency.logoUrl ?? ""),
+                const SizedBox(height: 12),
                 _InfoRow(title: context.l10n.name, value: agency.name),
+                const SizedBox(height: 8),
+                Flexible(
+                  child: Text(
+                    agency.description ?? context.l10n.noDescriptionProvided,
+                    style: context.theme.textTheme.bodyLarge,
+                  ),
+                ),
+                const SizedBox(height: 8),
                 _InfoRow(
                     title: context.l10n.counryCode,
                     value: agency.countryCode ?? 'Unknown'),
@@ -355,9 +369,11 @@ class _InfoRow extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.w700),
         ),
         const SizedBox(width: 8),
-        Text(
-          value,
-          style: context.theme.textTheme.bodyLarge,
+        Flexible(
+          child: Text(
+            value,
+            style: context.theme.textTheme.bodyLarge,
+          ),
         ),
       ],
     );
