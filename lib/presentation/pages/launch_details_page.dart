@@ -85,12 +85,17 @@ class _BodyState extends State<_Body> with SingleTickerProviderStateMixin {
           collapsedHeight: collapsedHeight,
           backgroundColor: theme.colorScheme.background,
           pinned: true,
-          /*  snap: true, */
           flexibleSpace: FlexibleSpaceBar(
             collapseMode: CollapseMode.pin,
-            title: Text(widget.launch.name,
-                style: theme.textTheme.headlineSmall!
-                    .copyWith(color: theme.colorScheme.onBackground)),
+            title: Text(
+              widget.launch.name,
+              style: theme.textTheme.headlineSmall!
+                  .copyWith(color: theme.colorScheme.onBackground),
+            ),
+            titlePadding: const EdgeInsets.only(
+              left: 16,
+              bottom: 16,
+            ),
             background:
                 _LaunchImage(launch: widget.launch, agency: widget.agency),
           ),
@@ -100,6 +105,7 @@ class _BodyState extends State<_Body> with SingleTickerProviderStateMixin {
             _LaunchTabBar(tabController: _tabController),
             _LaunchTabView(
               launch: widget.launch,
+              agency: widget.agency,
               tabController: _tabController,
             ),
           ]),
@@ -194,9 +200,11 @@ class _LaunchTabBar extends StatelessWidget {
 class _LaunchTabView extends StatelessWidget {
   final TabController tabController;
   final Launch launch;
+  final Agency agency;
 
   const _LaunchTabView({
     required this.tabController,
+    required this.agency,
     required this.launch,
     Key? key,
   }) : super(key: key);
@@ -208,7 +216,7 @@ class _LaunchTabView extends StatelessWidget {
       child: TabBarView(
         controller: tabController,
         children: [
-          _LaunchDetails(launch: launch),
+          _LaunchDetails(launch: launch, agency: agency),
           _LaunchMission(launch: launch),
         ],
       ),
@@ -243,7 +251,13 @@ class _LaunchMission extends StatelessWidget {
 
 class _LaunchDetails extends StatelessWidget {
   final Launch launch;
-  const _LaunchDetails({Key? key, required this.launch}) : super(key: key);
+  final Agency agency;
+
+  const _LaunchDetails({
+    required this.launch,
+    required this.agency,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -277,6 +291,22 @@ class _LaunchDetails extends StatelessWidget {
             title: context.l10n.rocketConfiguration,
             child: _RocketConfigurationTable(
                 rocketConfiguration: launch.rocket.configuration),
+          ),
+          TitledDetailsCard(
+            title: context.l10n.agencyInformaton,
+            child: Column(
+              children: [
+                _InfoRow(title: context.l10n.name, value: agency.name),
+                _InfoRow(
+                    title: context.l10n.counryCode,
+                    value: agency.countryCode ?? 'Unknown'),
+                _InfoRow(title: context.l10n.type, value: agency.type ?? ''),
+                _InfoRow(title: context.l10n.abbrev, value: agency.abbrev),
+                _InfoRow(
+                    title: context.l10n.administrator,
+                    value: agency.administrator ?? ''),
+              ],
+            ),
           ),
         ],
       ),

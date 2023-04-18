@@ -17,6 +17,7 @@
     "mission": "Місія",
     "agency": "Агенція",
     "statusUpdates": "Оновлення статусу",
-    "launchDate":  "Дата запуску",
-    "launchTime":  "Час запуску"
+    "launchDate": "Дата запуску",
+    "launchTime": "Час запуску",
+    "agencyInformation": "Інформація про агенцію"
 }

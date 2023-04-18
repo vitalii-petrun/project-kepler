@@ -24,5 +24,12 @@
   "name": "Name",
   "family": "Family",
   "configuration": "Configuration",
-  "maidenFlight": "Maiden Flight"
+  "maidenFlight": "Maiden Flight",
+  "agencyInformaton": "Agency Information",
+  "administrator": "Administrator",
+  "counryCode": "Country Code",
+  "type": "Type",
+  "description": "Description",
+  "abbrev": "Abbrev"
+
 }
