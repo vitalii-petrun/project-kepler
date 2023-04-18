@@ -19,5 +19,10 @@
   "statusUpdates": "Status Updates",
   "launchDate": "Launch Date",
   "launchTime": "Launch Time",
-  "missionDetails": "Mission Details"
+  "missionDetails": "Mission Details",
+  "rocketConfiguration": "Rocket Configuration",
+  "name": "Name",
+  "family": "Family",
+  "configuration": "Configuration",
+  "maidenFlight": "Maiden Flight"
 }

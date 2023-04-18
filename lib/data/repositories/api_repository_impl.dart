@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:project_kepler/domain/entities/agency.dart';
 import 'package:project_kepler/domain/entities/launch.dart';
 
 import 'package:project_kepler/domain/repositories/api_repository.dart';
@@ -31,6 +32,17 @@ class ApiRepositoryImpl implements ApiRepository {
       return launch;
     } else {
       throw Exception('Failed to load launch details');
+    }
+  }
+
+  @override
+  Future<Agency> getAgency(int id) async {
+    final response = await _dio.get("$_baseUrl/agencies/$id/");
+    if (response.statusCode == 200) {
+      final agency = Agency.fromJson(response.data);
+      return agency;
+    } else {
+      throw Exception('Failed to load agency details');
     }
   }
 }

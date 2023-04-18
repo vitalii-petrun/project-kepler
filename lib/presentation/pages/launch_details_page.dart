@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/domain/entities/rocket_configuration.dart';
 import 'package:project_kepler/presentation/blocs/launch_details/launch_details_page_cubit.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
+import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
 import '../blocs/launch_details/launch_details_page_state.dart';
 
@@ -38,7 +40,7 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
               onRefresh: () async => context
                   .read<LaunchDetailsPageCubit>()
                   .getLaunchDetails(widget.launchId),
-              child: _Body(launch: state.launch),
+              child: _Body(launch: state.launch, agency: state.agency),
             );
           } else if (state is LaunchDetailsPageStateError) {
             return Center(child: Text(state.message));
@@ -53,7 +55,10 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
 
 class _Body extends StatefulWidget {
   final Launch launch;
-  const _Body({Key? key, required this.launch}) : super(key: key);
+  final Agency agency;
+
+  const _Body({Key? key, required this.launch, required this.agency})
+      : super(key: key);
 
   @override
   State<_Body> createState() => _BodyState();
@@ -70,16 +75,25 @@ class _BodyState extends State<_Body> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    const expandedHeight = 500.0;
+    const collapsedHeight = 60.0;
+    final theme = context.theme;
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          expandedHeight: 300,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(widget.launch.name),
-            background: _LaunchImage(launch: widget.launch),
-          ),
-          elevation: 0,
+          expandedHeight: expandedHeight,
+          collapsedHeight: collapsedHeight,
+          backgroundColor: theme.colorScheme.background,
           pinned: true,
+          /*  snap: true, */
+          flexibleSpace: FlexibleSpaceBar(
+            collapseMode: CollapseMode.pin,
+            title: Text(widget.launch.name,
+                style: theme.textTheme.headlineSmall!
+                    .copyWith(color: theme.colorScheme.onBackground)),
+            background:
+                _LaunchImage(launch: widget.launch, agency: widget.agency),
+          ),
         ),
         SliverList(
           delegate: SliverChildListDelegate([
@@ -97,16 +111,51 @@ class _BodyState extends State<_Body> with SingleTickerProviderStateMixin {
 
 class _LaunchImage extends StatelessWidget {
   final Launch launch;
-  const _LaunchImage({Key? key, required this.launch}) : super(key: key);
+  final Agency agency;
+
+  const _LaunchImage({
+    required this.launch,
+    required this.agency,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    const expandedHeight = 500.0;
+    const collapsedHeight = 60.0;
+    final theme = context.theme;
+
     return Stack(
-      fit: StackFit.expand,
       children: [
-        Image.network(
-          launch.image,
-          fit: BoxFit.cover,
+        Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            height: expandedHeight - collapsedHeight - 80,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                colorFilter:
+                    const ColorFilter.mode(Colors.black54, BlendMode.darken),
+                image: NetworkImage(agency.imageUrl ?? launch.image),
+                fit: BoxFit.cover,
+              ),
+              color: theme.colorScheme.background,
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: collapsedHeight + 80,
+          left: context.screenWidth / 2 - 50,
+          child: Container(
+            padding: const EdgeInsets.all(5),
+            decoration: ShapeDecoration(
+              color: theme.colorScheme.background,
+              shape: const CircleBorder(),
+            ),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(launch.image),
+              radius: 45,
+            ),
+          ),
         ),
       ],
     );
@@ -122,7 +171,7 @@ class _LaunchTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF1E1E1E),
+      color: context.theme.colorScheme.secondary,
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -155,7 +204,7 @@ class _LaunchTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 700,
+      height: 1700,
       child: TabBarView(
         controller: tabController,
         children: [
@@ -224,8 +273,63 @@ class _LaunchDetails extends StatelessWidget {
               ],
             ),
           ),
+          TitledDetailsCard(
+            title: context.l10n.rocketConfiguration,
+            child: _RocketConfigurationTable(
+                rocketConfiguration: launch.rocket.configuration),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _RocketConfigurationTable extends StatelessWidget {
+  final RocketConfiguration rocketConfiguration;
+  const _RocketConfigurationTable({Key? key, required this.rocketConfiguration})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _InfoRow(title: context.l10n.name, value: rocketConfiguration.name),
+          _InfoRow(
+              title: context.l10n.family, value: rocketConfiguration.family),
+        ],
+      ),
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  final String title;
+  final String value;
+
+  const _InfoRow({
+    required this.title,
+    required this.value,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: context.theme.textTheme.bodyLarge
+              ?.copyWith(fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          value,
+          style: context.theme.textTheme.bodyLarge,
+        ),
+      ],
     );
   }
 }
