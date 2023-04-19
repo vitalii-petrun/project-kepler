@@ -20,7 +20,7 @@ class AppThemeProvider extends ChangeNotifier {
 
   final ThemeData darkTheme = ThemeData.dark().copyWith(
     colorScheme: const ColorScheme.dark(
-      primary: Color(0xFF5C4B51),
+      primary: Color(0xFF8E7B7F),
       secondary: Color(0xFF4D545F),
       background: Color(0xFF1C1C1C),
       surface: Color(0xFF222222),
