@@ -62,7 +62,8 @@ class CountdownTimerState extends State<CountdownTimer> {
     return Column(
       children: [
         _DividerWithStatusChip(
-            launchStatus: LaunchStatus.fromString(widget.launchStatus)),
+          launchStatus: LaunchStatus.fromString(widget.launchStatus),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,8 +192,10 @@ class _DividerWithStatusChip extends StatelessWidget {
             right: 0,
             child: Chip(
               backgroundColor: _chipColorByStatus,
-              label: Text(launchStatus.value,
-                  style: context.theme.textTheme.titleLarge),
+              label: Text(
+                launchStatus.value,
+                style: context.theme.textTheme.titleLarge,
+              ),
             ),
           ),
         ],

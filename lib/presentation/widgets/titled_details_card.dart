@@ -7,9 +7,9 @@ class TitledDetailsCard extends StatelessWidget {
   final Widget child;
 
   const TitledDetailsCard({
+    required this.child,
     required this.title,
     this.subtitle,
-    required this.child,
     Key? key,
   }) : super(key: key);
 

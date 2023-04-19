@@ -25,7 +25,7 @@ class ApiRepositoryImpl implements ApiRepository {
   }
 
   @override
-  Future<Launch> getLaunchDetails(String id) async {
+  Future<Launch> getLaunchDetailsById(String id) async {
     final response = await _dio.get("$_baseUrl/launch/upcoming/$id/");
     if (response.statusCode == 200) {
       final launch = Launch.fromJson(response.data);
@@ -36,7 +36,7 @@ class ApiRepositoryImpl implements ApiRepository {
   }
 
   @override
-  Future<Agency> getAgency(int id) async {
+  Future<Agency> getAgencyById(int id) async {
     final response = await _dio.get("$_baseUrl/agencies/$id/");
     if (response.statusCode == 200) {
       final agency = Agency.fromJson(response.data);
