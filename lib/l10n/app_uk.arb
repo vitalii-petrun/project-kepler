@@ -19,5 +19,10 @@
     "statusUpdates": "Оновлення статусу",
     "launchDate": "Дата запуску",
     "launchTime": "Час запуску",
-    "agencyInformation": "Інформація про агенцію"
+    "agencyInformation": "Інформація про агенцію",
+    "administrator": "Адміністратор",
+    "counryCode": "Код країни",
+    "type": "Тип",
+    "description": "Опис",
+    "abbrev": "Абревіатура"
 }
