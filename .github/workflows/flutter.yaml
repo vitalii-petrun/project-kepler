@@ -34,10 +34,10 @@ jobs:
         with:
           channel: ${{ env.FLUTTER_CHANNEL }}
           flutter-version: ${{ env.FLUTTER_VERSION }}
-      - name: Setup Dart SDK
-        uses: dart-lang/setup-dart@v1
-        with:
-          dart-version: "2.19.6" 
+      - name: Setup Dart
+          uses: dart-lang/setup-dart@v1
+          with:
+              sdk: 2.19.6
       - name: Flutter Doctor
         run: flutter doctor -v
       - name: Flutter Analyze
