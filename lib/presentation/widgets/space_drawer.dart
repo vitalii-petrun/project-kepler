@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
@@ -6,18 +7,19 @@ class SpaceDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const logoBackgroundColor = Color(0xFF333333);
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration:
-                BoxDecoration(color: Theme.of(context).colorScheme.primary),
-            child: const Text('🚀'),
+            decoration: const BoxDecoration(color: logoBackgroundColor),
+            child: Image.asset('assets/logo.png'),
           ),
           ListTile(
             title: Text(context.l10n.settings),
-            onTap: () => Navigator.pushNamed(context, '/settings'),
+            onTap: () => context.router.pushNamed('/settings'),
           ),
           ListTile(
             title: Text(context.l10n.about),
