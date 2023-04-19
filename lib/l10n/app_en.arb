@@ -30,5 +30,6 @@
   "counryCode": "Country Code",
   "type": "Type",
   "description": "Description",
-  "abbrev": "Abbrev"
+  "abbrev": "Abbrev",
+  "appDescription": "Project Kepler is a simple app that shows you the upcoming space launches. It also shows you the details of the launches, such as mission details."
 }

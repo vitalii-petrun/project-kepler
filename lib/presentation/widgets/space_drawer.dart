@@ -7,7 +7,7 @@ class SpaceDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const logoBackgroundColor = Color(0xFF333333);
+    const logoBackgroundColor = Color(0xFF352E32);
 
     return Drawer(
       child: ListView(
@@ -23,7 +23,15 @@ class SpaceDrawer extends StatelessWidget {
           ),
           ListTile(
             title: Text(context.l10n.about),
-            onTap: () {},
+            onTap: () {
+              showAboutDialog(
+                  context: context,
+                  applicationName: 'Project Kepler',
+                  applicationVersion: '1.0.0',
+                  children: [
+                    Text(context.l10n.appDescription),
+                  ]);
+            },
           ),
         ],
       ),
