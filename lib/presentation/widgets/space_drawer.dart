@@ -7,14 +7,15 @@ class SpaceDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const logoBackgroundColor = Color(0xFF333333);
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration:
-                BoxDecoration(color: Theme.of(context).colorScheme.primary),
-            child: const Text('🚀'),
+            decoration: const BoxDecoration(color: logoBackgroundColor),
+            child: Image.asset('assets/logo.png'),
           ),
           ListTile(
             title: Text(context.l10n.settings),

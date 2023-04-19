@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
 import 'package:project_kepler/presentation/blocs/launch_details/launch_details_page_cubit.dart';
-import 'package:project_kepler/presentation/themes/app_theme.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../data/repositories/api_repository_impl.dart';
@@ -35,8 +34,8 @@ class Application extends StatelessWidget {
       child: Consumer2<AppThemeProvider, LocaleProvider>(
         builder: (context, themeProvider, localeProvider, child) {
           return MaterialApp.router(
-            theme: AppTheme.light,
-            darkTheme: AppTheme.dark,
+            theme: themeProvider.lightTheme,
+            darkTheme: themeProvider.darkTheme,
             themeMode: themeProvider.themeMode,
             locale: Locale(localeProvider.currentLocale),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
