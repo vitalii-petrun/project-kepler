@@ -154,17 +154,9 @@ class _FooterSection extends StatelessWidget {
                 ),
               ),
             ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.live_tv),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.share),
-                ),
-              ],
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.favorite_outline),
             ),
           ],
         ),

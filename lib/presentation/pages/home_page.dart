@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
@@ -25,7 +25,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.home)),
+      appBar: AppBar(
+        title: Text(context.l10n.home),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () => context.router.pushNamed('/profile'),
+          ),
+          IconButton(
+            icon: const Icon(Icons.person_2_outlined),
+            onPressed: () => context.router.pushNamed('/login'),
+          ),
+        ],
+      ),
       drawer: const SpaceDrawer(),
       body: BlocBuilder<HomePageCubit, HomePageState>(
         builder: (context, state) {
