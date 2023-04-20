@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../pages/home_page.dart';
 import '../pages/launch_details_page.dart';
+import '../pages/login_page.dart';
+import '../pages/profile_page.dart';
 import '../pages/settings_page.dart';
 
 part 'app_router.gr.dart';
@@ -21,6 +23,8 @@ class AppRouter extends _$AppRouter {
       ],
     ),
     AutoRoute(page: SettingsRoute.page, path: '/settings'),
+    AutoRoute(page: ProfileRoute.page, path: '/profile'),
+    AutoRoute(page: LoginRoute.page, path: '/login'),
   ];
 }
 

@@ -22,6 +22,10 @@ class SpaceDrawer extends StatelessWidget {
             onTap: () => context.router.pushNamed('/settings'),
           ),
           ListTile(
+            title: Text(context.l10n.favourite),
+            onTap: () => context.router.pushNamed('/settings'),
+          ),
+          ListTile(
             title: Text(context.l10n.about),
             onTap: () {
               showAboutDialog(
