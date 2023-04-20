@@ -18,10 +18,6 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              context.l10n.login,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
             const SizedBox(height: 20),
             ClipRRect(
               borderRadius: BorderRadius.circular(20),

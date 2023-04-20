@@ -35,5 +35,7 @@
   "login": "Login",
   "logout": "Logout",
   "signInWithGoogle": "Sign in with Google",
-  "favourite": "Favourite Launches"
+  "favourite": "Favourite Launches",
+  "profile": "Profile",
+  "email": "Email"
 }
