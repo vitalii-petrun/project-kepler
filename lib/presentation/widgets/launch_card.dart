@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/presentation/blocs/favourite_launches_page/favourite_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 
@@ -155,11 +157,65 @@ class _FooterSection extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () => context
+                  .read<FavoriteLaunchesPageCubit>()
+                  .setFavouriteLaunch(launch),
               icon: const Icon(Icons.favorite_outline),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _AnimatedHeartButton extends StatefulWidget {
+  final Launch launch;
+  const _AnimatedHeartButton({required this.launch, Key? key})
+      : super(key: key);
+
+  @override
+  State<_AnimatedHeartButton> createState() => _AnimatedHeartButtonState();
+}
+
+class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        context
+            .read<FavoriteLaunchesPageCubit>()
+            .setFavouriteLaunch(widget.launch);
+        _controller.forward();
+      },
+      icon: Icon(
+        Icons.favorite_outline,
+        color: _animation.value == 1
+            ? context.theme.colorScheme.secondary
+            : context.theme.colorScheme.onSurface,
       ),
     );
   }

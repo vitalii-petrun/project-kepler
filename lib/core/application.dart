@@ -34,7 +34,7 @@ class Application extends StatelessWidget {
         BlocProvider(
           create: (context) => LaunchDetailsPageCubit(ApiRepositoryImpl()),
         ),
-        /*  BlocProvider(create: (context) => FavoriteLaunchesPageCubit()), */
+        BlocProvider(create: (context) => FavoriteLaunchesPageCubit()),
         BlocProvider.value(value: authenticationCubit),
       ],
       child: Consumer2<AppThemeProvider, LocaleProvider>(

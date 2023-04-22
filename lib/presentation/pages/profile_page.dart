@@ -107,6 +107,7 @@ class _LogoutButton extends StatelessWidget {
       ),
       onPressed: () {
         context.read<AuthenticationCubit>().signOut();
+        context.router.replaceNamed("/login");
       },
       child: Text(context.l10n.logout),
     );
