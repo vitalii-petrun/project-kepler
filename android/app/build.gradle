@@ -47,7 +47,7 @@ android {
         applicationId "project_kepler.project_kepler"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -67,6 +67,7 @@ flutter {
 }
 
 dependencies {
+    ext.kotlin_version = '1.8.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.5.0')
