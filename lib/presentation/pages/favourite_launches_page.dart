@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
@@ -6,8 +7,9 @@ import '../blocs/favourite_launches_page/favourite_launches_page_cubit.dart';
 import '../blocs/favourite_launches_page/favourite_launches_page_state.dart';
 import '../widgets/launch_card.dart';
 
-class FavouriteLaunches extends StatelessWidget {
-  const FavouriteLaunches({Key? key}) : super(key: key);
+@RoutePage()
+class FavouriteLaunchesPage extends StatelessWidget {
+  const FavouriteLaunchesPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

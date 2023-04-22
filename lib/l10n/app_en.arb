@@ -37,5 +37,7 @@
   "signInWithGoogle": "Sign in with Google",
   "favourite": "Favourite Launches",
   "profile": "Profile",
-  "email": "Email"
+  "email": "Email",
+  "signInFailed": "Sign in failed",
+  "unauthenticated": "You are not authenticated"
 }

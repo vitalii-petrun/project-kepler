@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
@@ -6,10 +7,12 @@ import 'package:project_kepler/presentation/blocs/authentication/authentication_
 class AuthenticationCubit extends Cubit<AutheticationState> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   User? get user => _firebaseAuth.currentUser;
-  AuthenticationCubit() : super(Uninitialized()) {
+
+  AuthenticationCubit() : super(Unauthenticated()) {
     _firebaseAuth.authStateChanges().listen(
-        (user) => emit(user == null ? Uninitialized() : Authenticated(user)));
+        (user) => emit(user == null ? Unauthenticated() : Authenticated(user)));
   }
 
   Future<void> signInWithGoogle() async {
@@ -26,7 +29,7 @@ class AuthenticationCubit extends Cubit<AutheticationState> {
 
       await _firebaseAuth.signInWithCredential(credential);
     } catch (e) {
-      // Handle the exception
+      SnackBar(content: Text(e.toString()));
     }
   }
 

@@ -36,15 +36,12 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
                 ),
               ),
               onPressed: () async {
-                setState(() {
-                  _isSigningIn = true;
-                });
+                setState(() => _isSigningIn = true);
 
-                context.read<AuthenticationCubit>().signInWithGoogle();
+                final authenticationCubit = context.read<AuthenticationCubit>();
+                await authenticationCubit.signInWithGoogle();
 
-                setState(() {
-                  _isSigningIn = false;
-                });
+                setState(() => _isSigningIn = false);
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

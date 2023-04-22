@@ -1,4 +1,5 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
@@ -24,67 +25,108 @@ class ProfilePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CircleAvatar(
-                  radius: 80,
-                  /*   backgroundImage: AssetImage('assets/profile_picture.png'), */
-                  backgroundImage: NetworkImage((state.user).photoURL!),
-                ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Text(
-                      context.l10n.name,
-                      style: context.theme.textTheme.titleLarge,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      (state.user).displayName!,
-                      style: context.theme.textTheme.titleLarge,
-                    ),
-                  ],
-                ),
+                _ProfileCard(user: state.user),
                 const SizedBox(height: 20),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Text(
-                      context.l10n.email,
-                      style: context.theme.textTheme.titleLarge,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      (state.user).email!,
-                      style: context.theme.textTheme.titleLarge,
-                    ),
-                  ],
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: context.theme.colorScheme.error,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    context.read<AuthenticationCubit>().signOut();
-                  },
-                  child: Text(context.l10n.logout),
-                ),
+                const _LogoutButton(),
               ],
             ),
           );
-        } else if (state is Uninitialized) {
-          return Center(
-            child: Text("Uninitialized"),
-          );
+        } else if (state is Unauthenticated) {
+          return Center(child: Text(context.l10n.unauthenticated));
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
       }),
+    );
+  }
+}
+
+class _ProfileCard extends StatelessWidget {
+  final User user;
+
+  const _ProfileCard({
+    required this.user,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 45,
+                  backgroundImage: NetworkImage((user).photoURL!),
+                ),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user.displayName!,
+                      style: context.theme.textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      user.email!,
+                      style: context.theme.textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            const _FavouriteLaunchesButton(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LogoutButton extends StatelessWidget {
+  const _LogoutButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: context.theme.colorScheme.error,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+      ),
+      onPressed: () {
+        context.read<AuthenticationCubit>().signOut();
+      },
+      child: Text(context.l10n.logout),
+    );
+  }
+}
+
+class _FavouriteLaunchesButton extends StatelessWidget {
+  const _FavouriteLaunchesButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      leading: const Icon(Icons.favorite_outline),
+      title: Text(context.l10n.favourite),
+      onTap: () {
+        context.router.pushNamed("/favourite");
+      },
     );
   }
 }
