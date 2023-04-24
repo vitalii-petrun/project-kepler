@@ -83,7 +83,21 @@ class _ProfileCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const _FavouriteLaunchesButton(),
+            _ProfileTile(
+              icon: const Icon(Icons.home_outlined),
+              title: context.l10n.home,
+              onTap: () => context.router.pushNamed("/favourite"),
+            ),
+            _ProfileTile(
+              icon: const Icon(Icons.favorite_outline),
+              title: context.l10n.favourite,
+              onTap: () => context.router.pushNamed("/favourite"),
+            ),
+            _ProfileTile(
+              icon: const Icon(Icons.settings_outlined),
+              title: context.l10n.settings,
+              onTap: () => context.router.pushNamed("/settings"),
+            ),
           ],
         ),
       ),
@@ -114,20 +128,24 @@ class _LogoutButton extends StatelessWidget {
   }
 }
 
-class _FavouriteLaunchesButton extends StatelessWidget {
-  const _FavouriteLaunchesButton({Key? key}) : super(key: key);
+class _ProfileTile extends StatelessWidget {
+  final String title;
+  final Icon icon;
+  final VoidCallback onTap;
+
+  const _ProfileTile({
+    required this.icon,
+    required this.title,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      leading: const Icon(Icons.favorite_outline),
-      title: Text(context.l10n.favourite),
-      onTap: () {
-        context.router.pushNamed("/favourite");
-      },
+      leading: icon,
+      title: Text(title),
+      onTap: onTap,
     );
   }
 }
