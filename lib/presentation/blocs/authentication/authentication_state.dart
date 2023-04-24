@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AutheticationState {}
+class AuthenticationState {}
 
-class Unauthenticated extends AutheticationState {}
+class Unauthenticated extends AuthenticationState {}
 
-class Authenticated extends AutheticationState {
+class Authenticated extends AuthenticationState {
   final User user;
 
   Authenticated(this.user);

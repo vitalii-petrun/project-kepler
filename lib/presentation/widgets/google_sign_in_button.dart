@@ -39,7 +39,7 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
                 setState(() => _isSigningIn = true);
 
                 final authenticationCubit = context.read<AuthenticationCubit>();
-                await authenticationCubit.signInWithGoogle();
+                await authenticationCubit.signInWithGoogle(context);
 
                 setState(() => _isSigningIn = false);
               },

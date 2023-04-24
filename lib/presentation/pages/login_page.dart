@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.l10n.login),
       ),
-      body: BlocConsumer<AuthenticationCubit, AutheticationState>(
+      body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
           if (state is Authenticated) {
             context.router.replaceNamed("/profile");

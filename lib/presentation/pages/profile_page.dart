@@ -16,7 +16,7 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.l10n.profile),
       ),
-      body: BlocBuilder<AuthenticationCubit, AutheticationState>(
+      body: BlocBuilder<AuthenticationCubit, AuthenticationState>(
           builder: (context, state) {
         if (state is Authenticated) {
           return Padding(
@@ -106,7 +106,7 @@ class _LogoutButton extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        context.read<AuthenticationCubit>().signOut();
+        context.read<AuthenticationCubit>().signOut(context);
         context.router.replaceNamed("/login");
       },
       child: Text(context.l10n.logout),

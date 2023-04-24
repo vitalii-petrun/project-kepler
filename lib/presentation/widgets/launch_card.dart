@@ -43,11 +43,8 @@ class _LaunchCardState extends State<LaunchCard> {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () {
-                print(widget.launch.pad.agencyID);
-                context.router
-                    .push(LaunchDetailsRoute(launchId: widget.launch.id));
-              },
+              onTap: () => context.router
+                  .push(LaunchDetailsRoute(launchId: widget.launch.id)),
               child: _HeaderSection(
                 launchName: widget.launch.name,
                 padLocation: widget.launch.pad.location.name,

@@ -57,7 +57,12 @@ class _HomePageState extends State<HomePage> {
                   separatorBuilder: (_, __) => const SizedBox(height: 20)),
             );
           } else if (state is LaunchesError) {
-            return Center(child: Text(state.message));
+            return RefreshIndicator(
+              onRefresh: () async => context.read<HomePageCubit>().fetch(),
+              child: ListView(
+                children: [Text(state.message)],
+              ),
+            );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

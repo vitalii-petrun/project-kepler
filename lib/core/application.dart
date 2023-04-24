@@ -14,6 +14,8 @@ import '../presentation/navigation/app_router.dart';
 class Application extends StatelessWidget {
   final AppRouter appRouter;
   final AuthenticationCubit authenticationCubit;
+  static final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
   const Application({
     required this.appRouter,
@@ -40,6 +42,7 @@ class Application extends StatelessWidget {
       child: Consumer2<AppThemeProvider, LocaleProvider>(
         builder: (context, themeProvider, localeProvider, child) {
           return MaterialApp.router(
+            scaffoldMessengerKey: _scaffoldMessengerKey,
             theme: themeProvider.lightTheme,
             darkTheme: themeProvider.darkTheme,
             themeMode: themeProvider.themeMode,
