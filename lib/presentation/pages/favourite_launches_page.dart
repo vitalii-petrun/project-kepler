@@ -8,8 +8,19 @@ import '../blocs/favourite_launches_page/favourite_launches_page_state.dart';
 import '../widgets/launch_card.dart';
 
 @RoutePage()
-class FavouriteLaunchesPage extends StatelessWidget {
+class FavouriteLaunchesPage extends StatefulWidget {
   const FavouriteLaunchesPage({Key? key}) : super(key: key);
+
+  @override
+  State<FavouriteLaunchesPage> createState() => _FavouriteLaunchesPageState();
+}
+
+class _FavouriteLaunchesPageState extends State<FavouriteLaunchesPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<FavoriteLaunchesPageCubit>().fetchFavouriteLaunches();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +35,20 @@ class FavouriteLaunchesPage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (state is FavouriteLaunchesLoaded) {
-            return ListView.builder(
-              itemCount: state.launches.length,
-              itemBuilder: (context, index) {
-                return LaunchCard(
-                  launch: state.launches[index],
-                );
+            return RefreshIndicator(
+              onRefresh: () async {
+                context
+                    .read<FavoriteLaunchesPageCubit>()
+                    .fetchFavouriteLaunches();
               },
+              child: ListView.builder(
+                itemCount: state.launches.length,
+                itemBuilder: (context, index) {
+                  return LaunchCard(
+                    launch: state.launches[index],
+                  );
+                },
+              ),
             );
           } else if (state is FavouriteLaunchesError) {
             return Center(child: Text(state.message));

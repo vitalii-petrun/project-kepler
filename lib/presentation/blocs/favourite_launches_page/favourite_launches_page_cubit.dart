@@ -4,7 +4,7 @@ import '../../../domain/entities/launch.dart';
 import 'favourite_launches_page_state.dart';
 
 class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   FavoriteLaunchesPageCubit() : super(FavouriteLaunchesInit()) {
     fetchFavouriteLaunches();
@@ -12,7 +12,7 @@ class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
 
   void fetchFavouriteLaunches() async {
     try {
-      final snapshot = await firestore.collection('launches').get();
+      final snapshot = await _firestore.collection('launches').get();
       final launches =
           snapshot.docs.map((e) => Launch.fromJson(e.data())).toList();
 
@@ -24,10 +24,31 @@ class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
 
   void setFavouriteLaunch(Launch launch) async {
     try {
-      await firestore
+      await _firestore
           .collection('launches')
           .doc(launch.id)
           .set(launch.toJson());
+
+      emit(
+        FavouriteLaunchesLoaded(
+          (state as FavouriteLaunchesLoaded).launches..add(launch),
+        ),
+      );
+    } catch (e) {
+      emit(FavouriteLaunchesError(e.toString()));
+    }
+  }
+
+  void removeFavouriteLaunch(Launch launch) async {
+    try {
+      await _firestore.collection('launches').doc(launch.id).delete();
+
+      final newLaunches = (state as FavouriteLaunchesLoaded)
+          .launches
+          .where((element) => element.id != launch.id)
+          .toList();
+
+      emit(FavouriteLaunchesLoaded(newLaunches));
     } catch (e) {
       emit(FavouriteLaunchesError(e.toString()));
     }
