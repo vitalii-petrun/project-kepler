@@ -86,7 +86,7 @@ class _ProfileCard extends StatelessWidget {
             _ProfileTile(
               icon: const Icon(Icons.home_outlined),
               title: context.l10n.home,
-              onTap: () => context.router.pushNamed("/favourite"),
+              onTap: () => context.router.pushNamed("/home"),
             ),
             _ProfileTile(
               icon: const Icon(Icons.favorite_outline),
