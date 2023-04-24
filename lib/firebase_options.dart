@@ -70,8 +70,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '600725819726',
     projectId: 'project-kepler-2f046',
     storageBucket: 'project-kepler-2f046.appspot.com',
-    androidClientId: '600725819726-3foim9jof2nouv9tkr9bpbh6enackvu6.apps.googleusercontent.com',
-    iosClientId: '600725819726-7n1nhreb5fv2qf5t0naq5o24ssspftji.apps.googleusercontent.com',
+    androidClientId:
+        '600725819726-3foim9jof2nouv9tkr9bpbh6enackvu6.apps.googleusercontent.com',
+    iosClientId:
+        '600725819726-7n1nhreb5fv2qf5t0naq5o24ssspftji.apps.googleusercontent.com',
     iosBundleId: 'projectkepler.projectKepler',
   );
 }
