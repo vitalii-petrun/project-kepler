@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/blocs/home_page/home_page_cubit.dart';
+import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/home_page/home_page_state.dart';
 import '../widgets/launch_card.dart';
 import '../widgets/space_drawer.dart';
@@ -30,11 +32,13 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
-            onPressed: () => context.router.pushNamed('/profile'),
-          ),
-          IconButton(
-            icon: const Icon(Icons.person_2_outlined),
-            onPressed: () => context.router.pushNamed('/login'),
+            onPressed: () {
+              if (context.read<AuthenticationCubit>().state is Authenticated) {
+                context.router.pushNamed('/profile');
+              } else {
+                context.router.pushNamed('/login');
+              }
+            },
           ),
         ],
       ),
@@ -53,7 +57,12 @@ class _HomePageState extends State<HomePage> {
                   separatorBuilder: (_, __) => const SizedBox(height: 20)),
             );
           } else if (state is LaunchesError) {
-            return Center(child: Text(state.message));
+            return RefreshIndicator(
+              onRefresh: () async => context.read<HomePageCubit>().fetch(),
+              child: ListView(
+                children: [Text(state.message)],
+              ),
+            );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

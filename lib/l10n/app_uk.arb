@@ -37,5 +37,9 @@
     "signInWithGoogle": "Увійти через Google",
     "favourite": "Обрані",
     "profile": "Профіль",
-    "email": "Електронна пошта"
+    "email": "Електронна пошта",
+    "agencyInformaton": "Інформація про агенцію",
+    "signInFailed": "Помилка входу",
+    "missingInternet": "Відсутнє з'єднання з інтернетом",
+    "unauthenticated": "Ви не авторизовані"
 }
