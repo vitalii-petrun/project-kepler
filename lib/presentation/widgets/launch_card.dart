@@ -210,21 +210,15 @@ class _AnimatedHeartButton extends StatefulWidget {
 
 class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  late final AnimationController _controller = AnimationController(
+      duration: const Duration(milliseconds: 200), vsync: this, value: 1.0);
+
   late bool _isFavourite;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    );
+
     _isFavourite = widget.isFavourite;
   }
 
@@ -251,12 +245,21 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
             }
 
             setState(() => _isFavourite = !_isFavourite);
-
-            _controller.forward();
+            _controller.reverse().then((value) => _controller.forward());
           },
-          icon: Icon(
-            _isFavourite ? Icons.favorite : Icons.favorite_border,
-            color: _isFavourite ? Colors.red : Colors.grey,
+          icon: ScaleTransition(
+            scale: Tween(begin: 0.8, end: 1.0).animate(
+                CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
+            child: _isFavourite
+                ? Icon(
+                    Icons.favorite,
+                    size: 30,
+                    color: context.theme.colorScheme.error,
+                  )
+                : const Icon(
+                    Icons.favorite_border,
+                    size: 30,
+                  ),
           ),
         );
       },
