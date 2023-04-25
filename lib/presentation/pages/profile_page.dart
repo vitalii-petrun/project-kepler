@@ -16,8 +16,12 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.l10n.profile),
       ),
-      body: BlocBuilder<AuthenticationCubit, AuthenticationState>(
-          builder: (context, state) {
+      body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
+          listener: (context, state) {
+        if (state is Unauthenticated) {
+          context.router.replaceNamed("/login");
+        }
+      }, builder: (context, state) {
         if (state is Authenticated) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -108,6 +112,12 @@ class _ProfileCard extends StatelessWidget {
 class _LogoutButton extends StatelessWidget {
   const _LogoutButton({Key? key}) : super(key: key);
 
+  static _handleSignOutTap(BuildContext context) async {
+    final AuthenticationCubit authentication =
+        context.read<AuthenticationCubit>();
+    authentication.signOut(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -119,10 +129,7 @@ class _LogoutButton extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () {
-        context.read<AuthenticationCubit>().signOut(context);
-        context.router.replaceNamed("/login");
-      },
+      onPressed: () => _handleSignOutTap(context),
       child: Text(context.l10n.logout),
     );
   }

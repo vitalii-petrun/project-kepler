@@ -20,7 +20,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   Future<void> signInWithGoogle(BuildContext context) async {
-    if (await checkConnectivity(context) == false) return;
+    if (await checkConnectivity(context) == false) {
+      showConnectionError(context);
+      return;
+    }
 
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -34,42 +37,36 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       );
 
       await _firebaseAuth.signInWithCredential(credential);
-    } catch (e) {
-      scaffoldMessengerKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-          duration: const Duration(seconds: 5),
-        ),
-      );
-    }
+
+      emit(Authenticated(_firebaseAuth.currentUser!));
+    } catch (e) {/* do nothing */}
   }
 
   Future<void> signOut(BuildContext context) async {
-    if (await checkConnectivity(context) == false) return;
+    if (await checkConnectivity(context) == false) {
+      showConnectionError(context);
+      return;
+    }
+
     try {
       await _googleSignIn.signOut();
-    } catch (e) {
-      scaffoldMessengerKey.currentState!.showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-          duration: const Duration(seconds: 3),
-        ),
-      );
-    }
+      emit(Unauthenticated());
+    } catch (e) {/* do nothing */}
   }
 
   Future<bool> checkConnectivity(BuildContext context) async {
     final ConnectivityResult connectivityResult =
         await Connectivity().checkConnectivity();
 
-    if (connectivityResult == ConnectivityResult.none) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.l10n.missingInternet),
-          duration: const Duration(seconds: 3),
-        ),
-      );
-    }
     return connectivityResult != ConnectivityResult.none;
+  }
+
+  void showConnectionError(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(context.l10n.missingInternet),
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 }
