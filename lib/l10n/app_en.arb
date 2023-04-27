@@ -40,5 +40,6 @@
   "email": "Email",
   "signInFailed": "Sign in failed",
   "unauthenticated": "You are not authenticated",
-  "missingInternet": "No internet connection"
+  "missingInternet": "No internet connection",
+  "offline": "Oops.. You are offline."
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/blocs/home_page/home_page_cubit.dart';
+import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/home_page/home_page_state.dart';
 import '../widgets/launch_card.dart';
@@ -57,11 +58,18 @@ class _HomePageState extends State<HomePage> {
                   separatorBuilder: (_, __) => const SizedBox(height: 20)),
             );
           } else if (state is LaunchesError) {
-            return RefreshIndicator(
-              onRefresh: () async => context.read<HomePageCubit>().fetch(),
-              child: ListView(
-                children: [Text(state.message)],
-              ),
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                return RefreshIndicator(
+                  onRefresh: () async => context.read<HomePageCubit>().fetch(),
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: SizedBox(
+                        height: constraints.maxHeight,
+                        child: const Center(child: NoInternet())),
+                  ),
+                );
+              },
             );
           } else {
             return const Center(child: CircularProgressIndicator());
