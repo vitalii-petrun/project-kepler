@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,38 +41,10 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
               onRefresh: () async => context
                   .read<LaunchDetailsPageCubit>()
                   .getLaunchDetails(widget.launchId),
-              child: _Body(launch: state.launch, agency: state.agency),
+              child: _LoadedBody(launch: state.launch, agency: state.agency),
             );
           } else if (state is LaunchDetailsPageStateError) {
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                return RefreshIndicator(
-                  onRefresh: () async => context
-                      .read<LaunchDetailsPageCubit>()
-                      .getLaunchDetails(widget.launchId),
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: SizedBox(
-                      height: constraints.maxHeight,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const NoInternet(),
-                            TextButton(
-                              onPressed: () {
-                                context.router.pop();
-                              },
-                              child: Text(context.l10n.goBack),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
+            return _FailedBody(launchId: widget.launchId);
           } else {
             return const Center(child: CircularProgressIndicator());
           }
@@ -83,18 +54,58 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
   }
 }
 
-class _Body extends StatefulWidget {
+class _FailedBody extends StatelessWidget {
+  final String launchId;
+
+  const _FailedBody({
+    required this.launchId,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return RefreshIndicator(
+          onRefresh: () async =>
+              context.read<LaunchDetailsPageCubit>().getLaunchDetails(launchId),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SizedBox(
+              height: constraints.maxHeight,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const NoInternet(),
+                    TextButton(
+                      onPressed: () => context.router.pop(),
+                      child: Text(context.l10n.goBack),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _LoadedBody extends StatefulWidget {
   final Launch launch;
   final Agency agency;
 
-  const _Body({Key? key, required this.launch, required this.agency})
+  const _LoadedBody({Key? key, required this.launch, required this.agency})
       : super(key: key);
 
   @override
-  State<_Body> createState() => _BodyState();
+  State<_LoadedBody> createState() => _LoadedBodyState();
 }
 
-class _BodyState extends State<_Body> with SingleTickerProviderStateMixin {
+class _LoadedBodyState extends State<_LoadedBody>
+    with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
   @override

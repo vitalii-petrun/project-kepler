@@ -5,6 +5,7 @@ import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/blocs/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
+import '../../domain/entities/launch.dart';
 import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/home_page/home_page_state.dart';
 import '../widgets/launch_card.dart';
@@ -47,35 +48,58 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<HomePageCubit, HomePageState>(
         builder: (context, state) {
           if (state is LaunchesLoaded) {
-            return RefreshIndicator(
-              onRefresh: () async => context.read<HomePageCubit>().fetch(),
-              child: ListView.separated(
-                  itemCount: state.launches.length,
-                  itemBuilder: (context, index) {
-                    final launch = state.launches[index];
-                    return LaunchCard(launch: launch);
-                  },
-                  separatorBuilder: (_, __) => const SizedBox(height: 20)),
-            );
+            return _LoadedBody(launches: state.launches);
           } else if (state is LaunchesError) {
-            return LayoutBuilder(
-              builder: (context, constraints) {
-                return RefreshIndicator(
-                  onRefresh: () async => context.read<HomePageCubit>().fetch(),
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: SizedBox(
-                        height: constraints.maxHeight,
-                        child: const Center(child: NoInternet())),
-                  ),
-                );
-              },
-            );
+            return const _FailedBody();
           } else {
             return const Center(child: CircularProgressIndicator());
           }
         },
       ),
+    );
+  }
+}
+
+class _LoadedBody extends StatelessWidget {
+  final List<Launch> launches;
+
+  const _LoadedBody({
+    required this.launches,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async => context.read<HomePageCubit>().fetch(),
+      child: ListView.separated(
+          itemCount: launches.length,
+          itemBuilder: (context, index) {
+            final launch = launches[index];
+            return LaunchCard(launch: launch);
+          },
+          separatorBuilder: (_, __) => const SizedBox(height: 20)),
+    );
+  }
+}
+
+class _FailedBody extends StatelessWidget {
+  const _FailedBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return RefreshIndicator(
+          onRefresh: () async => context.read<HomePageCubit>().fetch(),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SizedBox(
+                height: constraints.maxHeight,
+                child: const Center(child: NoInternet())),
+          ),
+        );
+      },
     );
   }
 }
