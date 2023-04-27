@@ -12,8 +12,6 @@ Based on https://thespacedevs.com/llapi API and inspired by Space Launch Now and
 
 Contains:
 - Launch dates of rockets/space missions. ✓
-- Thematic news&events.
-- ? list of vehicles. 
 - ? tab with videos from https://www.youtube.com/channel/UCi0Z9L9HrhD7oYpMs2pLxSw channel, in case UA localization is choosen.
 
 Technologies:
@@ -21,15 +19,22 @@ Technologies:
 - Clean architecture. ✓
 - Day/night mode and right theming in general (https://docs.flutter.dev/cookbook/design/themes). ✓
 - Localization (ENG/UKR). ✓
-- Deep links.
-- Introducing screen.
+- Firebase Auth ✓
+- Firestore keeping data ✓
+- Introducing screen  ?
 
 
-Packages and tools to create app:
+Packages and tools used to create app:
 - dio (http requests)
 - json_serialazible (code gen)
-- bloc (advanced state management)
-- shared_preferences (to keep app settings)
+- bloc (state management)
+- intl (localization)
+- shared_preferences (to locally keep app settings, such as lang or theme)
+- firebase_auth 
+- google_sign_in 
+- cloud_firestore (save favorite launches on cloud)
+- connectivity_plus (to check if user has internet, otherwise prevent sign in, log out events)
+
 
 
 
