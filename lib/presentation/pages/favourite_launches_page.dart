@@ -6,6 +6,7 @@ import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import '../blocs/favourite_launches_page/favourite_launches_page_cubit.dart';
 import '../blocs/favourite_launches_page/favourite_launches_page_state.dart';
 import '../widgets/launch_card.dart';
+import '../widgets/no_internet.dart';
 
 @RoutePage()
 class FavouriteLaunchesPage extends StatefulWidget {
@@ -51,7 +52,23 @@ class _FavouriteLaunchesPageState extends State<FavouriteLaunchesPage> {
               ),
             );
           } else if (state is FavouriteLaunchesError) {
-            return Center(child: Text(state.message));
+            return RefreshIndicator(
+              onRefresh: () async {
+                context
+                    .read<FavoriteLaunchesPageCubit>()
+                    .fetchFavouriteLaunches();
+              },
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: SizedBox(
+                        height: constraints.maxHeight,
+                        child: const Center(child: NoInternet())),
+                  );
+                },
+              ),
+            );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
 import '../blocs/launch_details/launch_details_page_state.dart';
+import '../widgets/no_internet.dart';
 
 @RoutePage()
 class LaunchDetailsPage extends StatefulWidget {
@@ -43,7 +45,35 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
               child: _Body(launch: state.launch, agency: state.agency),
             );
           } else if (state is LaunchDetailsPageStateError) {
-            return Center(child: Text(state.message));
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                return RefreshIndicator(
+                  onRefresh: () async => context
+                      .read<LaunchDetailsPageCubit>()
+                      .getLaunchDetails(widget.launchId),
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: SizedBox(
+                      height: constraints.maxHeight,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const NoInternet(),
+                            TextButton(
+                              onPressed: () {
+                                context.router.pop();
+                              },
+                              child: Text(context.l10n.goBack),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
           } else {
             return const Center(child: CircularProgressIndicator());
           }

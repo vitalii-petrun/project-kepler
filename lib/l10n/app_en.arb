@@ -41,5 +41,6 @@
   "signInFailed": "Sign in failed",
   "unauthenticated": "You are not authenticated",
   "missingInternet": "No internet connection",
-  "offline": "Oops.. You are offline."
+  "offline": "Oops.. You are offline.",
+  "goBack": "Go back"
 }
