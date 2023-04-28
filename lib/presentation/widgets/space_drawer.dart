@@ -43,7 +43,7 @@ class SpaceDrawer extends StatelessWidget {
           _DrawerTile(
             icon: const Icon(Icons.favorite_outline),
             title: context.l10n.favourite,
-            onTap: () => context.router.pushNamed('/favourite'),
+            onTap: () => context.router.pushNamed('/favourites'),
           ),
           const SizedBox(height: 10),
           _DrawerTile(

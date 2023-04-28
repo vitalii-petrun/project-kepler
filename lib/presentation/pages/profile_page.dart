@@ -13,9 +13,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.profile),
-      ),
+      appBar: AppBar(title: Text(context.l10n.profile)),
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
           listener: (context, state) {
         if (state is Unauthenticated) {
@@ -23,25 +21,39 @@ class ProfilePage extends StatelessWidget {
         }
       }, builder: (context, state) {
         if (state is Authenticated) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 20),
-                _ProfileCard(user: state.user),
-                const SizedBox(height: 20),
-                const _LogoutButton(),
-              ],
-            ),
-          );
+          return _LoadedBody(user: state.user);
         } else if (state is Unauthenticated) {
           return Center(child: Text(context.l10n.unauthenticated));
         } else {
           return const Center(child: CircularProgressIndicator());
         }
       }),
+    );
+  }
+}
+
+class _LoadedBody extends StatelessWidget {
+  final User user;
+
+  const _LoadedBody({
+    required this.user,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 20),
+          _ProfileCard(user: user),
+          const SizedBox(height: 20),
+          const _LogoutButton(),
+        ],
+      ),
     );
   }
 }
@@ -95,7 +107,7 @@ class _ProfileCard extends StatelessWidget {
             _ProfileTile(
               icon: const Icon(Icons.favorite_outline),
               title: context.l10n.favourite,
-              onTap: () => context.router.pushNamed("/favourite"),
+              onTap: () => context.router.pushNamed("/favourites"),
             ),
             _ProfileTile(
               icon: const Icon(Icons.settings_outlined),

@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +10,7 @@ import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
 import '../blocs/launch_details/launch_details_page_state.dart';
+import '../widgets/no_internet.dart';
 
 @RoutePage()
 class LaunchDetailsPage extends StatefulWidget {
@@ -26,8 +27,8 @@ class LaunchDetailsPage extends StatefulWidget {
 class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
   @override
   void initState() {
-    context.read<LaunchDetailsPageCubit>().getLaunchDetails(widget.launchId);
     super.initState();
+    context.read<LaunchDetailsPageCubit>().getLaunchDetails(widget.launchId);
   }
 
   @override
@@ -36,14 +37,9 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
       body: BlocBuilder<LaunchDetailsPageCubit, LaunchDetailsPageState>(
         builder: (context, state) {
           if (state is LaunchDetailsPageStateLoaded) {
-            return RefreshIndicator(
-              onRefresh: () async => context
-                  .read<LaunchDetailsPageCubit>()
-                  .getLaunchDetails(widget.launchId),
-              child: _Body(launch: state.launch, agency: state.agency),
-            );
+            return _LoadedBody(launch: state.launch, agency: state.agency);
           } else if (state is LaunchDetailsPageStateError) {
-            return Center(child: Text(state.message));
+            return _FailedBody(launchId: widget.launchId);
           } else {
             return const Center(child: CircularProgressIndicator());
           }
@@ -53,18 +49,61 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
   }
 }
 
-class _Body extends StatefulWidget {
+class _FailedBody extends StatelessWidget {
+  final String launchId;
+
+  const _FailedBody({
+    required this.launchId,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return RefreshIndicator(
+          onRefresh: () async =>
+              context.read<LaunchDetailsPageCubit>().getLaunchDetails(launchId),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: SizedBox(
+              height: constraints.maxHeight,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const NoInternet(),
+                    TextButton(
+                      onPressed: () => context.router.pop(),
+                      child: Text(context.l10n.goBack),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _LoadedBody extends StatefulWidget {
   final Launch launch;
   final Agency agency;
 
-  const _Body({Key? key, required this.launch, required this.agency})
-      : super(key: key);
+  const _LoadedBody({
+    required this.launch,
+    required this.agency,
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<_Body> createState() => _BodyState();
+  State<_LoadedBody> createState() => _LoadedBodyState();
 }
 
-class _BodyState extends State<_Body> with SingleTickerProviderStateMixin {
+class _LoadedBodyState extends State<_LoadedBody>
+    with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
   @override
@@ -78,42 +117,47 @@ class _BodyState extends State<_Body> with SingleTickerProviderStateMixin {
     const expandedHeight = 500.0;
     const collapsedHeight = 60.0;
     final theme = context.theme;
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          expandedHeight: expandedHeight,
-          collapsedHeight: collapsedHeight,
-          backgroundColor: theme.colorScheme.background,
-          pinned: true,
-          iconTheme: IconThemeData(
-            color: context.theme.colorScheme.onBackground,
+    return RefreshIndicator(
+      onRefresh: () async => context
+          .read<LaunchDetailsPageCubit>()
+          .getLaunchDetails(widget.launch.id),
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: expandedHeight,
+            collapsedHeight: collapsedHeight,
+            backgroundColor: theme.colorScheme.background,
+            pinned: true,
+            iconTheme: IconThemeData(
+              color: context.theme.colorScheme.onBackground,
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.pin,
+              title: Text(
+                widget.launch.name,
+                style: theme.textTheme.headlineSmall!
+                    .copyWith(color: theme.colorScheme.onBackground),
+              ),
+              titlePadding: const EdgeInsets.only(
+                left: 52,
+                bottom: 16,
+              ),
+              background:
+                  _LaunchImage(launch: widget.launch, agency: widget.agency),
+            ),
           ),
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            title: Text(
-              widget.launch.name,
-              style: theme.textTheme.headlineSmall!
-                  .copyWith(color: theme.colorScheme.onBackground),
-            ),
-            titlePadding: const EdgeInsets.only(
-              left: 52,
-              bottom: 16,
-            ),
-            background:
-                _LaunchImage(launch: widget.launch, agency: widget.agency),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              _LaunchTabBar(tabController: _tabController),
+              _LaunchTabView(
+                launch: widget.launch,
+                agency: widget.agency,
+                tabController: _tabController,
+              ),
+            ]),
           ),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            _LaunchTabBar(tabController: _tabController),
-            _LaunchTabView(
-              launch: widget.launch,
-              agency: widget.agency,
-              tabController: _tabController,
-            ),
-          ]),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
