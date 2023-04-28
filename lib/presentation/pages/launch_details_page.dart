@@ -27,8 +27,8 @@ class LaunchDetailsPage extends StatefulWidget {
 class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
   @override
   void initState() {
-    context.read<LaunchDetailsPageCubit>().getLaunchDetails(widget.launchId);
     super.initState();
+    context.read<LaunchDetailsPageCubit>().getLaunchDetails(widget.launchId);
   }
 
   @override
@@ -37,12 +37,7 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
       body: BlocBuilder<LaunchDetailsPageCubit, LaunchDetailsPageState>(
         builder: (context, state) {
           if (state is LaunchDetailsPageStateLoaded) {
-            return RefreshIndicator(
-              onRefresh: () async => context
-                  .read<LaunchDetailsPageCubit>()
-                  .getLaunchDetails(widget.launchId),
-              child: _LoadedBody(launch: state.launch, agency: state.agency),
-            );
+            return _LoadedBody(launch: state.launch, agency: state.agency);
           } else if (state is LaunchDetailsPageStateError) {
             return _FailedBody(launchId: widget.launchId);
           } else {
@@ -97,8 +92,11 @@ class _LoadedBody extends StatefulWidget {
   final Launch launch;
   final Agency agency;
 
-  const _LoadedBody({Key? key, required this.launch, required this.agency})
-      : super(key: key);
+  const _LoadedBody({
+    required this.launch,
+    required this.agency,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<_LoadedBody> createState() => _LoadedBodyState();
@@ -119,42 +117,47 @@ class _LoadedBodyState extends State<_LoadedBody>
     const expandedHeight = 500.0;
     const collapsedHeight = 60.0;
     final theme = context.theme;
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          expandedHeight: expandedHeight,
-          collapsedHeight: collapsedHeight,
-          backgroundColor: theme.colorScheme.background,
-          pinned: true,
-          iconTheme: IconThemeData(
-            color: context.theme.colorScheme.onBackground,
+    return RefreshIndicator(
+      onRefresh: () async => context
+          .read<LaunchDetailsPageCubit>()
+          .getLaunchDetails(widget.launch.id),
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: expandedHeight,
+            collapsedHeight: collapsedHeight,
+            backgroundColor: theme.colorScheme.background,
+            pinned: true,
+            iconTheme: IconThemeData(
+              color: context.theme.colorScheme.onBackground,
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.pin,
+              title: Text(
+                widget.launch.name,
+                style: theme.textTheme.headlineSmall!
+                    .copyWith(color: theme.colorScheme.onBackground),
+              ),
+              titlePadding: const EdgeInsets.only(
+                left: 52,
+                bottom: 16,
+              ),
+              background:
+                  _LaunchImage(launch: widget.launch, agency: widget.agency),
+            ),
           ),
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            title: Text(
-              widget.launch.name,
-              style: theme.textTheme.headlineSmall!
-                  .copyWith(color: theme.colorScheme.onBackground),
-            ),
-            titlePadding: const EdgeInsets.only(
-              left: 52,
-              bottom: 16,
-            ),
-            background:
-                _LaunchImage(launch: widget.launch, agency: widget.agency),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              _LaunchTabBar(tabController: _tabController),
+              _LaunchTabView(
+                launch: widget.launch,
+                agency: widget.agency,
+                tabController: _tabController,
+              ),
+            ]),
           ),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            _LaunchTabBar(tabController: _tabController),
-            _LaunchTabView(
-              launch: widget.launch,
-              agency: widget.agency,
-              tabController: _tabController,
-            ),
-          ]),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

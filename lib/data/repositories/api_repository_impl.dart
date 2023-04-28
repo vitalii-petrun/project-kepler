@@ -30,6 +30,8 @@ class ApiRepositoryImpl implements ApiRepository {
     if (response.statusCode == 200) {
       final launch = Launch.fromJson(response.data);
       return launch;
+    } else if (response.statusCode == 404) {
+      throw Exception('Launch not found');
     } else {
       throw Exception('Failed to load launch details');
     }
