@@ -28,6 +28,7 @@ dependencies:
   json_annotation: ^4.6.0
   intl: ^0.17.0
   connectivity_plus: ^3.0.4
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   build_runner: ^2.3.3

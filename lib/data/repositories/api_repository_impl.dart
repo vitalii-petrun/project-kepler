@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:project_kepler/domain/entities/agency.dart';
 import 'package:project_kepler/domain/entities/launch.dart';
+import 'package:project_kepler/domain/entities/rocket_configuration.dart';
 
 import 'package:project_kepler/domain/repositories/api_repository.dart';
 
@@ -10,18 +11,48 @@ class ApiRepositoryImpl implements ApiRepository {
 
   @override
   Future<List<Launch>> getLaunchList() async {
-    List<Launch> result;
+    final launchJsonList = await _getLaunchJsonList();
+    final launchList = await _convertLaunchJsonList(launchJsonList);
+    return launchList;
+  }
+
+  Future<List<dynamic>> _getLaunchJsonList() async {
     final response = await _dio.get("$_baseUrl/launch/upcoming/");
     if (response.statusCode == 200) {
       final launchList = response.data["results"] as List;
-      result = launchList.map((json) {
-        return Launch.fromJson(json);
-      }).toList();
+
+      return launchList;
     } else {
       throw Exception('Failed to load upcoming launch list');
     }
+  }
 
-    return result;
+  Future<List<Launch>> _convertLaunchJsonList(
+      List<dynamic> launchJsonList) async {
+    final launchList = await Future.wait(launchJsonList.map(
+      (json) async {
+        final rocketConfiguration = await getRocketConfigurationById(
+            json["rocket"]["configuration"]["id"]);
+        Launch launch = Launch.fromJson(json);
+        launch.rocket.configuration = rocketConfiguration;
+        print(
+            "launch.rocket.configuration: ${launch.rocket.configuration.manufacturer?.foundingYear}");
+        return launch;
+      },
+    ).toList());
+
+    return launchList;
+  }
+
+  @override
+  Future<RocketConfiguration> getRocketConfigurationById(int id) async {
+    final rocketConfiguration = await _dio.get("$_baseUrl/config/launcher/$id");
+    if (rocketConfiguration.statusCode == 200) {
+      final rocket = RocketConfiguration.fromJson(rocketConfiguration.data);
+      return rocket;
+    } else {
+      throw Exception('Failed to load rocket configuration');
+    }
   }
 
   @override

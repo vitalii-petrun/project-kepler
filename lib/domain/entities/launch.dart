@@ -10,23 +10,16 @@ part 'launch.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Launch {
   final String id;
-
-  final String name;
-
-  final LaunchStatus status;
-
   final String net;
-
+  final String name;
+  final LaunchStatus status;
   @JsonKey(name: 'launch_service_provider')
   final LaunchServiceProvider launchServiceProvider;
-
-  final Rocket rocket;
-
   final Mission? mission;
+  final Rocket rocket;
+  final String image;
 
   final Pad pad;
-
-  final String image;
 
   Launch(
     this.id,

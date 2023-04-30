@@ -42,5 +42,9 @@
   "unauthenticated": "You are not authenticated",
   "missingInternet": "No internet connection",
   "offline": "Oops.. You are offline.",
-  "goBack": "Go back"
+  "goBack": "Go back",
+  "manufacturer": "Manufacturer",
+  "countryCode": "Country Code",
+  "wiki": "Wiki",
+  "noWikiProvided": " No wiki provided."
 }

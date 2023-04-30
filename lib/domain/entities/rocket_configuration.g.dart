@@ -13,6 +13,12 @@ RocketConfiguration _$RocketConfigurationFromJson(Map<String, dynamic> json) =>
       json['family'] as String,
       json['full_name'] as String,
       json['variant'] as String,
+      json['manufacturer'] == null
+          ? null
+          : Manufacturer.fromJson(json['manufacturer'] as Map<String, dynamic>),
+      json['info_url'] as String?,
+      json['wiki_url'] as String?,
+      json['image_url'] as String?,
     );
 
 Map<String, dynamic> _$RocketConfigurationToJson(
@@ -23,4 +29,8 @@ Map<String, dynamic> _$RocketConfigurationToJson(
       'family': instance.family,
       'full_name': instance.fullName,
       'variant': instance.variant,
+      'manufacturer': instance.manufacturer,
+      'info_url': instance.infoUrl,
+      'wiki_url': instance.wikiUrl,
+      'image_url': instance.imageURL,
     };

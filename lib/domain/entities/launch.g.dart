@@ -23,12 +23,12 @@ Launch _$LaunchFromJson(Map<String, dynamic> json) => Launch(
 
 Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
       'id': instance.id,
+      'net': instance.net,
       'name': instance.name,
       'status': instance.status.toJson(),
-      'net': instance.net,
       'launch_service_provider': instance.launchServiceProvider.toJson(),
-      'rocket': instance.rocket.toJson(),
       'mission': instance.mission?.toJson(),
-      'pad': instance.pad.toJson(),
+      'rocket': instance.rocket.toJson(),
       'image': instance.image,
+      'pad': instance.pad.toJson(),
     };

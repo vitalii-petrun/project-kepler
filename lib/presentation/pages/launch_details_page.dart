@@ -7,6 +7,7 @@ import 'package:project_kepler/domain/entities/rocket_configuration.dart';
 import 'package:project_kepler/presentation/blocs/launch_details/launch_details_page_cubit.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
 import '../blocs/launch_details/launch_details_page_state.dart';
@@ -290,6 +291,12 @@ class _LaunchMission extends StatelessWidget {
               style: context.theme.textTheme.bodyMedium,
             ),
           ),
+          TitledDetailsCard(
+            title: context.l10n.rocketConfiguration,
+            child: _RocketConfigurationTable(
+              rocketConfiguration: launch.rocket.configuration,
+            ),
+          ),
         ],
       ),
     );
@@ -335,11 +342,6 @@ class _LaunchDetails extends StatelessWidget {
             ),
           ),
           TitledDetailsCard(
-            title: context.l10n.rocketConfiguration,
-            child: _RocketConfigurationTable(
-                rocketConfiguration: launch.rocket.configuration),
-          ),
-          TitledDetailsCard(
             title: context.l10n.agencyInformaton,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -374,19 +376,49 @@ class _LaunchDetails extends StatelessWidget {
 
 class _RocketConfigurationTable extends StatelessWidget {
   final RocketConfiguration rocketConfiguration;
-  const _RocketConfigurationTable({Key? key, required this.rocketConfiguration})
-      : super(key: key);
+
+  const _RocketConfigurationTable({
+    required this.rocketConfiguration,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var rocketManufacturer = rocketConfiguration.manufacturer;
     return Container(
       padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _InfoRow(title: context.l10n.name, value: rocketConfiguration.name),
+          rocketManufacturer?.logoUrl != null
+              ? Center(
+                  child: Image.network(
+                    rocketManufacturer?.logoUrl ?? '',
+                    height: 100,
+                  ),
+                )
+              : const SizedBox(),
+          const SizedBox(height: 8),
+          _InfoRow(
+              title: context.l10n.name, value: rocketConfiguration.fullName),
           _InfoRow(
               title: context.l10n.family, value: rocketConfiguration.family),
+          _InfoRow(
+              title: context.l10n.manufacturer,
+              value: rocketManufacturer?.name ?? ''),
+          _InfoRow(
+              title: context.l10n.counryCode,
+              value: rocketManufacturer?.countryCode ?? ''),
+          InkWell(
+            child: _InfoRow(
+              title: context.l10n.wiki,
+              value: rocketConfiguration.wikiUrl ?? context.l10n.noWikiProvided,
+            ),
+            onTap: () => launchUrl(
+              Uri.parse(rocketConfiguration.wikiUrl ?? ''),
+              mode: LaunchMode.externalApplication,
+            ),
+          ),
         ],
       ),
     );
@@ -405,21 +437,24 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          title,
-          style: context.theme.textTheme.bodyLarge
-              ?.copyWith(fontWeight: FontWeight.w700),
-        ),
-        const SizedBox(width: 8),
-        Flexible(
-          child: Text(
-            value,
-            style: context.theme.textTheme.bodyLarge,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: context.theme.textTheme.bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w700),
           ),
-        ),
-      ],
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              value,
+              style: context.theme.textTheme.bodyLarge,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
