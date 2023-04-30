@@ -91,7 +91,7 @@ class _FailedBody extends StatelessWidget {
 
 class _LoadedBody extends StatefulWidget {
   final Launch launch;
-  final Agency agency;
+  final Agency? agency;
 
   const _LoadedBody({
     required this.launch,
@@ -165,11 +165,11 @@ class _LoadedBodyState extends State<_LoadedBody>
 
 class _LaunchImage extends StatelessWidget {
   final Launch launch;
-  final Agency agency;
+  final Agency? agency;
 
   const _LaunchImage({
     required this.launch,
-    required this.agency,
+    this.agency,
     Key? key,
   }) : super(key: key);
 
@@ -189,7 +189,7 @@ class _LaunchImage extends StatelessWidget {
               image: DecorationImage(
                 colorFilter:
                     const ColorFilter.mode(Colors.black54, BlendMode.darken),
-                image: NetworkImage(agency.imageUrl ?? launch.image),
+                image: NetworkImage(agency?.imageUrl ?? launch.image),
                 fit: BoxFit.cover,
               ),
               color: theme.colorScheme.background,
@@ -248,7 +248,7 @@ class _LaunchTabBar extends StatelessWidget {
 class _LaunchTabView extends StatelessWidget {
   final TabController tabController;
   final Launch launch;
-  final Agency agency;
+  final Agency? agency;
 
   const _LaunchTabView({
     required this.tabController,
@@ -305,11 +305,11 @@ class _LaunchMission extends StatelessWidget {
 
 class _LaunchDetails extends StatelessWidget {
   final Launch launch;
-  final Agency agency;
+  final Agency? agency;
 
   const _LaunchDetails({
     required this.launch,
-    required this.agency,
+    this.agency,
     Key? key,
   }) : super(key: key);
 
@@ -343,31 +343,38 @@ class _LaunchDetails extends StatelessWidget {
           ),
           TitledDetailsCard(
             title: context.l10n.agencyInformaton,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.network(agency.logoUrl ?? ""),
-                const SizedBox(height: 12),
-                _InfoRow(title: context.l10n.name, value: agency.name),
-                const SizedBox(height: 8),
-                Flexible(
-                  child: Text(
-                    agency.description ?? context.l10n.noDescriptionProvided,
-                    style: context.theme.textTheme.bodyLarge,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                _InfoRow(
-                    title: context.l10n.counryCode,
-                    value: agency.countryCode ?? 'Unknown'),
-                _InfoRow(title: context.l10n.type, value: agency.type ?? ''),
-                _InfoRow(title: context.l10n.abbrev, value: agency.abbrev),
-                _InfoRow(
-                    title: context.l10n.administrator,
-                    value: agency.administrator ?? ''),
-              ],
-            ),
-          ),
+            child: agency != null
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.network(agency?.logoUrl ?? ""),
+                      const SizedBox(height: 12),
+                      _InfoRow(
+                          title: context.l10n.name, value: agency?.name ?? ''),
+                      const SizedBox(height: 8),
+                      Flexible(
+                        child: Text(
+                          agency?.description ??
+                              context.l10n.noDescriptionProvided,
+                          style: context.theme.textTheme.bodyLarge,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      _InfoRow(
+                          title: context.l10n.counryCode,
+                          value: agency?.countryCode ?? 'Unknown'),
+                      _InfoRow(
+                          title: context.l10n.type, value: agency?.type ?? ''),
+                      _InfoRow(
+                          title: context.l10n.abbrev,
+                          value: agency?.abbrev ?? ''),
+                      _InfoRow(
+                          title: context.l10n.administrator,
+                          value: agency?.administrator ?? ''),
+                    ],
+                  )
+                : Text(context.l10n.noAgencyInformation),
+          )
         ],
       ),
     );
@@ -406,6 +413,8 @@ class _RocketConfigurationTable extends StatelessWidget {
           _InfoRow(
               title: context.l10n.manufacturer,
               value: rocketManufacturer?.name ?? ''),
+          Text(rocketManufacturer?.description ?? ''),
+          const SizedBox(height: 4),
           _InfoRow(
               title: context.l10n.counryCode,
               value: rocketManufacturer?.countryCode ?? ''),

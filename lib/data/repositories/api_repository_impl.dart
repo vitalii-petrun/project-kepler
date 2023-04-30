@@ -16,6 +16,20 @@ class ApiRepositoryImpl implements ApiRepository {
     return launchList;
   }
 
+  @override
+  Future<Launch> getLaunchDetailsById(String id) async {
+    final launchJson = await _getLaunchJsonById(id);
+    final launch = await _convertLaunchJson(launchJson);
+    return launch;
+  }
+
+  @override
+  Future<Agency?> getAgencyById(int? id) async {
+    final agencyJson = await _getAgencyJsonById(id);
+    final agency = await _convertAgencyJson(agencyJson);
+    return agency;
+  }
+
   Future<List<dynamic>> _getLaunchJsonList() async {
     final response = await _dio.get("$_baseUrl/launch/upcoming/");
     if (response.statusCode == 200) {
@@ -31,12 +45,10 @@ class ApiRepositoryImpl implements ApiRepository {
       List<dynamic> launchJsonList) async {
     final launchList = await Future.wait(launchJsonList.map(
       (json) async {
-        final rocketConfiguration = await getRocketConfigurationById(
+        final rocketConfiguration = await _getRocketConfigurationById(
             json["rocket"]["configuration"]["id"]);
         Launch launch = Launch.fromJson(json);
         launch.rocket.configuration = rocketConfiguration;
-        print(
-            "launch.rocket.configuration: ${launch.rocket.configuration.manufacturer?.foundingYear}");
         return launch;
       },
     ).toList());
@@ -44,8 +56,7 @@ class ApiRepositoryImpl implements ApiRepository {
     return launchList;
   }
 
-  @override
-  Future<RocketConfiguration> getRocketConfigurationById(int id) async {
+  Future<RocketConfiguration> _getRocketConfigurationById(int id) async {
     final rocketConfiguration = await _dio.get("$_baseUrl/config/launcher/$id");
     if (rocketConfiguration.statusCode == 200) {
       final rocket = RocketConfiguration.fromJson(rocketConfiguration.data);
@@ -55,12 +66,11 @@ class ApiRepositoryImpl implements ApiRepository {
     }
   }
 
-  @override
-  Future<Launch> getLaunchDetailsById(String id) async {
+  Future<dynamic> _getLaunchJsonById(String id) async {
     final response = await _dio.get("$_baseUrl/launch/upcoming/$id/");
+
     if (response.statusCode == 200) {
-      final launch = Launch.fromJson(response.data);
-      return launch;
+      return response.data;
     } else if (response.statusCode == 404) {
       throw Exception('Launch not found');
     } else {
@@ -68,14 +78,30 @@ class ApiRepositoryImpl implements ApiRepository {
     }
   }
 
-  @override
-  Future<Agency> getAgencyById(int id) async {
+  Future<Launch> _convertLaunchJson(dynamic json) async {
+    Launch launch = Launch.fromJson(json);
+
+    return launch;
+  }
+
+  Future<dynamic> _getAgencyJsonById(int? id) async {
+    if (id == null) {
+      return null;
+    }
     final response = await _dio.get("$_baseUrl/agencies/$id/");
     if (response.statusCode == 200) {
-      final agency = Agency.fromJson(response.data);
-      return agency;
+      return response.data;
     } else {
       throw Exception('Failed to load agency details');
     }
+  }
+
+  Future<Agency?> _convertAgencyJson(dynamic json) async {
+    if (json == null) {
+      return null;
+    }
+    Agency agency = Agency.fromJson(json);
+
+    return agency;
   }
 }

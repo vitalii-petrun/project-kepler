@@ -7,7 +7,7 @@ class LaunchDetailsPageStateInit extends LaunchDetailsPageState {}
 
 class LaunchDetailsPageStateLoaded extends LaunchDetailsPageState {
   final Launch launch;
-  final Agency agency;
+  final Agency? agency;
 
   LaunchDetailsPageStateLoaded(this.launch, this.agency);
 }

@@ -3,6 +3,7 @@
     "manufacturer",
     "countryCode",
     "wiki",
-    "noWikiProvided"
+    "noWikiProvided",
+    "noAgencyInformation"
   ]
 }
