@@ -47,5 +47,6 @@
   "countryCode": "Country Code",
   "wiki": "Wiki",
   "noWikiProvided": " No wiki provided.",
-  "noAgencyInformation": "No agency information provided."
+  "noAgencyInformation": "No agency information provided.",
+  "unknown" : "Unknown"
 }

@@ -362,7 +362,7 @@ class _LaunchDetails extends StatelessWidget {
                       const SizedBox(height: 8),
                       _InfoRow(
                           title: context.l10n.counryCode,
-                          value: agency?.countryCode ?? 'Unknown'),
+                          value: agency?.countryCode ?? context.l10n.unknown),
                       _InfoRow(
                           title: context.l10n.type, value: agency?.type ?? ''),
                       _InfoRow(

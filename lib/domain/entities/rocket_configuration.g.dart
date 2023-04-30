@@ -29,7 +29,7 @@ Map<String, dynamic> _$RocketConfigurationToJson(
       'family': instance.family,
       'full_name': instance.fullName,
       'variant': instance.variant,
-      'manufacturer': instance.manufacturer,
+      'manufacturer': instance.manufacturer?.toJson(),
       'info_url': instance.infoUrl,
       'wiki_url': instance.wikiUrl,
       'image_url': instance.imageURL,

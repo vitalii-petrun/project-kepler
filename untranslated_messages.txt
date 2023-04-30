@@ -4,6 +4,7 @@
     "countryCode",
     "wiki",
     "noWikiProvided",
-    "noAgencyInformation"
+    "noAgencyInformation",
+    "unknown"
   ]
 }
