@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_portal/flutter_portal.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/blocs/favourite_launches_page/favourite_launches_page_cubit.dart';
@@ -41,15 +42,17 @@ class Application extends StatelessWidget {
       ],
       child: Consumer2<AppThemeProvider, LocaleProvider>(
         builder: (context, themeProvider, localeProvider, child) {
-          return MaterialApp.router(
-            scaffoldMessengerKey: _scaffoldMessengerKey,
-            theme: themeProvider.lightTheme,
-            darkTheme: themeProvider.darkTheme,
-            themeMode: themeProvider.themeMode,
-            locale: Locale(localeProvider.currentLocale),
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            routerConfig: appRouter.config(),
+          return Portal(
+            child: MaterialApp.router(
+              scaffoldMessengerKey: _scaffoldMessengerKey,
+              theme: themeProvider.lightTheme,
+              darkTheme: themeProvider.darkTheme,
+              themeMode: themeProvider.themeMode,
+              locale: Locale(localeProvider.currentLocale),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              routerConfig: appRouter.config(),
+            ),
           );
         },
       ),
