@@ -4,7 +4,7 @@ import 'manufacturer.dart';
 
 part 'rocket_configuration.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 
 /// Describes parameters of rocket.
 class RocketConfiguration {
