@@ -18,7 +18,7 @@ Launch _$LaunchFromJson(Map<String, dynamic> json) => Launch(
           ? null
           : Mission.fromJson(json['mission'] as Map<String, dynamic>),
       Pad.fromJson(json['pad'] as Map<String, dynamic>),
-      json['image'] as String,
+      json['image'] as String?,
     );
 
 Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{

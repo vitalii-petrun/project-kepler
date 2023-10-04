@@ -51,7 +51,7 @@ class _LaunchCardState extends State<LaunchCard> {
                 launchServiceProvider: widget.launch.launchServiceProvider.name,
               ),
             ),
-            _ImageSection(image: widget.launch.image),
+            _ImageSection(image: widget.launch.image ?? ''),
             CountdownTimer(
                 net: widget.launch.net,
                 launchStatus: widget.launch.status.name),

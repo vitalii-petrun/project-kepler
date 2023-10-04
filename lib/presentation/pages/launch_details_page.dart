@@ -189,7 +189,9 @@ class _LaunchImage extends StatelessWidget {
               image: DecorationImage(
                 colorFilter:
                     const ColorFilter.mode(Colors.black54, BlendMode.darken),
-                image: NetworkImage(agency?.imageUrl ?? launch.image),
+                image: NetworkImage(
+                  agency?.imageUrl ?? '',
+                ), //  TODO: Fix this Image(agency?.imageUrl ?? launch.image)
                 fit: BoxFit.cover,
               ),
               color: theme.colorScheme.background,
@@ -206,7 +208,7 @@ class _LaunchImage extends StatelessWidget {
               shape: const CircleBorder(),
             ),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(launch.image),
+              backgroundImage: NetworkImage(launch.image ?? ''),
               radius: 45,
             ),
           ),
