@@ -125,7 +125,7 @@ class _CountdownItemsDivider extends StatelessWidget {
 }
 
 enum LaunchStatus {
-  goForLaunch("Go For Launch"),
+  goForLaunch("Go for Launch"),
   toBeConfirmed("To Be Confirmed"),
   toBeDetermined("To Be Determined"),
   successfulLaunch("Successful Launch"),
@@ -136,7 +136,7 @@ enum LaunchStatus {
 
   static LaunchStatus fromString(String launchStatus) {
     switch (launchStatus) {
-      case "Go For Launch":
+      case "Go for Launch":
         return LaunchStatus.goForLaunch;
       case "To Be Confirmed":
         return LaunchStatus.toBeConfirmed;
@@ -167,7 +167,7 @@ class _DividerWithStatusChip extends StatelessWidget {
       case LaunchStatus.launchFailure:
         return const Color(0xFFFF0000);
       case LaunchStatus.goForLaunch:
-        return const Color(0xFF00FF00);
+        return const Color(0xFFc8fad5);
       case LaunchStatus.toBeConfirmed:
         return const Color(0xFFCCCCCC);
       case LaunchStatus.toBeDetermined:
