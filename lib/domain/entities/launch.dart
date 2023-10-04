@@ -17,7 +17,7 @@ class Launch {
   final LaunchServiceProvider launchServiceProvider;
   final Mission? mission;
   final Rocket rocket;
-  final String image;
+  final String? image;
 
   final Pad pad;
 
