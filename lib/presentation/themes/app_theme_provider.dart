@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppThemeProvider extends ChangeNotifier {
   String currentTheme = 'system';
 
-  static TextTheme textTheme = GoogleFonts.latoTextTheme();
+  static TextTheme textTheme = GoogleFonts.openSansTextTheme();
   final ThemeData lightTheme = ThemeData.light().copyWith(
     colorScheme: const ColorScheme.light(
       primary: Color(0xFF78909C),
