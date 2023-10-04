@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppThemeProvider extends ChangeNotifier {
   String currentTheme = 'system';
 
-  static TextTheme textTheme = GoogleFonts.openSansTextTheme();
   final ThemeData lightTheme = ThemeData.light().copyWith(
     colorScheme: const ColorScheme.light(
       primary: Color(0xFF78909C),
@@ -18,7 +16,6 @@ class AppThemeProvider extends ChangeNotifier {
       onError: Colors.white,
       error: Colors.redAccent,
     ),
-    textTheme: textTheme,
   );
 
   final ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -32,7 +29,6 @@ class AppThemeProvider extends ChangeNotifier {
       onBackground: Colors.white,
       onError: Colors.white,
     ),
-    textTheme: textTheme,
   );
 
   ThemeMode get themeMode {
