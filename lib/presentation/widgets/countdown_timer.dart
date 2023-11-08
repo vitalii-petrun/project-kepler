@@ -135,6 +135,7 @@ enum LaunchStatus {
   const LaunchStatus(this.value);
 
   static LaunchStatus fromString(String launchStatus) {
+    print(launchStatus);
     switch (launchStatus) {
       case "Go for Launch":
         return LaunchStatus.goForLaunch;
@@ -142,7 +143,7 @@ enum LaunchStatus {
         return LaunchStatus.toBeConfirmed;
       case "To Be Determined":
         return LaunchStatus.toBeDetermined;
-      case "Successful Launch":
+      case "Launch Successful":
         return LaunchStatus.successfulLaunch;
       case "Launch Failure":
         return LaunchStatus.launchFailure;
@@ -163,17 +164,17 @@ class _DividerWithStatusChip extends StatelessWidget {
   Color get _chipColorByStatus {
     switch (launchStatus) {
       case LaunchStatus.successfulLaunch:
-        return const Color(0xFF00C853);
+        return const Color(0xFF00FF66); // Bright Green
       case LaunchStatus.launchFailure:
-        return const Color(0xFFFF0000);
+        return const Color(0xFFFF3333); // Bright Red
       case LaunchStatus.goForLaunch:
-        return const Color(0xFFc8fad5);
+        return const Color(0xFF66B3FF); // Bright Blue
       case LaunchStatus.toBeConfirmed:
-        return const Color(0xFFCCCCCC);
+        return const Color(0xFFC0C0C0); // Bright Gray
       case LaunchStatus.toBeDetermined:
-        return const Color(0xFFCCCCCC);
+        return const Color(0xFFC0C0C0); // Bright Gray
       default:
-        return const Color(0xFFCCCCCC);
+        return const Color(0xFFC0C0C0); // Bright Gray
     }
   }
 
