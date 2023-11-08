@@ -5,6 +5,8 @@ abstract class LaunchDetailsPageState {}
 
 class LaunchDetailsPageStateInit extends LaunchDetailsPageState {}
 
+class LaunchDetailsPageStateLoading extends LaunchDetailsPageState {}
+
 class LaunchDetailsPageStateLoaded extends LaunchDetailsPageState {
   final Launch launch;
   final Agency? agency;

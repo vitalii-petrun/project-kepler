@@ -53,6 +53,8 @@ class _LaunchesPageState extends State<LaunchesPage> {
             return _LoadedBody(launches: state.launches);
           } else if (state is LaunchesError) {
             return const _FailedBody();
+          } else if (state is LaunchesLoading) {
+            return const Center(child: CircularProgressIndicator());
           } else {
             return const Center(child: CircularProgressIndicator());
           }

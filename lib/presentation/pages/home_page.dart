@@ -50,6 +50,8 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           if (state is LaunchesLoaded) {
             return _LoadedBody(launches: state.launches);
+          } else if (state is LaunchesLoading) {
+            return const Center(child: CircularProgressIndicator());
           } else if (state is LaunchesError) {
             return const _FailedBody();
           } else {

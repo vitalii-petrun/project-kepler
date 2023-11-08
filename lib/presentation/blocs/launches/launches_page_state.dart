@@ -4,6 +4,8 @@ abstract class LaunchesPageState {}
 
 class LaunchesInit extends LaunchesPageState {}
 
+class LaunchesLoading extends LaunchesPageState {}
+
 class LaunchesLoaded extends LaunchesPageState {
   final List<Launch> launches;
   LaunchesLoaded(this.launches);

@@ -6,10 +6,14 @@ class LaunchesPageCubit extends Cubit<LaunchesPageState> {
   final ApiRepositoryImpl repository;
 
   LaunchesPageCubit(this.repository) : super(LaunchesInit());
+
   void fetch() async {
-    await repository
-        .getLaunchList()
-        .then((launches) => emit(LaunchesLoaded(launches)))
-        .catchError((e) => emit(LaunchesError(e.toString())));
+    emit(LaunchesLoading());
+    try {
+      final launches = await repository.getLaunchList();
+      emit(LaunchesLoaded(launches));
+    } catch (e) {
+      emit(LaunchesError(e.toString()));
+    }
   }
 }
