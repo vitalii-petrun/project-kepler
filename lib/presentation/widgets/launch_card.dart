@@ -250,7 +250,7 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
             _controller.reverse().then((value) => _controller.forward());
           },
           icon: ScaleTransition(
-            scale: Tween(begin: 0.8, end: 1.0).animate(
+            scale: Tween(begin: 0.6, end: 1.0).animate(
                 CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
             child: _isFavourite
                 ? Icon(
@@ -282,7 +282,9 @@ class _BodySection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       child: Text(
-        missionDescription ?? context.l10n.noDescriptionProvided,
+        missionDescription == "?"
+            ? context.l10n.noDescriptionProvided
+            : missionDescription!,
         style: context.theme.textTheme.bodyLarge?.copyWith(fontSize: 16),
         textAlign: TextAlign.justify,
         maxLines: 6,

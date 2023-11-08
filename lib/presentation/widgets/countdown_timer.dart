@@ -135,7 +135,6 @@ enum LaunchStatus {
   const LaunchStatus(this.value);
 
   static LaunchStatus fromString(String launchStatus) {
-    print(launchStatus);
     switch (launchStatus) {
       case "Go for Launch":
         return LaunchStatus.goForLaunch;
