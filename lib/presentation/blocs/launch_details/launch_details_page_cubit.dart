@@ -9,9 +9,10 @@ class LaunchDetailsPageCubit extends Cubit<LaunchDetailsPageState> {
   final ApiRepositoryImpl repository;
 
   void getLaunchDetails(String id) async {
+    emit(LaunchDetailsPageStateLoading());
     try {
       final launch = await repository.getLaunchDetailsById(id);
-      final agency = await repository.getAgencyById(launch.pad.agencyID ?? 121);
+      final agency = await repository.getAgencyById(launch.pad.agencyID);
       final newState = LaunchDetailsPageStateLoaded(launch, agency);
       emit(newState);
     } catch (e) {

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:project_kepler/presentation/pages/launches_page.dart';
 
 import '../pages/home_page.dart';
 import '../pages/launch_details_page.dart';
@@ -28,6 +29,7 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: FavouriteLaunchesRoute.page, path: '/favourites'),
     AutoRoute(page: LaunchDetailsRoute.page, path: '/launch_details/:launchId'),
+    AutoRoute(page: LaunchesRoute.page, path: '/launches')
   ];
 }
 

@@ -4,6 +4,8 @@ abstract class HomePageState {}
 
 class LaunchesInit extends HomePageState {}
 
+class LaunchesLoading extends HomePageState {}
+
 class LaunchesLoaded extends HomePageState {
   final List<Launch> launches;
   LaunchesLoaded(this.launches);

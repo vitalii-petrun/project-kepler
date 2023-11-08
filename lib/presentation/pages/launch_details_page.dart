@@ -7,6 +7,7 @@ import 'package:project_kepler/domain/entities/rocket_configuration.dart';
 import 'package:project_kepler/presentation/blocs/launch_details/launch_details_page_cubit.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
 import '../blocs/launch_details/launch_details_page_state.dart';
@@ -38,6 +39,8 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
         builder: (context, state) {
           if (state is LaunchDetailsPageStateLoaded) {
             return _LoadedBody(launch: state.launch, agency: state.agency);
+          } else if (state is LaunchDetailsPageStateLoading) {
+            return const Center(child: CircularProgressIndicator());
           } else if (state is LaunchDetailsPageStateError) {
             return _FailedBody(launchId: widget.launchId);
           } else {
@@ -90,7 +93,7 @@ class _FailedBody extends StatelessWidget {
 
 class _LoadedBody extends StatefulWidget {
   final Launch launch;
-  final Agency agency;
+  final Agency? agency;
 
   const _LoadedBody({
     required this.launch,
@@ -137,9 +140,12 @@ class _LoadedBodyState extends State<_LoadedBody>
                 widget.launch.name,
                 style: theme.textTheme.headlineSmall!
                     .copyWith(color: theme.colorScheme.onBackground),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
               titlePadding: const EdgeInsets.only(
                 left: 52,
+                right: 46,
                 bottom: 16,
               ),
               background:
@@ -164,11 +170,11 @@ class _LoadedBodyState extends State<_LoadedBody>
 
 class _LaunchImage extends StatelessWidget {
   final Launch launch;
-  final Agency agency;
+  final Agency? agency;
 
   const _LaunchImage({
     required this.launch,
-    required this.agency,
+    this.agency,
     Key? key,
   }) : super(key: key);
 
@@ -188,7 +194,7 @@ class _LaunchImage extends StatelessWidget {
               image: DecorationImage(
                 colorFilter:
                     const ColorFilter.mode(Colors.black54, BlendMode.darken),
-                image: NetworkImage(agency.imageUrl ?? launch.image),
+                image: NetworkImage(agency?.imageUrl ?? launch.image ?? ''),
                 fit: BoxFit.cover,
               ),
               color: theme.colorScheme.background,
@@ -205,7 +211,7 @@ class _LaunchImage extends StatelessWidget {
               shape: const CircleBorder(),
             ),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(launch.image),
+              backgroundImage: NetworkImage(launch.image ?? ''),
               radius: 45,
             ),
           ),
@@ -247,7 +253,7 @@ class _LaunchTabBar extends StatelessWidget {
 class _LaunchTabView extends StatelessWidget {
   final TabController tabController;
   final Launch launch;
-  final Agency agency;
+  final Agency? agency;
 
   const _LaunchTabView({
     required this.tabController,
@@ -290,6 +296,12 @@ class _LaunchMission extends StatelessWidget {
               style: context.theme.textTheme.bodyMedium,
             ),
           ),
+          TitledDetailsCard(
+            title: context.l10n.rocketConfiguration,
+            child: _RocketConfigurationTable(
+              rocketConfiguration: launch.rocket.configuration,
+            ),
+          ),
         ],
       ),
     );
@@ -298,11 +310,11 @@ class _LaunchMission extends StatelessWidget {
 
 class _LaunchDetails extends StatelessWidget {
   final Launch launch;
-  final Agency agency;
+  final Agency? agency;
 
   const _LaunchDetails({
     required this.launch,
-    required this.agency,
+    this.agency,
     Key? key,
   }) : super(key: key);
 
@@ -335,37 +347,39 @@ class _LaunchDetails extends StatelessWidget {
             ),
           ),
           TitledDetailsCard(
-            title: context.l10n.rocketConfiguration,
-            child: _RocketConfigurationTable(
-                rocketConfiguration: launch.rocket.configuration),
-          ),
-          TitledDetailsCard(
             title: context.l10n.agencyInformaton,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.network(agency.logoUrl ?? ""),
-                const SizedBox(height: 12),
-                _InfoRow(title: context.l10n.name, value: agency.name),
-                const SizedBox(height: 8),
-                Flexible(
-                  child: Text(
-                    agency.description ?? context.l10n.noDescriptionProvided,
-                    style: context.theme.textTheme.bodyLarge,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                _InfoRow(
-                    title: context.l10n.counryCode,
-                    value: agency.countryCode ?? 'Unknown'),
-                _InfoRow(title: context.l10n.type, value: agency.type ?? ''),
-                _InfoRow(title: context.l10n.abbrev, value: agency.abbrev),
-                _InfoRow(
-                    title: context.l10n.administrator,
-                    value: agency.administrator ?? ''),
-              ],
-            ),
-          ),
+            child: agency != null
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.network(agency?.logoUrl ?? ""),
+                      const SizedBox(height: 12),
+                      _InfoRow(
+                          title: context.l10n.name, value: agency?.name ?? ''),
+                      const SizedBox(height: 8),
+                      Flexible(
+                        child: Text(
+                          agency?.description ??
+                              context.l10n.noDescriptionProvided,
+                          style: context.theme.textTheme.bodyLarge,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      _InfoRow(
+                          title: context.l10n.counryCode,
+                          value: agency?.countryCode ?? context.l10n.unknown),
+                      _InfoRow(
+                          title: context.l10n.type, value: agency?.type ?? ''),
+                      _InfoRow(
+                          title: context.l10n.abbrev,
+                          value: agency?.abbrev ?? ''),
+                      _InfoRow(
+                          title: context.l10n.administrator,
+                          value: agency?.administrator ?? ''),
+                    ],
+                  )
+                : Text(context.l10n.noAgencyInformation),
+          )
         ],
       ),
     );
@@ -374,19 +388,51 @@ class _LaunchDetails extends StatelessWidget {
 
 class _RocketConfigurationTable extends StatelessWidget {
   final RocketConfiguration rocketConfiguration;
-  const _RocketConfigurationTable({Key? key, required this.rocketConfiguration})
-      : super(key: key);
+
+  const _RocketConfigurationTable({
+    required this.rocketConfiguration,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var rocketManufacturer = rocketConfiguration.manufacturer;
     return Container(
       padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _InfoRow(title: context.l10n.name, value: rocketConfiguration.name),
+          rocketManufacturer?.logoUrl != null
+              ? Center(
+                  child: Image.network(
+                    rocketManufacturer?.logoUrl ?? '',
+                    height: 100,
+                  ),
+                )
+              : const SizedBox(),
+          const SizedBox(height: 8),
+          _InfoRow(
+              title: context.l10n.name, value: rocketConfiguration.fullName),
           _InfoRow(
               title: context.l10n.family, value: rocketConfiguration.family),
+          _InfoRow(
+              title: context.l10n.manufacturer,
+              value: rocketManufacturer?.name ?? ''),
+          Text(rocketManufacturer?.description ?? ''),
+          const SizedBox(height: 4),
+          _InfoRow(
+              title: context.l10n.counryCode,
+              value: rocketManufacturer?.countryCode ?? ''),
+          InkWell(
+            child: _InfoRow(
+              title: context.l10n.wiki,
+              value: rocketConfiguration.wikiUrl ?? context.l10n.noWikiProvided,
+            ),
+            onTap: () => launchUrl(
+              Uri.parse(rocketConfiguration.wikiUrl ?? ''),
+              mode: LaunchMode.externalApplication,
+            ),
+          ),
         ],
       ),
     );
@@ -405,21 +451,24 @@ class _InfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          title,
-          style: context.theme.textTheme.bodyLarge
-              ?.copyWith(fontWeight: FontWeight.w700),
-        ),
-        const SizedBox(width: 8),
-        Flexible(
-          child: Text(
-            value,
-            style: context.theme.textTheme.bodyLarge,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: context.theme.textTheme.bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w700),
           ),
-        ),
-      ],
+          const SizedBox(width: 8),
+          Flexible(
+            child: Text(
+              value,
+              style: context.theme.textTheme.bodyLarge,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

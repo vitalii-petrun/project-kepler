@@ -27,6 +27,16 @@ class Agency {
     this.imageUrl,
     this.logoUrl,
   );
+  Agency.empty()
+      : id = 0,
+        name = "",
+        abbrev = "",
+        countryCode = "",
+        type = "",
+        description = "",
+        administrator = "",
+        imageUrl = "",
+        logoUrl = "";
 
   ///Converter from json to [Agency] object.
   factory Agency.fromJson(Map<String, dynamic> json) => _$AgencyFromJson(json);
