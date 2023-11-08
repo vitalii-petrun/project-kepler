@@ -20,14 +20,17 @@ dependencies:
   # Storage
   shared_preferences: ^2.0.15
   # Localization
+  intl: ^0.18.0
   flutter_localizations:
     sdk: flutter
   # Navigation
   auto_route: ^6.0.5
   # Tools
   json_annotation: ^4.6.0
-  intl: ^0.17.0
   connectivity_plus: ^3.0.4
+  url_launcher: ^6.1.10
+  # UI
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   build_runner: ^2.3.3

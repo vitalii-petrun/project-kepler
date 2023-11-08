@@ -10,7 +10,7 @@ class Rocket {
   final int id;
 
   /// Rocket's configuration.
-  final RocketConfiguration configuration;
+  RocketConfiguration configuration;
 
   /// Creates [Rocket] object.
   Rocket(this.id, this.configuration);

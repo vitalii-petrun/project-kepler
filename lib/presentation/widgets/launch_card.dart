@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,7 +53,7 @@ class _LaunchCardState extends State<LaunchCard> {
                 launchServiceProvider: widget.launch.launchServiceProvider.name,
               ),
             ),
-            _ImageSection(image: widget.launch.image),
+            _ImageSection(image: widget.launch.image ?? ""),
             CountdownTimer(
                 net: widget.launch.net,
                 launchStatus: widget.launch.status.name),
@@ -278,10 +280,13 @@ class _BodySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 8),
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       child: Text(
         missionDescription ?? context.l10n.noDescriptionProvided,
+        style: context.theme.textTheme.bodyLarge?.copyWith(fontSize: 16),
         textAlign: TextAlign.justify,
+        maxLines: 6,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

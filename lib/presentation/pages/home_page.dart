@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(context.l10n.home),
         actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {

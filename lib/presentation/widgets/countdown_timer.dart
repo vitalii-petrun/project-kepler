@@ -62,8 +62,7 @@ class CountdownTimerState extends State<CountdownTimer> {
     return Column(
       children: [
         _DividerWithStatusChip(
-          launchStatus: LaunchStatus.fromString(widget.launchStatus),
-        ),
+            launchStatus: LaunchStatus.fromString(widget.launchStatus)),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,8 +77,8 @@ class CountdownTimerState extends State<CountdownTimer> {
           ],
         ),
         const Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.0),
-          child: Divider(),
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+          child: Divider(color: Color.fromARGB(255, 83, 83, 83)),
         ),
       ],
     );
@@ -99,7 +98,7 @@ class _CountdownItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 64,
+      width: 70,
       child: Column(
         children: [
           Text(
@@ -126,7 +125,7 @@ class _CountdownItemsDivider extends StatelessWidget {
 }
 
 enum LaunchStatus {
-  goForLaunch("Go For Launch"),
+  goForLaunch("Go for Launch"),
   toBeConfirmed("To Be Confirmed"),
   toBeDetermined("To Be Determined"),
   successfulLaunch("Successful Launch"),
@@ -137,7 +136,7 @@ enum LaunchStatus {
 
   static LaunchStatus fromString(String launchStatus) {
     switch (launchStatus) {
-      case "Go For Launch":
+      case "Go for Launch":
         return LaunchStatus.goForLaunch;
       case "To Be Confirmed":
         return LaunchStatus.toBeConfirmed;
@@ -164,17 +163,17 @@ class _DividerWithStatusChip extends StatelessWidget {
   Color get _chipColorByStatus {
     switch (launchStatus) {
       case LaunchStatus.successfulLaunch:
-        return Colors.green;
+        return const Color(0xFF00C853);
       case LaunchStatus.launchFailure:
-        return Colors.red;
+        return const Color(0xFFFF0000);
       case LaunchStatus.goForLaunch:
-        return Colors.greenAccent;
+        return const Color(0xFFc8fad5);
       case LaunchStatus.toBeConfirmed:
-        return Colors.grey;
+        return const Color(0xFFCCCCCC);
       case LaunchStatus.toBeDetermined:
-        return Colors.grey;
+        return const Color(0xFFCCCCCC);
       default:
-        return Colors.grey;
+        return const Color(0xFFCCCCCC);
     }
   }
 
@@ -192,6 +191,7 @@ class _DividerWithStatusChip extends StatelessWidget {
             right: 0,
             child: Chip(
               backgroundColor: _chipColorByStatus,
+              labelPadding: const EdgeInsets.symmetric(horizontal: 18),
               label: Text(
                 launchStatus.value,
                 style: context.theme.textTheme.titleLarge,
