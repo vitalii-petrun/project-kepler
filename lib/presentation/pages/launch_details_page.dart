@@ -40,7 +40,6 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
           if (state is LaunchDetailsPageStateLoaded) {
             return _LoadedBody(launch: state.launch, agency: state.agency);
           } else if (state is LaunchDetailsPageStateError) {
-            print(state.message);
             return _FailedBody(launchId: widget.launchId);
           } else {
             return const Center(child: CircularProgressIndicator());
@@ -139,9 +138,12 @@ class _LoadedBodyState extends State<_LoadedBody>
                 widget.launch.name,
                 style: theme.textTheme.headlineSmall!
                     .copyWith(color: theme.colorScheme.onBackground),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
               titlePadding: const EdgeInsets.only(
                 left: 52,
+                right: 46,
                 bottom: 16,
               ),
               background:
