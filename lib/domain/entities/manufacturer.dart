@@ -12,7 +12,7 @@ class Manufacturer {
   final String countryCode;
   final String abbrev;
   final String description;
-  final String administrator;
+  final String? administrator;
   @JsonKey(name: 'founding_year')
   final String foundingYear;
   final String spacecraft;

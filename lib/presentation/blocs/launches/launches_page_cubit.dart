@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/data/repositories/api_repository_impl.dart';
-import 'package:project_kepler/presentation/blocs/home_page/home_page_state.dart';
+import 'launches_page_state.dart';
 
-class HomePageCubit extends Cubit<HomePageState> {
+class LaunchesPageCubit extends Cubit<LaunchesPageState> {
   final ApiRepositoryImpl repository;
 
-  HomePageCubit(this.repository) : super(LaunchesInit());
+  LaunchesPageCubit(this.repository) : super(LaunchesInit());
   void fetch() async {
     await repository
-        .getUpcomingLaunchList()
+        .getLaunchList()
         .then((launches) => emit(LaunchesLoaded(launches)))
         .catchError((e) => emit(LaunchesError(e.toString())));
   }

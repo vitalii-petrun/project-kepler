@@ -35,6 +35,12 @@ class SpaceDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _DrawerTile(
+            icon: const Icon(Icons.rocket_launch_rounded, size: 30),
+            title: context.l10n.launches,
+            onTap: () => context.router.pushNamed('/launches'),
+          ),
+          const SizedBox(height: 10),
+          _DrawerTile(
             icon: const Icon(Icons.settings, size: 30),
             title: context.l10n.settings,
             onTap: () => context.router.pushNamed('/settings'),

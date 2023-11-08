@@ -40,6 +40,7 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
           if (state is LaunchDetailsPageStateLoaded) {
             return _LoadedBody(launch: state.launch, agency: state.agency);
           } else if (state is LaunchDetailsPageStateError) {
+            print(state.message);
             return _FailedBody(launchId: widget.launchId);
           } else {
             return const Center(child: CircularProgressIndicator());

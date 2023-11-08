@@ -17,6 +17,13 @@ class ApiRepositoryImpl implements ApiRepository {
   }
 
   @override
+  Future<List<Launch>> getUpcomingLaunchList() async {
+    final launchJsonList = await _getUpcomingLaunchJsonList();
+    final launchList = await _convertLaunchJsonList(launchJsonList);
+    return launchList;
+  }
+
+  @override
   Future<Launch> getLaunchDetailsById(String id) async {
     final launchJson = await _getLaunchJsonById(id);
     final launch = await _convertLaunchJson(launchJson);
@@ -31,6 +38,17 @@ class ApiRepositoryImpl implements ApiRepository {
   }
 
   Future<List<dynamic>> _getLaunchJsonList() async {
+    final response = await _dio.get("$_baseUrl/launch/");
+    if (response.statusCode == 200) {
+      final launchList = response.data["results"] as List;
+
+      return launchList;
+    } else {
+      throw Exception('Failed to load upcoming launch list');
+    }
+  }
+
+  Future<List<dynamic>> _getUpcomingLaunchJsonList() async {
     final response = await _dio.get("$_baseUrl/launch/upcoming/");
     if (response.statusCode == 200) {
       final launchList = response.data["results"] as List;
@@ -67,7 +85,7 @@ class ApiRepositoryImpl implements ApiRepository {
   }
 
   Future<dynamic> _getLaunchJsonById(String id) async {
-    final response = await _dio.get("$_baseUrl/launch/upcoming/$id/");
+    final response = await _dio.get("$_baseUrl/launch/$id/");
 
     if (response.statusCode == 200) {
       return response.data;

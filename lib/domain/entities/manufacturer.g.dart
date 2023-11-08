@@ -14,7 +14,7 @@ Manufacturer _$ManufacturerFromJson(Map<String, dynamic> json) => Manufacturer(
       json['country_code'] as String,
       json['abbrev'] as String,
       json['description'] as String,
-      json['administrator'] as String,
+      json['administrator'] as String?,
       json['founding_year'] as String,
       json['spacecraft'] as String,
       json['image_url'] as String?,
