@@ -189,7 +189,7 @@ class _LaunchImage extends StatelessWidget {
               image: DecorationImage(
                 colorFilter:
                     const ColorFilter.mode(Colors.black54, BlendMode.darken),
-                image: NetworkImage(agency?.imageUrl ?? ''),
+                image: NetworkImage(agency?.imageUrl ?? launch.image ?? ''),
                 fit: BoxFit.cover,
               ),
               color: theme.colorScheme.background,
