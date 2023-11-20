@@ -52,11 +52,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(path: '', page: HomeRoute.page),
         AutoRoute(page: SettingsRoute.page, path: 'settings'),
         AutoRoute(page: FavouriteLaunchesRoute.page, path: 'favourites'),
-        AutoRoute(
-            page: LaunchDetailsRoute.page, path: 'launch_details/:launchId'),
         AutoRoute(page: LaunchesRoute.page, path: 'launches'),
       ],
     ),
+    AutoRoute(page: LaunchDetailsRoute.page, path: '/launch_details/:launchId'),
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: ProfileRoute.page, path: '/profile'),
   ];
