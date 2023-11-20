@@ -14,17 +14,10 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   Widget build(BuildContext context) {
     return NavigationBar(
       onDestinationSelected: (int index) {
-        if (index == 0) {
-          context.router.replaceNamed('/home');
-        }
-        if (index == 1) {
-          context.router.replaceNamed('/launches');
-        }
-        if (index == 2) {
-          context.router.replaceNamed('/settings');
-        }
-        if (index == 3) {
-          context.router.replaceNamed('/favourites');
+        // Use TabsRouter to switch tabs
+        final tabsRouter = AutoTabsRouter.of(context);
+        if (tabsRouter.activeIndex != index) {
+          tabsRouter.setActiveIndex(index);
         }
         setState(() {
           _selectedIndex = index;
@@ -33,8 +26,8 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
       selectedIndex: _selectedIndex,
       destinations: const <NavigationDestination>[
         NavigationDestination(
-          selectedIcon: Icon(Icons.person),
-          icon: Icon(Icons.person_outline),
+          selectedIcon: Icon(Icons.home),
+          icon: Icon(Icons.home_outlined),
           label: 'Home',
         ),
         NavigationDestination(

@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/blocs/home_page/home_page_cubit.dart';
+import 'package:project_kepler/presentation/navigation/app_router.dart';
+import 'package:project_kepler/presentation/widgets/app_nav_bar.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import '../../domain/entities/launch.dart';
 import '../blocs/authentication/authentication_cubit.dart';

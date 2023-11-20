@@ -41,7 +41,6 @@ class ApiRepositoryImpl implements ApiRepository {
     final response = await _dio.get("$_baseUrl/launch/");
     if (response.statusCode == 200) {
       final launchList = response.data["results"] as List;
-
       return launchList;
     } else {
       throw Exception('Failed to load upcoming launch list');
@@ -61,17 +60,23 @@ class ApiRepositoryImpl implements ApiRepository {
 
   Future<List<Launch>> _convertLaunchJsonList(
       List<dynamic> launchJsonList) async {
-    final launchList = await Future.wait(launchJsonList.map(
-      (json) async {
-        final rocketConfiguration = await _getRocketConfigurationById(
-            json["rocket"]["configuration"]["id"]);
-        Launch launch = Launch.fromJson(json);
-        launch.rocket.configuration = rocketConfiguration;
-        return launch;
-      },
-    ).toList());
+    try {
+      final launchList = await Future.wait(launchJsonList.map(
+        (json) async {
+          final rocketConfiguration = await _getRocketConfigurationById(
+              json["rocket"]["configuration"]["id"]);
 
-    return launchList;
+          Launch launch = Launch.fromJson(json);
+          launch.rocket.configuration = rocketConfiguration;
+
+          return launch;
+        },
+      ).toList());
+      return launchList;
+    } catch (e) {
+      print(e);
+    }
+    return [];
   }
 
   Future<RocketConfiguration> _getRocketConfigurationById(int id) async {
