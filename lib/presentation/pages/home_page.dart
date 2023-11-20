@@ -5,6 +5,7 @@ import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/blocs/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
+import '../../core/utils/shimmer_gradients.dart';
 import '../../domain/entities/launch.dart';
 import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/home_page/home_page_state.dart';
@@ -30,7 +31,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = context.theme.brightness == Brightness.dark;
+
+    final LinearGradient gradient =
+        isDarkTheme ? nightShimmerGradient : dayShimmerGradient;
+
     return Shimmer(
+      linearGradient: gradient,
       child: Scaffold(
         appBar: AppBar(
           title: Text(context.l10n.home),

@@ -28,7 +28,7 @@ class LaunchCardPlaceholder extends StatelessWidget {
       height: 200,
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: Colors.grey[700],
         borderRadius: BorderRadius.circular(10),
       ),
     );

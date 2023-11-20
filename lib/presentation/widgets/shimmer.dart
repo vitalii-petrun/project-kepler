@@ -7,31 +7,16 @@ class Shimmer extends StatefulWidget {
 
   const Shimmer({
     super.key,
+    required this.linearGradient,
     this.child,
   });
 
-  final LinearGradient linearGradient = _shimmerGradient;
+  final LinearGradient linearGradient;
   final Widget? child;
 
   @override
   ShimmerState createState() => ShimmerState();
 }
-
-const _shimmerGradient = LinearGradient(
-  colors: [
-    Color(0xFFEBEBF4),
-    Color(0xFFF4F4F4),
-    Color(0xFFEBEBF4),
-  ],
-  stops: [
-    0.1,
-    0.3,
-    0.4,
-  ],
-  begin: Alignment(-1.0, -0.3),
-  end: Alignment(1.0, 0.3),
-  tileMode: TileMode.clamp,
-);
 
 class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   late AnimationController _shimmerController;
@@ -150,23 +135,27 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
     }
     final shimmerSize = shimmer.size;
     final gradient = shimmer.gradient;
-    final offsetWithinShimmer = shimmer.getDescendantOffset(
-      descendant: context.findRenderObject() as RenderBox,
-    );
-
-    return ShaderMask(
-      blendMode: BlendMode.srcATop,
-      shaderCallback: (bounds) {
-        return gradient.createShader(
-          Rect.fromLTWH(
-            -offsetWithinShimmer.dx,
-            -offsetWithinShimmer.dy,
-            shimmerSize.width,
-            shimmerSize.height,
-          ),
-        );
-      },
-      child: widget.child,
-    );
+    final renderObject = context.findRenderObject();
+    if (renderObject is RenderBox) {
+      final offsetWithinShimmer = shimmer.getDescendantOffset(
+        descendant: renderObject,
+      );
+      return ShaderMask(
+        blendMode: BlendMode.srcATop,
+        shaderCallback: (bounds) {
+          return gradient.createShader(
+            Rect.fromLTWH(
+              -offsetWithinShimmer.dx,
+              -offsetWithinShimmer.dy,
+              shimmerSize.width,
+              shimmerSize.height,
+            ),
+          );
+        },
+        child: widget.child,
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 }
