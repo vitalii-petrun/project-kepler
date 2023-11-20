@@ -35,7 +35,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         NavigationDestination(
           selectedIcon: Icon(Icons.rocket_launch),
           icon: Icon(Icons.rocket_launch_outlined),
-          label: 'Launches',
+          label: 'History',
         ),
         NavigationDestination(
           selectedIcon: Icon(Icons.settings),
