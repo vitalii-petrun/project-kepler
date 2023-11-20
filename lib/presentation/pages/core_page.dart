@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_kepler/presentation/widgets/app_navigation/app_nav_bar.dart';
-import 'package:provider/provider.dart';
 
 import '../navigation/app_router.dart';
 

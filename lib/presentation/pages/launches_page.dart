@@ -9,6 +9,8 @@ import '../../domain/entities/launch.dart';
 import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/launches/launches_page_cubit.dart';
 import '../widgets/launch_card.dart';
+import '../widgets/shimmer.dart';
+import '../widgets/shimmer_loading_body.dart';
 import '../widgets/space_drawer.dart';
 
 @RoutePage()
@@ -28,36 +30,37 @@ class _LaunchesPageState extends State<LaunchesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.launches),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              if (context.read<AuthenticationCubit>().state is Authenticated) {
-                context.router.pushNamed('/profile');
-              } else {
-                context.router.pushNamed('/login');
-              }
-            },
-          ),
-        ],
-      ),
-      drawer: const SpaceDrawer(),
-      body: BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
-        builder: (context, state) {
-          if (state is LaunchesLoaded) {
-            return _LoadedBody(launches: state.launches);
-          } else if (state is LaunchesError) {
-            return const _FailedBody();
-          } else if (state is LaunchesLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+    return Shimmer(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(context.l10n.launches),
+          actions: [
+            IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
+            IconButton(
+              icon: const Icon(Icons.person),
+              onPressed: () {
+                if (context.read<AuthenticationCubit>().state
+                    is Authenticated) {
+                  context.router.pushNamed('/profile');
+                } else {
+                  context.router.pushNamed('/login');
+                }
+              },
+            ),
+          ],
+        ),
+        drawer: const SpaceDrawer(),
+        body: BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
+          builder: (context, state) {
+            if (state is LaunchesLoaded) {
+              return _LoadedBody(launches: state.launches);
+            } else if (state is LaunchesError) {
+              return const _FailedBody();
+            } else {
+              return ShimmerLoadingBody();
+            }
+          },
+        ),
       ),
     );
   }

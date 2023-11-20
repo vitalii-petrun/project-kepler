@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/blocs/home_page/home_page_cubit.dart';
-import 'package:project_kepler/presentation/navigation/app_router.dart';
-import 'package:project_kepler/presentation/widgets/app_navigation/app_nav_bar.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import '../../domain/entities/launch.dart';
 import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/home_page/home_page_state.dart';
 import '../widgets/launch_card.dart';
+import '../widgets/shimmer.dart';
+import '../widgets/shimmer_loading_body.dart';
 import '../widgets/space_drawer.dart';
 
 @RoutePage()
@@ -30,36 +30,37 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.home),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              if (context.read<AuthenticationCubit>().state is Authenticated) {
-                context.router.pushNamed('/profile');
-              } else {
-                context.router.pushNamed('/login');
-              }
-            },
-          ),
-        ],
-      ),
-      drawer: const SpaceDrawer(),
-      body: BlocBuilder<HomePageCubit, HomePageState>(
-        builder: (context, state) {
-          if (state is LaunchesLoaded) {
-            return _LoadedBody(launches: state.launches);
-          } else if (state is LaunchesLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is LaunchesError) {
-            return const _FailedBody();
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+    return Shimmer(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(context.l10n.home),
+          actions: [
+            IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
+            IconButton(
+              icon: const Icon(Icons.person),
+              onPressed: () {
+                if (context.read<AuthenticationCubit>().state
+                    is Authenticated) {
+                  context.router.pushNamed('/profile');
+                } else {
+                  context.router.pushNamed('/login');
+                }
+              },
+            ),
+          ],
+        ),
+        drawer: const SpaceDrawer(),
+        body: BlocBuilder<HomePageCubit, HomePageState>(
+          builder: (context, state) {
+            if (state is LaunchesLoaded) {
+              return _LoadedBody(launches: state.launches);
+            } else if (state is LaunchesError) {
+              return const _FailedBody();
+            } else {
+              return ShimmerLoadingBody();
+            }
+          },
+        ),
       ),
     );
   }
