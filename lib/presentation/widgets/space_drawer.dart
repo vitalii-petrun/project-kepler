@@ -39,8 +39,8 @@ class SpaceDrawer extends StatelessWidget {
               onTap: () {
                 if (tabsRouter.activeIndex != 0) {
                   tabsRouter.setActiveIndex(0);
-                  activeTabNotifier.activeTabIndex = 0;
                 }
+                activeTabNotifier.activeTabIndex = 0;
               }),
           const SizedBox(height: 10),
           _DrawerTile(
@@ -49,8 +49,8 @@ class SpaceDrawer extends StatelessWidget {
               onTap: () {
                 if (tabsRouter.activeIndex != 1) {
                   tabsRouter.setActiveIndex(1);
-                  activeTabNotifier.activeTabIndex = 1;
                 }
+                activeTabNotifier.activeTabIndex = 1;
               }),
           const SizedBox(height: 10),
           _DrawerTile(
@@ -59,8 +59,8 @@ class SpaceDrawer extends StatelessWidget {
               onTap: () {
                 if (tabsRouter.activeIndex != 2) {
                   tabsRouter.setActiveIndex(2);
-                  activeTabNotifier.activeTabIndex = 2;
                 }
+                activeTabNotifier.activeTabIndex = 2;
               }),
           const SizedBox(height: 10),
           _DrawerTile(
@@ -69,8 +69,8 @@ class SpaceDrawer extends StatelessWidget {
               onTap: () {
                 if (tabsRouter.activeIndex != 3) {
                   tabsRouter.setActiveIndex(3);
-                  activeTabNotifier.activeTabIndex = 3;
                 }
+                activeTabNotifier.activeTabIndex = 3;
               }),
           const SizedBox(height: 10),
           _DrawerTile(

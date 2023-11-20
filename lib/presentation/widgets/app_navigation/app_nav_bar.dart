@@ -22,8 +22,8 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         final tabsRouter = AutoTabsRouter.of(context);
         if (tabsRouter.activeIndex != index) {
           tabsRouter.setActiveIndex(index);
-          activeTabNotifier.activeTabIndex = index;
         }
+        activeTabNotifier.activeTabIndex = index;
       },
       selectedIndex: activeTabNotifier.activeTabIndex,
       destinations: const <NavigationDestination>[
