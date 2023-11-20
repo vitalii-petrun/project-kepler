@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../data/repositories/api_repository_impl.dart';
 import '../presentation/blocs/home_page/home_page_cubit.dart';
 import '../presentation/navigation/app_router.dart';
+import '../presentation/widgets/app_navigation/active_tab_index_provider.dart';
 
 class Application extends StatelessWidget {
   final AppRouter appRouter;
@@ -31,6 +32,7 @@ class Application extends StatelessWidget {
         ChangeNotifierProvider(
             create: ((_) => AppThemeProvider()..initialize())),
         ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
+        ChangeNotifierProvider(create: ((_) => ActiveTabIndexProvider())),
         BlocProvider(
           create: (context) => HomePageCubit(ApiRepositoryImpl()),
         ),

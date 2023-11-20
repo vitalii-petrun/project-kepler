@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:provider/provider.dart';
+
+import 'app_navigation/active_tab_index_provider.dart';
 
 class SpaceDrawer extends StatelessWidget {
   const SpaceDrawer({super.key});
@@ -18,7 +21,9 @@ class SpaceDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const logoBackgroundColor = Color(0xFF352E32);
-
+    final activeTabNotifier =
+        Provider.of<ActiveTabIndexProvider>(context, listen: false);
+    final tabsRouter = AutoTabsRouter.of(context);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -29,28 +34,44 @@ class SpaceDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _DrawerTile(
-            icon: const Icon(Icons.home, size: 30),
-            title: context.l10n.home,
-            onTap: () => context.router.pushNamed('/home'),
-          ),
+              icon: const Icon(Icons.home, size: 30),
+              title: context.l10n.home,
+              onTap: () {
+                if (tabsRouter.activeIndex != 0) {
+                  tabsRouter.setActiveIndex(0);
+                  activeTabNotifier.activeTabIndex = 0;
+                }
+              }),
           const SizedBox(height: 10),
           _DrawerTile(
-            icon: const Icon(Icons.rocket_launch_rounded, size: 30),
-            title: context.l10n.launches,
-            onTap: () => context.router.pushNamed('/launches'),
-          ),
+              icon: const Icon(Icons.rocket_launch_rounded, size: 30),
+              title: context.l10n.launches,
+              onTap: () {
+                if (tabsRouter.activeIndex != 1) {
+                  tabsRouter.setActiveIndex(1);
+                  activeTabNotifier.activeTabIndex = 1;
+                }
+              }),
           const SizedBox(height: 10),
           _DrawerTile(
-            icon: const Icon(Icons.settings, size: 30),
-            title: context.l10n.settings,
-            onTap: () => context.router.pushNamed('/settings'),
-          ),
+              icon: const Icon(Icons.settings, size: 30),
+              title: context.l10n.settings,
+              onTap: () {
+                if (tabsRouter.activeIndex != 2) {
+                  tabsRouter.setActiveIndex(2);
+                  activeTabNotifier.activeTabIndex = 2;
+                }
+              }),
           const SizedBox(height: 10),
           _DrawerTile(
-            icon: const Icon(Icons.favorite, size: 30),
-            title: context.l10n.favourite,
-            onTap: () => context.router.pushNamed('/favourites'),
-          ),
+              icon: const Icon(Icons.favorite, size: 30),
+              title: context.l10n.favourite,
+              onTap: () {
+                if (tabsRouter.activeIndex != 3) {
+                  tabsRouter.setActiveIndex(3);
+                  activeTabNotifier.activeTabIndex = 3;
+                }
+              }),
           const SizedBox(height: 10),
           _DrawerTile(
             icon: const Icon(Icons.info, size: 30),

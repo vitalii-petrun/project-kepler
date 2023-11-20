@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'active_tab_index_provider.dart';
 
 class AppNavigationBar extends StatefulWidget {
   const AppNavigationBar({super.key});
@@ -9,21 +12,20 @@ class AppNavigationBar extends StatefulWidget {
 }
 
 class _AppNavigationBarState extends State<AppNavigationBar> {
-  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    final activeTabNotifier = Provider.of<ActiveTabIndexProvider>(context);
+
     return NavigationBar(
       onDestinationSelected: (int index) {
         // Use TabsRouter to switch tabs
         final tabsRouter = AutoTabsRouter.of(context);
         if (tabsRouter.activeIndex != index) {
           tabsRouter.setActiveIndex(index);
+          activeTabNotifier.activeTabIndex = index;
         }
-        setState(() {
-          _selectedIndex = index;
-        });
       },
-      selectedIndex: _selectedIndex,
+      selectedIndex: activeTabNotifier.activeTabIndex,
       destinations: const <NavigationDestination>[
         NavigationDestination(
           selectedIcon: Icon(Icons.home),
