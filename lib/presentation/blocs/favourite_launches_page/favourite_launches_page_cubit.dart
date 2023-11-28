@@ -4,19 +4,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entities/launch.dart';
 import 'favourite_launches_page_state.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   FavoriteLaunchesPageCubit() : super(FavouriteLaunchesInit()) {
     fetchFavouriteLaunches();
   }
 
+  String get currentUserUid => _auth.currentUser?.uid ?? '';
+
   void fetchFavouriteLaunches() async {
     try {
-      final snapshot = await _firestore.collection('launches').get();
+      final snapshot = await _firestore
+          .collection('launches')
+          .where('userId', isEqualTo: currentUserUid)
+          .get();
+
       final launches =
           snapshot.docs.map((e) => Launch.fromJson(e.data())).toList();
+
       emit(FavouriteLaunchesLoaded(launches));
     } on FirebaseException catch (e) {
       emit(FavouriteLaunchesError(e.toString()));
@@ -29,10 +38,10 @@ class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
 
   void setFavouriteLaunch(Launch launch) async {
     try {
-      await _firestore
-          .collection('launches')
-          .doc(launch.id)
-          .set(launch.toJson());
+      await _firestore.collection('launches').doc(launch.id).set({
+        ...launch.toJson(),
+        'userId': currentUserUid,
+      });
 
       emit(
         FavouriteLaunchesLoaded(

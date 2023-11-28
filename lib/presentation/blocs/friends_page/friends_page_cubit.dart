@@ -9,7 +9,7 @@ class FriendsPageCubit extends Cubit<FriendsPageState> {
   void fetch() async {
     emit(FriendsLoading());
     await repository
-        .getUpcomingLaunchList()
+        .getUserList()
         .then((launches) => emit(FriendsLoaded(launches)))
         .catchError((e) => emit(FriendsError(e.toString())));
   }

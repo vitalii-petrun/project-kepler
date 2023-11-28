@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       );
 
       await _firebaseAuth.signInWithCredential(credential);
+      // Add the user to Firestore
+      await addUserToFirestore(_firebaseAuth.currentUser!);
 
       emit(Authenticated(_firebaseAuth.currentUser!));
     } catch (e) {/* do nothing */}
@@ -52,6 +55,24 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       await _googleSignIn.signOut();
       emit(Unauthenticated());
     } catch (e) {/* do nothing */}
+  }
+
+  Future<void> addUserToFirestore(User user) async {
+    try {
+      // Reference to Firestore collection
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+
+      // Add user data to Firestore
+      await users.doc(user.uid).set({
+        'displayName': user.displayName,
+        'email': user.email,
+        'photoURL': user.photoURL,
+        'uid': user.uid,
+      });
+    } catch (e) {
+      print('Error adding user to Firestore: $e');
+    }
   }
 
   Future<bool> checkConnectivity(BuildContext context) async {
