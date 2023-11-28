@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:provider/provider.dart';
 
+import '../blocs/authentication/authentication_cubit.dart';
+import '../blocs/authentication/authentication_state.dart';
 import 'app_navigation/active_tab_index_provider.dart';
 
 class SpaceDrawer extends StatelessWidget {
@@ -20,6 +23,13 @@ class SpaceDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authenticationCubit = context.read<AuthenticationCubit>();
+
+    User? currentUser;
+
+    if (authenticationCubit.state is Authenticated) {
+      currentUser = (authenticationCubit.state as Authenticated).user;
+    }
     const logoBackgroundColor = Color(0xFF352E32);
     final activeTabNotifier =
         Provider.of<ActiveTabIndexProvider>(context, listen: false);
@@ -30,7 +40,9 @@ class SpaceDrawer extends StatelessWidget {
         children: [
           DrawerHeader(
             decoration: const BoxDecoration(color: logoBackgroundColor),
-            child: Image.asset('assets/logo.png'),
+            child: currentUser != null
+                ? _buildUserHeader(currentUser)
+                : Image.asset('assets/logo.png'),
           ),
           const SizedBox(height: 10),
           _DrawerTile(
@@ -112,4 +124,27 @@ class _DrawerTile extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildUserHeader(User user) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.end,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      CircleAvatar(
+        radius: 30,
+        backgroundImage: NetworkImage(user.photoURL ?? ''),
+      ),
+      const SizedBox(height: 10),
+      Text(
+        user.displayName ?? 'User Name',
+        style: const TextStyle(color: Colors.white),
+      ),
+      const SizedBox(height: 10),
+      Text(
+        user.email ?? 'User Email',
+        style: const TextStyle(color: Colors.white),
+      ),
+    ],
+  );
 }
