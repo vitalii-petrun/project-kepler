@@ -14,7 +14,7 @@ class Manufacturer {
   final String? description;
   final String? administrator;
   @JsonKey(name: 'founding_year')
-  final String foundingYear;
+  final String? foundingYear;
   final String spacecraft;
   @JsonKey(name: 'image_url')
   final String? imageUrl;
