@@ -5,7 +5,6 @@ class ShimmerLoadingBody extends StatelessWidget {
   const ShimmerLoadingBody({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // Replace this with the number of placeholder items you want
     const itemCount = 10;
 
     return ListView.builder(
