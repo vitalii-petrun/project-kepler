@@ -5,6 +5,7 @@
     "wiki",
     "noWikiProvided",
     "noAgencyInformation",
-    "unknown"
+    "unknown",
+    "following"
   ]
 }

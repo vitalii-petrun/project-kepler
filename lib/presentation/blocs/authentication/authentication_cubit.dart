@@ -58,6 +58,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   Future<void> addUserToFirestore(User user) async {
+    //TODO: move to DB layer
     try {
       // Reference to Firestore collection
       CollectionReference users =

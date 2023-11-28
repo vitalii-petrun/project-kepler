@@ -64,7 +64,7 @@ class _LaunchesPageState extends State<LaunchesPage> {
             } else if (state is LaunchesError) {
               return const _FailedBody();
             } else {
-              return ShimmerLoadingBody();
+              return const ShimmerLoadingBody();
             }
           },
         ),

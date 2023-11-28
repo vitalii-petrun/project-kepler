@@ -1,4 +1,4 @@
-import 'package:project_kepler/domain/entities/launch.dart';
+import '../../../domain/entities/user.dart';
 
 abstract class FriendsPageState {}
 
@@ -7,9 +7,9 @@ class FriendsInit extends FriendsPageState {}
 class FriendsLoading extends FriendsPageState {}
 
 class FriendsLoaded extends FriendsPageState {
-  final List<Launch> launches;
+  final List<User> users;
 
-  FriendsLoaded(this.launches);
+  FriendsLoaded(this.users);
 }
 
 class FriendsError extends FriendsPageState {

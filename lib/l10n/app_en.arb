@@ -49,5 +49,11 @@
   "noWikiProvided": " No wiki provided.",
   "noAgencyInformation": "No agency information provided.",
   "unknown" : "Unknown",
-  "launches": "Launches"
+  "launches": "Launches",
+  "users": "Users",
+  "friends": "Friends",
+  "follow": "+Follow",
+  "following": "Following",
+  "unfollow": "Unfollow",
+  "noFriends": "No friends"
 }
