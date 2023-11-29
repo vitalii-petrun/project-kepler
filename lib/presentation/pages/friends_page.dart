@@ -9,6 +9,7 @@ import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/friends_page/friends_page_cubit.dart';
 import '../blocs/friends_page/friends_page_state.dart';
 import '../widgets/space_drawer.dart';
+import '../widgets/user_row.dart';
 
 @RoutePage()
 class FriendsPage extends StatefulWidget {
@@ -30,14 +31,11 @@ class _FriendsPageState extends State<FriendsPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            context.router.pop();
-          },
+          onPressed: () => context.router.pop(),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text(context.l10n.family), // TODO: replace text
+        title: Text(context.l10n.friends),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
@@ -68,6 +66,70 @@ class _FriendsPageState extends State<FriendsPage> {
   }
 }
 
+class _GuidancePanel extends StatelessWidget {
+  const _GuidancePanel({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.blue.shade300, Colors.blue.shade500],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.group, size: 50, color: Colors.white),
+          const SizedBox(height: 10),
+          const Text(
+            'Connect with Others!',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Explore the users page to find new friends and connections.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white70,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => context.router.pushNamed('/users'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.blue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: const Text('Discover Users'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _LoadedBody extends StatelessWidget {
   final List<User> users;
 
@@ -80,86 +142,26 @@ class _LoadedBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async => context.read<FriendsPageCubit>().fetch(),
-      child: ListView.separated(
-          itemCount: users.length,
-          itemBuilder: (context, index) {
-            return UserRow(
-              user: users[index],
-              onFollowPressed: () {
-                // Handle the follow button press, e.g., add user to followers
-                // You can replace this with your actual logic
-                print('Follow button pressed for ${users[index].displayName}');
-              },
-            );
-          },
-          separatorBuilder: (_, __) => const SizedBox(height: 20)),
-    );
-  }
-}
-
-class UserRow extends StatelessWidget {
-  final User user;
-  final VoidCallback onFollowPressed;
-
-  const UserRow({
-    Key? key,
-    required this.user,
-    required this.onFollowPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        // Handle the tap, e.g., navigate to the user's profile page
-        print('Tapped on ${user.displayName}\'s profile');
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(user.photoURL ??
-                    'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      user.displayName,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Text(
-                      user.email,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: onFollowPressed,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: Text(context.l10n.follow),
-              ),
-            ],
+      child: Column(
+        children: [
+          const _GuidancePanel(),
+          Expanded(
+            child: ListView.separated(
+                itemCount: users.length,
+                itemBuilder: (context, index) {
+                  return UserRow(
+                    user: users[index],
+                    onFollowPressed: () {
+                      // Handle the follow button press, e.g., add user to followers
+                      // You can replace this with your actual logic
+                      print(
+                          'Follow button pressed for ${users[index].displayName}');
+                    },
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(height: 20)),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -10,31 +10,9 @@ import '../pages/login_page.dart';
 import '../pages/profile_page.dart';
 import '../pages/settings_page.dart';
 import '../pages/favourite_launches_page.dart';
+import '../pages/users_page.dart';
 
 part 'app_router.gr.dart';
-
-// @AutoRouterConfig(replaceInRouteName: 'Page,Route')
-// class AppRouter extends _$AppRouter {
-//   @override
-//   final List<AutoRoute> routes = [
-//     AutoRoute(
-//       page: EmptyRouterPage.page,
-//       path: '/',
-//       children: [
-//         AutoRoute(path: '', page: HomeRoute.page),
-//         AutoRoute(
-//             path: 'launch_details/:launchId', page: LaunchDetailsRoute.page),
-//       ],
-//     ),
-//     AutoRoute(page: SettingsRoute.page, path: '/settings'),
-//     AutoRoute(page: ProfileRoute.page, path: '/profile'),
-//     AutoRoute(page: LoginRoute.page, path: '/login'),
-//     AutoRoute(page: FavouriteLaunchesRoute.page, path: '/favourites'),
-//     AutoRoute(page: LaunchDetailsRoute.page, path: '/launch_details/:launchId'),
-//     AutoRoute(page: LaunchesRoute.page, path: '/launches'),
-//     AutoRoute(page: CoreRoute.page)
-//   ];
-// }
 
 @RoutePage(name: 'EmptyRouterPage')
 class EmptyPage extends AutoRouter {
@@ -59,5 +37,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: ProfileRoute.page, path: '/profile'),
     AutoRoute(page: FriendsRoute.page, path: '/friends'),
+    AutoRoute(page: UsersRoute.page, path: '/users'),
   ];
 }

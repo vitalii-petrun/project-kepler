@@ -11,6 +11,7 @@ import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../data/repositories/api_repository_impl.dart';
 import '../presentation/blocs/home_page/home_page_cubit.dart';
+import '../presentation/blocs/users_page/users_page_cubit.dart';
 import '../presentation/navigation/app_router.dart';
 import '../presentation/widgets/app_navigation/active_tab_index_provider.dart';
 
@@ -44,6 +45,7 @@ class Application extends StatelessWidget {
           create: (context) => LaunchDetailsPageCubit(ApiRepositoryImpl()),
         ),
         BlocProvider(create: (context) => FriendsPageCubit()),
+        BlocProvider(create: (context) => UsersPageCubit()),
         BlocProvider(create: (context) => FavoriteLaunchesPageCubit()),
         BlocProvider.value(value: authenticationCubit),
       ],

@@ -78,7 +78,7 @@ class _ProfileCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  radius: 45,
+                  radius: 35,
                   backgroundImage: NetworkImage((user).photoURL!),
                 ),
                 const SizedBox(width: 10),
@@ -115,8 +115,8 @@ class _ProfileCard extends StatelessWidget {
               onTap: () => context.router.pushNamed("/settings"),
             ),
             _ProfileTile(
-                icon: const Icon(Icons.person_3_rounded),
-                title: context.l10n.family,
+                icon: const Icon(Icons.person_outline_rounded),
+                title: context.l10n.friends,
                 onTap: () => context.router.pushNamed("/friends")),
           ],
         ),
