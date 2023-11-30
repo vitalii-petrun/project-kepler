@@ -26,9 +26,10 @@ class _LaunchCardState extends State<LaunchCard> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(6),
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: context.theme.cardColor,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
