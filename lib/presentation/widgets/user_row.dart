@@ -162,7 +162,7 @@ class _FollowButtonWidget extends StatefulWidget {
 }
 
 class _FollowButtonWidgetState extends State<_FollowButtonWidget> {
-  late bool isFollowing;
+  late bool isFollowing = false;
 
   @override
   void initState() {
@@ -185,7 +185,7 @@ class _FollowButtonWidgetState extends State<_FollowButtonWidget> {
           .collection('user_friends')
           .doc(widget.user.uid)
           .get();
-      isFollowing = followDoc.exists;
+
       setState(() {
         isFollowing = followDoc.exists;
       });
