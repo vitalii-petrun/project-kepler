@@ -23,7 +23,15 @@ class _FriendsPageState extends State<FriendsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<FriendsPageCubit>().fetch();
+    handleFetch();
+  }
+
+  void handleFetch() {
+    var state = context.read<AuthenticationCubit>().state;
+    if (state is Authenticated) {
+      final String id = state.user.uid;
+      context.read<FriendsPageCubit>().fetch(id);
+    }
   }
 
   @override
@@ -130,7 +138,7 @@ class _GuidancePanel extends StatelessWidget {
   }
 }
 
-class _LoadedBody extends StatelessWidget {
+class _LoadedBody extends StatefulWidget {
   final List<User> users;
 
   const _LoadedBody({
@@ -139,9 +147,30 @@ class _LoadedBody extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<_LoadedBody> createState() => _LoadedBodyState();
+}
+
+class _LoadedBodyState extends State<_LoadedBody> {
+  late List<User> users;
+
+  @override
+  void initState() {
+    super.initState();
+    users = widget.users;
+  }
+
+  void handleFetch() {
+    var state = context.read<AuthenticationCubit>().state;
+    if (state is Authenticated) {
+      final String id = state.user.uid;
+      context.read<FriendsPageCubit>().fetch(id);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => context.read<FriendsPageCubit>().fetch(),
+      onRefresh: () async => handleFetch(),
       child: Column(
         children: [
           const _GuidancePanel(),
@@ -151,12 +180,6 @@ class _LoadedBody extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return UserRow(
                     user: users[index],
-                    onFollowPressed: () {
-                      // Handle the follow button press, e.g., add user to followers
-                      // You can replace this with your actual logic
-                      print(
-                          'Follow button pressed for ${users[index].displayName}');
-                    },
                   );
                 },
                 separatorBuilder: (_, __) => const SizedBox(height: 20)),
@@ -167,15 +190,28 @@ class _LoadedBody extends StatelessWidget {
   }
 }
 
-class _FailedBody extends StatelessWidget {
+class _FailedBody extends StatefulWidget {
   const _FailedBody({Key? key}) : super(key: key);
+
+  @override
+  State<_FailedBody> createState() => _FailedBodyState();
+}
+
+class _FailedBodyState extends State<_FailedBody> {
+  void handleFetch() {
+    var state = context.read<AuthenticationCubit>().state;
+    if (state is Authenticated) {
+      final String id = state.user.uid;
+      context.read<FriendsPageCubit>().fetch(id);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         return RefreshIndicator(
-          onRefresh: () async => context.read<FriendsPageCubit>().fetch(),
+          onRefresh: () async => handleFetch(),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: SizedBox(

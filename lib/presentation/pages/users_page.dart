@@ -84,11 +84,6 @@ class _LoadedBody extends StatelessWidget {
           itemBuilder: (context, index) {
             return UserRow(
               user: users[index],
-              onFollowPressed: () {
-                // Handle the follow button press, e.g., add user to followers
-                // You can replace this with your actual logic
-                print('Follow button pressed for ${users[index].displayName}');
-              },
             );
           },
           separatorBuilder: (_, __) => const SizedBox(height: 20)),
