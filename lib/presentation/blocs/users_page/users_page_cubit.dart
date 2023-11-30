@@ -30,27 +30,3 @@ class UsersPageCubit extends Cubit<UsersPageState> {
     return super.close();
   }
 }
-
-// class UsersPageCubit extends Cubit<UsersPageState> {
-//   final FirestoreUserRepository _firestoreUserRepository =
-//       FirestoreUserRepository();
-
-//   // Create a StreamController to handle the stream
-//   final StreamController<List<FirestoreUser>> _usersController =
-//       StreamController<List<FirestoreUser>>();
-
-//   UsersPageCubit() : super(UsersInit()) {
-//     _firestoreUserRepository.getAll().listen((users) {
-//       emit(UsersLoaded(users));
-//     }, onError: (error) {
-//       emit(UsersError(error.toString()));
-//     });
-//   }
-//   Stream<List<FirestoreUser>> get usersStream => _usersController.stream;
-
-//   @override
-//   Future<void> close() {
-//     _usersController.close();
-//     return super.close();
-//   }
-// }

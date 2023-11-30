@@ -30,7 +30,7 @@ class _FriendsPageState extends State<FriendsPage> {
     var state = context.read<AuthenticationCubit>().state;
     if (state is Authenticated) {
       final String id = state.user.uid;
-      context.read<FriendsPageCubit>().fetch(id);
+      context.read<FriendsPageCubit>().fetchFriends(id);
     }
   }
 
@@ -163,7 +163,7 @@ class _LoadedBodyState extends State<_LoadedBody> {
     var state = context.read<AuthenticationCubit>().state;
     if (state is Authenticated) {
       final String id = state.user.uid;
-      context.read<FriendsPageCubit>().fetch(id);
+      context.read<FriendsPageCubit>().fetchFriends(id);
     }
   }
 
@@ -202,7 +202,7 @@ class _FailedBodyState extends State<_FailedBody> {
     var state = context.read<AuthenticationCubit>().state;
     if (state is Authenticated) {
       final String id = state.user.uid;
-      context.read<FriendsPageCubit>().fetch(id);
+      context.read<FriendsPageCubit>().fetchFriends(id);
     }
   }
 

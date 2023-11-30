@@ -34,4 +34,23 @@ class FirestoreUserRepository implements DBRepository<FirestoreUser> {
   Future<void> delete(String id) async {
     await _firestore.collection('users').doc(id).delete();
   }
+
+  Future<List<FirestoreUser>> getFriendsOfUser(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('user_friends')
+          .get();
+
+      List<FirestoreUser> friendsList = [];
+      for (var friendDoc in querySnapshot.docs) {
+        var friend = await get(friendDoc.id);
+        friendsList.add(friend);
+      }
+      return friendsList;
+    } catch (e) {
+      throw Exception('Failed to fetch friends list: $e');
+    }
+  }
 }

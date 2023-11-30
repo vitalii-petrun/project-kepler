@@ -13,8 +13,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
-  final FirestoreUserRepository _firestoreUserRepository =
-      FirestoreUserRepository();
+  final FirestoreUserRepository _userRepository = FirestoreUserRepository();
 
   User? get user => _firebaseAuth.currentUser;
 
@@ -42,17 +41,21 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
       await _firebaseAuth.signInWithCredential(credential);
       // Add the user to Firestore
-      final User user = _firebaseAuth.currentUser!;
-      final FirestoreUser firestoreUser = FirestoreUser(
-        user.uid,
-        user.displayName!,
-        user.email!,
-        user.photoURL,
-      );
-      _firestoreUserRepository.add(firestoreUser);
+      _addUserToFirestore();
 
       emit(Authenticated(_firebaseAuth.currentUser!));
     } catch (e) {/* do nothing */}
+  }
+
+  void _addUserToFirestore() {
+    final User user = _firebaseAuth.currentUser!;
+    final FirestoreUser firestoreUser = FirestoreUser(
+      user.uid,
+      user.displayName!,
+      user.email!,
+      user.photoURL,
+    );
+    _userRepository.add(firestoreUser);
   }
 
   Future<void> signOut(BuildContext context) async {
