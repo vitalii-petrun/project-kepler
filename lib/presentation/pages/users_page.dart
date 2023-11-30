@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
-import '../../domain/entities/user.dart';
+import '../../domain/entities/firestore_user.dart';
 import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/users_page/Users_page_state.dart';
 import '../blocs/users_page/users_page_cubit.dart';
@@ -23,7 +23,7 @@ class _UsersPageState extends State<UsersPage> {
   @override
   void initState() {
     super.initState();
-    context.read<UsersPageCubit>().fetch();
+    context.read<UsersPageCubit>().fetchUsers();
   }
 
   @override
@@ -68,7 +68,7 @@ class _UsersPageState extends State<UsersPage> {
 }
 
 class _LoadedBody extends StatelessWidget {
-  final List<User> users;
+  final List<FirestoreUser> users;
 
   const _LoadedBody({
     required this.users,
@@ -78,7 +78,7 @@ class _LoadedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => context.read<UsersPageCubit>().fetch(),
+      onRefresh: () async => context.read<UsersPageCubit>().fetchUsers(),
       child: ListView.separated(
           itemCount: users.length,
           itemBuilder: (context, index) {
@@ -99,7 +99,7 @@ class _FailedBody extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return RefreshIndicator(
-          onRefresh: () async => context.read<UsersPageCubit>().fetch(),
+          onRefresh: () async => context.read<UsersPageCubit>().fetchUsers(),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: SizedBox(

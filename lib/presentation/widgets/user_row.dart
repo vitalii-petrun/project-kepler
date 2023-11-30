@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
-import '../../domain/entities/user.dart';
+import '../../domain/entities/firestore_user.dart';
 import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/authentication/authentication_state.dart';
 
 class UserRow extends StatelessWidget {
-  final User user;
+  final FirestoreUser user;
 
   const UserRow({
     Key? key,
@@ -99,7 +99,7 @@ class _UserInfo extends StatelessWidget {
 }
 
 class _FollowButton extends StatelessWidget {
-  final User user;
+  final FirestoreUser user;
 
   const _FollowButton({
     Key? key,
@@ -121,7 +121,7 @@ class _FollowButton extends StatelessWidget {
 }
 
 class _FollowButtonLogic extends StatelessWidget {
-  final User user;
+  final FirestoreUser user;
 
   const _FollowButtonLogic({
     Key? key,
@@ -148,7 +148,7 @@ class _FollowButtonLogic extends StatelessWidget {
 }
 
 class _FollowButtonWidget extends StatefulWidget {
-  final User user;
+  final FirestoreUser user;
   final String currentUserUid;
 
   const _FollowButtonWidget({

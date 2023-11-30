@@ -1,39 +1,56 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
+import 'package:project_kepler/domain/entities/firestore_user.dart';
 
-import '../../../domain/entities/user.dart';
 import 'Users_page_state.dart';
 
 class UsersPageCubit extends Cubit<UsersPageState> {
-  UsersPageCubit() : super(UsersInit());
-  void fetch() async {
-    emit(UsersLoading());
-    await fetchUserList()
-        .then((users) => emit(UsersLoaded(users)))
-        .catchError((e) => emit(UsersError(e.toString())));
+  final FirestoreUserRepository _firestoreUserRepository =
+      FirestoreUserRepository();
+  StreamSubscription<List<FirestoreUser>>? _usersSubscription;
+
+  UsersPageCubit() : super(UsersInit()) {
+    fetchUsers();
   }
 
-  Future<List<User>> fetchUserList() async {
-    try {
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
+  void fetchUsers() {
+    emit(UsersLoading());
+    _usersSubscription?.cancel();
+    _usersSubscription = _firestoreUserRepository.getAll().listen(
+          (users) => emit(UsersLoaded(users)),
+          onError: (e) => emit(UsersError(e.toString())),
+        );
+  }
 
-      final querySnapshot = await users.get();
-      List<User> usersList = [];
-
-      for (var element in querySnapshot.docs) {
-        final data = element.data();
-        if (data != null && data is Map<String, dynamic>) {
-          usersList.add(User.fromJson(data));
-        }
-      }
-
-      return usersList;
-    } catch (e) {
-      print('Error fetching user list from Firestore: $e');
-      // You might want to throw an exception here or return an empty list, depending on your use case.
-      throw Exception('Failed to fetch user list');
-    }
+  @override
+  Future<void> close() {
+    _usersSubscription?.cancel();
+    return super.close();
   }
 }
+
+// class UsersPageCubit extends Cubit<UsersPageState> {
+//   final FirestoreUserRepository _firestoreUserRepository =
+//       FirestoreUserRepository();
+
+//   // Create a StreamController to handle the stream
+//   final StreamController<List<FirestoreUser>> _usersController =
+//       StreamController<List<FirestoreUser>>();
+
+//   UsersPageCubit() : super(UsersInit()) {
+//     _firestoreUserRepository.getAll().listen((users) {
+//       emit(UsersLoaded(users));
+//     }, onError: (error) {
+//       emit(UsersError(error.toString()));
+//     });
+//   }
+//   Stream<List<FirestoreUser>> get usersStream => _usersController.stream;
+
+//   @override
+//   Future<void> close() {
+//     _usersController.close();
+//     return super.close();
+//   }
+// }

@@ -1,4 +1,4 @@
-import '../../../domain/entities/user.dart';
+import '../../../domain/entities/firestore_user.dart';
 
 abstract class FriendsPageState {}
 
@@ -7,7 +7,7 @@ class FriendsInit extends FriendsPageState {}
 class FriendsLoading extends FriendsPageState {}
 
 class FriendsLoaded extends FriendsPageState {
-  final List<User> users;
+  final List<FirestoreUser> users;
 
   FriendsLoaded(this.users);
 }

@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/domain/entities/firestore_user.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
-import '../../domain/entities/user.dart';
 import '../blocs/authentication/authentication_cubit.dart';
 import '../blocs/friends_page/friends_page_cubit.dart';
 import '../blocs/friends_page/friends_page_state.dart';
@@ -139,7 +139,7 @@ class _GuidancePanel extends StatelessWidget {
 }
 
 class _LoadedBody extends StatefulWidget {
-  final List<User> users;
+  final List<FirestoreUser> users;
 
   const _LoadedBody({
     required this.users,
@@ -151,7 +151,7 @@ class _LoadedBody extends StatefulWidget {
 }
 
 class _LoadedBodyState extends State<_LoadedBody> {
-  late List<User> users;
+  late List<FirestoreUser> users;
 
   @override
   void initState() {

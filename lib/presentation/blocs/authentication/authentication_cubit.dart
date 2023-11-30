@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
+import 'package:project_kepler/domain/entities/firestore_user.dart';
 import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
@@ -12,6 +13,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
+  final FirestoreUserRepository _firestoreUserRepository =
+      FirestoreUserRepository();
 
   User? get user => _firebaseAuth.currentUser;
 
@@ -39,7 +42,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
       await _firebaseAuth.signInWithCredential(credential);
       // Add the user to Firestore
-      await addUserToFirestore(_firebaseAuth.currentUser!);
+      final User user = _firebaseAuth.currentUser!;
+      final FirestoreUser firestoreUser = FirestoreUser(
+        user.uid,
+        user.displayName!,
+        user.email!,
+        user.photoURL,
+      );
+      _firestoreUserRepository.add(firestoreUser);
 
       emit(Authenticated(_firebaseAuth.currentUser!));
     } catch (e) {/* do nothing */}
@@ -55,25 +65,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       await _googleSignIn.signOut();
       emit(Unauthenticated());
     } catch (e) {/* do nothing */}
-  }
-
-  Future<void> addUserToFirestore(User user) async {
-    //TODO: move to DB layer
-    try {
-      // Reference to Firestore collection
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
-
-      // Add user data to Firestore
-      await users.doc(user.uid).set({
-        'displayName': user.displayName,
-        'email': user.email,
-        'photoURL': user.photoURL,
-        'uid': user.uid,
-      });
-    } catch (e) {
-      print('Error adding user to Firestore: $e');
-    }
   }
 
   Future<bool> checkConnectivity(BuildContext context) async {

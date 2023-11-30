@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/entities/user.dart';
+import '../../../domain/entities/firestore_user.dart';
 import 'friends_page_state.dart';
 
 class FriendsPageCubit extends Cubit<FriendsPageState> {
@@ -14,7 +14,7 @@ class FriendsPageCubit extends Cubit<FriendsPageState> {
         .catchError((e) => emit(FriendsError(e.toString())));
   }
 
-  Future<List<User>> fetchFriendsList(String userId) async {
+  Future<List<FirestoreUser>> fetchFriendsList(String userId) async {
     try {
       DocumentReference currentUserDocRef =
           FirebaseFirestore.instance.collection('users').doc(userId);
@@ -22,7 +22,7 @@ class FriendsPageCubit extends Cubit<FriendsPageState> {
       QuerySnapshot querySnapshot =
           await currentUserDocRef.collection('user_friends').get();
 
-      List<User> usersList = [];
+      List<FirestoreUser> usersList = [];
       for (var doc in querySnapshot.docs) {
         await fetchUser(doc.id).then((user) => usersList.add(user));
       }
@@ -32,14 +32,15 @@ class FriendsPageCubit extends Cubit<FriendsPageState> {
     }
   }
 
-  Future<User> fetchUser(String userId) async {
+  Future<FirestoreUser> fetchUser(String userId) async {
     try {
       DocumentReference currentUserDocRef =
           FirebaseFirestore.instance.collection('users').doc(userId);
 
       DocumentSnapshot querySnapshot = await currentUserDocRef.get();
 
-      User user = User.fromJson(querySnapshot.data() as Map<String, dynamic>);
+      FirestoreUser user =
+          FirestoreUser.fromJson(querySnapshot.data() as Map<String, dynamic>);
 
       return user;
     } catch (e) {
