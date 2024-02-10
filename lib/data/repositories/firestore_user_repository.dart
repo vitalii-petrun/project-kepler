@@ -27,7 +27,6 @@ class FirestoreUserRepository implements DBRepository<FirestoreUser> {
 
   @override
   Future<void> add(FirestoreUser user) async {
-    // Assuming FirestoreUserConverter.toDto(user) exists for converting back to DTO
     await _firestore
         .collection('users')
         .doc(user.uid)
@@ -57,9 +56,11 @@ class FirestoreUserRepository implements DBRepository<FirestoreUser> {
 
       List<FirestoreUser> friendsList = [];
       for (var friendDoc in querySnapshot.docs) {
-        var friendDto =
-            FirestoreUserDTO.fromJson(friendDoc.data() as Map<String, dynamic>);
-        friendsList.add(FirestoreUserConverter.fromDto(friendDto));
+        var data = friendDoc.data() as Map<String, dynamic>?; // Safe cast
+        if (data != null) {
+          var friendDto = FirestoreUserDTO.fromJson(data);
+          friendsList.add(FirestoreUserConverter.fromDto(friendDto));
+        }
       }
       return friendsList;
     } catch (e) {
