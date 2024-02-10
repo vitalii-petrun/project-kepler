@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
-import 'package:project_kepler/presentation/blocs/favourite_launches_page/favourite_launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 
 import '../../domain/entities/launch.dart';
-import '../blocs/favourite_launches_page/favourite_launches_page_state.dart';
+import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
 
 class LaunchCard extends StatefulWidget {
   final Launch launch;
@@ -97,7 +97,9 @@ class _HeaderSection extends StatelessWidget {
         children: [
           Text(
             launchName,
-            style: textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary),
+            style: textTheme.titleLarge?.copyWith(
+              color: colorScheme.onPrimary,
+            ),
           ),
           Text(
             padLocation,

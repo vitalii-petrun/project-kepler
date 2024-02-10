@@ -55,5 +55,6 @@
   "follow": "+Follow",
   "following": "Following",
   "unfollow": "Unfollow",
-  "noFriends": "No friends"
+  "noFriends": "No friends",
+  "favs": "Favourites"
 }

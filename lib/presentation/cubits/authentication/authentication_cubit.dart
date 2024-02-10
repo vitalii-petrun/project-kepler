@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
 import 'package:project_kepler/domain/entities/firestore_user.dart';
-import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

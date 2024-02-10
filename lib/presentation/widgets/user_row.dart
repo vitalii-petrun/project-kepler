@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
 import '../../domain/entities/firestore_user.dart';
-import '../blocs/authentication/authentication_cubit.dart';
-import '../blocs/authentication/authentication_state.dart';
+import '../cubits/authentication/authentication_cubit.dart';
+import '../cubits/authentication/authentication_state.dart';
 
 class UserRow extends StatelessWidget {
   final FirestoreUser user;

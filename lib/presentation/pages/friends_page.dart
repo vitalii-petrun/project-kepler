@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/firestore_user.dart';
-import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
-import '../blocs/authentication/authentication_cubit.dart';
-import '../blocs/friends_page/friends_page_cubit.dart';
-import '../blocs/friends_page/friends_page_state.dart';
+import '../cubits/authentication/authentication_cubit.dart';
+import '../cubits/friends_page/friends_page_cubit.dart';
+import '../cubits/friends_page/friends_page_state.dart';
 import '../widgets/space_drawer.dart';
 import '../widgets/user_row.dart';
 

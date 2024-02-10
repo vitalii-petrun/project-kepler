@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:provider/provider.dart';
 
-import '../blocs/authentication/authentication_cubit.dart';
-import '../blocs/authentication/authentication_state.dart';
+import '../cubits/authentication/authentication_cubit.dart';
+import '../cubits/authentication/authentication_state.dart';
 import 'app_navigation/active_tab_index_provider.dart';
 
 class SpaceDrawer extends StatelessWidget {

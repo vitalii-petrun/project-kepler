@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'active_tab_index_provider.dart';
 
 class AppNavigationBar extends StatefulWidget {
@@ -26,26 +26,26 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
         activeTabNotifier.activeTabIndex = index;
       },
       selectedIndex: activeTabNotifier.activeTabIndex,
-      destinations: const <NavigationDestination>[
+      destinations: <NavigationDestination>[
         NavigationDestination(
-          selectedIcon: Icon(Icons.home),
-          icon: Icon(Icons.home_outlined),
-          label: 'Home',
+          selectedIcon: const Icon(Icons.home),
+          icon: const Icon(Icons.home_outlined),
+          label: context.l10n.home,
         ),
         NavigationDestination(
-          selectedIcon: Icon(Icons.rocket_launch),
-          icon: Icon(Icons.rocket_launch_outlined),
-          label: 'History',
+          selectedIcon: const Icon(Icons.rocket_launch),
+          icon: const Icon(Icons.rocket_launch_outlined),
+          label: context.l10n.launches,
         ),
         NavigationDestination(
-          selectedIcon: Icon(Icons.settings),
-          icon: Icon(Icons.settings_outlined),
-          label: 'Settings',
+          selectedIcon: const Icon(Icons.settings),
+          icon: const Icon(Icons.settings_outlined),
+          label: context.l10n.settings,
         ),
         NavigationDestination(
-          selectedIcon: Icon(Icons.bookmark),
-          icon: Icon(Icons.bookmark_border),
-          label: 'Favorites',
+          selectedIcon: const Icon(Icons.bookmark),
+          icon: const Icon(Icons.bookmark_border),
+          label: context.l10n.favs,
         ),
       ],
     );

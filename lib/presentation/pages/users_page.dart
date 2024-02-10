@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
-import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import '../../domain/entities/firestore_user.dart';
-import '../blocs/authentication/authentication_cubit.dart';
-import '../blocs/users_page/Users_page_state.dart';
-import '../blocs/users_page/users_page_cubit.dart';
+import '../cubits/authentication/authentication_cubit.dart';
+import '../cubits/users_page/Users_page_state.dart';
+import '../cubits/users_page/users_page_cubit.dart';
 import '../widgets/space_drawer.dart';
 import '../widgets/user_row.dart';
 
