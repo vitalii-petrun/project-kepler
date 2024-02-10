@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'launch.dart';
+part of 'launch_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Launch _$LaunchFromJson(Map<String, dynamic> json) => Launch(
+LaunchDTO _$LaunchDTOFromJson(Map<String, dynamic> json) => LaunchDTO(
       json['id'] as String,
       json['name'] as String,
-      LaunchStatus.fromJson(json['status'] as Map<String, dynamic>),
+      LaunchStatusDTO.fromJson(json['status'] as Map<String, dynamic>),
       json['net'] as String,
-      LaunchServiceProvider.fromJson(
+      LaunchServiceProviderDTO.fromJson(
           json['launch_service_provider'] as Map<String, dynamic>),
-      Rocket.fromJson(json['rocket'] as Map<String, dynamic>),
+      RocketDTO.fromJson(json['rocket'] as Map<String, dynamic>),
       json['mission'] == null
           ? null
-          : Mission.fromJson(json['mission'] as Map<String, dynamic>),
-      Pad.fromJson(json['pad'] as Map<String, dynamic>),
+          : MissionDTO.fromJson(json['mission'] as Map<String, dynamic>),
+      PadDTO.fromJson(json['pad'] as Map<String, dynamic>),
       json['image'] as String?,
     );
 
-Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
+Map<String, dynamic> _$LaunchDTOToJson(LaunchDTO instance) => <String, dynamic>{
       'id': instance.id,
       'net': instance.net,
       'name': instance.name,

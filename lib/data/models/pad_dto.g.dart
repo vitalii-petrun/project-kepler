@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pad.dart';
+part of 'pad_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Pad _$PadFromJson(Map<String, dynamic> json) => Pad(
+PadDTO _$PadDTOFromJson(Map<String, dynamic> json) => PadDTO(
       json['id'] as int,
       json['agency_id'] as int?,
       json['name'] as String,
-      PadLocation.fromJson(json['location'] as Map<String, dynamic>),
+      PadLocationDTO.fromJson(json['location'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$PadToJson(Pad instance) => <String, dynamic>{
+Map<String, dynamic> _$PadDTOToJson(PadDTO instance) => <String, dynamic>{
       'id': instance.id,
       'agency_id': instance.agencyID,
       'name': instance.name,

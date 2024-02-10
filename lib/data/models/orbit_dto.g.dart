@@ -1,23 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'launch_service_provider.dart';
+part of 'orbit_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-LaunchServiceProvider _$LaunchServiceProviderFromJson(
-        Map<String, dynamic> json) =>
-    LaunchServiceProvider(
+OrbitDTO _$OrbitDTOFromJson(Map<String, dynamic> json) => OrbitDTO(
       json['id'] as int,
       json['name'] as String,
-      json['type'] as String?,
+      json['abbrev'] as String,
     );
 
-Map<String, dynamic> _$LaunchServiceProviderToJson(
-        LaunchServiceProvider instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$OrbitDTOToJson(OrbitDTO instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'type': instance.type,
+      'abbrev': instance.abbrev,
     };

@@ -1,4 +1,9 @@
-class Agency {
+import 'package:json_annotation/json_annotation.dart';
+
+part 'agency_dto.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class AgencyDTO {
   final int id;
   final String name;
   final String abbrev;
@@ -6,10 +11,12 @@ class Agency {
   final String? type;
   final String? description;
   final String? administrator;
+  @JsonKey(name: 'image_url')
   final String? imageUrl;
+  @JsonKey(name: 'logo_url')
   final String? logoUrl;
 
-  Agency(
+  AgencyDTO(
     this.id,
     this.name,
     this.abbrev,
@@ -20,7 +27,7 @@ class Agency {
     this.imageUrl,
     this.logoUrl,
   );
-  Agency.empty()
+  AgencyDTO.empty()
       : id = 0,
         name = "",
         abbrev = "",
@@ -30,4 +37,11 @@ class Agency {
         administrator = "",
         imageUrl = "",
         logoUrl = "";
+
+  ///Converter from json to [AgencyDTO] object.
+  factory AgencyDTO.fromJson(Map<String, dynamic> json) =>
+      _$AgencyDTOFromJson(json);
+
+  ///Converter from  [AgencyDTO] object to json.
+  Map<String, dynamic> toJson() => _$AgencyDTOToJson(this);
 }

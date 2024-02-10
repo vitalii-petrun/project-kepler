@@ -1,31 +1,39 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'agency.dart';
+part of 'manufacturer_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Agency _$AgencyFromJson(Map<String, dynamic> json) => Agency(
+ManufacturerDTO _$ManufacturerDTOFromJson(Map<String, dynamic> json) =>
+    ManufacturerDTO(
       json['id'] as int,
+      json['url'] as String,
       json['name'] as String,
+      json['type'] as String,
+      json['country_code'] as String,
       json['abbrev'] as String,
-      json['countryCode'] as String?,
-      json['type'] as String?,
       json['description'] as String?,
       json['administrator'] as String?,
+      json['founding_year'] as String?,
+      json['spacecraft'] as String,
       json['image_url'] as String?,
       json['logo_url'] as String?,
     );
 
-Map<String, dynamic> _$AgencyToJson(Agency instance) => <String, dynamic>{
+Map<String, dynamic> _$ManufacturerDTOToJson(ManufacturerDTO instance) =>
+    <String, dynamic>{
       'id': instance.id,
+      'url': instance.url,
       'name': instance.name,
-      'abbrev': instance.abbrev,
-      'countryCode': instance.countryCode,
       'type': instance.type,
+      'country_code': instance.countryCode,
+      'abbrev': instance.abbrev,
       'description': instance.description,
       'administrator': instance.administrator,
+      'founding_year': instance.foundingYear,
+      'spacecraft': instance.spacecraft,
       'image_url': instance.imageUrl,
       'logo_url': instance.logoUrl,
     };

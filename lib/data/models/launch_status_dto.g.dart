@@ -1,19 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'orbit.dart';
+part of 'launch_status_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Orbit _$OrbitFromJson(Map<String, dynamic> json) => Orbit(
+LaunchStatusDTO _$LaunchStatusDTOFromJson(Map<String, dynamic> json) =>
+    LaunchStatusDTO(
       json['id'] as int,
       json['name'] as String,
-      json['abbrev'] as String,
+      json['description'] as String,
     );
 
-Map<String, dynamic> _$OrbitToJson(Orbit instance) => <String, dynamic>{
+Map<String, dynamic> _$LaunchStatusDTOToJson(LaunchStatusDTO instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'abbrev': instance.abbrev,
+      'description': instance.description,
     };

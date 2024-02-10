@@ -1,18 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'rocket.dart';
+part of 'rocket_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Rocket _$RocketFromJson(Map<String, dynamic> json) => Rocket(
+RocketDTO _$RocketDTOFromJson(Map<String, dynamic> json) => RocketDTO(
       json['id'] as int,
-      RocketConfiguration.fromJson(
+      RocketConfigurationDTO.fromJson(
           json['configuration'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$RocketToJson(Rocket instance) => <String, dynamic>{
+Map<String, dynamic> _$RocketDTOToJson(RocketDTO instance) => <String, dynamic>{
       'id': instance.id,
       'configuration': instance.configuration.toJson(),
     };
