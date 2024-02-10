@@ -1,130 +1,73 @@
-import 'package:dio/dio.dart';
-import 'package:project_kepler/domain/entities/agency.dart';
-import 'package:project_kepler/domain/entities/launch.dart';
-import 'package:project_kepler/domain/entities/rocket_configuration.dart';
-
-import 'package:project_kepler/domain/repositories/api_repository.dart';
+import '../../domain/entities/agency.dart';
+import '../../domain/entities/launch.dart';
+import '../../domain/entities/rocket_configuration.dart';
+import '../../domain/repositories/api_repository.dart';
+import '../data sources/remote/api_client.dart';
 
 class ApiRepositoryImpl implements ApiRepository {
-  final _dio = Dio();
-  final _baseUrl = 'https://lldev.thespacedevs.com/2.2.0';
+  final ApiClient _apiClient;
+
+  ApiRepositoryImpl(this._apiClient);
 
   @override
   Future<List<Launch>> getLaunchList() async {
-    final launchJsonList = await _getLaunchJsonList();
-    final launchList = await _convertLaunchJsonList(launchJsonList);
-    return launchList;
+    final response = await _apiClient.get('/launch/');
+    return _convertLaunchJsonList(response.data["results"]);
   }
 
   @override
   Future<List<Launch>> getUpcomingLaunchList() async {
-    final launchJsonList = await _getUpcomingLaunchJsonList();
-    final launchList = await _convertLaunchJsonList(launchJsonList);
-    return launchList;
+    final response = await _apiClient.get('/launch/upcoming/');
+    return _convertLaunchJsonList(response.data["results"]);
   }
 
   @override
   Future<Launch> getLaunchDetailsById(String id) async {
-    final launchJson = await _getLaunchJsonById(id);
-    final launch = await _convertLaunchJson(launchJson);
-    return launch;
+    final response = await _apiClient.get('/launch/$id/');
+    return _convertLaunchJson(response.data);
   }
 
   @override
   Future<Agency?> getAgencyById(int? id) async {
-    final agencyJson = await _getAgencyJsonById(id);
-    final agency = await _convertAgencyJson(agencyJson);
-    return agency;
-  }
-
-  Future<List<dynamic>> _getLaunchJsonList() async {
-    final response = await _dio.get("$_baseUrl/launch/");
-    if (response.statusCode == 200) {
-      final launchList = response.data["results"] as List;
-      return launchList;
-    } else {
-      throw Exception('Failed to load upcoming launch list');
-    }
-  }
-
-  Future<List<dynamic>> _getUpcomingLaunchJsonList() async {
-    final response = await _dio.get("$_baseUrl/launch/upcoming/");
-    if (response.statusCode == 200) {
-      final launchList = response.data["results"] as List;
-
-      return launchList;
-    } else {
-      throw Exception('Failed to load upcoming launch list');
-    }
+    if (id == null) return null;
+    final response = await _apiClient.get('/agencies/$id/');
+    return _convertAgencyJson(response.data);
   }
 
   Future<List<Launch>> _convertLaunchJsonList(
       List<dynamic> launchJsonList) async {
     try {
-      final launchList = await Future.wait(launchJsonList.map(
-        (json) async {
-          final rocketConfiguration = await _getRocketConfigurationById(
-              json["rocket"]["configuration"]["id"]);
+      final launchList = await Future.wait(
+        launchJsonList.map(
+          (json) async {
+            final rocketConfiguration = await _getRocketConfigurationById(
+                json["rocket"]["configuration"]["id"]);
 
-          Launch launch = Launch.fromJson(json);
-          launch.rocket.configuration = rocketConfiguration;
+            Launch launch = Launch.fromJson(json);
+            launch.rocket.configuration = rocketConfiguration;
 
-          return launch;
-        },
-      ).toList());
+            return launch;
+          },
+        ).toList(),
+      );
       return launchList;
     } catch (e) {
-      print(e);
+      // How to handle errors here?
     }
     return [];
   }
 
   Future<RocketConfiguration> _getRocketConfigurationById(int id) async {
-    final rocketConfiguration = await _dio.get("$_baseUrl/config/launcher/$id");
-    if (rocketConfiguration.statusCode == 200) {
-      final rocket = RocketConfiguration.fromJson(rocketConfiguration.data);
-      return rocket;
-    } else {
-      throw Exception('Failed to load rocket configuration');
-    }
+    final response = await _apiClient.get("/config/launcher/$id");
+    return RocketConfiguration.fromJson(response.data);
   }
 
-  Future<dynamic> _getLaunchJsonById(String id) async {
-    final response = await _dio.get("$_baseUrl/launch/$id/");
-
-    if (response.statusCode == 200) {
-      return response.data;
-    } else if (response.statusCode == 404) {
-      throw Exception('Launch not found');
-    } else {
-      throw Exception('Failed to load launch details');
-    }
+  Launch _convertLaunchJson(Map<String, dynamic> json) {
+    // Additional processing can be done here if necessary
+    return Launch.fromJson(json);
   }
 
-  Future<Launch> _convertLaunchJson(dynamic json) async {
-    Launch launch = Launch.fromJson(json);
-
-    return launch;
-  }
-
-  Future<dynamic> _getAgencyJsonById(int? id) async {
-    if (id == null) {
-      return null;
-    }
-    final response = await _dio.get("$_baseUrl/agencies/$id/");
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      throw Exception('Failed to load agency details');
-    }
-  }
-
-  Future<Agency?> _convertAgencyJson(dynamic json) async {
-    if (json == null) {
-      return null;
-    }
-    Agency agency = Agency.fromJson(json);
-
-    return agency;
+  Agency? _convertAgencyJson(Map<String, dynamic> json) {
+    return Agency.fromJson(json);
   }
 }

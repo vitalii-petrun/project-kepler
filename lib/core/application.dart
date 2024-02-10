@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
@@ -17,12 +18,14 @@ import '../presentation/widgets/app_navigation/active_tab_index_provider.dart';
 
 class Application extends StatelessWidget {
   final AppRouter appRouter;
+  final ApiClient apiClient;
   final AuthenticationCubit authenticationCubit;
   static final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
   const Application({
     required this.appRouter,
+    required this.apiClient,
     required this.authenticationCubit,
     Key? key,
   }) : super(key: key);
@@ -36,13 +39,14 @@ class Application extends StatelessWidget {
         ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
         ChangeNotifierProvider(create: ((_) => ActiveTabIndexProvider())),
         BlocProvider(
-          create: (context) => HomePageCubit(ApiRepositoryImpl()),
+          create: (context) => HomePageCubit(ApiRepositoryImpl(apiClient)),
         ),
         BlocProvider(
-          create: (context) => LaunchesPageCubit(ApiRepositoryImpl()),
+          create: (context) => LaunchesPageCubit(ApiRepositoryImpl(apiClient)),
         ),
         BlocProvider(
-          create: (context) => LaunchDetailsPageCubit(ApiRepositoryImpl()),
+          create: (context) =>
+              LaunchDetailsPageCubit(ApiRepositoryImpl(apiClient)),
         ),
         BlocProvider(create: (context) => FriendsPageCubit()),
         BlocProvider(create: (context) => UsersPageCubit()),
