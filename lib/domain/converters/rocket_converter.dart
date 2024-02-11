@@ -2,6 +2,7 @@ import 'package:project_kepler/domain/entities/rocket.dart';
 import 'package:project_kepler/data/models/rocket_dto.dart';
 import 'package:project_kepler/domain/entities/rocket_configuration.dart';
 
+import '../../data/models/rocket_configuration_dto.dart';
 import 'manufacturer_converter.dart';
 // Import other necessary files
 
@@ -27,5 +28,22 @@ class RocketConverter {
     );
   }
 
-  // Add a toDto method if necessary
+  static RocketDTO toDto(Rocket rocket) {
+    return RocketDTO(
+      rocket.id,
+      RocketConfigurationDTO(
+        rocket.configuration.id,
+        rocket.configuration.name,
+        rocket.configuration.family,
+        rocket.configuration.fullName,
+        rocket.configuration.variant,
+        rocket.configuration.manufacturer != null
+            ? ManufacturerConverter.toDto(rocket.configuration.manufacturer!)
+            : null,
+        rocket.configuration.infoUrl,
+        rocket.configuration.wikiUrl,
+        rocket.configuration.imageURL,
+      ),
+    );
+  }
 }

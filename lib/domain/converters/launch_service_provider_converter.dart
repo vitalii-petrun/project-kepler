@@ -9,4 +9,13 @@ class LaunchServiceProviderConverter {
       dto.type,
     );
   }
+
+  static LaunchServiceProviderDTO toDto(
+      LaunchServiceProvider launchServiceProvider) {
+    return LaunchServiceProviderDTO(
+      launchServiceProvider.id,
+      launchServiceProvider.name,
+      launchServiceProvider.type,
+    );
+  }
 }

@@ -29,4 +29,18 @@ class LaunchConverter {
       dto.image,
     );
   }
+
+  static LaunchDTO toDto(Launch launch) {
+    return LaunchDTO(
+      launch.id,
+      launch.name,
+      LaunchStatusConverter.toDto(launch.status),
+      launch.net,
+      LaunchServiceProviderConverter.toDto(launch.launchServiceProvider),
+      RocketConverter.toDto(launch.rocket),
+      launch.mission != null ? MissionConverter.toDto(launch.mission!) : null,
+      PadConverter.toDto(launch.pad),
+      launch.image,
+    );
+  }
 }

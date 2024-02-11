@@ -1,7 +1,8 @@
 import 'package:project_kepler/domain/entities/pad.dart';
 import 'package:project_kepler/data/models/pad_dto.dart';
 import 'package:project_kepler/domain/entities/pad_location.dart';
-// Import other necessary files
+
+import '../../data/models/pad_location_dto.dart';
 
 class PadConverter {
   static Pad fromDto(PadDTO dto) {
@@ -20,5 +21,17 @@ class PadConverter {
     );
   }
 
-  // Add a toDto method if necessary
+  static PadDTO toDto(Pad pad) {
+    return PadDTO(
+      pad.id,
+      pad.agencyID,
+      pad.name,
+      PadLocationDTO(
+        pad.location.id,
+        pad.location.name,
+        pad.location.totalLaunchCount,
+        pad.location.totalLandingCount,
+      ),
+    );
+  }
 }

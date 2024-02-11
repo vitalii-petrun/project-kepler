@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_kepler/domain/converters/launch_converter.dart';
+import '../../../data/models/launch_dto.dart';
 import '../../../domain/entities/launch.dart';
 import 'favourite_launches_page_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,8 +25,10 @@ class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
           .where('userId', isEqualTo: currentUserUid)
           .get();
 
-      final launches =
-          snapshot.docs.map((e) => Launch.fromJson(e.data())).toList();
+      final launches = snapshot.docs.map((e) {
+        final launchesDTO = LaunchDTO.fromJson(e.data());
+        return LaunchConverter.fromDto(launchesDTO);
+      }).toList();
 
       emit(FavouriteLaunchesLoaded(launches));
     } on FirebaseException catch (e) {
@@ -38,8 +42,10 @@ class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
 
   void setFavouriteLaunch(Launch launch) async {
     try {
+      LaunchDTO launchDto = LaunchConverter.toDto(launch);
+
       await _firestore.collection('launches').doc(launch.id).set({
-        ...launch.toJson(),
+        ...launchDto.toJson(),
         'userId': currentUserUid,
       });
 

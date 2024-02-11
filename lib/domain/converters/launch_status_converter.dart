@@ -9,4 +9,12 @@ class LaunchStatusConverter {
       dto.description,
     );
   }
+
+  static LaunchStatusDTO toDto(LaunchStatus launchStatus) {
+    return LaunchStatusDTO(
+      launchStatus.id,
+      launchStatus.name,
+      launchStatus.description,
+    );
+  }
 }

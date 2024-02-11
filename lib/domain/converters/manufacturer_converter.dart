@@ -18,4 +18,21 @@ class ManufacturerConverter {
       dto.logoUrl,
     );
   }
+
+  static ManufacturerDTO toDto(Manufacturer manufacturer) {
+    return ManufacturerDTO(
+      manufacturer.id,
+      manufacturer.url,
+      manufacturer.name,
+      manufacturer.type,
+      manufacturer.countryCode,
+      manufacturer.abbrev,
+      manufacturer.description,
+      manufacturer.administrator,
+      manufacturer.foundingYear,
+      manufacturer.spacecraft,
+      manufacturer.imageUrl,
+      manufacturer.logoUrl,
+    );
+  }
 }
