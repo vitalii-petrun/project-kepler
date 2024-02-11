@@ -8,13 +8,17 @@ import 'package:project_kepler/presentation/cubits/authentication/authentication
 
 import '../../../core/utils/connectivity_service.dart';
 import '../../../domain/use_cases/sign_in_with_google_use_case.dart';
+import '../../../domain/use_cases/sign_out_use_case.dart';
+import '../../utils/ui_helpers.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final SignInWithGoogleUseCase signInWithGoogleUseCase;
+  final SignOutUseCase signOutUseCase;
   final ConnectivityService connectivityService;
 
   AuthenticationCubit({
     required this.signInWithGoogleUseCase,
+    required this.signOutUseCase,
     required this.connectivityService,
   }) : super(Unauthenticated());
 
@@ -41,14 +45,16 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       // Optionally log the error
     }
   }
-}
 
-void showConnectionError(
-    ScaffoldMessengerState scaffoldMessenger, String message) {
-  scaffoldMessenger.showSnackBar(
-    SnackBar(
-      content: Text(message),
-      duration: const Duration(seconds: 3),
-    ),
-  );
+  Future<void> signOut() async {
+    try {
+      await signOutUseCase();
+      emit(Unauthenticated());
+    } on FirebaseAuthException catch (authError) {
+      emit(AuthenticationError(authError.message ?? "Unknown error"));
+    } on Exception catch (generalError) {
+      emit(AuthenticationError("Unknown error$generalError"));
+      // Optionally log the error
+    }
+  }
 }

@@ -131,7 +131,7 @@ class _LogoutButton extends StatelessWidget {
   static _handleSignOutTap(BuildContext context) async {
     final AuthenticationCubit authentication =
         context.read<AuthenticationCubit>();
-    authentication.signOut(context);
+    authentication.signOut();
   }
 
   @override
