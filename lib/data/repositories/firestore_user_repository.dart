@@ -7,22 +7,26 @@ import '../../data/models/firestore_user_dto.dart';
 class FirestoreUserRepository implements DBRepository<FirestoreUser> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  final FirestoreUserDtoToEntityConverter _dtoToEntityConverter =
+      FirestoreUserDtoToEntityConverter();
+
+  final FirestoreUserEntityToDtoConverter _entityToDtoConverter =
+      FirestoreUserEntityToDtoConverter();
+
   @override
   Future<FirestoreUser> get(String id) async {
     var snapshot = await _firestore.collection('users').doc(id).get();
     var userDto = FirestoreUserDTO.fromJson(snapshot.data() ?? {});
-    return FirestoreUserConverter.fromDto(userDto);
+    return _dtoToEntityConverter.convert(userDto);
   }
 
   @override
   Stream<List<FirestoreUser>> getAll() {
-    return _firestore
-        .collection('users')
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) {
-              var userDto = FirestoreUserDTO.fromJson(doc.data());
-              return FirestoreUserConverter.fromDto(userDto);
-            }).toList());
+    return _firestore.collection('users').snapshots().map((snapshot) => snapshot
+        .docs
+        .map((doc) => _dtoToEntityConverter
+            .convert(FirestoreUserDTO.fromJson(doc.data())))
+        .toList());
   }
 
   @override
@@ -30,7 +34,7 @@ class FirestoreUserRepository implements DBRepository<FirestoreUser> {
     await _firestore
         .collection('users')
         .doc(user.uid)
-        .set(FirestoreUserConverter.toDto(user).toJson());
+        .set(_entityToDtoConverter.convert(user).toJson());
   }
 
   @override
@@ -38,7 +42,7 @@ class FirestoreUserRepository implements DBRepository<FirestoreUser> {
     await _firestore
         .collection('users')
         .doc(id)
-        .update(FirestoreUserConverter.toDto(user).toJson());
+        .update(_entityToDtoConverter.convert(user).toJson());
   }
 
   @override
@@ -59,7 +63,7 @@ class FirestoreUserRepository implements DBRepository<FirestoreUser> {
         var data = friendDoc.data() as Map<String, dynamic>?; // Safe cast
         if (data != null) {
           var friendDto = FirestoreUserDTO.fromJson(data);
-          friendsList.add(FirestoreUserConverter.fromDto(friendDto));
+          friendsList.add(_dtoToEntityConverter.convert(friendDto));
         }
       }
       return friendsList;

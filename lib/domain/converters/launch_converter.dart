@@ -1,46 +1,50 @@
+import 'dart:convert';
+
 import 'package:project_kepler/domain/converters/pad_converter.dart';
 import 'package:project_kepler/domain/converters/rocket_converter.dart';
+import 'package:project_kepler/domain/entities/launch.dart';
+import 'package:project_kepler/data/models/launch_dto.dart';
 
-import '../../data/models/launch_dto.dart';
-import '../entities/launch.dart';
 import 'launch_service_provider_converter.dart';
 import 'launch_status_converter.dart';
 import 'mission_converter.dart';
 
-class LaunchConverter {
-  static Launch fromDto(LaunchDTO dto) {
-    final rocket = RocketConverter.fromDto(dto.rocket);
-    final pad = PadConverter.fromDto(dto.pad);
-    final mission =
-        dto.mission != null ? MissionConverter.fromDto(dto.mission!) : null;
-    final status = LaunchStatusConverter.fromDto(dto.status);
-    final provider =
-        LaunchServiceProviderConverter.fromDto(dto.launchServiceProvider);
-
+class LaunchDtoToEntityConverter extends Converter<LaunchDTO, Launch> {
+  @override
+  Launch convert(LaunchDTO input) {
     return Launch(
-      dto.id,
-      dto.name,
-      status,
-      dto.net,
-      provider,
-      rocket,
-      mission,
-      pad,
-      dto.image,
+      input.id,
+      input.name,
+      LaunchStatusDtoToEntityConverter().convert(input.status),
+      input.net,
+      LaunchServiceProviderDtoToEntityConverter()
+          .convert(input.launchServiceProvider),
+      RocketDtoToEntityConverter().convert(input.rocket),
+      input.mission != null
+          ? MissionDtoToEntityConverter().convert(input.mission!)
+          : null,
+      PadDtoToEntityConverter().convert(input.pad),
+      input.image,
     );
   }
+}
 
-  static LaunchDTO toDto(Launch launch) {
+class LaunchEntityToDtoConverter extends Converter<Launch, LaunchDTO> {
+  @override
+  LaunchDTO convert(Launch input) {
     return LaunchDTO(
-      launch.id,
-      launch.name,
-      LaunchStatusConverter.toDto(launch.status),
-      launch.net,
-      LaunchServiceProviderConverter.toDto(launch.launchServiceProvider),
-      RocketConverter.toDto(launch.rocket),
-      launch.mission != null ? MissionConverter.toDto(launch.mission!) : null,
-      PadConverter.toDto(launch.pad),
-      launch.image,
+      input.id,
+      input.name,
+      LaunchStatusEntityToDtoConverter().convert(input.status),
+      input.net,
+      LaunchServiceProviderEntityToDtoConverter()
+          .convert(input.launchServiceProvider),
+      RocketEntityToDtoConverter().convert(input.rocket),
+      input.mission != null
+          ? MissionEntityToDtoConverter().convert(input.mission!)
+          : null,
+      PadEntityToDtoConverter().convert(input.pad),
+      input.image,
     );
   }
 }

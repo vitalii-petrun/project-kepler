@@ -1,20 +1,26 @@
+import 'dart:convert';
+
 import '../../data/models/orbit_dto.dart';
 import '../entities/orbit.dart';
 
-class OrbitConverter {
-  static Orbit fromDto(OrbitDTO dto) {
+class OrbitDtoToEntityConverter extends Converter<OrbitDTO, Orbit> {
+  @override
+  Orbit convert(OrbitDTO input) {
     return Orbit(
-      dto.id,
-      dto.name,
-      dto.abbrev,
+      input.id,
+      input.name,
+      input.abbrev,
     );
   }
+}
 
-  static OrbitDTO toDto(Orbit orbit) {
+class OrbitEntityToDtoConverter extends Converter<Orbit, OrbitDTO> {
+  @override
+  OrbitDTO convert(Orbit input) {
     return OrbitDTO(
-      orbit.id,
-      orbit.name,
-      orbit.abbrev,
+      input.id,
+      input.name,
+      input.abbrev,
     );
   }
 }

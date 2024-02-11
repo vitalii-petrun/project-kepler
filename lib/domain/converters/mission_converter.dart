@@ -1,26 +1,31 @@
+import 'dart:convert';
+
 import '../../data/models/mission_dto.dart';
 import '../entities/mission.dart';
-import '../entities/orbit.dart';
 import 'orbit_converter.dart';
 
-class MissionConverter {
-  static Mission fromDto(MissionDTO dto) {
+class MissionDtoToEntityConverter extends Converter<MissionDTO, Mission> {
+  @override
+  Mission convert(MissionDTO input) {
     return Mission(
-      dto.id,
-      dto.name,
-      dto.description,
-      dto.type,
-      Orbit(dto.orbit.id, dto.orbit.name, dto.orbit.abbrev),
+      input.id,
+      input.name,
+      input.description,
+      input.type,
+      OrbitDtoToEntityConverter().convert(input.orbit),
     );
   }
+}
 
-  static MissionDTO toDto(Mission mission) {
+class MissionEntityToDtoConverter extends Converter<Mission, MissionDTO> {
+  @override
+  MissionDTO convert(Mission input) {
     return MissionDTO(
-      mission.id,
-      mission.name,
-      mission.description,
-      mission.type,
-      OrbitConverter.toDto(mission.orbit),
+      input.id,
+      input.name,
+      input.description,
+      input.type,
+      OrbitEntityToDtoConverter().convert(input.orbit),
     );
   }
 }

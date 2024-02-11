@@ -1,21 +1,50 @@
+// import '../../data/models/launch_service_provider_dto.dart';
+// import '../entities/launch_service_provider.dart';
+
+// class LaunchServiceProviderConverter {
+//   static LaunchServiceProvider fromDto(LaunchServiceProviderDTO dto) {
+//     return LaunchServiceProvider(
+//       dto.id,
+//       dto.name,
+//       dto.type,
+//     );
+//   }
+
+//   static LaunchServiceProviderDTO toDto(
+//       LaunchServiceProvider launchServiceProvider) {
+//     return LaunchServiceProviderDTO(
+//       launchServiceProvider.id,
+//       launchServiceProvider.name,
+//       launchServiceProvider.type,
+//     );
+//   }
+// }
+
+import 'dart:convert';
+
 import '../../data/models/launch_service_provider_dto.dart';
 import '../entities/launch_service_provider.dart';
 
-class LaunchServiceProviderConverter {
-  static LaunchServiceProvider fromDto(LaunchServiceProviderDTO dto) {
+class LaunchServiceProviderDtoToEntityConverter
+    extends Converter<LaunchServiceProviderDTO, LaunchServiceProvider> {
+  @override
+  LaunchServiceProvider convert(LaunchServiceProviderDTO input) {
     return LaunchServiceProvider(
-      dto.id,
-      dto.name,
-      dto.type,
+      input.id,
+      input.name,
+      input.type,
     );
   }
+}
 
-  static LaunchServiceProviderDTO toDto(
-      LaunchServiceProvider launchServiceProvider) {
+class LaunchServiceProviderEntityToDtoConverter
+    extends Converter<LaunchServiceProvider, LaunchServiceProviderDTO> {
+  @override
+  LaunchServiceProviderDTO convert(LaunchServiceProvider input) {
     return LaunchServiceProviderDTO(
-      launchServiceProvider.id,
-      launchServiceProvider.name,
-      launchServiceProvider.type,
+      input.id,
+      input.name,
+      input.type,
     );
   }
 }

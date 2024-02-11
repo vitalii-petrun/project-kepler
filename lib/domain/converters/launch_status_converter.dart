@@ -1,20 +1,31 @@
+// import '../../data/models/launch_status_dto.dart';
+// import '../entities/launch_status.dart';
+
+import 'dart:convert';
+
 import '../../data/models/launch_status_dto.dart';
 import '../entities/launch_status.dart';
 
-class LaunchStatusConverter {
-  static LaunchStatus fromDto(LaunchStatusDTO dto) {
+class LaunchStatusDtoToEntityConverter
+    extends Converter<LaunchStatusDTO, LaunchStatus> {
+  @override
+  LaunchStatus convert(LaunchStatusDTO input) {
     return LaunchStatus(
-      dto.id,
-      dto.name,
-      dto.description,
+      input.id,
+      input.name,
+      input.description,
     );
   }
+}
 
-  static LaunchStatusDTO toDto(LaunchStatus launchStatus) {
+class LaunchStatusEntityToDtoConverter
+    extends Converter<LaunchStatus, LaunchStatusDTO> {
+  @override
+  LaunchStatusDTO convert(LaunchStatus input) {
     return LaunchStatusDTO(
-      launchStatus.id,
-      launchStatus.name,
-      launchStatus.description,
+      input.id,
+      input.name,
+      input.description,
     );
   }
 }

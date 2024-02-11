@@ -1,18 +1,38 @@
+import 'dart:convert';
+
 import '../../data/models/agency_dto.dart';
 import '../entities/agency.dart';
 
-class AgencyConverter {
-  static Agency fromDto(AgencyDTO dto) {
+class AgencyDtoToEntityConverter extends Converter<AgencyDTO, Agency> {
+  @override
+  Agency convert(AgencyDTO input) {
     return Agency(
-      dto.id,
-      dto.name,
-      dto.abbrev,
-      dto.countryCode,
-      dto.type,
-      dto.description,
-      dto.administrator,
-      dto.imageUrl,
-      dto.logoUrl,
+      input.id,
+      input.name,
+      input.abbrev,
+      input.countryCode,
+      input.type,
+      input.description,
+      input.administrator,
+      input.imageUrl,
+      input.logoUrl,
+    );
+  }
+}
+
+class AgencyEntityToDtoConverter extends Converter<Agency, AgencyDTO> {
+  @override
+  AgencyDTO convert(Agency input) {
+    return AgencyDTO(
+      input.id,
+      input.name,
+      input.abbrev,
+      input.countryCode,
+      input.type,
+      input.description,
+      input.administrator,
+      input.imageUrl,
+      input.logoUrl,
     );
   }
 }

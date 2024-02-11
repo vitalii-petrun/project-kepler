@@ -1,37 +1,29 @@
+import 'dart:convert';
+
+import 'package:project_kepler/domain/converters/pad_location_converter.dart';
 import 'package:project_kepler/domain/entities/pad.dart';
 import 'package:project_kepler/data/models/pad_dto.dart';
-import 'package:project_kepler/domain/entities/pad_location.dart';
 
-import '../../data/models/pad_location_dto.dart';
-
-class PadConverter {
-  static Pad fromDto(PadDTO dto) {
-    final location = PadLocation(
-      dto.location.id,
-      dto.location.name,
-      dto.location.totalLaunchCount,
-      dto.location.totalLandingCount,
-    );
-
+class PadDtoToEntityConverter extends Converter<PadDTO, Pad> {
+  @override
+  Pad convert(PadDTO input) {
     return Pad(
-      dto.id,
-      dto.agencyID,
-      dto.name,
-      location,
+      input.id,
+      input.agencyID,
+      input.name,
+      PadLocationDtoToEntityConverter().convert(input.location),
     );
   }
+}
 
-  static PadDTO toDto(Pad pad) {
+class PadEntityToDtoConverter extends Converter<Pad, PadDTO> {
+  @override
+  PadDTO convert(Pad input) {
     return PadDTO(
-      pad.id,
-      pad.agencyID,
-      pad.name,
-      PadLocationDTO(
-        pad.location.id,
-        pad.location.name,
-        pad.location.totalLaunchCount,
-        pad.location.totalLandingCount,
-      ),
+      input.id,
+      input.agencyID,
+      input.name,
+      PadLocationEntityToDtoConverter().convert(input.location),
     );
   }
 }

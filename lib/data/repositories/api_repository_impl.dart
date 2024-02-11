@@ -10,6 +10,9 @@ import '../models/launch_dto.dart';
 class ApiRepositoryImpl implements ApiRepository {
   final ApiClient _apiClient;
 
+  final launchDtoToEntityConverter = LaunchDtoToEntityConverter();
+  final agencyDtoToEntityConverter = AgencyDtoToEntityConverter();
+
   ApiRepositoryImpl(this._apiClient);
 
   @override
@@ -18,7 +21,7 @@ class ApiRepositoryImpl implements ApiRepository {
     final launchDtoList = (response.data["results"] as List)
         .map((item) => LaunchDTO.fromJson(item))
         .toList();
-    return launchDtoList.map(LaunchConverter.fromDto).toList();
+    return launchDtoList.map(launchDtoToEntityConverter.convert).toList();
   }
 
   @override
@@ -27,14 +30,16 @@ class ApiRepositoryImpl implements ApiRepository {
     final launchDtoList = (response.data["results"] as List)
         .map((item) => LaunchDTO.fromJson(item))
         .toList();
-    return launchDtoList.map(LaunchConverter.fromDto).toList();
+    // Use the converter's convert method
+    return launchDtoList.map(launchDtoToEntityConverter.convert).toList();
   }
 
   @override
   Future<Launch> getLaunchDetailsById(String id) async {
     final response = await _apiClient.get('/launch/$id/');
     final launchDto = LaunchDTO.fromJson(response.data);
-    return LaunchConverter.fromDto(launchDto);
+    // Use the converter's convert method
+    return launchDtoToEntityConverter.convert(launchDto);
   }
 
   @override
@@ -42,6 +47,7 @@ class ApiRepositoryImpl implements ApiRepository {
     if (id == null) return null;
     final response = await _apiClient.get('/agencies/$id/');
     final agencyDto = AgencyDTO.fromJson(response.data);
-    return AgencyConverter.fromDto(agencyDto);
+    // Use the converter's convert method
+    return agencyDtoToEntityConverter.convert(agencyDto);
   }
 }

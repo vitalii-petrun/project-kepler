@@ -1,22 +1,30 @@
+import 'dart:convert';
+
 import '../../data/models/firestore_user_dto.dart';
 import '../entities/firestore_user.dart';
 
-class FirestoreUserConverter {
-  static FirestoreUser fromDto(FirestoreUserDTO dto) {
+class FirestoreUserDtoToEntityConverter
+    extends Converter<FirestoreUserDTO, FirestoreUser> {
+  @override
+  FirestoreUser convert(FirestoreUserDTO input) {
     return FirestoreUser(
-      dto.uid,
-      dto.displayName,
-      dto.email,
-      dto.photoURL,
+      input.uid,
+      input.displayName,
+      input.email,
+      input.photoURL,
     );
   }
+}
 
-  static FirestoreUserDTO toDto(FirestoreUser user) {
+class FirestoreUserEntityToDtoConverter
+    extends Converter<FirestoreUser, FirestoreUserDTO> {
+  @override
+  FirestoreUserDTO convert(FirestoreUser input) {
     return FirestoreUserDTO(
-      user.uid,
-      user.displayName,
-      user.email,
-      user.photoURL,
+      input.uid,
+      input.displayName,
+      input.email,
+      input.photoURL,
     );
   }
 }

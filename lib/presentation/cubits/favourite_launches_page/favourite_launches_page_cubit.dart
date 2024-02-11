@@ -11,6 +11,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final LaunchDtoToEntityConverter _dtoToEntityConverter =
+      LaunchDtoToEntityConverter();
+  final LaunchEntityToDtoConverter _entityToDtoConverter =
+      LaunchEntityToDtoConverter();
 
   FavoriteLaunchesPageCubit() : super(FavouriteLaunchesInit()) {
     fetchFavouriteLaunches();
@@ -27,7 +31,7 @@ class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
 
       final launches = snapshot.docs.map((e) {
         final launchesDTO = LaunchDTO.fromJson(e.data());
-        return LaunchConverter.fromDto(launchesDTO);
+        return _dtoToEntityConverter.convert(launchesDTO);
       }).toList();
 
       emit(FavouriteLaunchesLoaded(launches));
@@ -42,8 +46,7 @@ class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
 
   void setFavouriteLaunch(Launch launch) async {
     try {
-      LaunchDTO launchDto = LaunchConverter.toDto(launch);
-
+      LaunchDTO launchDto = _entityToDtoConverter.convert(launch);
       await _firestore.collection('launches').doc(launch.id).set({
         ...launchDto.toJson(),
         'userId': currentUserUid,
