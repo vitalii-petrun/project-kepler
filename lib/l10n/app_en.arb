@@ -56,5 +56,7 @@
   "following": "Following",
   "unfollow": "Unfollow",
   "noFriends": "No friends",
+  "noInternetConnection": "No internet connection",
+  "unknownError": "An unknown error occurred",
   "favs": "Favourites"
 }
