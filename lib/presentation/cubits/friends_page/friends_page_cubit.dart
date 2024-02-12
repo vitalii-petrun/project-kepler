@@ -1,21 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../data/repositories/firestore_user_repository.dart';
-
 import 'friends_page_state.dart';
+import '../../../domain/use_cases/fetch_friends_use_case.dart';
 
 class FriendsPageCubit extends Cubit<FriendsPageState> {
-  final FirestoreUserRepository _firestoreUserRepository =
-      FirestoreUserRepository();
+  final FetchFriendsUseCase fetchFriendsUseCase;
 
-  FriendsPageCubit() : super(FriendsInit());
+  FriendsPageCubit(this.fetchFriendsUseCase) : super(FriendsInit());
 
-  void fetchFriends(String currentUserId) {
+  void fetchFriends(String currentUserId) async {
     emit(FriendsLoading());
-
-    _firestoreUserRepository.getFriendsOfUser(currentUserId).then(
-          (friends) => emit(FriendsLoaded(friends)),
-          onError: (e) => emit(FriendsError(e.toString())),
-        );
+    try {
+      final friends = await fetchFriendsUseCase(currentUserId);
+      emit(FriendsLoaded(friends));
+    } catch (e) {
+      emit(FriendsError(e.toString()));
+    }
   }
 }

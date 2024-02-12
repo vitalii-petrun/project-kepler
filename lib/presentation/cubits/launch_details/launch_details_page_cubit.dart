@@ -1,20 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../data/repositories/api_repository_impl.dart';
 import 'launch_details_page_state.dart';
+import '../../../domain/use_cases/get_launch_details_use_case.dart';
 
 class LaunchDetailsPageCubit extends Cubit<LaunchDetailsPageState> {
-  LaunchDetailsPageCubit(this.repository) : super(LaunchDetailsPageStateInit());
+  final GetLaunchDetailsUseCase getLaunchDetailsUseCase;
 
-  final ApiRepositoryImpl repository;
+  LaunchDetailsPageCubit(this.getLaunchDetailsUseCase)
+      : super(LaunchDetailsPageStateInit());
 
   void getLaunchDetails(String id) async {
     emit(LaunchDetailsPageStateLoading());
     try {
-      final launch = await repository.getLaunchDetailsById(id);
-      final agency = await repository.getAgencyById(launch.pad.agencyID);
-      final newState = LaunchDetailsPageStateLoaded(launch, agency);
-      emit(newState);
+      final result = await getLaunchDetailsUseCase(id);
+      emit(LaunchDetailsPageStateLoaded(result.launch, result.agency));
     } catch (e) {
       emit(LaunchDetailsPageStateError(e.toString()));
     }
