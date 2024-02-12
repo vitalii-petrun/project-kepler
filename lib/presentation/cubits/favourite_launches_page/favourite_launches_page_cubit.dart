@@ -1,44 +1,30 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_kepler/domain/converters/launch_converter.dart';
-import '../../../data/models/launch_dto.dart';
+
 import '../../../domain/entities/launch.dart';
+import '../../../domain/use_cases/fetch_favourite_launches_use_case.dart';
+import '../../../domain/use_cases/remove_favourite_launch_use_case.dart';
+import '../../../domain/use_cases/set_favourite_launch_use_case.dart';
 import 'favourite_launches_page_state.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final LaunchDtoToEntityConverter _dtoToEntityConverter =
-      LaunchDtoToEntityConverter();
-  final LaunchEntityToDtoConverter _entityToDtoConverter =
-      LaunchEntityToDtoConverter();
+  final FetchFavouriteLaunchesUseCase fetchFavouriteLaunchesUseCase;
+  final SetFavouriteLaunchUseCase setFavouriteLaunchUseCase;
+  final RemoveFavouriteLaunchUseCase removeFavouriteLaunchUseCase;
+  final String currentUserUid;
 
-  FavoriteLaunchesPageCubit() : super(FavouriteLaunchesInit()) {
+  FavoriteLaunchesPageCubit({
+    required this.fetchFavouriteLaunchesUseCase,
+    required this.setFavouriteLaunchUseCase,
+    required this.removeFavouriteLaunchUseCase,
+    required this.currentUserUid,
+  }) : super(FavouriteLaunchesInit()) {
     fetchFavouriteLaunches();
   }
 
-  String get currentUserUid => _auth.currentUser?.uid ?? '';
-
   void fetchFavouriteLaunches() async {
     try {
-      final snapshot = await _firestore
-          .collection('launches')
-          .where('userId', isEqualTo: currentUserUid)
-          .get();
-
-      final launches = snapshot.docs.map((e) {
-        final launchesDTO = LaunchDTO.fromJson(e.data());
-        return _dtoToEntityConverter.convert(launchesDTO);
-      }).toList();
-
+      final launches = await fetchFavouriteLaunchesUseCase();
       emit(FavouriteLaunchesLoaded(launches));
-    } on FirebaseException catch (e) {
-      emit(FavouriteLaunchesError(e.toString()));
-    } on SocketException catch (e) {
-      emit(FavouriteLaunchesError('Network error: ${e.toString()}'));
     } catch (e) {
       emit(FavouriteLaunchesError(e.toString()));
     }
@@ -46,32 +32,17 @@ class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
 
   void setFavouriteLaunch(Launch launch) async {
     try {
-      LaunchDTO launchDto = _entityToDtoConverter.convert(launch);
-      await _firestore.collection('launches').doc(launch.id).set({
-        ...launchDto.toJson(),
-        'userId': currentUserUid,
-      });
-
-      emit(
-        FavouriteLaunchesLoaded(
-          (state as FavouriteLaunchesLoaded).launches..add(launch),
-        ),
-      );
+      await setFavouriteLaunchUseCase(launch);
+      fetchFavouriteLaunches();
     } catch (e) {
       emit(FavouriteLaunchesError(e.toString()));
     }
   }
 
-  void removeFavouriteLaunch(Launch launch) async {
+  void removeFavouriteLaunch(String launchId) async {
     try {
-      await _firestore.collection('launches').doc(launch.id).delete();
-
-      final newLaunches = (state as FavouriteLaunchesLoaded)
-          .launches
-          .where((element) => element.id != launch.id)
-          .toList();
-
-      emit(FavouriteLaunchesLoaded(newLaunches));
+      await removeFavouriteLaunchUseCase(launchId);
+      fetchFavouriteLaunches();
     } catch (e) {
       emit(FavouriteLaunchesError(e.toString()));
     }

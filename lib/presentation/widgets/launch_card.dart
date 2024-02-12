@@ -245,7 +245,7 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
                 context.read<FavoriteLaunchesPageCubit>();
 
             if (widget.isFavourite) {
-              cubit.removeFavouriteLaunch(widget.launch);
+              cubit.removeFavouriteLaunch(widget.launch.id);
             } else {
               cubit.setFavouriteLaunch(widget.launch);
             }
