@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
+import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart';
+import 'package:project_kepler/domain/use_cases/get_upcoming_launches_use_case.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
@@ -45,10 +47,11 @@ class Application extends StatelessWidget {
         ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
         ChangeNotifierProvider(create: ((_) => ActiveTabIndexProvider())),
         BlocProvider(
-          create: (context) => HomePageCubit(ApiRepositoryImpl(apiClient)),
-        ),
+            create: (context) => HomePageCubit(
+                GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient)))),
         BlocProvider(
-          create: (context) => LaunchesPageCubit(ApiRepositoryImpl(apiClient)),
+          create: (context) => LaunchesPageCubit(
+              GetAllLaunchesUseCase(ApiRepositoryImpl(apiClient))),
         ),
         BlocProvider(
           create: (context) =>

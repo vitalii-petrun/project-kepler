@@ -1,16 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_kepler/data/repositories/api_repository_impl.dart';
+
 import 'package:project_kepler/presentation/cubits/home_page/home_page_state.dart';
 
-class HomePageCubit extends Cubit<HomePageState> {
-  final ApiRepositoryImpl repository;
+import '../../../domain/use_cases/get_upcoming_launches_use_case.dart';
 
-  HomePageCubit(this.repository) : super(LaunchesInit());
+class HomePageCubit extends Cubit<HomePageState> {
+  final GetUpcomingLaunchesUseCase getUpcomingLaunchesUseCase;
+
+  HomePageCubit(this.getUpcomingLaunchesUseCase) : super(LaunchesInit());
+
   void fetch() async {
     emit(LaunchesLoading());
-    await repository
-        .getUpcomingLaunchList()
-        .then((launches) => emit(LaunchesLoaded(launches)))
-        .catchError((e) => emit(LaunchesError(e.toString())));
+    try {
+      final launches = await getUpcomingLaunchesUseCase();
+      emit(LaunchesLoaded(launches));
+    } catch (e) {
+      emit(LaunchesError(e.toString()));
+    }
   }
 }

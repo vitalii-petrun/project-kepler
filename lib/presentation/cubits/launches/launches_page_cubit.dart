@@ -1,16 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_kepler/data/repositories/api_repository_impl.dart';
+import '../../../domain/use_cases/get_all_launches_use_case.dart';
 import 'launches_page_state.dart';
 
 class LaunchesPageCubit extends Cubit<LaunchesPageState> {
-  final ApiRepositoryImpl repository;
+  final GetAllLaunchesUseCase getAllLaunchesUseCase;
 
-  LaunchesPageCubit(this.repository) : super(LaunchesInit());
+  LaunchesPageCubit(this.getAllLaunchesUseCase) : super(LaunchesInit());
 
   void fetch() async {
     emit(LaunchesLoading());
     try {
-      final launches = await repository.getLaunchList();
+      final launches = await getAllLaunchesUseCase();
       emit(LaunchesLoaded(launches));
     } catch (e) {
       emit(LaunchesError(e.toString()));
