@@ -7,7 +7,7 @@ part of 'blog_dto.dart';
 // **************************************************************************
 
 BlogDTO _$BlogDTOFromJson(Map<String, dynamic> json) => BlogDTO(
-      id: json['id'] as String,
+      id: json['id'] as int,
       title: json['title'] as String,
       url: json['url'] as String,
       imageUrl: json['imageUrl'] as String,

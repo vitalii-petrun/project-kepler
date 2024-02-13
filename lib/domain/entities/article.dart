@@ -1,12 +1,12 @@
 class Article {
-  final String id;
+  final int id;
   final String title;
   final String url;
-  final String imageUrl;
-  final String newsSite;
+  final String? imageUrl;
+  final String? newsSite;
   final String summary;
-  final DateTime publishedAt;
-  final DateTime updatedAt;
+  final DateTime? publishedAt;
+  final DateTime? updatedAt;
   final bool featured;
 
   Article({

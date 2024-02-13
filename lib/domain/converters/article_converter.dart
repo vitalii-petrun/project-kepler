@@ -13,8 +13,10 @@ class ArticleDtoToEntityConverter extends Converter<ArticleDTO, Article> {
       imageUrl: input.imageUrl,
       newsSite: input.newsSite,
       summary: input.summary,
-      publishedAt: DateTime.parse(input.publishedAt),
-      updatedAt: DateTime.parse(input.updatedAt),
+      publishedAt:
+          input.publishedAt != null ? DateTime.parse(input.publishedAt!) : null,
+      updatedAt:
+          input.updatedAt != null ? DateTime.parse(input.updatedAt!) : null,
       featured: input.featured,
     );
   }
@@ -30,8 +32,8 @@ class ArticleEntityToDtoConverter extends Converter<Article, ArticleDTO> {
       imageUrl: input.imageUrl,
       newsSite: input.newsSite,
       summary: input.summary,
-      publishedAt: input.publishedAt.toIso8601String(),
-      updatedAt: input.updatedAt.toIso8601String(),
+      publishedAt: input.publishedAt?.toIso8601String() ?? '',
+      updatedAt: input.updatedAt?.toIso8601String() ?? '',
       featured: input.featured,
     );
   }

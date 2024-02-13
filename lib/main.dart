@@ -32,13 +32,14 @@ void main() async {
 
   ApiClient newsApiClient = ApiClient(
     httpClient,
-    'https://spaceflightnewsapi.net/api/v2',
+    'https://api.spaceflightnewsapi.net/v4',
   );
 
   runApp(
     Application(
       appRouter: appRouter,
       apiClient: apiClient,
+      newsApiClient: newsApiClient,
       authenticationCubit: AuthenticationCubit(
         signOutUseCase: SignOutUseCase(firebaseAuth: FirebaseAuth.instance),
         signInWithGoogleUseCase: SignInWithGoogleUseCase(

@@ -90,6 +90,12 @@ class SpaceDrawer extends StatelessWidget {
             title: context.l10n.about,
             onTap: () => _showAppInfo(context),
           ),
+          const SizedBox(height: 10),
+          _DrawerTile(
+            icon: const Icon(Icons.info, size: 30),
+            title: context.l10n.news,
+            onTap: () => context.router.pushNamed('/news'),
+          ),
         ],
       ),
     );

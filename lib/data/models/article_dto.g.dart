@@ -7,14 +7,14 @@ part of 'article_dto.dart';
 // **************************************************************************
 
 ArticleDTO _$ArticleDTOFromJson(Map<String, dynamic> json) => ArticleDTO(
-      id: json['id'] as String,
+      id: json['id'] as int,
       title: json['title'] as String,
       url: json['url'] as String,
-      imageUrl: json['imageUrl'] as String,
-      newsSite: json['newsSite'] as String,
+      imageUrl: json['imageUrl'] as String?,
+      newsSite: json['newsSite'] as String?,
       summary: json['summary'] as String,
-      publishedAt: json['publishedAt'] as String,
-      updatedAt: json['updatedAt'] as String,
+      publishedAt: json['publishedAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
       featured: json['featured'] as bool,
       launches: (json['launches'] as List<dynamic>?)
           ?.map((e) => LaunchDTO.fromJson(e as Map<String, dynamic>))

@@ -4,7 +4,7 @@ part 'report_dto.g.dart';
 
 @JsonSerializable()
 class ReportDTO {
-  final String id;
+  final int id;
   final String title;
   final String url;
   final String imageUrl;

@@ -7,7 +7,7 @@ part 'blog_dto.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class BlogDTO {
-  final String id;
+  final int id;
   final String title;
   final String url;
   final String imageUrl;

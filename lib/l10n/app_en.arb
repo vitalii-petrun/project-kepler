@@ -58,5 +58,11 @@
   "noFriends": "No friends",
   "noInternetConnection": "No internet connection",
   "unknownError": "An unknown error occurred",
-  "favs": "Favourites"
+  "favs": "Favourites",
+  "noFavs": "No favourites",
+  "noFavsDescription": "You can add your favourite launches by clicking the star icon on the launch details page.",
+  "news": "News",
+  "noNews": "No news",
+  "featured": "Featured",
+  "noNewsDescription": "Something went wrong while fetching the news."
 }

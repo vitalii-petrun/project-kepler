@@ -8,6 +8,12 @@
     "unknown",
     "following",
     "noInternetConnection",
-    "unknownError"
+    "unknownError",
+    "noFavs",
+    "noFavsDescription",
+    "news",
+    "noNews",
+    "featured",
+    "noNewsDescription"
   ]
 }

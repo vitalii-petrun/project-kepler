@@ -7,7 +7,7 @@ part of 'report_dto.dart';
 // **************************************************************************
 
 ReportDTO _$ReportDTOFromJson(Map<String, dynamic> json) => ReportDTO(
-      id: json['id'] as String,
+      id: json['id'] as int,
       title: json['title'] as String,
       url: json['url'] as String,
       imageUrl: json['imageUrl'] as String,

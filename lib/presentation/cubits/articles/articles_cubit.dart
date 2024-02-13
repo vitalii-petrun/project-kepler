@@ -1,3 +1,8 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../domain/use_cases/fetch_articles_use_case.dart';
+import 'articles_state.dart';
+
 class ArticlesCubit extends Cubit<ArticlesState> {
   final FetchArticlesUseCase fetchArticlesUseCase;
 

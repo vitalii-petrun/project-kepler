@@ -7,14 +7,14 @@ part 'article_dto.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ArticleDTO {
-  final String id;
+  final int id;
   final String title;
   final String url;
-  final String imageUrl;
-  final String newsSite;
+  final String? imageUrl;
+  final String? newsSite;
   final String summary;
-  final String publishedAt;
-  final String updatedAt;
+  final String? publishedAt;
+  final String? updatedAt;
   final bool featured;
   final List<LaunchDTO>? launches;
   final List<EventDTO>? events;

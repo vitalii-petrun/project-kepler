@@ -5,7 +5,7 @@ part 'event_dto.g.dart';
 @JsonSerializable()
 class EventDTO {
   @JsonKey(name: 'event_id')
-  final String eventID;
+  final int eventID;
   final String provider;
 
   EventDTO({
