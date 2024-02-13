@@ -69,26 +69,27 @@ class _LanguageDropdownButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton(
-      value: context.read<LocaleProvider>().currentLocale,
-      borderRadius: BorderRadius.circular(10),
-      elevation: 0,
-      underline: const SizedBox(),
-      alignment: Alignment.center,
-      items: const [
-        DropdownMenuItem<String>(
-          value: 'en',
-          child: Text('English'),
-        ),
-        DropdownMenuItem<String>(
-          value: 'uk',
-          child: Text('Українська'),
-        )
-      ],
-      onChanged: (String? value) {
-        context.read<LocaleProvider>().changeLocale(value ?? 'en');
-      },
-    );
+    return Consumer<LocaleProvider>(builder: (context, localeProvider, child) {
+      return DropdownButton(
+        value: localeProvider.currentLocale,
+        borderRadius: BorderRadius.circular(10),
+        elevation: 0,
+        underline: const SizedBox(),
+        alignment: Alignment.center,
+        items: const [
+          DropdownMenuItem<String>(
+            value: 'en',
+            child: Text('English'),
+          ),
+          DropdownMenuItem<String>(
+            value: 'uk',
+            child: Text('Українська'),
+          )
+        ],
+        onChanged: (String? value) =>
+            localeProvider.changeLocale(value ?? 'en'),
+      );
+    });
   }
 }
 
