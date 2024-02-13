@@ -29,7 +29,7 @@ class _NewsPageState extends State<NewsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<ArticlesCubit>().fetchArticlesUseCase();
+    context.read<ArticlesCubit>().fetchArticles();
   }
 
   @override
@@ -43,7 +43,7 @@ class _NewsPageState extends State<NewsPage> {
       linearGradient: gradient,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(context.l10n.home),
+          title: Text(context.l10n.news),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
             IconButton(
