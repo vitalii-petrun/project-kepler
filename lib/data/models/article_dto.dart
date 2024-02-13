@@ -16,8 +16,8 @@ class ArticleDTO {
   final String publishedAt;
   final String updatedAt;
   final bool featured;
-  final List<LaunchDTO> launches;
-  final List<EventDTO> events;
+  final List<LaunchDTO>? launches;
+  final List<EventDTO>? events;
 
   ArticleDTO({
     required this.id,
@@ -29,8 +29,8 @@ class ArticleDTO {
     required this.publishedAt,
     required this.updatedAt,
     required this.featured,
-    required this.launches,
-    required this.events,
+    this.launches,
+    this.events,
   });
 
   factory ArticleDTO.fromJson(Map<String, dynamic> json) =>

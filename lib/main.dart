@@ -23,10 +23,16 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   appRouter = AppRouter();
+  Dio httpClient = Dio();
 
   ApiClient apiClient = ApiClient(
-    Dio(),
+    httpClient,
     'https://lldev.thespacedevs.com/2.2.0',
+  );
+
+  ApiClient newsApiClient = ApiClient(
+    httpClient,
+    'https://spaceflightnewsapi.net/api/v2',
   );
 
   runApp(

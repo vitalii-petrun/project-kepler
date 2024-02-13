@@ -16,11 +16,11 @@ ArticleDTO _$ArticleDTOFromJson(Map<String, dynamic> json) => ArticleDTO(
       publishedAt: json['publishedAt'] as String,
       updatedAt: json['updatedAt'] as String,
       featured: json['featured'] as bool,
-      launches: (json['launches'] as List<dynamic>)
-          .map((e) => LaunchDTO.fromJson(e as Map<String, dynamic>))
+      launches: (json['launches'] as List<dynamic>?)
+          ?.map((e) => LaunchDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
-      events: (json['events'] as List<dynamic>)
-          .map((e) => EventDTO.fromJson(e as Map<String, dynamic>))
+      events: (json['events'] as List<dynamic>?)
+          ?.map((e) => EventDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -35,6 +35,6 @@ Map<String, dynamic> _$ArticleDTOToJson(ArticleDTO instance) =>
       'publishedAt': instance.publishedAt,
       'updatedAt': instance.updatedAt,
       'featured': instance.featured,
-      'launches': instance.launches.map((e) => e.toJson()).toList(),
-      'events': instance.events.map((e) => e.toJson()).toList(),
+      'launches': instance.launches?.map((e) => e.toJson()).toList(),
+      'events': instance.events?.map((e) => e.toJson()).toList(),
     };
