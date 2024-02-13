@@ -20,7 +20,7 @@ class UserRow extends StatelessWidget {
     return InkWell(
       onTap: () {
         // Handle the tap, e.g., navigate to the user's profile page
-        print('Tapped on ${user.displayName}\'s profile');
+        debugPrint('Tapped on ${user.displayName}\'s profile');
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -190,7 +190,7 @@ class _FollowButtonWidgetState extends State<_FollowButtonWidget> {
         isFollowing = followDoc.exists;
       });
     } catch (e) {
-      print('Error checking if user is following: $e');
+      debugPrint('Error checking if user is following: $e');
     }
   }
 
@@ -230,7 +230,7 @@ class _FollowButtonWidgetState extends State<_FollowButtonWidget> {
             isFollowing = !isFollowing;
           });
         } catch (e) {
-          print('Error following/unfollowing user: $e');
+          debugPrint('Error following/unfollowing user: $e');
         }
       },
       style: ElevatedButton.styleFrom(

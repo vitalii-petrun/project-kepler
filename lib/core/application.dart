@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
+import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
 import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart';
 import 'package:project_kepler/domain/use_cases/get_upcoming_launches_use_case.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
@@ -16,6 +17,8 @@ import 'package:provider/provider.dart';
 import '../data/repositories/api_repository_impl.dart';
 import '../domain/converters/launch_converter.dart';
 import '../domain/use_cases/fetch_favourite_launches_use_case.dart';
+import '../domain/use_cases/fetch_friends_use_case.dart';
+import '../domain/use_cases/get_launch_details_use_case.dart';
 import '../domain/use_cases/remove_favourite_launch_use_case.dart';
 import '../domain/use_cases/set_favourite_launch_use_case.dart';
 import '../presentation/cubits/authentication/authentication_state.dart';
@@ -54,10 +57,12 @@ class Application extends StatelessWidget {
               GetAllLaunchesUseCase(ApiRepositoryImpl(apiClient))),
         ),
         BlocProvider(
-          create: (context) =>
-              LaunchDetailsPageCubit(ApiRepositoryImpl(apiClient)),
+          create: (context) => LaunchDetailsPageCubit(
+              GetLaunchDetailsUseCase(ApiRepositoryImpl(apiClient))),
         ),
-        BlocProvider(create: (context) => FriendsPageCubit()),
+        BlocProvider(
+            create: (context) => FriendsPageCubit(
+                FetchFriendsUseCase(FirestoreUserRepository()))),
         BlocProvider(create: (context) => UsersPageCubit()),
         BlocProvider(create: (context) {
           final authenticationCubit = context.read<AuthenticationCubit>();
