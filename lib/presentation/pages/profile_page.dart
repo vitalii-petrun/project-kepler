@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
-import 'package:project_kepler/presentation/blocs/authentication/authentication_cubit.dart';
-import 'package:project_kepler/presentation/blocs/authentication/authentication_state.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 
 @RoutePage()
 class ProfilePage extends StatelessWidget {
@@ -78,7 +78,7 @@ class _ProfileCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  radius: 45,
+                  radius: 35,
                   backgroundImage: NetworkImage((user).photoURL!),
                 ),
                 const SizedBox(width: 10),
@@ -114,6 +114,10 @@ class _ProfileCard extends StatelessWidget {
               title: context.l10n.settings,
               onTap: () => context.router.pushNamed("/settings"),
             ),
+            _ProfileTile(
+                icon: const Icon(Icons.person_outline_rounded),
+                title: context.l10n.friends,
+                onTap: () => context.router.pushNamed("/friends")),
           ],
         ),
       ),
@@ -127,7 +131,7 @@ class _LogoutButton extends StatelessWidget {
   static _handleSignOutTap(BuildContext context) async {
     final AuthenticationCubit authentication =
         context.read<AuthenticationCubit>();
-    authentication.signOut(context);
+    authentication.signOut();
   }
 
   @override

@@ -21,10 +21,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const EmptyPage(),
       );
     },
+    CoreRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CorePage(),
+      );
+    },
     FavouriteLaunchesRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const FavouriteLaunchesPage(),
+      );
+    },
+    FriendsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const FriendsPage(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -70,6 +82,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SettingsPage(),
       );
     },
+    UsersRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const UsersPage(),
+      );
+    },
   };
 }
 
@@ -88,6 +106,20 @@ class EmptyRouterPage extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [CorePage]
+class CoreRoute extends PageRouteInfo<void> {
+  const CoreRoute({List<PageRouteInfo>? children})
+      : super(
+          CoreRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CoreRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [FavouriteLaunchesPage]
 class FavouriteLaunchesRoute extends PageRouteInfo<void> {
   const FavouriteLaunchesRoute({List<PageRouteInfo>? children})
@@ -97,6 +129,20 @@ class FavouriteLaunchesRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FavouriteLaunchesRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FriendsPage]
+class FriendsRoute extends PageRouteInfo<void> {
+  const FriendsRoute({List<PageRouteInfo>? children})
+      : super(
+          FriendsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FriendsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -206,6 +252,20 @@ class SettingsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UsersPage]
+class UsersRoute extends PageRouteInfo<void> {
+  const UsersRoute({List<PageRouteInfo>? children})
+      : super(
+          UsersRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'UsersRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

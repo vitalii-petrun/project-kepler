@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
 import '../../domain/entities/launch.dart';
-import '../blocs/favourite_launches_page/favourite_launches_page_cubit.dart';
-import '../blocs/favourite_launches_page/favourite_launches_page_state.dart';
+import '../cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
+import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
 import '../widgets/launch_card.dart';
 import '../widgets/no_internet.dart';
 

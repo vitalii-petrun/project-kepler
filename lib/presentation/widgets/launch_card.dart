@@ -1,15 +1,13 @@
-import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
-import 'package:project_kepler/presentation/blocs/favourite_launches_page/favourite_launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 
 import '../../domain/entities/launch.dart';
-import '../blocs/favourite_launches_page/favourite_launches_page_state.dart';
+import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
 
 class LaunchCard extends StatefulWidget {
   final Launch launch;
@@ -28,9 +26,10 @@ class _LaunchCardState extends State<LaunchCard> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(6),
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: context.theme.cardColor,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -45,8 +44,11 @@ class _LaunchCardState extends State<LaunchCard> {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () => context.router
-                  .push(LaunchDetailsRoute(launchId: widget.launch.id)),
+              onTap: () {
+                AutoRouter.of(context).push(
+                  LaunchDetailsRoute(launchId: widget.launch.id),
+                );
+              },
               child: _HeaderSection(
                 launchName: widget.launch.name,
                 padLocation: widget.launch.pad.location.name,
@@ -95,7 +97,9 @@ class _HeaderSection extends StatelessWidget {
         children: [
           Text(
             launchName,
-            style: textTheme.titleLarge?.copyWith(color: colorScheme.onPrimary),
+            style: textTheme.titleLarge?.copyWith(
+              color: colorScheme.onPrimary,
+            ),
           ),
           Text(
             padLocation,
@@ -241,7 +245,7 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
                 context.read<FavoriteLaunchesPageCubit>();
 
             if (widget.isFavourite) {
-              cubit.removeFavouriteLaunch(widget.launch);
+              cubit.removeFavouriteLaunch(widget.launch.id);
             } else {
               cubit.setFavouriteLaunch(widget.launch);
             }

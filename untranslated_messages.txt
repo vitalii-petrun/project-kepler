@@ -5,6 +5,9 @@
     "wiki",
     "noWikiProvided",
     "noAgencyInformation",
-    "unknown"
+    "unknown",
+    "following",
+    "noInternetConnection",
+    "unknownError"
   ]
 }

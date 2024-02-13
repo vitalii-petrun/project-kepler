@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/rocket_configuration.dart';
-import 'package:project_kepler/presentation/blocs/launch_details/launch_details_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
-import '../blocs/launch_details/launch_details_page_state.dart';
+import '../cubits/launch_details/launch_details_page_state.dart';
 import '../widgets/no_internet.dart';
 
 @RoutePage()
