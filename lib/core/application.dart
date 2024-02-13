@@ -65,7 +65,6 @@ class Application extends StatelessWidget {
                 FetchFriendsUseCase(FirestoreUserRepository()))),
         BlocProvider(create: (context) => UsersPageCubit()),
         BlocProvider(create: (context) {
-          final authenticationCubit = context.read<AuthenticationCubit>();
           String userId = '';
 
           if (authenticationCubit.state is Authenticated) {
