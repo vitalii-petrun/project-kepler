@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
+import 'package:project_kepler/presentation/widgets/log_out_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/locale_provider.dart';
@@ -14,37 +15,41 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.settings)),
-      body: Column(
-        children: [
-          Consumer<AppThemeProvider>(
-            builder: (context, provider, child) {
-              return Column(
-                children: [
-                  const SizedBox(height: 20),
-                  _SettingPanel(
-                    title: context.l10n.theme,
-                    child: _ThemeModeToggles(provider: provider),
-                  ),
-                  const SizedBox(height: 10),
-                  _SettingPanel(
-                    title: context.l10n.language,
-                    child: const _LanguageDropdownButton(),
-                  ),
-                ],
-              );
-            },
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _SettingCard(
+                title: context.l10n.theme,
+                child: const _ThemeDropdown(),
+              ),
+              const SizedBox(height: 20),
+              _SettingCard(
+                title: context.l10n.language,
+                child: const _LanguageDropdown(),
+              ),
+              const SizedBox(height: 20),
+              _SettingCard(
+                  title: context.l10n.logOut,
+                  child: const SizedBox(
+                    width: double.infinity,
+                    child: LogoutButton(),
+                  )),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class _SettingPanel extends StatelessWidget {
+class _SettingCard extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const _SettingPanel({
+  const _SettingCard({
     required this.title,
     required this.child,
     Key? key,
@@ -53,72 +58,105 @@ class _SettingPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          EdgeInsets.only(left: context.screenWidth / 10, top: 10, bottom: 10),
-      color: context.theme.colorScheme.secondary.withOpacity(0.1),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [SizedBox(width: 100, child: Text(title)), child],
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: context.theme.textTheme.titleLarge,
+              ),
+              const SizedBox(height: 10),
+              child,
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-class _LanguageDropdownButton extends StatelessWidget {
-  const _LanguageDropdownButton({Key? key}) : super(key: key);
+class _LanguageDropdown extends StatelessWidget {
+  const _LanguageDropdown({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LocaleProvider>(builder: (context, localeProvider, child) {
-      return DropdownButton(
-        value: localeProvider.currentLocale,
-        borderRadius: BorderRadius.circular(10),
-        elevation: 0,
-        underline: const SizedBox(),
-        alignment: Alignment.center,
-        items: const [
-          DropdownMenuItem<String>(
-            value: 'en',
-            child: Text('English'),
+    return Consumer<LocaleProvider>(
+      builder: (context, localeProvider, child) {
+        return DropdownButtonFormField<String>(
+          value: localeProvider.currentLocale,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           ),
-          DropdownMenuItem<String>(
-            value: 'uk',
-            child: Text('Українська'),
-          )
-        ],
-        onChanged: (String? value) =>
-            localeProvider.changeLocale(value ?? 'en'),
-      );
-    });
+          items: const [
+            DropdownMenuItem<String>(
+              value: 'en',
+              child: Text('English'),
+            ),
+            DropdownMenuItem<String>(
+              value: 'uk',
+              child: Text('Українська'),
+            )
+          ],
+          onChanged: (String? value) =>
+              localeProvider.changeLocale(value ?? 'en'),
+        );
+      },
+    );
   }
 }
 
-class _ThemeModeToggles extends StatelessWidget {
-  final AppThemeProvider provider;
-  const _ThemeModeToggles({required this.provider, Key? key}) : super(key: key);
+class _ThemeDropdown extends StatelessWidget {
+  const _ThemeDropdown({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ToggleButtons(
-        tapTargetSize: MaterialTapTargetSize.padded,
-        isSelected: [
-          provider.currentTheme == 'light',
-          provider.currentTheme == 'dark',
-          provider.currentTheme == 'system',
-        ],
-        onPressed: (int index) {
-          if (index == 0) {
-            provider.changeTheme('light');
-          } else if (index == 1) {
-            provider.changeTheme('dark');
-          } else {
-            provider.changeTheme('system');
-          }
-        },
-        children: [
-          Text(context.l10n.light),
-          Text(context.l10n.dark),
-          Text(context.l10n.system),
-        ]);
+    final provider = Provider.of<AppThemeProvider>(context);
+    return DropdownButtonFormField<String>(
+      value: provider.currentTheme,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      ),
+      items: const [
+        DropdownMenuItem<String>(
+          value: 'light',
+          child: Text('Light'),
+        ),
+        DropdownMenuItem<String>(
+          value: 'dark',
+          child: Text('Dark'),
+        ),
+        DropdownMenuItem<String>(
+          value: 'system',
+          child: Text('System'),
+        )
+      ],
+      onChanged: (String? value) => provider.changeTheme(value ?? 'system'),
+    );
   }
 }

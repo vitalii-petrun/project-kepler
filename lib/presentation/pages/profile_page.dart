@@ -6,6 +6,8 @@ import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 
+import '../widgets/log_out_button.dart';
+
 @RoutePage()
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -51,7 +53,7 @@ class _LoadedBody extends StatelessWidget {
           const SizedBox(height: 20),
           _ProfileCard(user: user),
           const SizedBox(height: 20),
-          const _LogoutButton(),
+          const LogoutButton(),
         ],
       ),
     );
@@ -121,32 +123,6 @@ class _ProfileCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _LogoutButton extends StatelessWidget {
-  const _LogoutButton({Key? key}) : super(key: key);
-
-  static _handleSignOutTap(BuildContext context) async {
-    final AuthenticationCubit authentication =
-        context.read<AuthenticationCubit>();
-    authentication.signOut();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: context.theme.colorScheme.error,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-      ),
-      onPressed: () => _handleSignOutTap(context),
-      child: Text(context.l10n.logout),
     );
   }
 }

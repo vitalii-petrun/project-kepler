@@ -48,7 +48,7 @@
   "wiki": "Wiki",
   "noWikiProvided": " No wiki provided.",
   "noAgencyInformation": "No agency information provided.",
-  "unknown" : "Unknown",
+  "unknown": "Unknown",
   "launches": "Launches",
   "users": "Users",
   "friends": "Friends",
@@ -63,6 +63,7 @@
   "noFavsDescription": "You can add your favourite launches by clicking the star icon on the launch details page.",
   "news": "News",
   "noNews": "No news",
+  "logOut": "Log out",
   "featured": "Featured",
   "noNewsDescription": "Something went wrong while fetching the news."
 }
