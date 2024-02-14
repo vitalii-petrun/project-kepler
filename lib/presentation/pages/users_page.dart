@@ -8,6 +8,7 @@ import '../../domain/entities/firestore_user.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/users_page/Users_page_state.dart';
 import '../cubits/users_page/users_page_cubit.dart';
+import '../widgets/rounded_app_bar.dart';
 import '../widgets/space_drawer.dart';
 import '../widgets/user_row.dart';
 
@@ -29,7 +30,8 @@ class _UsersPageState extends State<UsersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      extendBodyBehindAppBar: true,
+      appBar: RoundedAppBar(
         leading: IconButton(
           onPressed: () => context.router.pop(),
           icon: const Icon(Icons.arrow_back),

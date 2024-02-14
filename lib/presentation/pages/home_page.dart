@@ -5,6 +5,7 @@ import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
+import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
 import '../../core/utils/shimmer_gradients.dart';
 import '../../domain/entities/launch.dart';
 import '../cubits/authentication/authentication_cubit.dart';
@@ -39,7 +40,8 @@ class _HomePageState extends State<HomePage> {
     return Shimmer(
       linearGradient: gradient,
       child: Scaffold(
-        appBar: AppBar(
+        extendBodyBehindAppBar: true,
+        appBar: RoundedAppBar(
           title: Text(context.l10n.home),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),

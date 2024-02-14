@@ -7,6 +7,7 @@ import 'package:project_kepler/presentation/cubits/authentication/authentication
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 
 import '../widgets/log_out_button.dart';
+import '../widgets/rounded_app_bar.dart';
 
 @RoutePage()
 class ProfilePage extends StatelessWidget {
@@ -15,7 +16,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.profile)),
+      extendBodyBehindAppBar: true,
+      appBar: RoundedAppBar(title: Text(context.l10n.profile)),
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
           listener: (context, state) {
         if (state is Unauthenticated) {

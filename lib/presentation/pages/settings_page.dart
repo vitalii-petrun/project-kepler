@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../l10n/locale_provider.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/authentication/authentication_state.dart';
+import '../widgets/rounded_app_bar.dart';
 
 @RoutePage()
 class SettingsPage extends StatelessWidget {
@@ -17,11 +18,11 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.settings)),
+      extendBodyBehindAppBar: true,
+      appBar: RoundedAppBar(title: Text(context.l10n.settings)),
       body: BlocBuilder<AuthenticationCubit, AuthenticationState>(
         builder: (context, state) {
-          print("Sstate: $state");
-          return Center(
+          return SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

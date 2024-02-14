@@ -13,6 +13,7 @@ import '../../core/utils/shimmer_gradients.dart';
 import '../cubits/articles/articles_state.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 
+import '../widgets/rounded_app_bar.dart';
 import '../widgets/shimmer.dart';
 import '../widgets/shimmer_loading_body.dart';
 
@@ -41,7 +42,8 @@ class _NewsPageState extends State<NewsPage> {
     return Shimmer(
       linearGradient: gradient,
       child: Scaffold(
-        appBar: AppBar(
+        extendBodyBehindAppBar: true,
+        appBar: RoundedAppBar(
           title: Text(context.l10n.news),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),

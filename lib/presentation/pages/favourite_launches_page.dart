@@ -8,6 +8,7 @@ import '../cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
 import '../widgets/launch_card.dart';
 import '../widgets/no_internet.dart';
+import '../widgets/rounded_app_bar.dart';
 
 @RoutePage()
 class FavouriteLaunchesPage extends StatefulWidget {
@@ -27,7 +28,8 @@ class _FavouriteLaunchesPageState extends State<FavouriteLaunchesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.favourite)),
+      extendBodyBehindAppBar: true,
+      appBar: RoundedAppBar(title: Text(context.l10n.favourite)),
       body: BlocBuilder<FavoriteLaunchesPageCubit, FavouriteLaunchesPageState>(
         builder: (context, state) {
           if (state is FavouriteLaunchesInit) {

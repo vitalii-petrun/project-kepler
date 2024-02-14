@@ -10,6 +10,7 @@ import '../../domain/entities/launch.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/launches/launches_page_cubit.dart';
 import '../widgets/launch_card.dart';
+import '../widgets/rounded_app_bar.dart';
 import '../widgets/shimmer.dart';
 import '../widgets/shimmer_loading_body.dart';
 import '../widgets/space_drawer.dart';
@@ -39,7 +40,8 @@ class _LaunchesPageState extends State<LaunchesPage> {
     return Shimmer(
       linearGradient: gradient,
       child: Scaffold(
-        appBar: AppBar(
+        extendBodyBehindAppBar: true,
+        appBar: RoundedAppBar(
           title: Text(context.l10n.launches),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
