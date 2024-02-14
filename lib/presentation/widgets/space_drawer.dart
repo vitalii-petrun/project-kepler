@@ -6,19 +6,27 @@ import 'package:provider/provider.dart';
 
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/authentication/authentication_state.dart';
-import 'app_navigation/active_tab_index_provider.dart';
 
 class SpaceDrawer extends StatelessWidget {
-  const SpaceDrawer({super.key});
+  const SpaceDrawer({Key? key}) : super(key: key);
 
   static _showAppInfo(BuildContext context) {
     showAboutDialog(
-        context: context,
-        applicationName: 'Project Kepler',
-        applicationVersion: '1.0.0',
-        children: [
-          Text(context.l10n.appDescription),
-        ]);
+      context: context,
+      applicationIcon: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: SizedBox(
+            height: 80, width: 80, child: Image.asset('assets/logo.png')),
+      ),
+      applicationName: 'Project Kepler',
+      applicationVersion: '2.0.1',
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Text(context.l10n.appDescription),
+        ),
+      ],
+    );
   }
 
   @override
@@ -31,60 +39,87 @@ class SpaceDrawer extends StatelessWidget {
       currentUser = (authenticationCubit.state as Authenticated).user;
     }
     const logoBackgroundColor = Color(0xFF352E32);
-    final activeTabNotifier =
-        Provider.of<ActiveTabIndexProvider>(context, listen: false);
+
     final tabsRouter = AutoTabsRouter.of(context);
+
     return Drawer(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(15),
+          bottomRight: Radius.circular(15),
+        ),
+      ),
+      backgroundColor: context.theme.colorScheme.surface,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: const BoxDecoration(color: logoBackgroundColor),
+            decoration: const BoxDecoration(
+                color: logoBackgroundColor,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                )),
             child: currentUser != null
                 ? _buildUserHeader(currentUser)
                 : Image.asset('assets/logo.png'),
           ),
           const SizedBox(height: 10),
           _DrawerTile(
-              icon: const Icon(Icons.home, size: 30),
-              title: context.l10n.home,
-              onTap: () {
-                if (tabsRouter.activeIndex != 0) {
-                  tabsRouter.setActiveIndex(0);
-                }
-                activeTabNotifier.activeTabIndex = 0;
-              }),
+            icon: const Icon(Icons.home, size: 30),
+            title: context.l10n.home,
+            onTap: () {
+              Navigator.pop(context);
+              if (tabsRouter.activeIndex != 0) {
+                tabsRouter.setActiveIndex(0);
+              }
+            },
+          ),
           const SizedBox(height: 10),
           _DrawerTile(
-              icon: const Icon(Icons.rocket_launch_rounded, size: 30),
-              title: context.l10n.launches,
-              onTap: () {
-                if (tabsRouter.activeIndex != 1) {
-                  tabsRouter.setActiveIndex(1);
-                }
-                activeTabNotifier.activeTabIndex = 1;
-              }),
+            icon: const Icon(Icons.rocket_launch_rounded, size: 30),
+            title: context.l10n.launches,
+            onTap: () {
+              Navigator.pop(context);
+              if (tabsRouter.activeIndex != 1) {
+                tabsRouter.setActiveIndex(1);
+              }
+            },
+          ),
           const SizedBox(height: 10),
           _DrawerTile(
-              icon: const Icon(Icons.settings, size: 30),
-              title: context.l10n.settings,
-              onTap: () {
-                if (tabsRouter.activeIndex != 2) {
-                  tabsRouter.setActiveIndex(2);
-                }
-                activeTabNotifier.activeTabIndex = 2;
-              }),
+            icon: const Icon(Icons.settings, size: 30),
+            title: context.l10n.settings,
+            onTap: () {
+              Navigator.pop(context);
+              if (tabsRouter.activeIndex != 2) {
+                tabsRouter.setActiveIndex(2);
+              }
+            },
+          ),
           const SizedBox(height: 10),
           _DrawerTile(
-              icon: const Icon(Icons.favorite, size: 30),
-              title: context.l10n.favourite,
-              onTap: () {
-                if (tabsRouter.activeIndex != 3) {
-                  tabsRouter.setActiveIndex(3);
-                }
-                activeTabNotifier.activeTabIndex = 3;
-              }),
+            icon: const Icon(Icons.favorite, size: 30),
+            title: context.l10n.favourite,
+            onTap: () {
+              Navigator.pop(context);
+              if (tabsRouter.activeIndex != 3) {
+                tabsRouter.setActiveIndex(3);
+              }
+            },
+          ),
           const SizedBox(height: 10),
+          _DrawerTile(
+            icon: const Icon(Icons.newspaper, size: 30),
+            title: context.l10n.news,
+            onTap: () {
+              Navigator.pop(context);
+              context.router.pushNamed('/news');
+            },
+          ),
+          const SizedBox(height: 5),
+          const Divider(color: Colors.black45),
+          const SizedBox(height: 5),
           _DrawerTile(
             icon: const Icon(Icons.info, size: 30),
             title: context.l10n.about,
@@ -113,11 +148,11 @@ class _DrawerTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12.0),
         child: Row(
           children: [
             icon,
-            const SizedBox(width: 10),
+            const SizedBox(width: 14),
             Text(title, style: context.theme.textTheme.titleMedium),
           ],
         ),

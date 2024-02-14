@@ -6,6 +6,7 @@ import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/authentication/authentication_state.dart';
 import '../widgets/google_sign_in_button.dart';
+import '../widgets/rounded_app_bar.dart';
 
 @RoutePage()
 class LoginPage extends StatelessWidget {
@@ -14,7 +15,8 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.login)),
+      extendBodyBehindAppBar: true,
+      appBar: RoundedAppBar(title: Text(context.l10n.login)),
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
           if (state is Authenticated) {

@@ -8,6 +8,7 @@ import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/friends_page/friends_page_cubit.dart';
 import '../cubits/friends_page/friends_page_state.dart';
+import '../widgets/rounded_app_bar.dart';
 import '../widgets/space_drawer.dart';
 import '../widgets/user_row.dart';
 
@@ -37,7 +38,8 @@ class _FriendsPageState extends State<FriendsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      extendBodyBehindAppBar: true,
+      appBar: RoundedAppBar(
         leading: IconButton(
           onPressed: () => context.router.pop(),
           icon: const Icon(Icons.arrow_back),

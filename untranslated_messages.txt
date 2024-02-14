@@ -1,13 +1,5 @@
 {
   "uk": [
-    "manufacturer",
-    "countryCode",
-    "wiki",
-    "noWikiProvided",
-    "noAgencyInformation",
-    "unknown",
-    "following",
-    "noInternetConnection",
-    "unknownError"
+    "readMore"
   ]
 }

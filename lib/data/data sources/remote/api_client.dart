@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 class ApiClient {
   final Dio _dio;
@@ -7,6 +8,7 @@ class ApiClient {
   ApiClient(this._dio, this._baseUrl);
 
   Future<Response> get(String path) async {
+    debugPrint('GET: $_baseUrl$path');
     try {
       final response = await _dio.get('$_baseUrl$path');
       _handleResponse(response);

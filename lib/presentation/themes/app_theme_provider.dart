@@ -6,28 +6,28 @@ class AppThemeProvider extends ChangeNotifier {
 
   final ThemeData lightTheme = ThemeData.light().copyWith(
     colorScheme: const ColorScheme.light(
-      primary: Color(0xFF78909C),
-      secondary: Color(0xFF607D8B),
-      background: Color(0xFFEEEEEE),
-      surface: Colors.white,
-      onPrimary: Colors.white,
-      onSecondary: Colors.black,
-      onBackground: Colors.black,
-      onError: Colors.white,
-      error: Colors.redAccent,
+      primary: Color(0xFF546E7A), // Slate Blue
+      secondary: Color(0xFF607D8B), // Blue Grey
+      background: Color(0xFFF5F5F5), // Light Grey
+      surface: Colors.white, // White
+      onPrimary: Colors.white, // White
+      onSecondary: Colors.white, // White
+      onBackground: Colors.black, // Black
+      onError: Colors.white, // White
+      error: Colors.redAccent, // Red Accent
     ),
   );
 
   final ThemeData darkTheme = ThemeData.dark().copyWith(
     colorScheme: const ColorScheme.dark(
-      primary: Color(0xFF8E7B7F),
-      secondary: Color(0xFF4D545F),
-      background: Color(0xFF1C1C1C),
-      surface: Color(0xFF222222),
-      onPrimary: Colors.white,
-      onSecondary: Colors.white,
-      onBackground: Colors.white,
-      onError: Colors.white,
+      primary: Color(0xFF455A64), // Dark Slate Grey
+      secondary: Color(0xFF546E7A), // Slate Blue
+      background: Color(0xFF121212), // Dark Grey
+      surface: Color(0xFF212121), // Darker Grey
+      onPrimary: Colors.white, // White
+      onSecondary: Colors.black, // Black
+      onBackground: Colors.white, // White
+      onError: Colors.white, // White
     ),
   );
 
