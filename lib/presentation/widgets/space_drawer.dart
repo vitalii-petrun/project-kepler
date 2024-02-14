@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/authentication/authentication_state.dart';
-import 'app_navigation/active_tab_index_provider.dart';
 
 class SpaceDrawer extends StatelessWidget {
   const SpaceDrawer({super.key});
@@ -31,9 +30,9 @@ class SpaceDrawer extends StatelessWidget {
       currentUser = (authenticationCubit.state as Authenticated).user;
     }
     const logoBackgroundColor = Color(0xFF352E32);
-    final activeTabNotifier =
-        Provider.of<ActiveTabIndexProvider>(context, listen: false);
+
     final tabsRouter = AutoTabsRouter.of(context);
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -52,7 +51,6 @@ class SpaceDrawer extends StatelessWidget {
                 if (tabsRouter.activeIndex != 0) {
                   tabsRouter.setActiveIndex(0);
                 }
-                activeTabNotifier.activeTabIndex = 0;
               }),
           const SizedBox(height: 10),
           _DrawerTile(
@@ -62,7 +60,6 @@ class SpaceDrawer extends StatelessWidget {
                 if (tabsRouter.activeIndex != 1) {
                   tabsRouter.setActiveIndex(1);
                 }
-                activeTabNotifier.activeTabIndex = 1;
               }),
           const SizedBox(height: 10),
           _DrawerTile(
@@ -72,7 +69,6 @@ class SpaceDrawer extends StatelessWidget {
                 if (tabsRouter.activeIndex != 2) {
                   tabsRouter.setActiveIndex(2);
                 }
-                activeTabNotifier.activeTabIndex = 2;
               }),
           const SizedBox(height: 10),
           _DrawerTile(
@@ -82,19 +78,21 @@ class SpaceDrawer extends StatelessWidget {
                 if (tabsRouter.activeIndex != 3) {
                   tabsRouter.setActiveIndex(3);
                 }
-                activeTabNotifier.activeTabIndex = 3;
               }),
+          const SizedBox(height: 10),
+          _DrawerTile(
+            icon: const Icon(Icons.newspaper, size: 30),
+            title: context.l10n.news,
+            onTap: () {
+              Navigator.pop(context);
+              context.router.pushNamed('/news');
+            },
+          ),
           const SizedBox(height: 10),
           _DrawerTile(
             icon: const Icon(Icons.info, size: 30),
             title: context.l10n.about,
             onTap: () => _showAppInfo(context),
-          ),
-          const SizedBox(height: 10),
-          _DrawerTile(
-            icon: const Icon(Icons.info, size: 30),
-            title: context.l10n.news,
-            onTap: () => context.router.pushNamed('/news'),
           ),
         ],
       ),

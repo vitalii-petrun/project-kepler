@@ -18,7 +18,7 @@ class CorePage extends StatelessWidget {
         FavouriteLaunchesRoute(),
       ],
       bottomNavigationBuilder: (_, tabsRouter) {
-        return const AppNavigationBar();
+        return AppNavigationBar(tabsRouter: tabsRouter);
       },
     );
   }

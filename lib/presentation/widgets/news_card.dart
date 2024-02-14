@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+
 import '../../domain/entities/article.dart';
 
 class NewsCard extends StatelessWidget {
@@ -57,7 +59,7 @@ class NewsCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis),
                       const SizedBox(height: 8),
                       Text(article.summary,
-                          style: theme.textTheme.bodySmall,
+                          style: theme.textTheme.bodyMedium,
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis),
                       const SizedBox(height: 8),
@@ -75,20 +77,18 @@ class NewsCard extends StatelessWidget {
   }
 
   Widget _buildImage(BuildContext context) {
-    print("ARTICLE URL" + article.imageUrl.toString());
     return AspectRatio(
       aspectRatio: 16 / 9,
-      child: Image.network(
-        article.imageUrl ?? '',
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) => Container(
-          color: Colors.grey.shade800,
-          child: const Icon(Icons.broken_image, color: Colors.grey, size: 48),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: CachedNetworkImage(
+          imageUrl: article.imageUrl ?? '',
+          fit: BoxFit.cover,
+          errorWidget: (context, url, error) => Container(
+            color: Colors.grey.shade800,
+            child: const Icon(Icons.broken_image, color: Colors.grey, size: 48),
+          ),
         ),
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return const Center(child: CircularProgressIndicator());
-        },
       ),
     );
   }

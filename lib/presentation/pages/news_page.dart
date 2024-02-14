@@ -15,7 +15,6 @@ import '../cubits/authentication/authentication_cubit.dart';
 
 import '../widgets/shimmer.dart';
 import '../widgets/shimmer_loading_body.dart';
-import '../widgets/space_drawer.dart';
 
 @RoutePage()
 class NewsPage extends StatefulWidget {
@@ -59,7 +58,6 @@ class _NewsPageState extends State<NewsPage> {
             ),
           ],
         ),
-        drawer: const SpaceDrawer(),
         body: BlocBuilder<ArticlesCubit, ArticlesState>(
           builder: (context, state) {
             if (state is ArticlesLoaded) {
