@@ -69,6 +69,7 @@ class SpaceDrawer extends StatelessWidget {
             icon: const Icon(Icons.home, size: 30),
             title: context.l10n.home,
             onTap: () {
+              Navigator.pop(context);
               if (tabsRouter.activeIndex != 0) {
                 tabsRouter.setActiveIndex(0);
               }
@@ -79,6 +80,7 @@ class SpaceDrawer extends StatelessWidget {
             icon: const Icon(Icons.rocket_launch_rounded, size: 30),
             title: context.l10n.launches,
             onTap: () {
+              Navigator.pop(context);
               if (tabsRouter.activeIndex != 1) {
                 tabsRouter.setActiveIndex(1);
               }
@@ -89,6 +91,7 @@ class SpaceDrawer extends StatelessWidget {
             icon: const Icon(Icons.settings, size: 30),
             title: context.l10n.settings,
             onTap: () {
+              Navigator.pop(context);
               if (tabsRouter.activeIndex != 2) {
                 tabsRouter.setActiveIndex(2);
               }
@@ -99,6 +102,7 @@ class SpaceDrawer extends StatelessWidget {
             icon: const Icon(Icons.favorite, size: 30),
             title: context.l10n.favourite,
             onTap: () {
+              Navigator.pop(context);
               if (tabsRouter.activeIndex != 3) {
                 tabsRouter.setActiveIndex(3);
               }

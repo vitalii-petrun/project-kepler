@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
 import 'package:project_kepler/presentation/widgets/log_out_button.dart';
+import 'package:project_kepler/presentation/widgets/space_drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/locale_provider.dart';
@@ -19,6 +20,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      drawer: const SpaceDrawer(),
       appBar: RoundedAppBar(title: Text(context.l10n.settings)),
       body: BlocBuilder<AuthenticationCubit, AuthenticationState>(
         builder: (context, state) {

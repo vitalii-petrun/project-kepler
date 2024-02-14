@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
@@ -21,18 +22,9 @@ class NewsCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
-        onTap: () => {},
+        onTap: () => _openArticleUrl(article.url),
         child: Ink(
-          decoration: const BoxDecoration(
-              // gradient: LinearGradient(
-              //   begin: Alignment.topRight,
-              //   end: Alignment.bottomLeft,
-              //   colors: [
-              //     Colors.deepPurple.shade400,
-              //     Colors.indigo.shade800
-              //   ], // Sci-fi gradient
-              // ),
-              ),
+          decoration: const BoxDecoration(),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -53,18 +45,44 @@ class NewsCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(article.title,
-                          style: theme.textTheme.titleLarge,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis),
+                      Text(
+                        article.title,
+                        style: theme.textTheme.titleLarge,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: 8),
-                      Text(article.summary,
-                          style: theme.textTheme.bodyMedium,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis),
+                      Text(
+                        article.summary,
+                        style: theme.textTheme.bodyMedium,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: 8),
-                      Text(article.newsSite ?? '',
-                          style: theme.textTheme.bodySmall),
+                      Text(
+                        article.newsSite ?? '',
+                        style: theme.textTheme.bodySmall,
+                      ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: theme.colorScheme.secondary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                          ),
+                          onPressed: () => _openArticleUrl(article.url),
+                          child: Text(context.l10n.readMore.toUpperCase(),
+                              style: theme.textTheme.labelLarge?.copyWith(
+                                  color: theme.colorScheme.onSecondary)),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -104,8 +122,21 @@ class NewsCard extends StatelessWidget {
       child: Text(
         context.l10n.featured.toUpperCase(),
         style: const TextStyle(
-            color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
+  }
+
+  void _openArticleUrl(String? url) async {
+    print('Opening article: $url');
+    if (url != null) {
+      launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
+    }
   }
 }
