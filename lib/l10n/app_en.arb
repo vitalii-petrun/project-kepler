@@ -65,5 +65,6 @@
   "noNews": "No news",
   "logOut": "Log out",
   "featured": "Featured",
+  "logIn": "Log in",
   "noNewsDescription": "Something went wrong while fetching the news."
 }

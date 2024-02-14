@@ -1,11 +1,14 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
 import 'package:project_kepler/presentation/widgets/log_out_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/locale_provider.dart';
+import '../cubits/authentication/authentication_cubit.dart';
+import '../cubits/authentication/authentication_state.dart';
 
 @RoutePage()
 class SettingsPage extends StatelessWidget {
@@ -15,31 +18,56 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.settings)),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _SettingCard(
-                title: context.l10n.theme,
-                child: const _ThemeDropdown(),
+      body: BlocBuilder<AuthenticationCubit, AuthenticationState>(
+        builder: (context, state) {
+          print("Sstate: $state");
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _SettingCard(
+                    title: context.l10n.theme,
+                    child: const _ThemeDropdown(),
+                  ),
+                  const SizedBox(height: 20),
+                  _SettingCard(
+                    title: context.l10n.language,
+                    child: const _LanguageDropdown(),
+                  ),
+                  const SizedBox(height: 20),
+                  if (state is Authenticated)
+                    _SettingCard(
+                        title: context.l10n.logOut,
+                        child: const SizedBox(
+                          width: double.infinity,
+                          child: LogoutButton(),
+                        )),
+                  if (state is! Authenticated)
+                    _SettingCard(
+                      title: context.l10n.logIn,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: context.theme.colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {
+                            context.router.pushNamed('/login');
+                          },
+                          child: Text(context.l10n.logIn),
+                        ),
+                      ),
+                    ),
+                ],
               ),
-              const SizedBox(height: 20),
-              _SettingCard(
-                title: context.l10n.language,
-                child: const _LanguageDropdown(),
-              ),
-              const SizedBox(height: 20),
-              _SettingCard(
-                  title: context.l10n.logOut,
-                  child: const SizedBox(
-                    width: double.infinity,
-                    child: LogoutButton(),
-                  )),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -102,6 +130,7 @@ class _LanguageDropdown extends StatelessWidget {
       builder: (context, localeProvider, child) {
         return DropdownButtonFormField<String>(
           value: localeProvider.currentLocale,
+          borderRadius: BorderRadius.circular(10.0),
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -134,6 +163,7 @@ class _ThemeDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppThemeProvider>(context);
     return DropdownButtonFormField<String>(
+      borderRadius: BorderRadius.circular(10.0),
       value: provider.currentTheme,
       decoration: InputDecoration(
         border: OutlineInputBorder(
