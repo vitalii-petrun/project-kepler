@@ -131,7 +131,6 @@ class NewsCard extends StatelessWidget {
   }
 
   void _openArticleUrl(String? url) async {
-    print('Opening article: $url');
     if (url != null) {
       launchUrl(
         Uri.parse(url),
