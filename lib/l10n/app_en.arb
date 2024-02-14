@@ -31,7 +31,7 @@
   "type": "Type",
   "description": "Description",
   "abbrev": "Abbrev",
-  "appDescription": "Project Kepler is a simple app that shows you the upcoming space launches. It also shows you the details of the launches, such as mission details.",
+  "appDescription": "Project Kepler is an app that has been developed to provide information about space launches, rockets, agencies and news. The app is built using the Flutter framework and the data is fetched from the Launch Library API and SpaceFlight API.",
   "login": "Login",
   "logout": "Logout",
   "signInWithGoogle": "Sign in with Google",

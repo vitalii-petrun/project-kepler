@@ -13,10 +13,18 @@ class SpaceDrawer extends StatelessWidget {
   static _showAppInfo(BuildContext context) {
     showAboutDialog(
       context: context,
+      applicationIcon: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: SizedBox(
+            height: 80, width: 80, child: Image.asset('assets/logo.png')),
+      ),
       applicationName: 'Project Kepler',
-      applicationVersion: '1.0.0',
+      applicationVersion: '2.0.1',
       children: [
-        Text(context.l10n.appDescription),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Text(context.l10n.appDescription),
+        ),
       ],
     );
   }
