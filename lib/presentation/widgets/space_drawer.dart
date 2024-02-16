@@ -66,7 +66,7 @@ class SpaceDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _DrawerTile(
-            icon: const Icon(Icons.home, size: 30),
+            icon: const Icon(Icons.home_rounded, size: 30),
             title: context.l10n.home,
             onTap: () {
               Navigator.pop(context);
@@ -88,7 +88,7 @@ class SpaceDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _DrawerTile(
-            icon: const Icon(Icons.settings, size: 30),
+            icon: const Icon(Icons.settings_rounded, size: 30),
             title: context.l10n.settings,
             onTap: () {
               Navigator.pop(context);
@@ -99,7 +99,7 @@ class SpaceDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _DrawerTile(
-            icon: const Icon(Icons.favorite, size: 30),
+            icon: const Icon(Icons.favorite_rounded, size: 30),
             title: context.l10n.favourite,
             onTap: () {
               Navigator.pop(context);
@@ -110,7 +110,7 @@ class SpaceDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           _DrawerTile(
-            icon: const Icon(Icons.newspaper, size: 30),
+            icon: const Icon(Icons.newspaper_rounded, size: 30),
             title: context.l10n.news,
             onTap: () {
               Navigator.pop(context);
