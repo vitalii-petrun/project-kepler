@@ -57,7 +57,7 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
                         context.l10n.signInWithGoogle,
-                        style: const TextStyle(fontSize: 20),
+                        style: context.theme.textTheme.titleLarge,
                       ),
                     )
                   ],

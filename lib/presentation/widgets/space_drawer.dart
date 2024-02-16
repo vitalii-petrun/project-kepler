@@ -50,82 +50,73 @@ class SpaceDrawer extends StatelessWidget {
         ),
       ),
       backgroundColor: context.theme.colorScheme.surface,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(
-                color: logoBackgroundColor,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                )),
-            child: currentUser != null
-                ? _buildUserHeader(currentUser)
-                : Image.asset('assets/logo.png'),
-          ),
-          const SizedBox(height: 10),
-          _DrawerTile(
-            icon: const Icon(Icons.home, size: 30),
-            title: context.l10n.home,
-            onTap: () {
-              Navigator.pop(context);
-              if (tabsRouter.activeIndex != 0) {
-                tabsRouter.setActiveIndex(0);
-              }
-            },
-          ),
-          const SizedBox(height: 10),
-          _DrawerTile(
-            icon: const Icon(Icons.rocket_launch_rounded, size: 30),
-            title: context.l10n.launches,
-            onTap: () {
-              Navigator.pop(context);
-              if (tabsRouter.activeIndex != 1) {
-                tabsRouter.setActiveIndex(1);
-              }
-            },
-          ),
-          const SizedBox(height: 10),
-          _DrawerTile(
-            icon: const Icon(Icons.settings, size: 30),
-            title: context.l10n.settings,
-            onTap: () {
-              Navigator.pop(context);
-              if (tabsRouter.activeIndex != 2) {
-                tabsRouter.setActiveIndex(2);
-              }
-            },
-          ),
-          const SizedBox(height: 10),
-          _DrawerTile(
-            icon: const Icon(Icons.favorite, size: 30),
-            title: context.l10n.favourite,
-            onTap: () {
-              Navigator.pop(context);
-              if (tabsRouter.activeIndex != 3) {
-                tabsRouter.setActiveIndex(3);
-              }
-            },
-          ),
-          const SizedBox(height: 10),
-          _DrawerTile(
-            icon: const Icon(Icons.newspaper, size: 30),
-            title: context.l10n.news,
-            onTap: () {
-              Navigator.pop(context);
-              context.router.pushNamed('/news');
-            },
-          ),
-          const SizedBox(height: 5),
-          const Divider(color: Colors.black45),
-          const SizedBox(height: 5),
-          _DrawerTile(
-            icon: const Icon(Icons.info, size: 30),
-            title: context.l10n.about,
-            onTap: () => _showAppInfo(context),
-          ),
-        ],
+      child: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                  color: logoBackgroundColor,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  )),
+              child: currentUser != null
+                  ? _buildUserHeader(currentUser)
+                  : Image.asset('assets/logo.png'),
+            ),
+            const SizedBox(height: 10),
+            _DrawerTile(
+              icon: const Icon(Icons.rocket_launch_rounded, size: 30),
+              title: context.l10n.launches,
+              onTap: () {
+                Navigator.pop(context);
+                if (tabsRouter.activeIndex != 1) {
+                  tabsRouter.setActiveIndex(1);
+                }
+              },
+            ),
+            const SizedBox(height: 10),
+            _DrawerTile(
+              icon: const Icon(Icons.favorite_rounded, size: 30),
+              title: context.l10n.favourite,
+              onTap: () {
+                Navigator.pop(context);
+                if (tabsRouter.activeIndex != 3) {
+                  tabsRouter.setActiveIndex(3);
+                }
+              },
+            ),
+            const SizedBox(height: 10),
+            _DrawerTile(
+              icon: const Icon(Icons.newspaper_rounded, size: 30),
+              title: context.l10n.news,
+              onTap: () {
+                Navigator.pop(context);
+                context.router.pushNamed('/news');
+              },
+            ),
+            const SizedBox(height: 10),
+            _DrawerTile(
+              icon: const Icon(Icons.settings_rounded, size: 30),
+              title: context.l10n.settings,
+              onTap: () {
+                Navigator.pop(context);
+                if (tabsRouter.activeIndex != 2) {
+                  tabsRouter.setActiveIndex(2);
+                }
+              },
+            ),
+            const SizedBox(height: 5),
+            const Divider(color: Colors.black45),
+            const SizedBox(height: 5),
+            _DrawerTile(
+              icon: const Icon(Icons.info, size: 30),
+              title: context.l10n.about,
+              onTap: () => _showAppInfo(context),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -148,7 +139,7 @@ class _DrawerTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.only(left: 20, top: 12, bottom: 12),
         child: Row(
           children: [
             icon,

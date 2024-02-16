@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 abstract class AppTheme {
   static final ThemeData light = ThemeData(
@@ -7,5 +8,7 @@ abstract class AppTheme {
     ),
   );
 
-  static final ThemeData dark = ThemeData.dark();
+  static final ThemeData dark = ThemeData.dark().copyWith(
+    textTheme: GoogleFonts.comicNeueTextTheme(),
+  );
 }

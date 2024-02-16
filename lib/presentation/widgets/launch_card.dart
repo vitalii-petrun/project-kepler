@@ -56,12 +56,16 @@ class _LaunchCardState extends State<LaunchCard> {
               ),
             ),
             _ImageSection(image: widget.launch.image ?? ""),
+            const SizedBox(height: 8),
             CountdownTimer(
                 net: widget.launch.net,
                 launchStatus: widget.launch.status.name),
             const SizedBox(height: 8),
-            _BodySection(
-                missionDescription: widget.launch.mission?.description),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _BodySection(
+                  missionDescription: widget.launch.mission?.description),
+            ),
             const SizedBox(height: 8),
             _FooterSection(launch: widget.launch),
             const SizedBox(height: 8),
@@ -284,7 +288,11 @@ class _BodySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Text(
         missionDescription == "?"
             ? context.l10n.noDescriptionProvided
