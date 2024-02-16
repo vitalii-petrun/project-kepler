@@ -98,6 +98,15 @@ class SpaceDrawer extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             _DrawerTile(
+              icon: const Icon(Icons.auto_awesome, size: 30),
+              title: context.l10n.aiChat,
+              onTap: () {
+                Navigator.pop(context);
+                context.router.pushNamed('/ai_chat');
+              },
+            ),
+            const SizedBox(height: 10),
+            _DrawerTile(
               icon: const Icon(Icons.settings_rounded, size: 30),
               title: context.l10n.settings,
               onTap: () {

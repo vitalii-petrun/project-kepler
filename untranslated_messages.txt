@@ -1,7 +1,1 @@
-{
-  "uk": [
-    "readMore",
-    "appName"
-    "aiChat"
-  ]
-}
+{}
