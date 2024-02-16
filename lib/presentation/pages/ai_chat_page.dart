@@ -6,12 +6,12 @@ class AIChatPage extends StatefulWidget {
   const AIChatPage({Key? key}) : super(key: key);
 
   @override
-  _AIChatPageState createState() => _AIChatPageState();
+  AIChatPageState createState() => AIChatPageState();
 }
 
-class _AIChatPageState extends State<AIChatPage> {
-  TextEditingController _textEditingController = TextEditingController();
-  List<String> _chatMessages = [];
+class AIChatPageState extends State<AIChatPage> {
+  final TextEditingController _textEditingController = TextEditingController();
+  final List<String> _chatMessages = [];
 
   @override
   Widget build(BuildContext context) {

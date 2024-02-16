@@ -116,17 +116,17 @@ class _CountdownItem extends StatelessWidget {
   }
 }
 
-class _CountdownItemsDivider extends StatelessWidget {
-  const _CountdownItemsDivider({Key? key}) : super(key: key);
+// class _CountdownItemsDivider extends StatelessWidget {
+//   const _CountdownItemsDivider({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      ":",
-      style: context.theme.textTheme.headlineMedium,
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Text(
+//       ":",
+//       style: context.theme.textTheme.headlineMedium,
+//     );
+//   }
+// }
 
 enum LaunchStatus {
   goForLaunch("Go for Launch"),

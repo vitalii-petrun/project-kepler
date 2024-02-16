@@ -35,13 +35,11 @@ void main() async {
     'https://api.spaceflightnewsapi.net/v4',
   );
 
-  ApiClient chatGPT3ApiClient = ApiClient(
-    httpClient,
-    'https://api.openai.com/v1',
-    apiKey: 'Bearer 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',
-  );
-
-  chatGPT3ApiClient.get('/engines/davinci-codex/completions');
+  // ApiClient chatGPT3ApiClient = ApiClient(
+  //   httpClient,
+  //   'https://api.openai.com/v1',
+  //   apiKey: 'Bearer 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',
+  // );
 
   runApp(
     Application(

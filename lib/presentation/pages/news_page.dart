@@ -1,20 +1,20 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/article.dart';
-import 'package:project_kepler/presentation/cubits/articles/articles_cubit.dart';
+
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
+import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
+import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 import 'package:project_kepler/presentation/widgets/news_card.dart';
-
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
+import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
+import 'package:project_kepler/presentation/widgets/shimmer.dart';
 import '../../core/utils/shimmer_gradients.dart';
-
-import '../cubits/articles/articles_state.dart';
+import '../../domain/entities/blog.dart';
 import '../cubits/authentication/authentication_cubit.dart';
-
-import '../widgets/rounded_app_bar.dart';
-import '../widgets/shimmer.dart';
+import '../widgets/blog_card.dart';
 import '../widgets/shimmer_loading_body.dart';
 
 @RoutePage()
@@ -25,17 +25,43 @@ class NewsPage extends StatefulWidget {
   State<NewsPage> createState() => _NewsPageState();
 }
 
-class _NewsPageState extends State<NewsPage> {
+class _NewsPageState extends State<NewsPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
-    context.read<ArticlesCubit>().fetchArticles();
+    _tabController = TabController(length: 4, vsync: this);
+    _fetchArticlesForCurrentTab();
+
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        _fetchArticlesForCurrentTab();
+      }
+    });
+  }
+
+  void _fetchArticlesForCurrentTab() {
+    switch (_tabController.index) {
+      case 0:
+        context.read<NewsCubit>().fetchRecentArticles();
+        break;
+      case 1:
+        context.read<NewsCubit>().fetchSpaceXArticles();
+        break;
+      case 2:
+        context.read<NewsCubit>().fetchNasaArticles();
+        break;
+      case 3:
+        context.read<NewsCubit>().fetchBlogs();
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final isDarkTheme = context.theme.brightness == Brightness.dark;
-
     final LinearGradient gradient =
         isDarkTheme ? nightShimmerGradient : dayShimmerGradient;
 
@@ -60,23 +86,86 @@ class _NewsPageState extends State<NewsPage> {
             ),
           ],
         ),
-        body: BlocBuilder<ArticlesCubit, ArticlesState>(
-          builder: (context, state) {
-            if (state is ArticlesLoaded) {
-              return _LoadedBody(articles: state.articles);
-            } else if (state is ArticlesError) {
-              return const _FailedBody();
-            } else {
-              return const ShimmerLoadingBody();
-            }
-          },
+        body: SafeArea(
+          child: Column(
+            children: [
+              TabBar(
+                controller: _tabController,
+                tabs: [
+                  Tab(text: context.l10n.recentNews),
+                  Tab(text: context.l10n.spaceXNews),
+                  Tab(text: context.l10n.nasaNews),
+                  Tab(text: context.l10n.blogs),
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    BlocBuilder<NewsCubit, NewsState>(
+                        builder: _buildRecentNews),
+                    BlocBuilder<NewsCubit, NewsState>(
+                        builder: _buildSpaceXNews),
+                    BlocBuilder<NewsCubit, NewsState>(builder: _buildNasaNews),
+                    BlocBuilder<NewsCubit, NewsState>(builder: _buildBlogs),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  Widget _buildRecentNews(BuildContext context, NewsState state) {
+    if (state is RecentArticlesLoaded) {
+      return _LoadedBody(articles: state.articles);
+    } else if (state is NewsError) {
+      return const _FailedBody();
+    } else {
+      return const ShimmerLoadingBody();
+    }
+  }
+
+  Widget _buildSpaceXNews(BuildContext context, NewsState state) {
+    if (state is SpaceXArticlesLoaded) {
+      return _LoadedBody(articles: state.articles);
+    } else if (state is NewsError) {
+      return const _FailedBody();
+    } else {
+      return const ShimmerLoadingBody();
+    }
+  }
+
+  Widget _buildNasaNews(BuildContext context, NewsState state) {
+    if (state is NasaArticlesLoaded) {
+      return _LoadedBody(articles: state.articles);
+    } else if (state is NewsError) {
+      return const _FailedBody();
+    } else {
+      return const ShimmerLoadingBody();
+    }
+  }
+
+  Widget _buildBlogs(BuildContext context, NewsState state) {
+    if (state is BlogsLoaded) {
+      return _LoadedBlogsBody(blogs: state.blogs);
+    } else if (state is NewsError) {
+      return const _FailedBody();
+    } else {
+      return const ShimmerLoadingBody();
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 }
 
-class _LoadedBody extends StatelessWidget {
+class _LoadedBody extends StatefulWidget {
   final List<Article> articles;
 
   const _LoadedBody({
@@ -85,19 +174,63 @@ class _LoadedBody extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<_LoadedBody> createState() => _LoadedBodyState();
+}
+
+class _LoadedBodyState extends State<_LoadedBody>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async =>
-          context.read<ArticlesCubit>().fetchArticlesUseCase(),
-      child: ListView.separated(
-          itemCount: articles.length,
-          itemBuilder: (context, index) {
-            final article = articles[index];
-            return NewsCard(article: article);
-          },
-          separatorBuilder: (_, __) => const SizedBox(height: 20)),
+    super.build(context);
+    return ListView.separated(
+      itemCount: widget.articles.length,
+      itemBuilder: (context, index) {
+        final article = widget.articles[index];
+        return NewsCard(article: article);
+      },
+      separatorBuilder: (_, __) => const SizedBox(height: 20),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class _LoadedBlogsBody extends StatefulWidget {
+  final List<Blog> blogs;
+
+  const _LoadedBlogsBody({
+    required this.blogs,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<_LoadedBlogsBody> createState() => _LoadedBlogsBodyState();
+}
+
+class _LoadedBlogsBodyState extends State<_LoadedBlogsBody>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return ListView.separated(
+      itemCount: widget.blogs.length,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return Text(
+            context.l10n.blogs,
+            style: Theme.of(context).textTheme.titleMedium,
+          );
+        }
+        final blog = widget.blogs[index];
+        return BlogCard(blog: blog);
+      },
+      separatorBuilder: (_, __) => const SizedBox(height: 20),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _FailedBody extends StatelessWidget {
@@ -107,14 +240,11 @@ class _FailedBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return RefreshIndicator(
-          onRefresh: () async =>
-              context.read<ArticlesCubit>().fetchArticlesUseCase(),
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: SizedBox(
-                height: constraints.maxHeight,
-                child: const Center(child: NoInternet())),
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: SizedBox(
+            height: constraints.maxHeight,
+            child: const Center(child: NoInternet()),
           ),
         );
       },

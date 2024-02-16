@@ -1,1 +1,8 @@
-{}
+{
+  "uk": [
+    "recentNews",
+    "spaceXNews",
+    "nasaNews",
+    "blogs"
+  ]
+}

@@ -1,5 +1,5 @@
 class Blog {
-  final String id;
+  final int id;
   final String title;
   final String url;
   final String imageUrl;

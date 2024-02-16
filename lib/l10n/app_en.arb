@@ -69,5 +69,9 @@
   "readMore": "Read more",
   "appName": "Project Kepler",
   "aiChat": "AI Companion",
+  "recentNews": "Recent",
+  "spaceXNews": "SpaceX",
+  "nasaNews": "NASA",
+  "blogs": "Blogs",
   "noNewsDescription": "Something went wrong while fetching the news."
 }
