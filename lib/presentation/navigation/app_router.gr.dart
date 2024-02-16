@@ -94,6 +94,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const UsersPage(),
       );
     },
+    AIChatRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AIChatPage(),
+      );
+    },
   };
 }
 
@@ -286,6 +292,20 @@ class UsersRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'UsersRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AIChatPage]
+class AIChatRoute extends PageRouteInfo<void> {
+  const AIChatRoute({List<PageRouteInfo>? children})
+      : super(
+          AIChatRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AIChatRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
