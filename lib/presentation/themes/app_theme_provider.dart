@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppThemeProvider extends ChangeNotifier {
@@ -16,6 +17,7 @@ class AppThemeProvider extends ChangeNotifier {
       onError: Colors.white, // White
       error: Colors.redAccent, // Red Accent
     ),
+    textTheme: GoogleFonts.exo2TextTheme(),
   );
 
   final ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -28,6 +30,10 @@ class AppThemeProvider extends ChangeNotifier {
       onSecondary: Colors.black, // Black
       onBackground: Colors.white, // White
       onError: Colors.white, // White
+    ),
+    textTheme: GoogleFonts.exo2TextTheme().apply(
+      bodyColor: Colors.white,
+      displayColor: Colors.white,
     ),
   );
 
