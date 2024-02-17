@@ -3,6 +3,7 @@
     "recentNews",
     "spaceXNews",
     "nasaNews",
-    "blogs"
+    "blogs",
+    "astroEvents"
   ]
 }

@@ -4,6 +4,7 @@ import 'package:project_kepler/presentation/pages/launches_page.dart';
 
 import '../pages/ai_chat_page.dart';
 import '../pages/core_page.dart';
+import '../pages/events_page.dart';
 import '../pages/friends_page.dart';
 import '../pages/home_page.dart';
 import '../pages/launch_details_page.dart';
@@ -41,6 +42,7 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: FriendsRoute.page, path: '/friends'),
     AutoRoute(page: NewsRoute.page, path: '/news'),
     AutoRoute(page: UsersRoute.page, path: '/users'),
-    AutoRoute(page: AIChatRoute.page, path: '/ai_chat')
+    AutoRoute(page: AIChatRoute.page, path: '/ai_chat'),
+    AutoRoute(page: EventsRoute.page, path: '/events'),
   ];
 }
