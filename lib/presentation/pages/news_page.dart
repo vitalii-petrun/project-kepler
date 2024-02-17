@@ -17,6 +17,7 @@ import '../../core/utils/shimmer_gradients.dart';
 import '../../domain/entities/blog.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 import '../widgets/blog_card.dart';
+import '../widgets/space_tab_bar.dart';
 
 @RoutePage()
 class NewsPage extends StatefulWidget {
@@ -25,8 +26,6 @@ class NewsPage extends StatefulWidget {
   @override
   State<NewsPage> createState() => _NewsPageState();
 }
-
-enum TabIndex { recent, spaceX, nasa, blogs }
 
 class _NewsPageState extends State<NewsPage>
     with SingleTickerProviderStateMixin {
@@ -62,7 +61,8 @@ class _NewsPageState extends State<NewsPage>
       linearGradient: gradient,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: RoundedAppBar(
+        appBar: AppBar(
+          elevation: 0,
           title: Text(context.l10n.news),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
@@ -82,7 +82,7 @@ class _NewsPageState extends State<NewsPage>
         body: SafeArea(
           child: Column(
             children: [
-              TabBar(
+              SpaceTabBar(
                 controller: _tabController,
                 tabs: [
                   Tab(text: context.l10n.recentNews),
