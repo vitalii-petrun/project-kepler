@@ -1,5 +1,4 @@
 import '../../../domain/entities/article.dart';
-import '../../../domain/entities/blog.dart';
 
 abstract class NewsState {}
 
@@ -24,7 +23,7 @@ class NasaArticlesLoaded extends NewsState {
 }
 
 class BlogsLoaded extends NewsState {
-  final List<Blog> blogs;
+  final List<Article> blogs;
 
   BlogsLoaded(this.blogs);
 }

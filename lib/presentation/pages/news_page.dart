@@ -10,13 +10,13 @@ import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 import 'package:project_kepler/presentation/cubits/news_page/spacex_news_cubit.dart';
 import 'package:project_kepler/presentation/widgets/news_card.dart';
-import 'package:project_kepler/presentation/widgets/no_internet.dart';
-import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
+
 import 'package:project_kepler/presentation/widgets/shimmer.dart';
 import '../../core/utils/shimmer_gradients.dart';
-import '../../domain/entities/blog.dart';
+
 import '../cubits/authentication/authentication_cubit.dart';
-import '../widgets/blog_card.dart';
+
+import '../widgets/shimmer_loading_body.dart';
 import '../widgets/space_tab_bar.dart';
 
 @RoutePage()
@@ -96,34 +96,39 @@ class _NewsPageState extends State<NewsPage>
                   controller: _tabController,
                   children: [
                     BlocBuilder<NewsCubit, NewsState>(
-                      builder: (context, state) {
-                        return _LoadedBody(
-                            articles: state is RecentArticlesLoaded
-                                ? state.articles
-                                : []);
-                      },
+                      builder: (context, state) => _buildContent(
+                          context,
+                          state,
+                          (context, state) => _LoadedBody(
+                              articles: state is RecentArticlesLoaded
+                                  ? state.articles
+                                  : [])),
                     ),
                     BlocBuilder<SpaceXNewsCubit, NewsState>(
-                      builder: (context, state) {
-                        return _LoadedBody(
-                            articles: state is SpaceXArticlesLoaded
-                                ? state.articles
-                                : []);
-                      },
+                      builder: (context, state) => _buildContent(
+                          context,
+                          state,
+                          (context, state) => _LoadedBody(
+                              articles: state is SpaceXArticlesLoaded
+                                  ? state.articles
+                                  : [])),
                     ),
                     BlocBuilder<NasaNewsCubit, NewsState>(
-                      builder: (context, state) {
-                        return _LoadedBody(
-                            articles: state is NasaArticlesLoaded
-                                ? state.articles
-                                : []);
-                      },
+                      builder: (context, state) => _buildContent(
+                          context,
+                          state,
+                          (context, state) => _LoadedBody(
+                              articles: state is NasaArticlesLoaded
+                                  ? state.articles
+                                  : [])),
                     ),
                     BlocBuilder<BlogsCubit, NewsState>(
-                      builder: (context, state) {
-                        return _LoadedBlogsBody(
-                            blogs: state is BlogsLoaded ? state.blogs : []);
-                      },
+                      builder: (context, state) => _buildContent(
+                          context,
+                          state,
+                          (context, state) => _LoadedBody(
+                              articles:
+                                  state is BlogsLoaded ? state.blogs : [])),
                     ),
                   ],
                 ),
@@ -133,6 +138,22 @@ class _NewsPageState extends State<NewsPage>
         ),
       ),
     );
+  }
+}
+
+Widget _buildContent<T>(
+  BuildContext context,
+  NewsState state,
+  BlocWidgetBuilder<T> loadedStateBuilder,
+) {
+  if (state is NewsLoading) {
+    return const ShimmerLoadingBody(); // Placeholder during loading
+  } else if (state is NewsError) {
+    return _FailedBody(message: state.message);
+  } else if (state is T) {
+    return loadedStateBuilder(context, state as T);
+  } else {
+    return Center(child: Text(context.l10n.unknownError));
   }
 }
 
@@ -179,57 +200,9 @@ class _LoadedBodyState extends State<_LoadedBody>
   bool get wantKeepAlive => true;
 }
 
-class _LoadedBlogsBody extends StatefulWidget {
-  final List<Blog> blogs;
-
-  const _LoadedBlogsBody({
-    required this.blogs,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<_LoadedBlogsBody> createState() => _LoadedBlogsBodyState();
-}
-
-class _LoadedBlogsBodyState extends State<_LoadedBlogsBody>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  void initState() {
-    debugPrint('LoadedBlogsBodyState: initState');
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    debugPrint('LoadedBlogsBodyState: dispose');
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return ListView.separated(
-      itemCount: widget.blogs.length,
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return Text(
-            context.l10n.blogs,
-            style: Theme.of(context).textTheme.titleMedium,
-          );
-        }
-        final blog = widget.blogs[index];
-        return BlogCard(blog: blog);
-      },
-      separatorBuilder: (_, __) => const SizedBox(height: 20),
-    );
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-}
-
 class _FailedBody extends StatelessWidget {
-  const _FailedBody({Key? key}) : super(key: key);
+  final String message;
+  const _FailedBody({Key? key, this.message = ''}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +212,7 @@ class _FailedBody extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           child: SizedBox(
             height: constraints.maxHeight,
-            child: const Center(child: NoInternet()),
+            child: Center(child: Text(message)),
           ),
         );
       },

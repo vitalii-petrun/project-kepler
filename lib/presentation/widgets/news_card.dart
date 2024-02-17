@@ -80,7 +80,7 @@ class NewsCard extends StatelessWidget {
                           onPressed: () => _openArticleUrl(article.url),
                           child: Text(context.l10n.readMore.toUpperCase(),
                               style: theme.textTheme.labelLarge?.copyWith(
-                                  color: theme.colorScheme.onSecondary)),
+                                  color: theme.colorScheme.onSurface)),
                         ),
                       ),
                     ],
