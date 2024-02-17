@@ -5,15 +5,12 @@ part 'expedition_dto.g.dart';
 
 @JsonSerializable()
 class ExpeditionDTO {
-  final String id;
+  final int id;
   final String url;
   final String name;
   final String start;
   final String? end;
   final SpaceStationDTO spacestation;
-  @JsonKey(name: 'mission_patches')
-  final List<String> missionPatches;
-  final List<String> spacewalks;
 
   ExpeditionDTO({
     required this.id,
@@ -22,8 +19,6 @@ class ExpeditionDTO {
     required this.start,
     this.end,
     required this.spacestation,
-    required this.missionPatches,
-    required this.spacewalks,
   });
 
   factory ExpeditionDTO.fromJson(Map<String, dynamic> json) =>

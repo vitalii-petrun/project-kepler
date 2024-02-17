@@ -8,14 +8,14 @@ part of 'space_station_dto.dart';
 
 SpaceStationDTO _$SpaceStationDTOFromJson(Map<String, dynamic> json) =>
     SpaceStationDTO(
-      id: json['id'] as String,
+      id: json['id'] as int,
       url: json['url'] as String,
       name: json['name'] as String,
       status: TypeDTO.fromJson(json['status'] as Map<String, dynamic>),
-      founded: json['founded'] as String,
-      description: json['description'] as String,
+      founded: json['founded'] as String?,
+      description: json['description'] as String?,
       orbit: json['orbit'] as String,
-      imageUrl: json['image_url'] as String,
+      imageUrl: json['image_url'] as String?,
     );
 
 Map<String, dynamic> _$SpaceStationDTOToJson(SpaceStationDTO instance) =>

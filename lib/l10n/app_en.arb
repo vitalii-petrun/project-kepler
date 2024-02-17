@@ -73,6 +73,7 @@
   "spaceXNews": "SpaceX",
   "nasaNews": "NASA",
   "blogs": "Blogs",
+  "retry": "Retry",
   "astroEvents": "Astronomy Events",
   "noNewsDescription": "Something went wrong while fetching the news."
 }

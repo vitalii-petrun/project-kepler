@@ -14,10 +14,10 @@ class SpaceStationDTOToEntityConverter
       url: input.url,
       name: input.name,
       status: TypeDTOToEntityConverter().convert(input.status),
-      founded: input.founded,
-      description: input.description,
+      founded: input.founded ?? "",
+      description: input.description ?? "",
       orbit: input.orbit,
-      imageUrl: input.imageUrl,
+      imageUrl: input.imageUrl ?? "",
     );
   }
 }

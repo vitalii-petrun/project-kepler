@@ -5,15 +5,15 @@ part 'space_station_dto.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SpaceStationDTO {
-  final String id;
+  final int id;
   final String url;
   final String name;
   final TypeDTO status;
-  final String founded;
-  final String description;
+  final String? founded;
+  final String? description;
   final String orbit;
   @JsonKey(name: 'image_url')
-  final String imageUrl;
+  final String? imageUrl;
 
   SpaceStationDTO({
     required this.id,

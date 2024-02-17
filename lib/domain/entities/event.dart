@@ -4,7 +4,7 @@ import 'package:project_kepler/domain/entities/spacestation.dart';
 import 'package:project_kepler/domain/entities/type.dart';
 
 class Event {
-  final String id;
+  final int id;
   final String url;
 
   final String name;

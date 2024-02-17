@@ -1,7 +1,7 @@
 import 'package:project_kepler/domain/entities/type.dart';
 
 class SpaceStation {
-  final String id;
+  final int id;
   final String url;
   final String name;
   final TypeEntity status;

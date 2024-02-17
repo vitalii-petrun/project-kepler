@@ -19,22 +19,28 @@ class EventDtoToEntityConverter extends Converter<EventDTO, Event> {
       description: input.description,
       webcastLive: input.webcastLive,
       location: input.location,
-      newsUrl: input.newsUrl,
-      videoUrl: input.videoUrl,
+      newsUrl: input.newsUrl ?? "",
+      videoUrl: input.videoUrl ?? "",
       featureImage: input.featureImage,
       date: DateTime.parse(input.date),
-      launches: input.launches
-          .map((launch) =>
-              LaunchDtoToEntityConverter().convert(launch as dynamic))
-          .toList(),
-      expeditions: input.expeditions
-          .map((expedition) =>
-              ExpeditionDTOtoEntityConverter().convert(expedition))
-          .toList(),
-      spaceStations: input.spaceStations
-          .map((spaceStation) =>
-              SpaceStationDTOToEntityConverter().convert(spaceStation))
-          .toList(),
+      launches: input.launches == null
+          ? []
+          : input.launches!
+              .map((launch) =>
+                  LaunchDtoToEntityConverter().convert(launch as dynamic))
+              .toList(),
+      expeditions: input.expeditions == null
+          ? []
+          : input.expeditions!
+              .map((expedition) =>
+                  ExpeditionDTOtoEntityConverter().convert(expedition))
+              .toList(),
+      spaceStations: input.spaceStations == null
+          ? []
+          : input.spaceStations!
+              .map((spaceStation) =>
+                  SpaceStationDTOToEntityConverter().convert(spaceStation))
+              .toList(),
     );
   }
 }

@@ -11,11 +11,11 @@ part 'event2_dto.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class EventDTO {
-  final String id;
+  final int id;
   final String url;
   final String slug;
   final String name;
-  final String updates;
+
   @JsonKey(name: 'last_updated')
   final String lastUpdated;
   final TypeDTO type;
@@ -24,25 +24,24 @@ class EventDTO {
   final bool webcastLive;
   final String location;
   @JsonKey(name: 'news_url')
-  final String newsUrl;
+  final String? newsUrl;
   @JsonKey(name: 'video_url')
-  final String videoUrl;
+  final String? videoUrl;
   @JsonKey(name: 'feature_image')
   final String featureImage;
   final String date;
-  final String duration;
-  final List<AgencyDTO> agencies;
-  final List<LaunchDTO> launches;
-  final List<ExpeditionDTO> expeditions;
-  final List<SpaceStationDTO> spaceStations;
-  final List<ProgramDTO> programs;
+  final String? duration;
+  final List<AgencyDTO>? agencies;
+  final List<LaunchDTO>? launches;
+  final List<ExpeditionDTO>? expeditions;
+  final List<SpaceStationDTO>? spaceStations;
+  final List<ProgramDTO>? programs;
 
   EventDTO({
     required this.id,
     required this.url,
     required this.slug,
     required this.name,
-    required this.updates,
     required this.lastUpdated,
     required this.type,
     required this.description,

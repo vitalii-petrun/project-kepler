@@ -17,8 +17,6 @@ class ExpeditionDTOtoEntityConverter
       end: input.end,
       spacestation:
           SpaceStationDTOToEntityConverter().convert(input.spacestation),
-      missionPatches: input.missionPatches,
-      spacewalks: input.spacewalks,
     );
   }
 }
@@ -35,8 +33,6 @@ class ExpeditionEntitytoDTOConverter
       end: input.end,
       spacestation:
           SpaceStationEntityToDTOConverter().convert(input.spacestation),
-      missionPatches: input.missionPatches,
-      spacewalks: input.spacewalks,
     );
   }
 }

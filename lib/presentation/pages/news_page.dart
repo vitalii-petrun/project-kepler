@@ -16,6 +16,7 @@ import '../../core/utils/shimmer_gradients.dart';
 
 import '../cubits/authentication/authentication_cubit.dart';
 
+import '../widgets/failed_body.dart';
 import '../widgets/shimmer_loading_body.dart';
 import '../widgets/space_tab_bar.dart';
 
@@ -149,7 +150,7 @@ Widget _buildContent<T>(
   if (state is NewsLoading) {
     return const ShimmerLoadingBody(); // Placeholder during loading
   } else if (state is NewsError) {
-    return _FailedBody(message: state.message);
+    return FailedBody(message: state.message);
   } else if (state is T) {
     return loadedStateBuilder(context, state as T);
   } else {
@@ -198,24 +199,4 @@ class _LoadedBodyState extends State<_LoadedBody>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class _FailedBody extends StatelessWidget {
-  final String message;
-  const _FailedBody({Key? key, this.message = ''}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: SizedBox(
-            height: constraints.maxHeight,
-            child: Center(child: Text(message)),
-          ),
-        );
-      },
-    );
-  }
 }

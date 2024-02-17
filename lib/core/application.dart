@@ -9,6 +9,7 @@ import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart';
 import 'package:project_kepler/domain/use_cases/get_upcoming_launches_use_case.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
+import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/friends_page/friends_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
@@ -26,6 +27,7 @@ import '../domain/use_cases/fetch_favourite_launches_use_case.dart';
 import '../domain/use_cases/fetch_friends_use_case.dart';
 import '../domain/use_cases/fetch_nasa_articles_use_case.dart';
 import '../domain/use_cases/fetch_spacex_articles_use_case.dart';
+import '../domain/use_cases/get_all_events_use_case.dart';
 import '../domain/use_cases/get_launch_details_use_case.dart';
 import '../domain/use_cases/remove_favourite_launch_use_case.dart';
 import '../domain/use_cases/set_favourite_launch_use_case.dart';
@@ -94,6 +96,10 @@ class Application extends StatelessWidget {
               fetchBlogsUseCase:
                   FetchBlogsUseCase(ArticleRepositoryImpl(newsApiClient))),
         ),
+        BlocProvider(
+            create: (context) => EventsPageCubit(
+                  GetAllEventsUseCase(ApiRepositoryImpl(apiClient)),
+                )),
         BlocProvider(create: (context) => UsersPageCubit()),
         BlocProvider(create: (context) {
           String userId = '';

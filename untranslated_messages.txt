@@ -4,6 +4,7 @@
     "spaceXNews",
     "nasaNews",
     "blogs",
+    "retry",
     "astroEvents"
   ]
 }

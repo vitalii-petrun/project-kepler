@@ -6,9 +6,13 @@ import 'package:project_kepler/presentation/cubits/authentication/authentication
 import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import '../../core/utils/shimmer_gradients.dart';
+import '../../domain/entities/event.dart';
 import '../../domain/entities/launch.dart';
 import '../cubits/authentication/authentication_cubit.dart';
+import '../cubits/events_page/events_cubit.dart';
+import '../cubits/events_page/events_state.dart';
 import '../cubits/launches/launches_page_cubit.dart';
+import '../widgets/events_card.dart';
 import '../widgets/launch_card.dart';
 import '../widgets/rounded_app_bar.dart';
 import '../widgets/shimmer.dart';
@@ -27,7 +31,7 @@ class _EventsPageState extends State<EventsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<LaunchesPageCubit>().fetch();
+    context.read<EventsPageCubit>().fetch();
   }
 
   @override
@@ -42,7 +46,7 @@ class _EventsPageState extends State<EventsPage> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: RoundedAppBar(
-          title: Text(context.l10n.launches),
+          title: Text(context.l10n.astroEvents),
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
             IconButton(
@@ -58,18 +62,43 @@ class _EventsPageState extends State<EventsPage> {
             ),
           ],
         ),
-        drawer: const SpaceDrawer(),
-        body: Container(),
+        body: BlocConsumer<EventsPageCubit, EventsPageState>(
+          listener: (context, state) {
+            debugPrint('EventsPageState: $state');
+            if (state is EventsError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  action: SnackBarAction(
+                    label: context.l10n.retry,
+                    onPressed: () => context.read<LaunchesPageCubit>().fetch(),
+                  ),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is EventsLoading || state is EventsInit) {
+              return const ShimmerLoadingBody();
+            } else if (state is EventsLoaded) {
+              return _LoadedBody(events: state.events);
+            } else if (state is EventsError) {
+              return const _FailedBody(message: 'Failed to load events');
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
 }
 
 class _LoadedBody extends StatelessWidget {
-  final List<Launch> launches;
+  final List<Event> events;
 
   const _LoadedBody({
-    required this.launches,
+    required this.events,
     Key? key,
   }) : super(key: key);
 
@@ -78,10 +107,10 @@ class _LoadedBody extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async => context.read<LaunchesPageCubit>().fetch(),
       child: ListView.separated(
-          itemCount: launches.length,
+          itemCount: events.length,
           itemBuilder: (context, index) {
-            final launch = launches[index];
-            return LaunchCard(launch: launch);
+            final event = events[index];
+            return EventCard(event: event);
           },
           separatorBuilder: (_, __) => const SizedBox(height: 20)),
     );
@@ -89,20 +118,24 @@ class _LoadedBody extends StatelessWidget {
 }
 
 class _FailedBody extends StatelessWidget {
-  const _FailedBody({Key? key}) : super(key: key);
+  final String message;
+
+  const _FailedBody({Key? key, this.message = ''}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
         return RefreshIndicator(
-          onRefresh: () async => context.read<LaunchesPageCubit>().fetch(),
+          onRefresh: () async => context.read<EventsPageCubit>().fetch(),
           child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: SizedBox(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: SizedBox(
                 height: constraints.maxHeight,
-                child: const Center(child: NoInternet())),
-          ),
+                child: Center(
+                    child: Text(message,
+                        style: context.theme.textTheme.titleLarge)),
+              )),
         );
       },
     );

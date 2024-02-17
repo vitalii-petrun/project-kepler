@@ -8,19 +8,13 @@ part of 'expedition_dto.dart';
 
 ExpeditionDTO _$ExpeditionDTOFromJson(Map<String, dynamic> json) =>
     ExpeditionDTO(
-      id: json['id'] as String,
+      id: json['id'] as int,
       url: json['url'] as String,
       name: json['name'] as String,
       start: json['start'] as String,
       end: json['end'] as String?,
       spacestation: SpaceStationDTO.fromJson(
           json['spacestation'] as Map<String, dynamic>),
-      missionPatches: (json['mission_patches'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      spacewalks: (json['spacewalks'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
     );
 
 Map<String, dynamic> _$ExpeditionDTOToJson(ExpeditionDTO instance) =>
@@ -31,6 +25,4 @@ Map<String, dynamic> _$ExpeditionDTOToJson(ExpeditionDTO instance) =>
       'start': instance.start,
       'end': instance.end,
       'spacestation': instance.spacestation,
-      'mission_patches': instance.missionPatches,
-      'spacewalks': instance.spacewalks,
     };
