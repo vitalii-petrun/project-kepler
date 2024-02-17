@@ -7,6 +7,7 @@ import '../../domain/entities/launch.dart';
 import '../cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
 import '../widgets/launch_card.dart';
+import '../widgets/no_favourite.dart';
 import '../widgets/no_internet.dart';
 import '../widgets/rounded_app_bar.dart';
 
@@ -57,17 +58,22 @@ class _LoadedBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        context.read<FavoriteLaunchesPageCubit>().fetchFavouriteLaunches();
-      },
-      child: ListView.builder(
-        itemCount: launches.length,
-        itemBuilder: (context, index) {
-          return LaunchCard(
-            launch: launches[index],
-          );
+    if (launches.isEmpty) {
+      return const NoFavourite();
+    }
+    return SafeArea(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context.read<FavoriteLaunchesPageCubit>().fetchFavouriteLaunches();
         },
+        child: ListView.builder(
+          itemCount: launches.length,
+          itemBuilder: (context, index) {
+            return LaunchCard(
+              launch: launches[index],
+            );
+          },
+        ),
       ),
     );
   }

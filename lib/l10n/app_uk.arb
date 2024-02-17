@@ -67,5 +67,8 @@
     "following": "Підписані",
     "noInternetConnection": "Відсутнє з'єднання з інтернетом",
     "unknownError": "Невідома помилка",
+    "readMore": "Читати далі",
+    "appName": "Project Kepler",
+    "aiChat": "ШІ Помічник",
     "noNewsDescription": "Новини відсутні"
 }

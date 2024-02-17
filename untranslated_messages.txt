@@ -1,6 +1,8 @@
 {
   "uk": [
-    "readMore",
-    "appName"
+    "recentNews",
+    "spaceXNews",
+    "nasaNews",
+    "blogs"
   ]
 }

@@ -59,7 +59,7 @@
   "noInternetConnection": "No internet connection",
   "unknownError": "An unknown error occurred",
   "favs": "Favourites",
-  "noFavs": "No favourites",
+  "noFavs": "No favourites yet",
   "noFavsDescription": "You can add your favourite launches by clicking the star icon on the launch details page.",
   "news": "News",
   "noNews": "No news",
@@ -68,5 +68,10 @@
   "logIn": "Log in",
   "readMore": "Read more",
   "appName": "Project Kepler",
+  "aiChat": "AI Companion",
+  "recentNews": "Recent",
+  "spaceXNews": "SpaceX",
+  "nasaNews": "NASA",
+  "blogs": "Blogs",
   "noNewsDescription": "Something went wrong while fetching the news."
 }
