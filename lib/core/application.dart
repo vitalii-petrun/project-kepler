@@ -13,6 +13,8 @@ import 'package:project_kepler/presentation/cubits/favourite_launches_page/favou
 import 'package:project_kepler/presentation/cubits/friends_page/friends_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/news_page/blogs_cubit.dart';
+import 'package:project_kepler/presentation/cubits/news_page/nasa_news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +31,7 @@ import '../domain/use_cases/remove_favourite_launch_use_case.dart';
 import '../domain/use_cases/set_favourite_launch_use_case.dart';
 import '../presentation/cubits/authentication/authentication_state.dart';
 import '../presentation/cubits/home_page/home_page_cubit.dart';
+import '../presentation/cubits/news_page/spacex_news_cubit.dart';
 import '../presentation/cubits/users_page/users_page_cubit.dart';
 import '../presentation/navigation/app_router.dart';
 
@@ -73,14 +76,23 @@ class Application extends StatelessWidget {
           create: (context) => NewsCubit(
             fetchRecentArticlesUseCase:
                 FetchArticlesUseCase(ArticleRepositoryImpl(newsApiClient)),
-            fetchSpaceXArticlesUseCase: FetchSpaceXArticlesUseCase(
-                ArticleRepositoryImpl(newsApiClient)),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => NasaNewsCubit(
             fetchNasaArticlesUseCase:
                 FetchNasaArticlesUseCase(ArticleRepositoryImpl(newsApiClient)),
-            fetchBlogsUseCase: FetchBlogsUseCase(
-              ArticleRepositoryImpl(newsApiClient),
-            ),
           ),
+        ),
+        BlocProvider(
+            create: (context) => SpaceXNewsCubit(
+                  fetchSpaceXArticlesUseCase: FetchSpaceXArticlesUseCase(
+                      ArticleRepositoryImpl(newsApiClient)),
+                )),
+        BlocProvider(
+          create: (context) => BlogsCubit(
+              fetchBlogsUseCase:
+                  FetchBlogsUseCase(ArticleRepositoryImpl(newsApiClient))),
         ),
         BlocProvider(create: (context) => UsersPageCubit()),
         BlocProvider(create: (context) {

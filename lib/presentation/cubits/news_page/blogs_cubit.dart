@@ -1,19 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 
-import '../../../domain/use_cases/fetch_articles_use_case.dart';
+import '../../../domain/use_cases/fetch_blogs_use_case.dart';
 
-class NewsCubit extends Cubit<NewsState> {
-  final FetchArticlesUseCase fetchRecentArticlesUseCase;
+class BlogsCubit extends Cubit<NewsState> {
+  final FetchBlogsUseCase fetchBlogsUseCase;
 
-  NewsCubit({
-    required this.fetchRecentArticlesUseCase,
+  BlogsCubit({
+    required this.fetchBlogsUseCase,
   }) : super(NewsLoading());
 
-  Future<void> fetchRecentArticles() async {
-    _fetchData<RecentArticlesLoaded>(
-      fetchUseCase: fetchRecentArticlesUseCase,
-      onSuccess: (articles) => RecentArticlesLoaded(articles),
+  Future<void> fetchBlogs() async {
+    _fetchData<BlogsLoaded>(
+      fetchUseCase: fetchBlogsUseCase,
+      onSuccess: (blogs) => BlogsLoaded(blogs),
     );
   }
 

@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/article.dart';
-
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
+import 'package:project_kepler/presentation/cubits/news_page/blogs_cubit.dart';
+import 'package:project_kepler/presentation/cubits/news_page/nasa_news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
+import 'package:project_kepler/presentation/cubits/news_page/spacex_news_cubit.dart';
 import 'package:project_kepler/presentation/widgets/news_card.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
@@ -15,7 +17,6 @@ import '../../core/utils/shimmer_gradients.dart';
 import '../../domain/entities/blog.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 import '../widgets/blog_card.dart';
-import '../widgets/shimmer_loading_body.dart';
 
 @RoutePage()
 class NewsPage extends StatefulWidget {
@@ -25,38 +26,30 @@ class NewsPage extends StatefulWidget {
   State<NewsPage> createState() => _NewsPageState();
 }
 
+enum TabIndex { recent, spaceX, nasa, blogs }
+
 class _NewsPageState extends State<NewsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  void fetchArticles() {
+    context.read<NewsCubit>().fetchRecentArticles();
+    context.read<SpaceXNewsCubit>().fetchSpaceXArticles();
+    context.read<NasaNewsCubit>().fetchNasaArticles();
+    context.read<BlogsCubit>().fetchBlogs();
+  }
+
   @override
   void initState() {
     super.initState();
+    fetchArticles();
     _tabController = TabController(length: 4, vsync: this);
-    _fetchArticlesForCurrentTab();
-
-    _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) {
-        _fetchArticlesForCurrentTab();
-      }
-    });
   }
 
-  void _fetchArticlesForCurrentTab() {
-    switch (_tabController.index) {
-      case 0:
-        context.read<NewsCubit>().fetchRecentArticles();
-        break;
-      case 1:
-        context.read<NewsCubit>().fetchSpaceXArticles();
-        break;
-      case 2:
-        context.read<NewsCubit>().fetchNasaArticles();
-        break;
-      case 3:
-        context.read<NewsCubit>().fetchBlogs();
-        break;
-    }
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -103,11 +96,35 @@ class _NewsPageState extends State<NewsPage>
                   controller: _tabController,
                   children: [
                     BlocBuilder<NewsCubit, NewsState>(
-                        builder: _buildRecentNews),
-                    BlocBuilder<NewsCubit, NewsState>(
-                        builder: _buildSpaceXNews),
-                    BlocBuilder<NewsCubit, NewsState>(builder: _buildNasaNews),
-                    BlocBuilder<NewsCubit, NewsState>(builder: _buildBlogs),
+                      builder: (context, state) {
+                        return _LoadedBody(
+                            articles: state is RecentArticlesLoaded
+                                ? state.articles
+                                : []);
+                      },
+                    ),
+                    BlocBuilder<SpaceXNewsCubit, NewsState>(
+                      builder: (context, state) {
+                        return _LoadedBody(
+                            articles: state is SpaceXArticlesLoaded
+                                ? state.articles
+                                : []);
+                      },
+                    ),
+                    BlocBuilder<NasaNewsCubit, NewsState>(
+                      builder: (context, state) {
+                        return _LoadedBody(
+                            articles: state is NasaArticlesLoaded
+                                ? state.articles
+                                : []);
+                      },
+                    ),
+                    BlocBuilder<BlogsCubit, NewsState>(
+                      builder: (context, state) {
+                        return _LoadedBlogsBody(
+                            blogs: state is BlogsLoaded ? state.blogs : []);
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -116,52 +133,6 @@ class _NewsPageState extends State<NewsPage>
         ),
       ),
     );
-  }
-
-  Widget _buildRecentNews(BuildContext context, NewsState state) {
-    if (state is RecentArticlesLoaded) {
-      return _LoadedBody(articles: state.articles);
-    } else if (state is NewsError) {
-      return const _FailedBody();
-    } else {
-      return const ShimmerLoadingBody();
-    }
-  }
-
-  Widget _buildSpaceXNews(BuildContext context, NewsState state) {
-    if (state is SpaceXArticlesLoaded) {
-      return _LoadedBody(articles: state.articles);
-    } else if (state is NewsError) {
-      return const _FailedBody();
-    } else {
-      return const ShimmerLoadingBody();
-    }
-  }
-
-  Widget _buildNasaNews(BuildContext context, NewsState state) {
-    if (state is NasaArticlesLoaded) {
-      return _LoadedBody(articles: state.articles);
-    } else if (state is NewsError) {
-      return const _FailedBody();
-    } else {
-      return const ShimmerLoadingBody();
-    }
-  }
-
-  Widget _buildBlogs(BuildContext context, NewsState state) {
-    if (state is BlogsLoaded) {
-      return _LoadedBlogsBody(blogs: state.blogs);
-    } else if (state is NewsError) {
-      return const _FailedBody();
-    } else {
-      return const ShimmerLoadingBody();
-    }
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 }
 
@@ -179,6 +150,18 @@ class _LoadedBody extends StatefulWidget {
 
 class _LoadedBodyState extends State<_LoadedBody>
     with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    debugPrint('LoadedBodyState: initState  $hashCode');
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    debugPrint('LoadedBodyState: dispose $hashCode');
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -210,6 +193,18 @@ class _LoadedBlogsBody extends StatefulWidget {
 
 class _LoadedBlogsBodyState extends State<_LoadedBlogsBody>
     with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    debugPrint('LoadedBlogsBodyState: initState');
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    debugPrint('LoadedBlogsBodyState: dispose');
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
