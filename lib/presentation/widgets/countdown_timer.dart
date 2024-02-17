@@ -202,7 +202,8 @@ class _DividerWithStatusChip extends StatelessWidget {
               labelPadding: const EdgeInsets.symmetric(horizontal: 18),
               label: Text(
                 launchStatus.value,
-                style: context.theme.textTheme.titleLarge,
+                style: context.theme.textTheme.titleLarge
+                    ?.copyWith(color: Colors.white),
               ),
             ),
           ),
