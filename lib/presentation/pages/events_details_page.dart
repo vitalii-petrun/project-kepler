@@ -328,7 +328,7 @@ class _NewsUrlButton extends StatelessWidget {
           ),
           padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
         ),
-        child: Text(context.l10n.readFullArticle),
+        child: Text(context.l10n.readMore),
       ),
     );
   }
