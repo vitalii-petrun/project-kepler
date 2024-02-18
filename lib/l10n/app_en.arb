@@ -75,5 +75,12 @@
   "blogs": "Blogs",
   "retry": "Retry",
   "astroEvents": "Astronomy Events",
+  "watchLive": "Watch Live",
+  "close": "Close",
+  "liveWebcast": "Live Webcast",
+  "staticFireExplanation": "A static fire test is a test of the rocket's engines while the rocket is held down. This is done to ensure that the engines are working properly before the actual launch.",
+  "evaExplanation": "An EVA or extravehicular activity is when an astronaut leaves the confines of their spacecraft to perform tasks in space. This can include repairs, experiments, and construction.",
+  "wetDressRehearsalExplanation": "A wet dress rehearsal is a full dress rehearsal of the launch procedure that includes loading the propellants into the rocket. It is the final test before the actual launch.",
+  "dockingExplanation": "Docking is the process of joining two space vehicles together. This can be done with spacecraft, space stations, or satellites.",
   "noNewsDescription": "Something went wrong while fetching the news."
 }

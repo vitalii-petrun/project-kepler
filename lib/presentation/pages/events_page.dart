@@ -3,21 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
-import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
-import 'package:project_kepler/presentation/widgets/no_internet.dart';
+
 import '../../core/utils/shimmer_gradients.dart';
 import '../../domain/entities/event.dart';
-import '../../domain/entities/launch.dart';
+
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/events_page/events_cubit.dart';
 import '../cubits/events_page/events_state.dart';
 import '../cubits/launches/launches_page_cubit.dart';
 import '../widgets/events_card.dart';
-import '../widgets/launch_card.dart';
+
 import '../widgets/rounded_app_bar.dart';
 import '../widgets/shimmer.dart';
 import '../widgets/shimmer_loading_body.dart';
-import '../widgets/space_drawer.dart';
 
 @RoutePage()
 class EventsPage extends StatefulWidget {

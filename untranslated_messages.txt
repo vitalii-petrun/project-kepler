@@ -1,10 +1,6 @@
 {
   "uk": [
-    "recentNews",
     "spaceXNews",
-    "nasaNews",
-    "blogs",
-    "retry",
-    "astroEvents"
+    "nasaNews"
   ]
 }
