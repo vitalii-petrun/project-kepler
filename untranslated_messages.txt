@@ -1,6 +1,12 @@
 {
   "uk": [
     "spaceXNews",
-    "nasaNews"
+    "nasaNews",
+    "location",
+    "eventDetails",
+    "date",
+    "expeditions",
+    "readFullArticle",
+    "spaceStations"
   ]
 }

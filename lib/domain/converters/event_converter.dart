@@ -19,8 +19,8 @@ class EventDtoToEntityConverter extends Converter<EventDTO, Event> {
       description: input.description,
       webcastLive: input.webcastLive,
       location: input.location,
-      newsUrl: input.newsUrl ?? "",
-      videoUrl: input.videoUrl ?? "",
+      newsUrl: input.newsUrl,
+      videoUrl: input.videoUrl,
       featureImage: input.featureImage,
       date: DateTime.parse(input.date),
       launches: input.launches == null

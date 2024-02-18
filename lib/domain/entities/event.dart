@@ -13,8 +13,8 @@ class Event {
   final String description;
   final bool webcastLive;
   final String location;
-  final String newsUrl;
-  final String videoUrl;
+  final String? newsUrl;
+  final String? videoUrl;
   final String featureImage;
   final DateTime date;
 

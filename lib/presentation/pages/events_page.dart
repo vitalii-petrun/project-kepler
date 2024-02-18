@@ -10,7 +10,7 @@ import '../../domain/entities/event.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/events_page/events_cubit.dart';
 import '../cubits/events_page/events_state.dart';
-import '../cubits/launches/launches_page_cubit.dart';
+
 import '../widgets/events_card.dart';
 
 import '../widgets/rounded_app_bar.dart';
@@ -60,32 +60,34 @@ class _EventsPageState extends State<EventsPage> {
             ),
           ],
         ),
-        body: BlocConsumer<EventsPageCubit, EventsPageState>(
-          listener: (context, state) {
-            debugPrint('EventsPageState: $state');
-            if (state is EventsError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  action: SnackBarAction(
-                    label: context.l10n.retry,
-                    onPressed: () => context.read<LaunchesPageCubit>().fetch(),
+        body: SafeArea(
+          child: BlocConsumer<EventsPageCubit, EventsPageState>(
+            listener: (context, state) {
+              debugPrint('EventsPageState: $state');
+              if (state is EventsError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    action: SnackBarAction(
+                      label: context.l10n.retry,
+                      onPressed: () => context.read<EventsPageCubit>().fetch(),
+                    ),
                   ),
-                ),
-              );
-            }
-          },
-          builder: (context, state) {
-            if (state is EventsLoading || state is EventsInit) {
-              return const ShimmerLoadingBody();
-            } else if (state is EventsLoaded) {
-              return _LoadedBody(events: state.events);
-            } else if (state is EventsError) {
-              return const _FailedBody(message: 'Failed to load events');
-            } else {
-              return const SizedBox();
-            }
-          },
+                );
+              }
+            },
+            builder: (context, state) {
+              if (state is EventsLoading || state is EventsInit) {
+                return const ShimmerLoadingBody();
+              } else if (state is EventsLoaded) {
+                return _LoadedBody(events: state.events);
+              } else if (state is EventsError) {
+                return const _FailedBody(message: 'Failed to load events');
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
         ),
       ),
     );
@@ -103,12 +105,12 @@ class _LoadedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => context.read<LaunchesPageCubit>().fetch(),
+      onRefresh: () async => context.read<EventsPageCubit>().fetch(),
       child: ListView.separated(
           itemCount: events.length,
           itemBuilder: (context, index) {
             final event = events[index];
-            return EventCard(event: event);
+            return EventCard(event: event, eventId: event.id);
           },
           separatorBuilder: (_, __) => const SizedBox(height: 20)),
     );

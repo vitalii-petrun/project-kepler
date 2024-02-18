@@ -1,17 +1,22 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import 'package:intl/intl.dart'; // For date formatting
+import 'package:intl/intl.dart';
 
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/event.dart';
 import 'package:project_kepler/domain/entities/type.dart';
 import 'package:project_kepler/presentation/widgets/info_badge.dart';
 
+import '../navigation/app_router.dart';
+
 class EventCard extends StatelessWidget {
   final Event event;
+  final int eventId;
 
   const EventCard({
     required this.event,
+    required this.eventId,
     Key? key,
   }) : super(key: key);
 
@@ -175,9 +180,8 @@ class _FooterSection extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                // Your navigation logic here, adjust based on your app's setup
-                // AutoRouter.of(context)
-                //     .push(EventDetailsRoute(eventId: event.id)); // Adjust this
+                context.router
+                    .push(EventsDetailsRoute(event: event, eventId: event.id));
               },
               borderRadius: BorderRadius.circular(8),
               child: Padding(
