@@ -78,13 +78,11 @@ class SpaceDrawer extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             _DrawerTile(
-              icon: const Icon(Icons.favorite_rounded, size: 30),
-              title: context.l10n.favourite,
+              icon: const Icon(Icons.event_note_rounded, size: 30),
+              title: context.l10n.astroEvents,
               onTap: () {
                 Navigator.pop(context);
-                if (tabsRouter.activeIndex != 3) {
-                  tabsRouter.setActiveIndex(3);
-                }
+                context.router.pushNamed('/events');
               },
             ),
             const SizedBox(height: 10),
@@ -106,6 +104,9 @@ class SpaceDrawer extends StatelessWidget {
               },
             ),
             const SizedBox(height: 10),
+            const SizedBox(height: 5),
+            const Divider(color: Colors.black45),
+            const SizedBox(height: 5),
             _DrawerTile(
               icon: const Icon(Icons.settings_rounded, size: 30),
               title: context.l10n.settings,
@@ -113,6 +114,17 @@ class SpaceDrawer extends StatelessWidget {
                 Navigator.pop(context);
                 if (tabsRouter.activeIndex != 2) {
                   tabsRouter.setActiveIndex(2);
+                }
+              },
+            ),
+            const SizedBox(height: 10),
+            _DrawerTile(
+              icon: const Icon(Icons.favorite_rounded, size: 30),
+              title: context.l10n.favourite,
+              onTap: () {
+                Navigator.pop(context);
+                if (tabsRouter.activeIndex != 3) {
+                  tabsRouter.setActiveIndex(3);
                 }
               },
             ),

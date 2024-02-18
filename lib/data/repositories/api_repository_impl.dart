@@ -1,10 +1,14 @@
+import 'package:project_kepler/domain/entities/event.dart';
+
 import '../../domain/converters/agency_converter.dart';
+import '../../domain/converters/event_converter.dart';
 import '../../domain/converters/launch_converter.dart';
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
 import '../../domain/repositories/api_repository.dart';
 import '../data sources/remote/api_client.dart';
 import '../models/agency_dto.dart';
+import '../models/event2_dto.dart';
 import '../models/launch_dto.dart';
 
 class ApiRepositoryImpl implements ApiRepository {
@@ -12,6 +16,7 @@ class ApiRepositoryImpl implements ApiRepository {
 
   final launchDtoToEntityConverter = LaunchDtoToEntityConverter();
   final agencyDtoToEntityConverter = AgencyDtoToEntityConverter();
+  final eventDtoToEntityConverter = EventDtoToEntityConverter();
 
   ApiRepositoryImpl(this._apiClient);
 
@@ -32,6 +37,16 @@ class ApiRepositoryImpl implements ApiRepository {
         .toList();
 
     return launchDtoList.map(launchDtoToEntityConverter.convert).toList();
+  }
+
+  @override
+  Future<List<Event>> getAllEvents() async {
+    final response = await _apiClient.get('/event/');
+    final launchDtoList = (response.data["results"] as List)
+        .map((item) => EventDTO.fromJson(item))
+        .toList();
+
+    return launchDtoList.map(eventDtoToEntityConverter.convert).toList();
   }
 
   @override

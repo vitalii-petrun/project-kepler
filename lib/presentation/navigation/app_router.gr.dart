@@ -100,6 +100,23 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AIChatPage(),
       );
     },
+    EventsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EventsPage(),
+      );
+    },
+    EventsDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<EventsDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EventsDetailsPage(
+          key: args.key,
+          event: args.event,
+          eventId: args.eventId,
+        ),
+      );
+    },
   };
 }
 
@@ -308,4 +325,62 @@ class AIChatRoute extends PageRouteInfo<void> {
   static const String name = 'AIChatRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EventsPage]
+class EventsRoute extends PageRouteInfo<void> {
+  const EventsRoute({List<PageRouteInfo>? children})
+      : super(
+          EventsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EventsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EventsDetailsPage]
+class EventsDetailsRoute extends PageRouteInfo<EventsDetailsRouteArgs> {
+  EventsDetailsRoute({
+    Key? key,
+    required Event event,
+    required int eventId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EventsDetailsRoute.name,
+          args: EventsDetailsRouteArgs(
+            key: key,
+            event: event,
+            eventId: eventId,
+          ),
+          rawPathParams: {'eventId': eventId},
+          initialChildren: children,
+        );
+
+  static const String name = 'EventsDetailsRoute';
+
+  static const PageInfo<EventsDetailsRouteArgs> page =
+      PageInfo<EventsDetailsRouteArgs>(name);
+}
+
+class EventsDetailsRouteArgs {
+  const EventsDetailsRouteArgs({
+    this.key,
+    required this.event,
+    required this.eventId,
+  });
+
+  final Key? key;
+
+  final Event event;
+
+  final int eventId;
+
+  @override
+  String toString() {
+    return 'EventsDetailsRouteArgs{key: $key, event: $event, eventId: $eventId}';
+  }
 }
