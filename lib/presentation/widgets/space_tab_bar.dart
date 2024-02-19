@@ -36,6 +36,7 @@ class SpaceTabBar extends StatelessWidget {
             ],
           ),
           child: TabBar(
+            overlayColor: MaterialStateProperty.all(Colors.transparent),
             controller: controller,
             indicator: BoxDecoration(
               borderRadius: BorderRadius.circular(30),

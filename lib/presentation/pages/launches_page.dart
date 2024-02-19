@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
@@ -12,7 +13,7 @@ import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/launches/launches_page_cubit.dart';
 
 import '../widgets/launch_card.dart';
-import '../widgets/rounded_app_bar.dart';
+
 import '../widgets/shimmer.dart';
 import '../widgets/shimmer_loading_body.dart';
 import '../widgets/space_drawer.dart';
@@ -109,7 +110,7 @@ class _LaunchesPageState extends State<LaunchesPage>
   }
 }
 
-class _LoadedBody extends StatelessWidget {
+class _LoadedBody extends StatefulWidget {
   final List<Launch> launches;
 
   const _LoadedBody({
@@ -118,18 +119,28 @@ class _LoadedBody extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<_LoadedBody> createState() => _LoadedBodyState();
+}
+
+class _LoadedBodyState extends State<_LoadedBody>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
       onRefresh: () async => context.read<LaunchesPageCubit>().fetch(),
       child: ListView.separated(
-          itemCount: launches.length,
+          itemCount: widget.launches.length,
           itemBuilder: (context, index) {
-            final launch = launches[index];
+            final launch = widget.launches[index];
             return LaunchCard(launch: launch);
           },
           separatorBuilder: (_, __) => const SizedBox(height: 20)),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _FailedBody extends StatelessWidget {
