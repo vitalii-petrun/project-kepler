@@ -6,12 +6,25 @@ import 'package:project_kepler/core/extensions/build_context_ext.dart';
 class CountdownTimer extends StatefulWidget {
   final String net;
   final String launchStatus;
+  final bool isCompact;
 
   const CountdownTimer({
     required this.net,
     required this.launchStatus,
+    this.isCompact = false,
     Key? key,
   }) : super(key: key);
+
+  factory CountdownTimer.compact({
+    required String net,
+    required String launchStatus,
+  }) {
+    return CountdownTimer(
+      net: net,
+      launchStatus: launchStatus,
+      isCompact: true,
+    );
+  }
 
   @override
   State<CountdownTimer> createState() => CountdownTimerState();
@@ -61,22 +74,42 @@ class CountdownTimerState extends State<CountdownTimer> {
 
     return Column(
       children: [
-        _DividerWithStatusChip(
-            launchStatus: LaunchStatus.fromString(widget.launchStatus)),
-        const SizedBox(height: 18),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _CountdownItem(number: days, label: context.l10n.days),
-            const SizedBox(width: 8),
-            _CountdownItem(number: hours, label: context.l10n.hours),
-            const SizedBox(width: 8),
-            _CountdownItem(number: minutes, label: context.l10n.minutes),
-            const SizedBox(width: 8),
-            _CountdownItem(number: seconds, label: context.l10n.seconds),
-          ],
-        ),
+        if (!widget.isCompact)
+          _DividerWithStatusChip(
+              launchStatus: LaunchStatus.fromString(widget.launchStatus)),
+        if (!widget.isCompact) const SizedBox(height: 18),
+        if (widget.isCompact) ...[
+          const SizedBox(height: 8),
+          Wrap(
+            runAlignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 8,
+            children: [
+              _CountdownItem.compact(number: days, label: context.l10n.days),
+              _CountdownItem.compact(number: hours, label: context.l10n.hours),
+              _CountdownItem.compact(
+                  number: minutes, label: context.l10n.minutes),
+              _CountdownItem.compact(
+                  number: seconds, label: context.l10n.seconds),
+            ],
+          ),
+        ],
+        if (!widget.isCompact)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _CountdownItem(number: days, label: context.l10n.days),
+              const SizedBox(width: 8),
+              _CountdownItem(number: hours, label: context.l10n.hours),
+              const SizedBox(width: 8),
+              _CountdownItem(number: minutes, label: context.l10n.minutes),
+              const SizedBox(width: 8),
+              _CountdownItem(number: seconds, label: context.l10n.seconds),
+            ],
+          ),
       ],
     );
   }
@@ -85,12 +118,25 @@ class CountdownTimerState extends State<CountdownTimer> {
 class _CountdownItem extends StatelessWidget {
   final int number;
   final String label;
+  final bool isCompact;
 
   const _CountdownItem({
     required this.number,
     required this.label,
+    this.isCompact = false,
     Key? key,
   }) : super(key: key);
+
+  factory _CountdownItem.compact({
+    required int number,
+    required String label,
+  }) {
+    return _CountdownItem(
+      number: number,
+      label: label,
+      isCompact: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +152,9 @@ class _CountdownItem extends StatelessWidget {
           children: [
             Text(
               number.toString().padLeft(2, '0'),
-              style: context.theme.textTheme.headlineMedium,
+              style: isCompact
+                  ? context.theme.textTheme.headlineSmall
+                  : context.theme.textTheme.headlineMedium,
             ),
             Text(label.toUpperCase()),
           ],

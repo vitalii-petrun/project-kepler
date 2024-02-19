@@ -71,8 +71,8 @@ class _LaunchesPageState extends State<LaunchesPage>
               SpaceTabBar(
                 controller: tabController,
                 tabs: [
-                  Tab(text: context.l10n.recentLaunches),
-                  Tab(text: context.l10n.upcomingLaunches),
+                  Tab(text: context.l10n.recent),
+                  Tab(text: context.l10n.upcoming),
                 ],
               ),
               Expanded(

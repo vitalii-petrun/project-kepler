@@ -11,11 +11,20 @@ import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
 
 class LaunchCard extends StatefulWidget {
   final Launch launch;
+  final bool isCompact;
 
   const LaunchCard({
     required this.launch,
+    this.isCompact = false,
     Key? key,
   }) : super(key: key);
+
+  factory LaunchCard.compact({required Launch launch}) {
+    return LaunchCard(
+      launch: launch,
+      isCompact: true,
+    );
+  }
 
   @override
   State<LaunchCard> createState() => _LaunchCardState();
@@ -57,16 +66,27 @@ class _LaunchCardState extends State<LaunchCard> {
             ),
             _ImageSection(image: widget.launch.image ?? ""),
             const SizedBox(height: 8),
-            CountdownTimer(
+            if (widget.isCompact)
+              CountdownTimer.compact(
                 net: widget.launch.net,
-                launchStatus: widget.launch.status.name),
+                launchStatus: widget.launch.status.name,
+              )
+            else
+              CountdownTimer(
+                net: widget.launch.net,
+                launchStatus: widget.launch.status.name,
+              ),
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _BodySection(
-                  missionDescription: widget.launch.mission?.description),
+              child: widget.isCompact
+                  ? _BodySection.compact(
+                      missionDescription:
+                          widget.launch.mission?.description ?? "?")
+                  : _BodySection(
+                      missionDescription: widget.launch.mission?.description),
             ),
-            const SizedBox(height: 8),
+            if (!widget.isCompact) const SizedBox(height: 8),
             _FooterSection(launch: widget.launch),
             const SizedBox(height: 8),
           ],
@@ -279,11 +299,20 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
 
 class _BodySection extends StatelessWidget {
   final String? missionDescription;
+  final bool isCompact;
 
   const _BodySection({
     required this.missionDescription,
+    this.isCompact = false,
     Key? key,
   }) : super(key: key);
+
+  factory _BodySection.compact({required String missionDescription}) {
+    return _BodySection(
+      missionDescription: missionDescription,
+      isCompact: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -300,7 +329,7 @@ class _BodySection extends StatelessWidget {
             : missionDescription!,
         style: context.theme.textTheme.bodyLarge?.copyWith(fontSize: 16),
         textAlign: TextAlign.justify,
-        maxLines: 6,
+        maxLines: isCompact ? 3 : 6,
         overflow: TextOverflow.ellipsis,
       ),
     );

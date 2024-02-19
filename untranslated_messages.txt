@@ -8,7 +8,12 @@
     "expeditions",
     "readFullArticle",
     "spaceStations",
+    "upcoming",
+    "recent",
     "upcomingLaunches",
-    "recentLaunches"
+    "upcomingEvents",
+    "recentNewss",
+    "recentLaunches",
+    "events"
   ]
 }

@@ -98,37 +98,57 @@ class _LoadedBody extends StatelessWidget {
     required this.articles,
   }) : super(key: key);
 
-  Widget _buildSectionTitle(BuildContext context, String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(title, style: context.theme.textTheme.headline6),
-    );
-  }
-
   Widget _buildLaunchesSection(BuildContext context) {
-    return Column(
-      children: launches
-          .take(3) // Assuming you want to show only the first 3 items
-          .map((launch) => LaunchCard(launch: launch))
-          .toList(),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: launches
+            .take(3)
+            .map((launch) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 300.0,
+                    child: LaunchCard.compact(launch: launch),
+                  ),
+                ))
+            .toList(),
+      ),
     );
   }
 
   Widget _buildEventsSection(BuildContext context) {
-    return Column(
-      children: events
-          .take(3) // Assuming you want to show only the first 3 items
-          .map((event) => EventCard(event: event, eventId: event.id))
-          .toList(),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: events
+            .take(3)
+            .map((event) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 300.0,
+                    child: EventCard(event: event, eventId: event.id),
+                  ),
+                ))
+            .toList(),
+      ),
     );
   }
 
   Widget _buildArticlesSection(BuildContext context) {
-    return Column(
-      children: articles
-          .take(3) // Assuming you want to show only the first 3 items
-          .map((article) => NewsCard(article: article))
-          .toList(),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: articles
+            .take(3)
+            .map((article) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 300.0, // Adjust as needed
+                    child: NewsCard(article: article),
+                  ),
+                ))
+            .toList(),
+      ),
     );
   }
 
@@ -137,18 +157,36 @@ class _LoadedBody extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async => context.read<HomePageCubit>().fetch(),
       child: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle(context, context.l10n.launches),
+            const SpaceGreetingCard(),
+            const SizedBox(height: 16.0),
+            _SpaceSectionTitle(title: context.l10n.upcomingLaunches),
             _buildLaunchesSection(context),
-            _buildSectionTitle(context, context.l10n.eventDetails),
+            _SpaceSectionTitle(title: context.l10n.upcomingEvents),
             _buildEventsSection(context),
-            _buildSectionTitle(context, context.l10n.news),
+            _SpaceSectionTitle(title: context.l10n.recentNewss),
             _buildArticlesSection(context),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SpaceSectionTitle extends StatelessWidget {
+  final String title;
+  const _SpaceSectionTitle({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        title,
+        style: context.theme.textTheme.titleLarge,
       ),
     );
   }
@@ -171,6 +209,33 @@ class _FailedBody extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class SpaceGreetingCard extends StatelessWidget {
+  const SpaceGreetingCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.blue, Colors.deepPurple],
+        ),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Text(
+        "Welcome to Project Kepler App!",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 24.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }
