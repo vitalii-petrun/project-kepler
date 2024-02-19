@@ -84,7 +84,7 @@ class CountdownTimerState extends State<CountdownTimer> {
             runAlignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
             alignment: WrapAlignment.center,
-            spacing: 16,
+            spacing: 8,
             runSpacing: 8,
             children: [
               _CountdownItem.compact(number: days, label: context.l10n.days),

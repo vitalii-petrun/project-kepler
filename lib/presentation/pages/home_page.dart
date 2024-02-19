@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
+import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 import 'package:project_kepler/presentation/widgets/events_card.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
@@ -103,13 +103,15 @@ class _LoadedBody extends StatelessWidget {
   Widget _buildLaunchesSection(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: launches
             .take(3)
             .map((launch) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 300.0,
+                    width: 330.0,
                     child: LaunchCard.compact(launch: launch),
                   ),
                 ))
@@ -121,9 +123,11 @@ class _LoadedBody extends StatelessWidget {
   Widget _buildEventsSection(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: events
-            .take(3)
+            .take(5)
             .map((event) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
@@ -139,7 +143,9 @@ class _LoadedBody extends StatelessWidget {
   Widget _buildArticlesSection(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: articles
             .take(3)
             .map((article) => Padding(
@@ -159,7 +165,7 @@ class _LoadedBody extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async => context.read<HomePageCubit>().fetch(),
       child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -172,16 +178,15 @@ class _LoadedBody extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: _SpaceSectionTitle(
                   title: context.l10n.upcomingLaunches,
-                  accentColor: Colors.deepPurpleAccent),
+                  accentColor: AppColors.launchCardColor),
             ),
             _buildLaunchesSection(context),
             const SizedBox(height: 22.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _SpaceSectionTitle(
-                title: context.l10n.upcomingEvents,
-                accentColor: Colors.deepOrangeAccent,
-              ),
+                  title: context.l10n.upcomingEvents,
+                  accentColor: AppColors.eventCardColor),
             ),
             _buildEventsSection(context),
             const SizedBox(height: 22.0),
@@ -189,10 +194,11 @@ class _LoadedBody extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: _SpaceSectionTitle(
                 title: context.l10n.recentNewss,
-                accentColor: Colors.blue,
+                accentColor: AppColors.newsCardColor,
               ),
             ),
             _buildArticlesSection(context),
+            const SizedBox(height: 22.0),
           ],
         ),
       ),
@@ -216,11 +222,19 @@ class _SpaceSectionTitle extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 8.0,
+            spreadRadius: 2.0,
+            offset: const Offset(1, 3),
+          ),
+        ],
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            context.theme.colorScheme.background.withOpacity(0.5),
+            context.theme.colorScheme.background.withOpacity(0.3),
             accentColor,
           ],
           stops: const [0.6, 1],

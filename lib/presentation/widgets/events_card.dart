@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/event.dart';
 import 'package:project_kepler/domain/entities/type.dart';
+import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 import 'package:project_kepler/presentation/widgets/info_badge.dart';
 
 import '../navigation/app_router.dart';
@@ -81,7 +82,8 @@ class _HeaderSection extends StatelessWidget {
     ColorScheme colorScheme = context.theme.colorScheme;
 
     return Container(
-      decoration: BoxDecoration(color: colorScheme.primary),
+      decoration:
+          BoxDecoration(color: AppColors.eventCardColor.withOpacity(0.4)),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

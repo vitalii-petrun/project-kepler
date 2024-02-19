@@ -19,11 +19,20 @@ class SpaceGreetingCard extends StatelessWidget {
             BlendMode.darken,
           ),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 8.0,
+            spreadRadius: 2.0,
+            offset: const Offset(0, 2),
+          ),
+        ],
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 126.0),
           Text(
             context.l10n.welcomeToApp,
             style: TextStyle(

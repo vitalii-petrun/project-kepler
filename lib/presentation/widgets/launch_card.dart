@@ -8,6 +8,7 @@ import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 
 import '../../domain/entities/launch.dart';
 import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
+import '../utils/ui_helpers.dart';
 
 class LaunchCard extends StatefulWidget {
   final Launch launch;
@@ -114,7 +115,8 @@ class _HeaderSection extends StatelessWidget {
     ColorScheme colorScheme = context.theme.colorScheme;
 
     return Container(
-      decoration: BoxDecoration(color: colorScheme.primary),
+      decoration:
+          BoxDecoration(color: AppColors.launchCardColor.withOpacity(0.2)),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

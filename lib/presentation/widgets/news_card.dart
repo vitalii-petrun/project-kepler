@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
 import '../../domain/entities/article.dart';
+import '../utils/ui_helpers.dart';
 
 class NewsCard extends StatelessWidget {
   final Article article;
@@ -68,7 +69,8 @@ class NewsCard extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.colorScheme.secondary,
+                            backgroundColor:
+                                AppColors.newsCardColor.withOpacity(0.6),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
