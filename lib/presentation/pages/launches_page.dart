@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
@@ -82,7 +82,10 @@ class _LaunchesPageState extends State<LaunchesPage>
                     BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
                       builder: (context, state) {
                         if (state is LaunchesLoaded) {
-                          return _LoadedBody(launches: state.launches);
+                          return _LoadedBody(
+                              onRefresh: () async =>
+                                  context.read<LaunchesPageCubit>().fetch(),
+                              launches: state.launches);
                         } else if (state is LaunchesError) {
                           return const _FailedBody();
                         } else {
@@ -93,7 +96,10 @@ class _LaunchesPageState extends State<LaunchesPage>
                     BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
                       builder: (context, state) {
                         if (state is LaunchesLoaded) {
-                          return _LoadedBody(launches: state.launches);
+                          return _LoadedBody(
+                              onRefresh: () async =>
+                                  context.read<UpcomingLaunchesCubit>().fetch(),
+                              launches: state.launches);
                         } else if (state is LaunchesError) {
                           return const _FailedBody();
                         } else {
@@ -112,9 +118,11 @@ class _LaunchesPageState extends State<LaunchesPage>
 
 class _LoadedBody extends StatefulWidget {
   final List<Launch> launches;
+  final VoidCallback onRefresh;
 
   const _LoadedBody({
     required this.launches,
+    required this.onRefresh,
     Key? key,
   }) : super(key: key);
 
@@ -128,7 +136,7 @@ class _LoadedBodyState extends State<_LoadedBody>
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(
-      onRefresh: () async => context.read<LaunchesPageCubit>().fetch(),
+      onRefresh: () async => widget.onRefresh(),
       child: ListView.separated(
           itemCount: widget.launches.length,
           itemBuilder: (context, index) {

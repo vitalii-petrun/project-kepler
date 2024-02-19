@@ -63,7 +63,9 @@ class Application extends StatelessWidget {
         ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
         BlocProvider(
             create: (context) => HomePageCubit(
-                GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient)))),
+                GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient)),
+                GetAllEventsUseCase(ApiRepositoryImpl(apiClient)),
+                FetchArticlesUseCase(ArticleRepositoryImpl(newsApiClient)))),
         BlocProvider(
           create: (context) => LaunchesPageCubit(
               GetAllLaunchesUseCase(ApiRepositoryImpl(apiClient))),
