@@ -13,6 +13,9 @@
     "upcomingLaunches",
     "upcomingEvents",
     "recentNewss",
+    "welcomeToApp",
+    "spaceGreeting",
+    "letsExplore",
     "recentLaunches",
     "events"
   ]

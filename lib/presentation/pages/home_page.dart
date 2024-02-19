@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
@@ -18,6 +19,7 @@ import '../widgets/news_card.dart';
 import '../widgets/shimmer.dart';
 import '../widgets/shimmer_loading_body.dart';
 import '../widgets/space_drawer.dart';
+import '../widgets/space_greeting_card.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -143,7 +145,7 @@ class _LoadedBody extends StatelessWidget {
             .map((article) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 300.0, // Adjust as needed
+                    width: 300.0,
                     child: NewsCard(article: article),
                   ),
                 ))
@@ -161,13 +163,35 @@ class _LoadedBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SpaceGreetingCard(),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: SpaceGreetingCard(),
+            ),
             const SizedBox(height: 16.0),
-            _SpaceSectionTitle(title: context.l10n.upcomingLaunches),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _SpaceSectionTitle(
+                  title: context.l10n.upcomingLaunches,
+                  accentColor: Colors.deepPurpleAccent),
+            ),
             _buildLaunchesSection(context),
-            _SpaceSectionTitle(title: context.l10n.upcomingEvents),
+            const SizedBox(height: 22.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _SpaceSectionTitle(
+                title: context.l10n.upcomingEvents,
+                accentColor: Colors.deepOrangeAccent,
+              ),
+            ),
             _buildEventsSection(context),
-            _SpaceSectionTitle(title: context.l10n.recentNewss),
+            const SizedBox(height: 22.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _SpaceSectionTitle(
+                title: context.l10n.recentNewss,
+                accentColor: Colors.blue,
+              ),
+            ),
             _buildArticlesSection(context),
           ],
         ),
@@ -178,12 +202,31 @@ class _LoadedBody extends StatelessWidget {
 
 class _SpaceSectionTitle extends StatelessWidget {
   final String title;
-  const _SpaceSectionTitle({Key? key, required this.title}) : super(key: key);
+  final Color accentColor;
+
+  const _SpaceSectionTitle({
+    Key? key,
+    required this.title,
+    this.accentColor = Colors.deepOrangeAccent,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.0),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            context.theme.colorScheme.background.withOpacity(0.5),
+            accentColor,
+          ],
+          stops: const [0.6, 1],
+        ),
+      ),
+      padding: const EdgeInsets.all(12.0),
       child: Text(
         title,
         style: context.theme.textTheme.titleLarge,
@@ -209,33 +252,6 @@ class _FailedBody extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class SpaceGreetingCard extends StatelessWidget {
-  const SpaceGreetingCard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.blue, Colors.deepPurple],
-        ),
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Text(
-        "Welcome to Project Kepler App!",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 24.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
     );
   }
 }
