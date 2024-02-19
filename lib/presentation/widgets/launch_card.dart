@@ -293,6 +293,7 @@ class _BodySection extends StatelessWidget {
         color: Colors.black.withOpacity(0.1),
         borderRadius: BorderRadius.circular(10),
       ),
+      width: double.infinity,
       child: Text(
         missionDescription == "?"
             ? context.l10n.noDescriptionProvided

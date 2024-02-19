@@ -14,6 +14,7 @@ import 'package:project_kepler/presentation/cubits/favourite_launches_page/favou
 import 'package:project_kepler/presentation/cubits/friends_page/friends_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/blogs_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/nasa_news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
@@ -70,6 +71,10 @@ class Application extends StatelessWidget {
         BlocProvider(
           create: (context) => LaunchDetailsPageCubit(
               GetLaunchDetailsUseCase(ApiRepositoryImpl(apiClient))),
+        ),
+        BlocProvider(
+          create: (context) => UpcomingLaunchesCubit(
+              GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient))),
         ),
         BlocProvider(
             create: (context) => FriendsPageCubit(
