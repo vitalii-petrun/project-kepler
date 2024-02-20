@@ -5,6 +5,7 @@ import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
+
 import 'package:project_kepler/presentation/widgets/events_card.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
@@ -116,34 +117,38 @@ class _HomeBody extends StatelessWidget {
               padding: EdgeInsets.all(8.0),
               child: SpaceGreetingCard(),
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 26.0),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _SpaceSectionTitle(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: _SpaceSectionTitle(
                   title: context.l10n.upcomingLaunches,
-                  accentColor: AppColors.launchCardColor),
-            ),
+                  onPressed: () => context.router.pushNamed('/launches'),
+                  icon: Icons.rocket_rounded,
+                )),
             if (isLoading)
               _LaunchesSection.loading()
             else
               _LaunchesSection(launches: launches),
-            const SizedBox(height: 22.0),
+            const SizedBox(height: 16.0),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: _SpaceSectionTitle(
-                  title: context.l10n.upcomingEvents,
-                  accentColor: AppColors.eventCardColor),
+                title: context.l10n.upcomingEvents,
+                onPressed: () => context.router.pushNamed('/events'),
+                icon: Icons.event,
+              ),
             ),
             if (isLoading)
               _EventsSection.loading()
             else
               _EventsSection(events: events),
-            const SizedBox(height: 22.0),
+            const SizedBox(height: 16.0),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: _SpaceSectionTitle(
                 title: context.l10n.recentNewss,
-                accentColor: AppColors.newsCardColor,
+                onPressed: () => context.router.pushNamed('/news'),
+                icon: Icons.article,
               ),
             ),
             if (isLoading)
@@ -177,7 +182,6 @@ class _ArticlesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: isLoading
@@ -221,7 +225,6 @@ class _EventsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: isLoading
@@ -265,7 +268,6 @@ class _LaunchesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: isLoading
@@ -291,50 +293,108 @@ class _LaunchesSection extends StatelessWidget {
   }
 }
 
+// class _SpaceSectionTitle extends StatelessWidget {
+//   final String title;
+//   final Color accentColor;
+
+//   const _SpaceSectionTitle({
+//     Key? key,
+//     required this.title,
+//     this.accentColor = Colors.deepOrangeAccent,
+//   }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: double.infinity,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(16.0),
+//         boxShadow: [
+//           BoxShadow(
+//             color: context.theme.brightness == Brightness.dark
+//                 ? Colors.black.withOpacity(0.3)
+//                 : Colors.grey.withOpacity(0.3),
+//             blurRadius: 8.0,
+//             spreadRadius: 2.0,
+//             offset: const Offset(1, 3),
+//           ),
+//         ],
+//         gradient: LinearGradient(
+//           begin: Alignment.topLeft,
+//           end: Alignment.bottomRight,
+//           colors: [
+//             context.theme.brightness == Brightness.dark
+//                 ? accentColor
+//                 : accentColor.withOpacity(0.6),
+//             accentColor,
+//           ],
+//           stops: const [0.6, 1],
+//         ),
+//       ),
+//       padding: const EdgeInsets.all(12.0),
+//       child: Text(
+//         title,
+//         style: context.theme.textTheme.titleLarge?.copyWith(
+//           color: Colors.white,
+//         ),
+//       ),
+//     );
+//   }
+// }
 class _SpaceSectionTitle extends StatelessWidget {
   final String title;
-  final Color accentColor;
+  final IconData? icon;
+  final VoidCallback onPressed;
 
   const _SpaceSectionTitle({
     Key? key,
     required this.title,
-    this.accentColor = Colors.deepOrangeAccent,
+    required this.icon,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
-          BoxShadow(
-            color: context.theme.brightness == Brightness.dark
-                ? Colors.black.withOpacity(0.3)
-                : Colors.grey.withOpacity(0.3),
-            blurRadius: 8.0,
-            spreadRadius: 2.0,
-            offset: const Offset(1, 3),
+      padding: const EdgeInsets.all(12.0),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: AppColors.spaceTitleColor,
+          ),
+          const SizedBox(width: 2.0),
+          Text(
+            title,
+            style: context.theme.textTheme.titleLarge?.copyWith(
+              color: AppColors.spaceTitleColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          //button show more
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: onPressed,
+                child: Text(
+                  context.l10n.viewAll,
+                  style: context.theme.textTheme.titleMedium?.copyWith(
+                    color: AppColors.spaceTitleColor,
+                  ),
+                ),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 20.0,
+                color: AppColors.spaceTitleColor,
+              ),
+            ],
           ),
         ],
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            context.theme.brightness == Brightness.dark
-                ? accentColor
-                : accentColor.withOpacity(0.6),
-            accentColor,
-          ],
-          stops: const [0.6, 1],
-        ),
-      ),
-      padding: const EdgeInsets.all(12.0),
-      child: Text(
-        title,
-        style: context.theme.textTheme.titleLarge?.copyWith(
-          color: Colors.white,
-        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 
 class InfoBadge extends StatefulWidget {
   final String eventType;
@@ -53,7 +54,7 @@ class InfoBadgeState extends State<InfoBadge> {
             elevation: 4.0,
             child: Container(
               decoration: BoxDecoration(
-                color: context.theme.colorScheme.primary,
+                color: AppColors.eventCardColor.withOpacity(0.9),
                 borderRadius: BorderRadius.circular(8),
               ),
               padding: const EdgeInsets.all(8.0),
@@ -80,7 +81,7 @@ class InfoBadgeState extends State<InfoBadge> {
           margin: const EdgeInsets.only(right: 5),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           decoration: BoxDecoration(
-            color: context.theme.colorScheme.primary,
+            color: AppColors.eventCardColor.withOpacity(0.5),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(

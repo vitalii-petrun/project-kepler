@@ -17,6 +17,9 @@
     "spaceGreeting",
     "letsExplore",
     "recentLaunches",
-    "events"
+    "events",
+    "viewAll",
+    "showMore",
+    "at"
   ]
 }
