@@ -33,3 +33,19 @@ class LaunchCardPlaceholder extends StatelessWidget {
     );
   }
 }
+
+class CompactCardPlaceholder extends StatelessWidget {
+  const CompactCardPlaceholder({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 400,
+      width: 300,
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey[700],
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
+  }
+}

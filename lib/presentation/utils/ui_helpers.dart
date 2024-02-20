@@ -11,8 +11,8 @@ void showConnectionError(
 }
 
 class AppColors {
-  //deep orange
-  static const Color eventCardColor = Color(0xFFE64A19);
+  //indigo
+  static const Color eventCardColor = Color(0xFF3F51B5);
   //deep blue
   static const Color launchCardColor = Color(0xFF0D47A1);
   //blue

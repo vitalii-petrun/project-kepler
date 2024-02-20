@@ -115,8 +115,11 @@ class _HeaderSection extends StatelessWidget {
     ColorScheme colorScheme = context.theme.colorScheme;
 
     return Container(
-      decoration:
-          BoxDecoration(color: AppColors.launchCardColor.withOpacity(0.2)),
+      decoration: BoxDecoration(
+        color: context.theme.brightness == Brightness.dark
+            ? AppColors.launchCardColor.withOpacity(0.2)
+            : AppColors.launchCardColor.withOpacity(0.8),
+      ),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -70,7 +70,7 @@ class NewsCard extends StatelessWidget {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                AppColors.newsCardColor.withOpacity(0.6),
+                                AppColors.newsCardColor.withOpacity(0.8),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -82,7 +82,8 @@ class NewsCard extends StatelessWidget {
                           onPressed: () => _openArticleUrl(article.url),
                           child: Text(context.l10n.readMore.toUpperCase(),
                               style: theme.textTheme.labelLarge?.copyWith(
-                                  color: theme.colorScheme.onSurface)),
+                                color: Colors.white,
+                              )),
                         ),
                       ),
                     ],

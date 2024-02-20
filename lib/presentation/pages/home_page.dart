@@ -69,9 +69,9 @@ class _HomePageState extends State<HomePage> {
           child: BlocBuilder<HomePageCubit, HomePageState>(
             builder: (context, state) {
               if (state is HomePageLoading) {
-                return const ShimmerLoadingBody();
+                return _HomeBody.loading();
               } else if (state is HomePageLoaded) {
-                return _LoadedBody(
+                return _HomeBody(
                     launches: state.launches,
                     events: state.events,
                     articles: state.articles);
@@ -88,75 +88,26 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class _LoadedBody extends StatelessWidget {
+class _HomeBody extends StatelessWidget {
   final List<Launch> launches;
   final List<Event> events;
   final List<Article> articles;
+  final bool isLoading;
 
-  const _LoadedBody({
+  const _HomeBody({
     Key? key,
     required this.launches,
     required this.events,
     required this.articles,
+    this.isLoading = false,
   }) : super(key: key);
 
-  Widget _buildLaunchesSection(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: launches
-            .take(3)
-            .map((launch) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 330.0,
-                    child: LaunchCard.compact(launch: launch),
-                  ),
-                ))
-            .toList(),
-      ),
-    );
-  }
-
-  Widget _buildEventsSection(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: events
-            .take(5)
-            .map((event) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 300.0,
-                    child: EventCard(event: event, eventId: event.id),
-                  ),
-                ))
-            .toList(),
-      ),
-    );
-  }
-
-  Widget _buildArticlesSection(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: articles
-            .take(3)
-            .map((article) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 300.0,
-                    child: NewsCard(article: article),
-                  ),
-                ))
-            .toList(),
-      ),
+  factory _HomeBody.loading() {
+    return const _HomeBody(
+      launches: [],
+      events: [],
+      articles: [],
+      isLoading: true,
     );
   }
 
@@ -180,7 +131,10 @@ class _LoadedBody extends StatelessWidget {
                   title: context.l10n.upcomingLaunches,
                   accentColor: AppColors.launchCardColor),
             ),
-            _buildLaunchesSection(context),
+            if (isLoading)
+              _LaunchesSection.loading()
+            else
+              _LaunchesSection(launches: launches),
             const SizedBox(height: 22.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -188,7 +142,10 @@ class _LoadedBody extends StatelessWidget {
                   title: context.l10n.upcomingEvents,
                   accentColor: AppColors.eventCardColor),
             ),
-            _buildEventsSection(context),
+            if (isLoading)
+              _EventsSection.loading()
+            else
+              _EventsSection(events: events),
             const SizedBox(height: 22.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -197,10 +154,146 @@ class _LoadedBody extends StatelessWidget {
                 accentColor: AppColors.newsCardColor,
               ),
             ),
-            _buildArticlesSection(context),
+            if (isLoading)
+              _ArticlesSection.loading()
+            else
+              _ArticlesSection(articles: articles),
             const SizedBox(height: 22.0),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ArticlesSection extends StatelessWidget {
+  final bool isLoading;
+
+  const _ArticlesSection({
+    Key? key,
+    this.isLoading = false,
+    required this.articles,
+  }) : super(key: key);
+
+  factory _ArticlesSection.loading() {
+    return const _ArticlesSection(articles: [], isLoading: true);
+  }
+
+  final List<Article> articles;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: isLoading
+            ? List.generate(
+                3,
+                (index) => const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CompactCardPlaceholder(),
+                ),
+              )
+            : articles
+                .take(3)
+                .map((article) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 300.0,
+                        child: NewsCard(article: article),
+                      ),
+                    ))
+                .toList(),
+      ),
+    );
+  }
+}
+
+class _EventsSection extends StatelessWidget {
+  final List<Event> events;
+  final bool isLoading;
+
+  const _EventsSection({
+    Key? key,
+    this.isLoading = false,
+    required this.events,
+  }) : super(key: key);
+
+  factory _EventsSection.loading() {
+    return const _EventsSection(events: [], isLoading: true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: isLoading
+            ? List.generate(
+                3,
+                (index) => const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CompactCardPlaceholder(),
+                ),
+              )
+            : events
+                .take(5)
+                .map((event) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 300.0,
+                        child: EventCard(event: event, eventId: event.id),
+                      ),
+                    ))
+                .toList(),
+      ),
+    );
+  }
+}
+
+class _LaunchesSection extends StatelessWidget {
+  final List<Launch> launches;
+  final bool isLoading;
+
+  const _LaunchesSection({
+    Key? key,
+    required this.launches,
+    this.isLoading = false,
+  }) : super(key: key);
+
+  factory _LaunchesSection.loading() {
+    return const _LaunchesSection(launches: [], isLoading: true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: isLoading
+            ? List.generate(
+                3,
+                (index) => const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CompactCardPlaceholder(),
+                ),
+              )
+            : launches
+                .take(3)
+                .map((launch) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 330.0,
+                        child: LaunchCard.compact(launch: launch),
+                      ),
+                    ))
+                .toList(),
       ),
     );
   }
@@ -224,7 +317,9 @@ class _SpaceSectionTitle extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: context.theme.brightness == Brightness.dark
+                ? Colors.black.withOpacity(0.3)
+                : Colors.grey.withOpacity(0.3),
             blurRadius: 8.0,
             spreadRadius: 2.0,
             offset: const Offset(1, 3),
@@ -234,7 +329,9 @@ class _SpaceSectionTitle extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            context.theme.colorScheme.background.withOpacity(0.3),
+            context.theme.brightness == Brightness.dark
+                ? accentColor
+                : accentColor.withOpacity(0.6),
             accentColor,
           ],
           stops: const [0.6, 1],
@@ -243,7 +340,9 @@ class _SpaceSectionTitle extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Text(
         title,
-        style: context.theme.textTheme.titleLarge,
+        style: context.theme.textTheme.titleLarge?.copyWith(
+          color: Colors.white,
+        ),
       ),
     );
   }
