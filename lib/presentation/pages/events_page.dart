@@ -100,7 +100,10 @@ class _LoadedBody extends StatelessWidget {
           itemCount: events.length,
           itemBuilder: (context, index) {
             final event = events[index];
-            return EventCard(event: event, eventId: event.id);
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: EventCard(event: event, eventId: event.id),
+            );
           },
           separatorBuilder: (_, __) => const SizedBox(height: 20)),
     );

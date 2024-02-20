@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
@@ -35,7 +36,6 @@ class _LaunchCardState extends State<LaunchCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(6),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: context.theme.cardColor,
@@ -62,6 +62,7 @@ class _LaunchCardState extends State<LaunchCard> {
               child: _HeaderSection(
                 launchName: widget.launch.name,
                 padLocation: widget.launch.pad.location.name,
+                date: widget.launch.net,
                 launchServiceProvider: widget.launch.launchServiceProvider.name,
               ),
             ),
@@ -101,10 +102,12 @@ class _HeaderSection extends StatelessWidget {
   final String launchName;
   final String padLocation;
   final String launchServiceProvider;
+  final String date;
 
   const _HeaderSection({
     required this.launchName,
     required this.padLocation,
+    required this.date,
     required this.launchServiceProvider,
     Key? key,
   }) : super(key: key);
@@ -130,13 +133,49 @@ class _HeaderSection extends StatelessWidget {
               color: colorScheme.onPrimary,
             ),
           ),
-          Text(
-            padLocation,
-            style: textTheme.bodyLarge?.copyWith(color: colorScheme.onPrimary),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              const Icon(Icons.location_on, size: 16),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  padLocation,
+                  style: textTheme.bodyLarge
+                      ?.copyWith(color: colorScheme.onPrimary),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+            ],
           ),
-          Text(
-            launchServiceProvider,
-            style: textTheme.bodyMedium?.copyWith(color: colorScheme.onPrimary),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.business, size: 16),
+              const SizedBox(width: 4),
+              Text(
+                launchServiceProvider,
+                style: textTheme.bodyMedium
+                    ?.copyWith(color: colorScheme.onPrimary),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Icon(Icons.date_range, size: 16),
+              const SizedBox(width: 4),
+              Text(
+                DateFormat.yMMMd().format(DateTime.parse(date)),
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onPrimary,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ],
           ),
         ],
       ),

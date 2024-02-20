@@ -118,13 +118,11 @@ class _HomeBody extends StatelessWidget {
               child: SpaceGreetingCard(),
             ),
             const SizedBox(height: 26.0),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: _SpaceSectionTitle(
-                  title: context.l10n.upcomingLaunches,
-                  onPressed: () => context.router.pushNamed('/launches'),
-                  icon: Icons.rocket_rounded,
-                )),
+            _SpaceSectionTitle(
+              title: context.l10n.upcomingLaunches,
+              onPressed: () => context.router.pushNamed('/launches'),
+              icon: Icons.rocket_rounded,
+            ),
             if (isLoading)
               _LaunchesSection.loading()
             else
@@ -195,7 +193,7 @@ class _ArticlesSection extends StatelessWidget {
             : articles
                 .take(3)
                 .map((article) => Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: SizedBox(
                         width: 300.0,
                         child: NewsCard(article: article),
@@ -238,7 +236,7 @@ class _EventsSection extends StatelessWidget {
             : events
                 .take(5)
                 .map((event) => Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: SizedBox(
                         width: 300.0,
                         child: EventCard(event: event, eventId: event.id),
@@ -281,7 +279,7 @@ class _LaunchesSection extends StatelessWidget {
             : launches
                 .take(3)
                 .map((launch) => Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: SizedBox(
                         width: 330.0,
                         child: LaunchCard.compact(launch: launch),
@@ -362,6 +360,7 @@ class _SpaceSectionTitle extends StatelessWidget {
         children: [
           Icon(
             icon,
+            size: 26.0,
             color: AppColors.spaceTitleColor,
           ),
           const SizedBox(width: 2.0),
@@ -372,7 +371,6 @@ class _SpaceSectionTitle extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          //button show more
           const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

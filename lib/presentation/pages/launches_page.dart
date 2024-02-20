@@ -133,7 +133,10 @@ class _LoadedBodyState extends State<_LoadedBody>
           itemCount: widget.launches.length,
           itemBuilder: (context, index) {
             final launch = widget.launches[index];
-            return LaunchCard(launch: launch);
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              child: LaunchCard(launch: launch),
+            );
           },
           separatorBuilder: (_, __) => const SizedBox(height: 20)),
     );

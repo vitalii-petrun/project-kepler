@@ -23,7 +23,6 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(6),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: context.theme.cardColor,
