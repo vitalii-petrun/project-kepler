@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 
-import '../../core/utils/shimmer_gradients.dart';
 import '../../domain/entities/event.dart';
 
 import '../cubits/authentication/authentication_cubit.dart';
@@ -14,7 +13,7 @@ import '../cubits/events_page/events_state.dart';
 import '../widgets/events_card.dart';
 
 import '../widgets/rounded_app_bar.dart';
-import '../widgets/shimmer.dart';
+
 import '../widgets/shimmer_loading_body.dart';
 
 @RoutePage()
@@ -34,60 +33,51 @@ class _EventsPageState extends State<EventsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = context.theme.brightness == Brightness.dark;
-
-    final LinearGradient gradient =
-        isDarkTheme ? nightShimmerGradient : dayShimmerGradient;
-
-    return Shimmer(
-      linearGradient: gradient,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: RoundedAppBar(
-          title: Text(context.l10n.astroEvents),
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
-            IconButton(
-              icon: const Icon(Icons.person),
-              onPressed: () {
-                if (context.read<AuthenticationCubit>().state
-                    is Authenticated) {
-                  context.router.pushNamed('/profile');
-                } else {
-                  context.router.pushNamed('/login');
-                }
-              },
-            ),
-          ],
-        ),
-        body: SafeArea(
-          child: BlocConsumer<EventsPageCubit, EventsPageState>(
-            listener: (context, state) {
-              debugPrint('EventsPageState: $state');
-              if (state is EventsError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                    action: SnackBarAction(
-                      label: context.l10n.retry,
-                      onPressed: () => context.read<EventsPageCubit>().fetch(),
-                    ),
-                  ),
-                );
-              }
-            },
-            builder: (context, state) {
-              if (state is EventsLoading || state is EventsInit) {
-                return const ShimmerLoadingBody();
-              } else if (state is EventsLoaded) {
-                return _LoadedBody(events: state.events);
-              } else if (state is EventsError) {
-                return const _FailedBody(message: 'Failed to load events');
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: RoundedAppBar(
+        title: Text(context.l10n.astroEvents),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              if (context.read<AuthenticationCubit>().state is Authenticated) {
+                context.router.pushNamed('/profile');
               } else {
-                return const SizedBox();
+                context.router.pushNamed('/login');
               }
             },
           ),
+        ],
+      ),
+      body: SafeArea(
+        child: BlocConsumer<EventsPageCubit, EventsPageState>(
+          listener: (context, state) {
+            debugPrint('EventsPageState: $state');
+            if (state is EventsError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  action: SnackBarAction(
+                    label: context.l10n.retry,
+                    onPressed: () => context.read<EventsPageCubit>().fetch(),
+                  ),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is EventsLoading || state is EventsInit) {
+              return const ShimmerLoadingBody();
+            } else if (state is EventsLoaded) {
+              return _LoadedBody(events: state.events);
+            } else if (state is EventsError) {
+              return const _FailedBody(message: 'Failed to load events');
+            } else {
+              return const SizedBox();
+            }
+          },
         ),
       ),
     );

@@ -8,7 +8,7 @@ import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 import 'package:project_kepler/presentation/widgets/events_card.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
-import '../../core/utils/shimmer_gradients.dart';
+
 import '../../domain/entities/article.dart';
 import '../../domain/entities/event.dart';
 import '../../domain/entities/launch.dart';
@@ -16,7 +16,7 @@ import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/home_page/home_page_state.dart';
 import '../widgets/launch_card.dart';
 import '../widgets/news_card.dart';
-import '../widgets/shimmer.dart';
+
 import '../widgets/shimmer_loading_body.dart';
 import '../widgets/space_drawer.dart';
 import '../widgets/space_greeting_card.dart';
@@ -38,50 +38,42 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = context.theme.brightness == Brightness.dark;
-
-    final LinearGradient gradient =
-        isDarkTheme ? nightShimmerGradient : dayShimmerGradient;
-
-    return Shimmer(
-      linearGradient: gradient,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: RoundedAppBar(
-          title: Text(context.l10n.home),
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
-            IconButton(
-              icon: const Icon(Icons.person),
-              onPressed: () {
-                if (context.read<AuthenticationCubit>().state
-                    is Authenticated) {
-                  context.router.pushNamed('/profile');
-                } else {
-                  context.router.pushNamed('/login');
-                }
-              },
-            ),
-          ],
-        ),
-        drawer: const SpaceDrawer(),
-        body: SafeArea(
-          child: BlocBuilder<HomePageCubit, HomePageState>(
-            builder: (context, state) {
-              if (state is HomePageLoading) {
-                return _HomeBody.loading();
-              } else if (state is HomePageLoaded) {
-                return _HomeBody(
-                    launches: state.launches,
-                    events: state.events,
-                    articles: state.articles);
-              } else if (state is HomePageError) {
-                return const _FailedBody();
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: RoundedAppBar(
+        title: Text(context.l10n.home),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              if (context.read<AuthenticationCubit>().state is Authenticated) {
+                context.router.pushNamed('/profile');
               } else {
-                return const SizedBox();
+                context.router.pushNamed('/login');
               }
             },
           ),
+        ],
+      ),
+      drawer: const SpaceDrawer(),
+      body: SafeArea(
+        child: BlocBuilder<HomePageCubit, HomePageState>(
+          builder: (context, state) {
+            if (state is HomePageLoading) {
+              return _HomeBody.loading();
+            } else if (state is HomePageLoaded) {
+              return _HomeBody(
+                  launches: state.launches,
+                  events: state.events,
+                  articles: state.articles);
+              // return _HomeBody.loading();
+            } else if (state is HomePageError) {
+              return const _FailedBody();
+            } else {
+              return const SizedBox();
+            }
+          },
         ),
       ),
     );

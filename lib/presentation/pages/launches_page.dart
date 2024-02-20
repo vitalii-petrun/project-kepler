@@ -7,14 +7,13 @@ import 'package:project_kepler/presentation/cubits/authentication/authentication
 import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
 import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
-import '../../core/utils/shimmer_gradients.dart';
+
 import '../../domain/entities/launch.dart';
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/launches/launches_page_cubit.dart';
 
 import '../widgets/launch_card.dart';
 
-import '../widgets/shimmer.dart';
 import '../widgets/shimmer_loading_body.dart';
 import '../widgets/space_drawer.dart';
 import '../widgets/space_tab_bar.dart';
@@ -38,80 +37,73 @@ class _LaunchesPageState extends State<LaunchesPage>
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = context.theme.brightness == Brightness.dark;
     final tabController = TabController(length: 2, vsync: this);
 
-    final LinearGradient gradient =
-        isDarkTheme ? nightShimmerGradient : dayShimmerGradient;
-
-    return Shimmer(
-      linearGradient: gradient,
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text(context.l10n.launches),
-            elevation: 0,
-            actions: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
-              IconButton(
-                icon: const Icon(Icons.person),
-                onPressed: () {
-                  if (context.read<AuthenticationCubit>().state
-                      is Authenticated) {
-                    context.router.pushNamed('/profile');
-                  } else {
-                    context.router.pushNamed('/login');
-                  }
-                },
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(context.l10n.launches),
+        elevation: 0,
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              if (context.read<AuthenticationCubit>().state is Authenticated) {
+                context.router.pushNamed('/profile');
+              } else {
+                context.router.pushNamed('/login');
+              }
+            },
+          ),
+        ],
+      ),
+      drawer: const SpaceDrawer(),
+      body: Column(
+        children: [
+          SpaceTabBar(
+            controller: tabController,
+            tabs: [
+              Tab(text: context.l10n.recent),
+              Tab(text: context.l10n.upcoming),
             ],
           ),
-          drawer: const SpaceDrawer(),
-          body: Column(
-            children: [
-              SpaceTabBar(
-                controller: tabController,
-                tabs: [
-                  Tab(text: context.l10n.recent),
-                  Tab(text: context.l10n.upcoming),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: tabController,
-                  children: [
-                    BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
-                      builder: (context, state) {
-                        if (state is LaunchesLoaded) {
-                          return _LoadedBody(
-                              onRefresh: () async =>
-                                  context.read<LaunchesPageCubit>().fetch(),
-                              launches: state.launches);
-                        } else if (state is LaunchesError) {
-                          return const _FailedBody();
-                        } else {
-                          return const ShimmerLoadingBody();
-                        }
-                      },
-                    ),
-                    BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
-                      builder: (context, state) {
-                        if (state is LaunchesLoaded) {
-                          return _LoadedBody(
-                              onRefresh: () async =>
-                                  context.read<UpcomingLaunchesCubit>().fetch(),
-                              launches: state.launches);
-                        } else if (state is LaunchesError) {
-                          return const _FailedBody();
-                        } else {
-                          return const ShimmerLoadingBody();
-                        }
-                      },
-                    ),
-                  ],
+          Expanded(
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
+                  builder: (context, state) {
+                    if (state is LaunchesLoaded) {
+                      return _LoadedBody(
+                          onRefresh: () async =>
+                              context.read<LaunchesPageCubit>().fetch(),
+                          launches: state.launches);
+                    } else if (state is LaunchesError) {
+                      return const _FailedBody();
+                    } else {
+                      return const ShimmerLoadingBody();
+                    }
+                  },
                 ),
-              ),
-            ],
-          )),
+                BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
+                  builder: (context, state) {
+                    if (state is LaunchesLoaded) {
+                      return _LoadedBody(
+                          onRefresh: () async =>
+                              context.read<UpcomingLaunchesCubit>().fetch(),
+                          launches: state.launches);
+                    } else if (state is LaunchesError) {
+                      return const _FailedBody();
+                    } else {
+                      return const ShimmerLoadingBody();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
