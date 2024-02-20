@@ -2,8 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
-class SpaceGreetingCard extends StatelessWidget {
+class SpaceGreetingCard extends StatefulWidget {
   const SpaceGreetingCard({Key? key}) : super(key: key);
+
+  @override
+  SpaceGreetingCardState createState() => SpaceGreetingCardState();
+}
+
+class SpaceGreetingCardState extends State<SpaceGreetingCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2000), // Adjust duration as needed
+    );
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,29 +55,32 @@ class SpaceGreetingCard extends StatelessWidget {
         ],
         borderRadius: BorderRadius.circular(16.0),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 126.0),
-          Text(
-            context.l10n.welcomeToApp,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: GoogleFonts.oswald().fontFamily,
+      child: FadeTransition(
+        opacity: _animation,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 126.0),
+            Text(
+              context.l10n.welcomeToApp,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: GoogleFonts.oswald().fontFamily,
+              ),
             ),
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            context.l10n.spaceGreeting,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.0,
-              fontFamily: GoogleFonts.oswald().fontFamily,
+            const SizedBox(height: 8.0),
+            Text(
+              context.l10n.spaceGreeting,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontFamily: GoogleFonts.oswald().fontFamily,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
