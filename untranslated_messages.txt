@@ -7,6 +7,19 @@
     "date",
     "expeditions",
     "readFullArticle",
-    "spaceStations"
+    "spaceStations",
+    "upcoming",
+    "recent",
+    "upcomingLaunches",
+    "upcomingEvents",
+    "recentNewss",
+    "welcomeToApp",
+    "spaceGreeting",
+    "letsExplore",
+    "recentLaunches",
+    "events",
+    "viewAll",
+    "showMore",
+    "at"
   ]
 }

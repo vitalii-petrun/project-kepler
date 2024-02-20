@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
@@ -8,14 +9,24 @@ import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 
 import '../../domain/entities/launch.dart';
 import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
+import '../utils/ui_helpers.dart';
 
 class LaunchCard extends StatefulWidget {
   final Launch launch;
+  final bool isCompact;
 
   const LaunchCard({
     required this.launch,
+    this.isCompact = false,
     Key? key,
   }) : super(key: key);
+
+  factory LaunchCard.compact({required Launch launch}) {
+    return LaunchCard(
+      launch: launch,
+      isCompact: true,
+    );
+  }
 
   @override
   State<LaunchCard> createState() => _LaunchCardState();
@@ -25,7 +36,6 @@ class _LaunchCardState extends State<LaunchCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(6),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: context.theme.cardColor,
@@ -52,21 +62,33 @@ class _LaunchCardState extends State<LaunchCard> {
               child: _HeaderSection(
                 launchName: widget.launch.name,
                 padLocation: widget.launch.pad.location.name,
+                date: widget.launch.net,
                 launchServiceProvider: widget.launch.launchServiceProvider.name,
               ),
             ),
             _ImageSection(image: widget.launch.image ?? ""),
             const SizedBox(height: 8),
-            CountdownTimer(
+            if (widget.isCompact)
+              CountdownTimer.compact(
                 net: widget.launch.net,
-                launchStatus: widget.launch.status.name),
+                launchStatus: widget.launch.status.name,
+              )
+            else
+              CountdownTimer(
+                net: widget.launch.net,
+                launchStatus: widget.launch.status.name,
+              ),
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _BodySection(
-                  missionDescription: widget.launch.mission?.description),
+              child: widget.isCompact
+                  ? _BodySection.compact(
+                      missionDescription:
+                          widget.launch.mission?.description ?? "?")
+                  : _BodySection(
+                      missionDescription: widget.launch.mission?.description),
             ),
-            const SizedBox(height: 8),
+            if (!widget.isCompact) const SizedBox(height: 8),
             _FooterSection(launch: widget.launch),
             const SizedBox(height: 8),
           ],
@@ -80,10 +102,12 @@ class _HeaderSection extends StatelessWidget {
   final String launchName;
   final String padLocation;
   final String launchServiceProvider;
+  final String date;
 
   const _HeaderSection({
     required this.launchName,
     required this.padLocation,
+    required this.date,
     required this.launchServiceProvider,
     Key? key,
   }) : super(key: key);
@@ -94,7 +118,11 @@ class _HeaderSection extends StatelessWidget {
     ColorScheme colorScheme = context.theme.colorScheme;
 
     return Container(
-      decoration: BoxDecoration(color: colorScheme.primary),
+      decoration: BoxDecoration(
+        color: context.theme.brightness == Brightness.dark
+            ? AppColors.launchCardColor.withOpacity(0.2)
+            : AppColors.launchCardColor.withOpacity(0.8),
+      ),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,13 +133,50 @@ class _HeaderSection extends StatelessWidget {
               color: colorScheme.onPrimary,
             ),
           ),
-          Text(
-            padLocation,
-            style: textTheme.bodyLarge?.copyWith(color: colorScheme.onPrimary),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              const Icon(Icons.location_on, size: 16),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  padLocation,
+                  style: textTheme.bodyLarge
+                      ?.copyWith(color: colorScheme.onPrimary),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+            ],
           ),
-          Text(
-            launchServiceProvider,
-            style: textTheme.bodyMedium?.copyWith(color: colorScheme.onPrimary),
+          Row(
+            children: [
+              const Icon(Icons.business, size: 16),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  launchServiceProvider,
+                  style: textTheme.bodyMedium
+                      ?.copyWith(color: colorScheme.onPrimary),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              const Icon(Icons.date_range, size: 16),
+              const SizedBox(width: 4),
+              Text(
+                DateFormat.yMMMd().format(DateTime.parse(date)),
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.onPrimary,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ],
           ),
         ],
       ),
@@ -279,11 +344,20 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
 
 class _BodySection extends StatelessWidget {
   final String? missionDescription;
+  final bool isCompact;
 
   const _BodySection({
     required this.missionDescription,
+    this.isCompact = false,
     Key? key,
   }) : super(key: key);
+
+  factory _BodySection.compact({required String missionDescription}) {
+    return _BodySection(
+      missionDescription: missionDescription,
+      isCompact: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -293,13 +367,14 @@ class _BodySection extends StatelessWidget {
         color: Colors.black.withOpacity(0.1),
         borderRadius: BorderRadius.circular(10),
       ),
+      width: double.infinity,
       child: Text(
         missionDescription == "?"
             ? context.l10n.noDescriptionProvided
             : missionDescription!,
         style: context.theme.textTheme.bodyLarge?.copyWith(fontSize: 16),
         textAlign: TextAlign.justify,
-        maxLines: 6,
+        maxLines: isCompact ? 3 : 6,
         overflow: TextOverflow.ellipsis,
       ),
     );

@@ -9,3 +9,13 @@ void showConnectionError(
     ),
   );
 }
+
+class AppColors {
+  //indigo
+  static const Color eventCardColor = Color(0xFF3F51B5);
+  //deep blue
+  static const Color launchCardColor = Color(0xFF0D47A1);
+  //blue
+  static const Color newsCardColor = Color(0xFF2196F3);
+  static const Color spaceTitleColor = Color(0xFF7f4bd7);
+}

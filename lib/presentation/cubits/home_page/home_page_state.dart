@@ -1,18 +1,24 @@
-import 'package:project_kepler/domain/entities/launch.dart';
+import 'package:project_kepler/domain/entities/article.dart';
+import 'package:project_kepler/domain/entities/event.dart';
+
+import '../../../domain/entities/launch.dart';
 
 abstract class HomePageState {}
 
-class LaunchesInit extends HomePageState {}
+class HomePageInitial extends HomePageState {}
 
-class LaunchesLoading extends HomePageState {}
+class HomePageLoading extends HomePageState {}
 
-class LaunchesLoaded extends HomePageState {
+class HomePageLoaded extends HomePageState {
   final List<Launch> launches;
-  LaunchesLoaded(this.launches);
+  final List<Event> events;
+  final List<Article> articles;
+
+  HomePageLoaded(this.launches, this.events, this.articles);
 }
 
-class LaunchesError extends HomePageState {
+class HomePageError extends HomePageState {
   final String message;
 
-  LaunchesError(this.message);
+  HomePageError(this.message);
 }

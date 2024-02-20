@@ -11,9 +11,6 @@ import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 import 'package:project_kepler/presentation/cubits/news_page/spacex_news_cubit.dart';
 import 'package:project_kepler/presentation/widgets/news_card.dart';
 
-import 'package:project_kepler/presentation/widgets/shimmer.dart';
-import '../../core/utils/shimmer_gradients.dart';
-
 import '../cubits/authentication/authentication_cubit.dart';
 
 import '../widgets/failed_body.dart';
@@ -54,88 +51,79 @@ class _NewsPageState extends State<NewsPage>
 
   @override
   Widget build(BuildContext context) {
-    final isDarkTheme = context.theme.brightness == Brightness.dark;
-    final LinearGradient gradient =
-        isDarkTheme ? nightShimmerGradient : dayShimmerGradient;
-
-    return Shimmer(
-      linearGradient: gradient,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          elevation: 0,
-          title: Text(context.l10n.news),
-          actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
-            IconButton(
-              icon: const Icon(Icons.person),
-              onPressed: () {
-                if (context.read<AuthenticationCubit>().state
-                    is Authenticated) {
-                  context.router.pushNamed('/profile');
-                } else {
-                  context.router.pushNamed('/login');
-                }
-              },
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(context.l10n.news),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.filter_list)),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              if (context.read<AuthenticationCubit>().state is Authenticated) {
+                context.router.pushNamed('/profile');
+              } else {
+                context.router.pushNamed('/login');
+              }
+            },
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            SpaceTabBar(
+              controller: _tabController,
+              tabs: [
+                Tab(text: context.l10n.recentNews),
+                Tab(text: context.l10n.spaceXNews),
+                Tab(text: context.l10n.nasaNews),
+                Tab(text: context.l10n.blogs),
+              ],
             ),
-          ],
-        ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              SpaceTabBar(
+            Expanded(
+              child: TabBarView(
                 controller: _tabController,
-                tabs: [
-                  Tab(text: context.l10n.recentNews),
-                  Tab(text: context.l10n.spaceXNews),
-                  Tab(text: context.l10n.nasaNews),
-                  Tab(text: context.l10n.blogs),
+                children: [
+                  BlocBuilder<NewsCubit, NewsState>(
+                    builder: (context, state) => _buildContent(
+                        context,
+                        state,
+                        (context, state) => _LoadedBody(
+                            articles: state is RecentArticlesLoaded
+                                ? state.articles
+                                : [])),
+                  ),
+                  BlocBuilder<SpaceXNewsCubit, NewsState>(
+                    builder: (context, state) => _buildContent(
+                        context,
+                        state,
+                        (context, state) => _LoadedBody(
+                            articles: state is SpaceXArticlesLoaded
+                                ? state.articles
+                                : [])),
+                  ),
+                  BlocBuilder<NasaNewsCubit, NewsState>(
+                    builder: (context, state) => _buildContent(
+                        context,
+                        state,
+                        (context, state) => _LoadedBody(
+                            articles: state is NasaArticlesLoaded
+                                ? state.articles
+                                : [])),
+                  ),
+                  BlocBuilder<BlogsCubit, NewsState>(
+                    builder: (context, state) => _buildContent(
+                        context,
+                        state,
+                        (context, state) => _LoadedBody(
+                            articles: state is BlogsLoaded ? state.blogs : [])),
+                  ),
                 ],
               ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    BlocBuilder<NewsCubit, NewsState>(
-                      builder: (context, state) => _buildContent(
-                          context,
-                          state,
-                          (context, state) => _LoadedBody(
-                              articles: state is RecentArticlesLoaded
-                                  ? state.articles
-                                  : [])),
-                    ),
-                    BlocBuilder<SpaceXNewsCubit, NewsState>(
-                      builder: (context, state) => _buildContent(
-                          context,
-                          state,
-                          (context, state) => _LoadedBody(
-                              articles: state is SpaceXArticlesLoaded
-                                  ? state.articles
-                                  : [])),
-                    ),
-                    BlocBuilder<NasaNewsCubit, NewsState>(
-                      builder: (context, state) => _buildContent(
-                          context,
-                          state,
-                          (context, state) => _LoadedBody(
-                              articles: state is NasaArticlesLoaded
-                                  ? state.articles
-                                  : [])),
-                    ),
-                    BlocBuilder<BlogsCubit, NewsState>(
-                      builder: (context, state) => _buildContent(
-                          context,
-                          state,
-                          (context, state) => _LoadedBody(
-                              articles:
-                                  state is BlogsLoaded ? state.blogs : [])),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

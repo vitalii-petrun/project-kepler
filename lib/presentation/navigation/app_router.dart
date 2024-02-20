@@ -15,6 +15,7 @@ import '../pages/news_page.dart';
 import '../pages/profile_page.dart';
 import '../pages/settings_page.dart';
 import '../pages/favourite_launches_page.dart';
+
 import '../pages/users_page.dart';
 
 part 'app_router.gr.dart';

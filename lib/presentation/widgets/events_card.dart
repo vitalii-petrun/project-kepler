@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/event.dart';
-import 'package:project_kepler/domain/entities/type.dart';
+import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 import 'package:project_kepler/presentation/widgets/info_badge.dart';
 
 import '../navigation/app_router.dart';
@@ -23,7 +23,6 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(6),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: context.theme.cardColor,
@@ -50,8 +49,7 @@ class EventCard extends StatelessWidget {
             const SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _BodySection(
-                  description: event.description, type: event.type),
+              child: _BodySection(event: event),
             ),
             const SizedBox(height: 8),
             _FooterSection(event: event),
@@ -81,7 +79,11 @@ class _HeaderSection extends StatelessWidget {
     ColorScheme colorScheme = context.theme.colorScheme;
 
     return Container(
-      decoration: BoxDecoration(color: colorScheme.primary),
+      decoration: BoxDecoration(
+        color: context.theme.brightness == Brightness.dark
+            ? AppColors.eventCardColor.withOpacity(0.2)
+            : AppColors.eventCardColor.withOpacity(0.8),
+      ),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -123,21 +125,43 @@ class _ImageSection extends StatelessWidget {
 }
 
 class _BodySection extends StatelessWidget {
-  final String description;
-  final TypeEntity type;
+  final Event event;
 
   const _BodySection({
-    required this.description,
-    required this.type,
+    required this.event,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String? eventType = type.name;
+    String? eventType = event.type.name;
 
     return Column(
       children: [
+        Row(
+          children: [
+            Icon(Icons.location_pin,
+                color: context.theme.colorScheme.onSurface),
+            const SizedBox(width: 4),
+            Text(
+              event.location,
+              style: context.theme.textTheme.bodyLarge,
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            Icon(Icons.access_time_filled_rounded,
+                color: context.theme.colorScheme.onSurface),
+            const SizedBox(width: 4),
+            Text(
+              "${DateFormat('EEEE, MMMM d').format(event.date)} ${context.l10n.at} ${DateFormat('HH:mm').format(event.date)}",
+              style: context.theme.textTheme.bodyLarge,
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
         InfoBadge(eventType: eventType),
         const SizedBox(height: 8),
         Container(
@@ -147,9 +171,9 @@ class _BodySection extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
-            description.isEmpty
+            event.description.isEmpty
                 ? context.l10n.noDescriptionProvided
-                : description,
+                : event.description,
             style: context.theme.textTheme.bodyLarge?.copyWith(fontSize: 16),
             textAlign: TextAlign.justify,
             maxLines: 6,
