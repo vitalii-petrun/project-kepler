@@ -150,16 +150,17 @@ class _HeaderSection extends StatelessWidget {
             ],
           ),
           Row(
-            mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(Icons.business, size: 16),
               const SizedBox(width: 4),
-              Text(
-                launchServiceProvider,
-                style: textTheme.bodyMedium
-                    ?.copyWith(color: colorScheme.onPrimary),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
+              Expanded(
+                child: Text(
+                  launchServiceProvider,
+                  style: textTheme.bodyMedium
+                      ?.copyWith(color: colorScheme.onPrimary),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
             ],
           ),
