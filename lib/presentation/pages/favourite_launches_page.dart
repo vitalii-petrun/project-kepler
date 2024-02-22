@@ -69,8 +69,11 @@ class _LoadedBody extends StatelessWidget {
         child: ListView.builder(
           itemCount: launches.length,
           itemBuilder: (context, index) {
-            return LaunchCard(
-              launch: launches[index],
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LaunchCard(
+                launch: launches[index],
+              ),
             );
           },
         ),

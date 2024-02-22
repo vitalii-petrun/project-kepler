@@ -76,10 +76,18 @@ class _NewsPageState extends State<NewsPage>
             SpaceTabBar(
               controller: _tabController,
               tabs: [
-                Tab(text: context.l10n.recentNews),
-                Tab(text: context.l10n.spaceXNews),
-                Tab(text: context.l10n.nasaNews),
-                Tab(text: context.l10n.blogs),
+                Tab(
+                  child: SpaceTabBarItem(label: context.l10n.recent),
+                ),
+                Tab(
+                  child: SpaceTabBarItem(label: context.l10n.spaceXNews),
+                ),
+                Tab(
+                  child: SpaceTabBarItem(label: context.l10n.nasaNews),
+                ),
+                Tab(
+                  child: SpaceTabBarItem(label: context.l10n.blogs),
+                ),
               ],
             ),
             Expanded(
@@ -179,7 +187,10 @@ class _LoadedBodyState extends State<_LoadedBody>
       itemCount: widget.articles.length,
       itemBuilder: (context, index) {
         final article = widget.articles[index];
-        return NewsCard(article: article);
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: NewsCard(article: article),
+        );
       },
       separatorBuilder: (_, __) => const SizedBox(height: 20),
     );
