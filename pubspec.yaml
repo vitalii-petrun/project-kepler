@@ -11,6 +11,7 @@ dependencies:
   # State Management
   provider: ^6.0.3
   flutter_bloc: ^8.1.1
+
   # Network
   dio: ^4.0.6
   firebase_core: ^2.10.0
@@ -32,6 +33,7 @@ dependencies:
   url_launcher: ^6.1.10
   cached_network_image: ^3.2.0
   flutter_displaymode: ^0.6.0
+  dart_openai: ^5.1.0
   
   # UI
   google_fonts: ^6.1.0
