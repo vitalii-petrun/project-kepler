@@ -105,7 +105,10 @@ class SpaceDrawer extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             const SizedBox(height: 5),
-            const Divider(color: Colors.black45),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Divider(color: Colors.black26),
+            ),
             const SizedBox(height: 5),
             _DrawerTile(
               icon: const Icon(Icons.settings_rounded, size: 30),
@@ -129,7 +132,10 @@ class SpaceDrawer extends StatelessWidget {
               },
             ),
             const SizedBox(height: 5),
-            const Divider(color: Colors.black45),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Divider(color: Colors.black26),
+            ),
             const SizedBox(height: 5),
             _DrawerTile(
               icon: const Icon(Icons.info, size: 30),
