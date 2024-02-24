@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:locale_emoji_flutter/locale_emoji_flutter.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
 import 'package:project_kepler/presentation/widgets/log_out_button.dart';
@@ -143,14 +144,13 @@ class _LanguageDropdown extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           ),
-          items: const [
+          items: [
             DropdownMenuItem<String>(
-              value: 'en',
-              child: Text('English'),
-            ),
+                value: 'en',
+                child: Text('${const Locale('en').flagEmoji}  English')),
             DropdownMenuItem<String>(
               value: 'uk',
-              child: Text('Українська'),
+              child: Text(' ${const Locale('uk').flagEmoji}  Українська'),
             )
           ],
           onChanged: (String? value) =>
@@ -177,18 +177,18 @@ class _ThemeDropdown extends StatelessWidget {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       ),
-      items: const [
+      items: [
         DropdownMenuItem<String>(
           value: 'light',
-          child: Text('Light'),
+          child: Text('☀️  ${context.l10n.light}'),
         ),
         DropdownMenuItem<String>(
           value: 'dark',
-          child: Text('Dark'),
+          child: Text('🌙  ${context.l10n.dark}'),
         ),
         DropdownMenuItem<String>(
           value: 'system',
-          child: Text('System'),
+          child: Text('🌐  ${context.l10n.system}'),
         )
       ],
       onChanged: (String? value) => provider.changeTheme(value ?? 'system'),
