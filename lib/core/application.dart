@@ -153,39 +153,40 @@ class _ApplicationState extends State<Application> {
       child: Consumer2<AppThemeProvider, LocaleProvider>(
         builder: (context, themeProvider, localeProvider, child) {
           return MaterialApp.router(
-              scaffoldMessengerKey: Application._scaffoldMessengerKey,
-              theme: themeProvider.lightTheme,
-              darkTheme: themeProvider.darkTheme,
-              themeMode: themeProvider.themeMode,
-              locale: Locale(localeProvider.currentLocale),
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              routerConfig: widget.appRouter.config(),
-              builder: (context, child) {
-                return ScrollConfiguration(
-                  behavior: const ScrollBehaviorModified(),
-                  child: child!,
-                );
-              });
+            scaffoldMessengerKey: Application._scaffoldMessengerKey,
+            theme: themeProvider.lightTheme,
+            darkTheme: themeProvider.darkTheme,
+            themeMode: themeProvider.themeMode,
+            locale: Locale(localeProvider.currentLocale),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            routerConfig: widget.appRouter.config(),
+            // builder: (context, child) {
+            //   return ScrollConfiguration(
+            //     behavior: const ScrollBehaviorModified(),
+            //     child: child!,
+            //   );
+            // },
+          );
         },
       ),
     );
   }
 }
 
-class ScrollBehaviorModified extends ScrollBehavior {
-  const ScrollBehaviorModified();
-  @override
-  ScrollPhysics getScrollPhysics(BuildContext context) {
-    switch (getPlatform(context)) {
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-      case TargetPlatform.android:
-        return const BouncingScrollPhysics();
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        return const ClampingScrollPhysics();
-    }
-  }
-}
+// class ScrollBehaviorModified extends ScrollBehavior {
+//   const ScrollBehaviorModified();
+//   @override
+//   ScrollPhysics getScrollPhysics(BuildContext context) {
+//     switch (getPlatform(context)) {
+//       case TargetPlatform.iOS:
+//       case TargetPlatform.macOS:
+//       case TargetPlatform.android:
+//         return const BouncingScrollPhysics();
+//       case TargetPlatform.fuchsia:
+//       case TargetPlatform.linux:
+//       case TargetPlatform.windows:
+//         return const ClampingScrollPhysics();
+//     }
+//   }
+// }

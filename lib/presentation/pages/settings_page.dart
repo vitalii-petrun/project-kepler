@@ -62,7 +62,9 @@ class SettingsPage extends StatelessWidget {
                           onPressed: () {
                             context.router.pushNamed('/login');
                           },
-                          child: Text(context.l10n.logIn),
+                          child: Text(context.l10n.logIn,
+                              style: context.theme.textTheme.labelLarge
+                                  ?.copyWith(color: Colors.white)),
                         ),
                       ),
                     ),

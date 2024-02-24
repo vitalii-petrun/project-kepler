@@ -136,7 +136,7 @@ class _HeaderSection extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              const Icon(Icons.location_on, size: 16),
+              const Icon(Icons.location_on, size: 16, color: Colors.white),
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
@@ -151,7 +151,7 @@ class _HeaderSection extends StatelessWidget {
           ),
           Row(
             children: [
-              const Icon(Icons.business, size: 16),
+              const Icon(Icons.business, size: 16, color: Colors.white),
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
@@ -166,7 +166,7 @@ class _HeaderSection extends StatelessWidget {
           ),
           Row(
             children: [
-              const Icon(Icons.date_range, size: 16),
+              const Icon(Icons.date_range, size: 16, color: Colors.white),
               const SizedBox(width: 4),
               Text(
                 DateFormat.yMMMd().format(DateTime.parse(date)),

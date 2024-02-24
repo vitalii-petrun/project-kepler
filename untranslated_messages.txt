@@ -18,8 +18,14 @@
     "letsExplore",
     "recentLaunches",
     "events",
+    "startConversation",
     "viewAll",
+    "enterYourMessage",
     "showMore",
-    "at"
+    "at",
+    "darkMatterQuestion",
+    "bigBangTheoryQuestion",
+    "speedOfLightQuestion",
+    "universeMadeOfQuestion"
   ]
 }

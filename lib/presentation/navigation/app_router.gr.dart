@@ -21,10 +21,33 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const EmptyPage(),
       );
     },
+    AIChatRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AIChatPage(),
+      );
+    },
     CoreRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const CorePage(),
+      );
+    },
+    EventsDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<EventsDetailsRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EventsDetailsPage(
+          key: args.key,
+          event: args.event,
+          eventId: args.eventId,
+        ),
+      );
+    },
+    EventsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EventsPage(),
       );
     },
     FavouriteLaunchesRoute.name: (routeData) {
@@ -94,29 +117,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const UsersPage(),
       );
     },
-    AIChatRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AIChatPage(),
-      );
-    },
-    EventsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const EventsPage(),
-      );
-    },
-    EventsDetailsRoute.name: (routeData) {
-      final args = routeData.argsAs<EventsDetailsRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: EventsDetailsPage(
-          key: args.key,
-          event: args.event,
-          eventId: args.eventId,
-        ),
-      );
-    },
   };
 }
 
@@ -135,6 +135,20 @@ class EmptyRouterPage extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [AIChatPage]
+class AIChatRoute extends PageRouteInfo<void> {
+  const AIChatRoute({List<PageRouteInfo>? children})
+      : super(
+          AIChatRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AIChatRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [CorePage]
 class CoreRoute extends PageRouteInfo<void> {
   const CoreRoute({List<PageRouteInfo>? children})
@@ -144,6 +158,64 @@ class CoreRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CoreRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EventsDetailsPage]
+class EventsDetailsRoute extends PageRouteInfo<EventsDetailsRouteArgs> {
+  EventsDetailsRoute({
+    Key? key,
+    required Event event,
+    required int eventId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EventsDetailsRoute.name,
+          args: EventsDetailsRouteArgs(
+            key: key,
+            event: event,
+            eventId: eventId,
+          ),
+          rawPathParams: {'eventId': eventId},
+          initialChildren: children,
+        );
+
+  static const String name = 'EventsDetailsRoute';
+
+  static const PageInfo<EventsDetailsRouteArgs> page =
+      PageInfo<EventsDetailsRouteArgs>(name);
+}
+
+class EventsDetailsRouteArgs {
+  const EventsDetailsRouteArgs({
+    this.key,
+    required this.event,
+    required this.eventId,
+  });
+
+  final Key? key;
+
+  final Event event;
+
+  final int eventId;
+
+  @override
+  String toString() {
+    return 'EventsDetailsRouteArgs{key: $key, event: $event, eventId: $eventId}';
+  }
+}
+
+/// generated route for
+/// [EventsPage]
+class EventsRoute extends PageRouteInfo<void> {
+  const EventsRoute({List<PageRouteInfo>? children})
+      : super(
+          EventsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EventsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -311,76 +383,4 @@ class UsersRoute extends PageRouteInfo<void> {
   static const String name = 'UsersRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [AIChatPage]
-class AIChatRoute extends PageRouteInfo<void> {
-  const AIChatRoute({List<PageRouteInfo>? children})
-      : super(
-          AIChatRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AIChatRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [EventsPage]
-class EventsRoute extends PageRouteInfo<void> {
-  const EventsRoute({List<PageRouteInfo>? children})
-      : super(
-          EventsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'EventsRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [EventsDetailsPage]
-class EventsDetailsRoute extends PageRouteInfo<EventsDetailsRouteArgs> {
-  EventsDetailsRoute({
-    Key? key,
-    required Event event,
-    required int eventId,
-    List<PageRouteInfo>? children,
-  }) : super(
-          EventsDetailsRoute.name,
-          args: EventsDetailsRouteArgs(
-            key: key,
-            event: event,
-            eventId: eventId,
-          ),
-          rawPathParams: {'eventId': eventId},
-          initialChildren: children,
-        );
-
-  static const String name = 'EventsDetailsRoute';
-
-  static const PageInfo<EventsDetailsRouteArgs> page =
-      PageInfo<EventsDetailsRouteArgs>(name);
-}
-
-class EventsDetailsRouteArgs {
-  const EventsDetailsRouteArgs({
-    this.key,
-    required this.event,
-    required this.eventId,
-  });
-
-  final Key? key;
-
-  final Event event;
-
-  final int eventId;
-
-  @override
-  String toString() {
-    return 'EventsDetailsRouteArgs{key: $key, event: $event, eventId: $eventId}';
-  }
 }

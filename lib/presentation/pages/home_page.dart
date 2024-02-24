@@ -184,16 +184,17 @@ class _ArticlesSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: isLoading
             ? List.generate(
-                3,
+                5,
                 (index) => const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: CompactCardPlaceholder(),
                 ),
               )
             : articles
-                .take(3)
+                .take(6)
                 .map((article) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.only(
+                          right: 8.0, left: 8.0, bottom: 4.0),
                       child: SizedBox(
                         width: 300.0,
                         child: NewsCard(article: article),
@@ -234,9 +235,10 @@ class _EventsSection extends StatelessWidget {
                 ),
               )
             : events
-                .take(5)
+                .take(4)
                 .map((event) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.only(
+                          right: 8.0, left: 8.0, bottom: 4.0),
                       child: SizedBox(
                         width: 300.0,
                         child: EventCard(event: event, eventId: event.id),
@@ -279,7 +281,8 @@ class _LaunchesSection extends StatelessWidget {
             : launches
                 .take(3)
                 .map((launch) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.only(
+                          right: 8.0, left: 8.0, bottom: 4.0),
                       child: SizedBox(
                         width: 330.0,
                         child: LaunchCard.compact(launch: launch),

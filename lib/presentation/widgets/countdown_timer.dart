@@ -242,6 +242,7 @@ class _DividerWithStatusChip extends StatelessWidget {
             left: 0,
             right: 0,
             child: Chip(
+              side: BorderSide.none,
               backgroundColor: chipColorByStatus,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),

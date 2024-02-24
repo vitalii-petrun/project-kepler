@@ -14,39 +14,51 @@ class SpaceTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AppThemeProvider>(
       builder: (context, themeProvider, child) {
-        Brightness systemBrightness = MediaQuery.of(context).platformBrightness;
         return Container(
           decoration: BoxDecoration(
-            color: themeProvider.themeMode == ThemeMode.dark ||
-                    (themeProvider.themeMode == ThemeMode.system &&
-                        systemBrightness == Brightness.dark)
-                ? context.theme.colorScheme.surface
-                : context.theme.colorScheme.primary,
+            color: context.theme.colorScheme.surface,
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(30),
               bottomRight: Radius.circular(30),
             ),
             boxShadow: [
               BoxShadow(
-                color: context.theme.colorScheme.primary.withOpacity(0.2),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 4,
+                offset: const Offset(0, 2),
               ),
             ],
           ),
+          padding: const EdgeInsets.all(8),
           child: TabBar(
             overlayColor: MaterialStateProperty.all(Colors.transparent),
             controller: controller,
             indicator: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: context.theme.colorScheme.primary.withOpacity(0.1),
+              color: themeProvider.themeMode == ThemeMode.light
+                  ? context.theme.colorScheme.primary
+                  : context.theme.colorScheme.secondary,
             ),
             labelColor: context.theme.colorScheme.onPrimary,
             tabs: tabs,
           ),
         );
       },
+    );
+  }
+}
+
+class SpaceTabBarItem extends StatelessWidget {
+  final String label;
+
+  const SpaceTabBarItem({required this.label, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Center(child: Text(label)),
     );
   }
 }
