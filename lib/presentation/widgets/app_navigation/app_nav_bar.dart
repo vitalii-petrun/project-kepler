@@ -28,6 +28,11 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
           icon: const Icon(Icons.home_outlined),
           label: context.l10n.home,
         ),
+        // NavigationDestination(
+        //   selectedIcon: const Icon(Icons.auto_awesome),
+        //   icon: const Icon(Icons.auto_awesome_outlined),
+        //   label: context.l10n.ai,
+        // ),
         NavigationDestination(
           selectedIcon: const Icon(Icons.rocket_launch),
           icon: const Icon(Icons.rocket_launch_outlined),
