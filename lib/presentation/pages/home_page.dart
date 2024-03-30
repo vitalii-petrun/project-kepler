@@ -127,7 +127,7 @@ class _HomeBody extends StatelessWidget {
                   children: [
                     PresentFunctionButton.animated(
                         title: context.l10n.aiChat,
-                        route: '/ai-chat',
+                        route: '/ai_chat',
                         icon: Icons.auto_awesome),
                     const SizedBox(width: 8.0),
                     if (context.read<AuthenticationCubit>().state
