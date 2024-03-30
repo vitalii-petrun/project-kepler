@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/domain/entities/chat_message.dart';
 import '../utils/ui_helpers.dart';
 
 @RoutePage()
@@ -287,12 +288,3 @@ class PromptChipMessage extends StatelessWidget {
     );
   }
 }
-
-class ChatMessage {
-  final String text;
-  final MessageType type;
-
-  ChatMessage({required this.text, required this.type});
-}
-
-enum MessageType { user, ai }
