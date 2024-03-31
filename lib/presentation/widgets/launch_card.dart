@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
@@ -66,7 +67,10 @@ class _LaunchCardState extends State<LaunchCard> {
                 launchServiceProvider: widget.launch.launchServiceProvider.name,
               ),
             ),
-            _ImageSection(image: widget.launch.image ?? ""),
+            // The image used as default is a SpaceX Falcon 9 image.
+            _ImageSection(
+                image: widget.launch.image ??
+                    "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/images/falcon_9_image_20230807133459.jpeg"),
             const SizedBox(height: 8),
             if (widget.isCompact)
               CountdownTimer.compact(
@@ -190,6 +194,7 @@ class _ImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d(image);
     return AspectRatio(
       aspectRatio: 21 / 8,
       child: Container(
