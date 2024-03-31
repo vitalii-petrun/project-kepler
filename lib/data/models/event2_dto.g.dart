@@ -25,7 +25,7 @@ EventDTO _$EventDTOFromJson(Map<String, dynamic> json) => EventDTO(
           ?.map((e) => AgencyDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
       launches: (json['launches'] as List<dynamic>?)
-          ?.map((e) => LaunchDTO.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => LinkLaunchDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
       expeditions: (json['expeditions'] as List<dynamic>?)
           ?.map((e) => ExpeditionDTO.fromJson(e as Map<String, dynamic>))

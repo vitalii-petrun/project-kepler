@@ -5,7 +5,7 @@ import 'package:project_kepler/data/models/type_dto.dart';
 
 import 'agency_dto.dart';
 import 'expedition_dto.dart';
-import 'launch2_dto.dart';
+import 'link_launch_dto.dart';
 
 part 'event2_dto.g.dart';
 
@@ -32,7 +32,7 @@ class EventDTO {
   final String date;
   final String? duration;
   final List<AgencyDTO>? agencies;
-  final List<LaunchDTO>? launches;
+  final List<LinkLaunchDTO>? launches;
   final List<ExpeditionDTO>? expeditions;
   final List<SpaceStationDTO>? spaceStations;
   final List<ProgramDTO>? programs;

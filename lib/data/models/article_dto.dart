@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'event_dto.dart';
-import 'launch2_dto.dart';
+import 'link_launch_dto.dart';
 
 part 'article_dto.g.dart';
 
@@ -20,7 +20,7 @@ class ArticleDTO {
   @JsonKey(name: 'updated_at')
   final String? updatedAt;
   final bool featured;
-  final List<LaunchDTO>? launches;
+  final List<LinkLaunchDTO>? launches;
   final List<EventDTO>? events;
 
   ArticleDTO({

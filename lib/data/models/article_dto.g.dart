@@ -17,7 +17,7 @@ ArticleDTO _$ArticleDTOFromJson(Map<String, dynamic> json) => ArticleDTO(
       updatedAt: json['updated_at'] as String?,
       featured: json['featured'] as bool,
       launches: (json['launches'] as List<dynamic>?)
-          ?.map((e) => LaunchDTO.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => LinkLaunchDTO.fromJson(e as Map<String, dynamic>))
           .toList(),
       events: (json['events'] as List<dynamic>?)
           ?.map((e) => EventDTO.fromJson(e as Map<String, dynamic>))
