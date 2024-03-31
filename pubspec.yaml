@@ -36,6 +36,7 @@ dependencies:
   flutter_displaymode: ^0.6.0
   dart_openai: ^5.1.0
   flutter_dotenv: ^5.1.0
+  logger: ^2.2.0
 
   # UI
   google_fonts: ^6.1.0

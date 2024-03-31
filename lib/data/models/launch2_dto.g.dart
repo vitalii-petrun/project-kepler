@@ -7,8 +7,8 @@ part of 'launch2_dto.dart';
 // **************************************************************************
 
 LaunchDTO _$LaunchDTOFromJson(Map<String, dynamic> json) => LaunchDTO(
-      launchID: json['launch_id'] as String,
-      provider: json['provider'] as String,
+      launchID: json['launch_id'] as String?,
+      provider: json['provider'] as String?,
     );
 
 Map<String, dynamic> _$LaunchDTOToJson(LaunchDTO instance) => <String, dynamic>{

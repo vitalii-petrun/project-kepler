@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
@@ -71,6 +75,8 @@ class _HomePageState extends State<HomePage> {
                   articles: state.articles);
               // return _HomeBody.loading();
             } else if (state is HomePageError) {
+              logger.e(state.message);
+              logger.t(state.message);
               return const _FailedBody();
             } else {
               return const SizedBox();
