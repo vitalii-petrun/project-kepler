@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_kepler/domain/entities/chat_message.dart';
 
 class ChatState {}
