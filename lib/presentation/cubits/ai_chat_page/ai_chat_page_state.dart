@@ -4,7 +4,11 @@ class ChatState {}
 
 class ChatInitial extends ChatState {}
 
-class ChatLoading extends ChatState {}
+class ChatLoading extends ChatState {
+  final List<ChatMessage> messages;
+
+  ChatLoading(this.messages);
+}
 
 class ChatSuccess extends ChatState {
   final List<ChatMessage> messages;
@@ -14,6 +18,6 @@ class ChatSuccess extends ChatState {
 
 class ChatError extends ChatState {
   final String error;
-
-  ChatError(this.error);
+  final List<ChatMessage> messages;
+  ChatError(this.error, this.messages);
 }

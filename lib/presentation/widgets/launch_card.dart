@@ -194,7 +194,6 @@ class _ImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d(image);
     return AspectRatio(
       aspectRatio: 21 / 8,
       child: Container(

@@ -1,8 +1,11 @@
 import 'package:auto_route/annotations.dart';
-import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/chat_message.dart';
+import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_state.dart';
 import '../utils/ui_helpers.dart';
 
 @RoutePage()
@@ -15,86 +18,72 @@ class AIChatPage extends StatefulWidget {
 
 class AIChatPageState extends State<AIChatPage> {
   final TextEditingController _controller = TextEditingController();
-  late OpenAIModelModel model;
-  List<ChatMessage> _messages = [];
 
   @override
   void initState() {
+    context.read<ChatCubit>().initChat();
     super.initState();
-    initModel();
-  }
-
-  void initModel() async {
-    model = await OpenAI.instance.model.retrieve("gpt-3.5-turbo");
-  }
-
-  Future<void> sendMessage([String? messageText]) async {
-    final text = messageText ?? _controller.text.trim();
-    if (text.isEmpty) return;
-    _controller.clear();
-
-    setState(() {
-      _messages.add(ChatMessage(text: text, type: MessageType.user));
-    });
-
-    try {
-      final systemMessage = OpenAIChatCompletionChoiceMessageModel(
-        content: [
-          OpenAIChatCompletionChoiceMessageContentItemModel.text(
-            "You're a Astronomy Assistant, answer the user's questions",
-          ),
-        ],
-        role: OpenAIChatMessageRole.assistant,
-      );
-
-      final userMessage = OpenAIChatCompletionChoiceMessageModel(
-        content: [
-          OpenAIChatCompletionChoiceMessageContentItemModel.text(text),
-        ],
-        role: OpenAIChatMessageRole.user,
-      );
-
-      final requestMessages = [
-        systemMessage,
-        userMessage,
-      ];
-
-      final response = await OpenAI.instance.chat.create(
-        model: model.id,
-        seed: 6,
-        messages: requestMessages,
-        temperature: 0.2,
-        maxTokens: 500,
-      );
-      final aiResponse = response.choices.first.message.content?.first.text;
-
-      setState(() {
-        _messages
-            .add(ChatMessage(text: aiResponse ?? '', type: MessageType.ai));
-      });
-    } catch (e) {
-      setState(() {
-        _messages.add(
-            ChatMessage(text: 'Error: ${e.toString()}', type: MessageType.ai));
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(context.l10n.aiChat)),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          if (_messages.isEmpty) const Expanded(child: EmptyHistory()),
-          if (_messages.isNotEmpty)
-            Expanded(
-              child: ChatMessageList(messages: _messages),
-            ),
-          InputField(controller: _controller, sendMessage: sendMessage),
-        ],
+      body: BlocBuilder<ChatCubit, ChatState>(
+        builder: (context, state) {
+          logger.d(state);
+          if (state is ChatSuccess) {
+            return ChatView(
+                messages: state.messages,
+                controller: _controller,
+                sendMessage: () async {
+                  if (_controller.text.isNotEmpty) {
+                    await context
+                        .read<ChatCubit>()
+                        .sendMessage(_controller.text);
+                    _controller.clear();
+                  }
+                });
+          } else if (state is ChatLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ChatError) {
+            return Center(child: Text(state.error));
+          } else if (state is ChatInitial) {
+            context.read<ChatCubit>().sendMessage('');
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
       ),
+    );
+  }
+}
+
+class ChatView extends StatelessWidget {
+  final List<ChatMessage> messages;
+  final TextEditingController controller;
+  final Future<void> Function() sendMessage;
+
+  const ChatView(
+      {Key? key,
+      required this.messages,
+      required this.controller,
+      required this.sendMessage})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        if (messages.isEmpty) const Expanded(child: EmptyHistory()),
+        if (messages.isNotEmpty)
+          Expanded(
+            child: ChatMessageList(messages: messages),
+          ),
+        InputField(controller: controller, sendMessage: sendMessage),
+      ],
     );
   }
 }
@@ -224,8 +213,6 @@ class EmptyHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.findAncestorStateOfType<AIChatPageState>();
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -247,10 +234,7 @@ class EmptyHistory extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: PromptChipMessage(
                           text: question,
-                          onTap: () {
-                            state?.sendMessage(
-                                question); // Use the sendMessage method
-                          },
+                          onTap: () {},
                         ),
                       ))
                   .toList(),
