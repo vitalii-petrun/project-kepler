@@ -60,6 +60,57 @@ class AIChatPageState extends State<AIChatPage> {
   }
 }
 
+class AIChat extends StatefulWidget {
+  // TODO: add field to pass context if needed
+  const AIChat({Key? key}) : super(key: key);
+
+  @override
+  _AIChatState createState() => _AIChatState();
+}
+
+class _AIChatState extends State<AIChat> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    context.read<ChatCubit>().initChat();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<ChatCubit, ChatState>(
+        builder: (context, state) {
+          logger.d(state);
+          if (state is ChatSuccess) {
+            return ChatView(
+                messages: state.messages,
+                controller: _controller,
+                sendMessage: () async {
+                  if (_controller.text.isNotEmpty) {
+                    await context
+                        .read<ChatCubit>()
+                        .sendMessage(_controller.text);
+                    _controller.clear();
+                  }
+                });
+          } else if (state is ChatLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ChatError) {
+            return Center(child: Text(state.error));
+          } else if (state is ChatInitial) {
+            context.read<ChatCubit>().sendMessage('');
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
+    );
+  }
+}
+
 class ChatView extends StatelessWidget {
   final List<ChatMessage> messages;
   final TextEditingController controller;
