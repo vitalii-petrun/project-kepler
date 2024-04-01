@@ -61,14 +61,16 @@ class AIChatPageState extends State<AIChatPage> {
 }
 
 class AIChat extends StatefulWidget {
+  ///Just chat without app bar, used in ChatFAB widget.
+
   // TODO: add field to pass context if needed
   const AIChat({Key? key}) : super(key: key);
 
   @override
-  _AIChatState createState() => _AIChatState();
+  AIChatState createState() => AIChatState();
 }
 
-class _AIChatState extends State<AIChat> {
+class AIChatState extends State<AIChat> {
   final TextEditingController _controller = TextEditingController();
 
   @override

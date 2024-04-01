@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
-import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
