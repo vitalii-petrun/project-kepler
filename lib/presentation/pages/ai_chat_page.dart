@@ -154,8 +154,10 @@ class MessageBubble extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 4),
-            Text(message.text),
+            const SizedBox(height: 12),
+            Text(message.text,
+                style: context.theme.textTheme.bodyLarge
+                    ?.copyWith(color: Colors.grey[200])),
           ],
         ),
       ),
@@ -234,7 +236,8 @@ class EmptyHistory extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: PromptChipMessage(
                           text: question,
-                          onTap: () {},
+                          onTap: () =>
+                              context.read<ChatCubit>().sendMessage(question),
                         ),
                       ))
                   .toList(),
