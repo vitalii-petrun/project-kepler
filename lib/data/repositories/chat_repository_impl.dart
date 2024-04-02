@@ -10,14 +10,15 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   Future<void> _initModel() async {
-    _model = await OpenAI.instance.model.retrieve("gpt-3.5-turbo");
+    const modelTitle = "gpt-3.5-turbo";
+    _model = await OpenAI.instance.model.retrieve(modelTitle);
   }
 
   /// The initial prompt to start the conversation.
   ///  Configures the AI to act as an Astronomy Assistant.
   final _initialPrompt =
       """You're a Astronomy Assistant, answer the user's questions about astronomy.
-      User message could contain data in JSON format, it's a context of page where they're requestion  your help,
+      User message could contain data in JSON format, it's a context of page where they're requesting  your help,
       so if question is related to additional data you can use it to provide better answer.
       """;
 
