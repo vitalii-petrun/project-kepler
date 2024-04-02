@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/rocket_configuration.dart';
 import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
+import 'package:project_kepler/presentation/pages/ai_chat_page.dart';
+import 'package:project_kepler/presentation/widgets/chat_wrapper.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,6 +37,7 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: const ChatFAB(child: AIChat()),
       body: BlocBuilder<LaunchDetailsPageCubit, LaunchDetailsPageState>(
         builder: (context, state) {
           if (state is LaunchDetailsPageStateLoaded) {

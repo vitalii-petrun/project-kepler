@@ -4,11 +4,9 @@ import 'package:intl/intl.dart';
 
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/event.dart';
-import 'package:project_kepler/presentation/widgets/launch_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../domain/entities/expedition.dart';
-import '../../domain/entities/launch.dart';
 import '../../domain/entities/spacestation.dart';
 import '../../domain/entities/type.dart';
 import '../widgets/info_badge.dart';
@@ -222,8 +220,8 @@ class _FooterSection extends StatelessWidget {
             const SizedBox(height: 16),
             _NewsUrlButton(newsUrl: event.newsUrl),
             const SizedBox(height: 16),
-            if (event.launches.isNotEmpty)
-              _LaunchesList(launches: event.launches),
+            // if (event.launches.isNotEmpty)
+            //   _LaunchesList(launches: event.launches),
             const SizedBox(height: 16),
             if (event.expeditions.isNotEmpty)
               _ExpeditionsList(expeditions: event.expeditions),
@@ -334,30 +332,30 @@ class _NewsUrlButton extends StatelessWidget {
   }
 }
 
-class _LaunchesList extends StatelessWidget {
-  final List<Launch> launches;
+// class _LaunchesList extends StatelessWidget {
+//   final List<Launch> launches;
 
-  const _LaunchesList({required this.launches, Key? key}) : super(key: key);
+//   const _LaunchesList({required this.launches, Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          context.l10n.launches,
-          style: context.theme.textTheme.titleMedium,
-        ),
-        const SizedBox(height: 8),
-        Column(
-          children: launches.map((launch) {
-            return LaunchCard(launch: launch);
-          }).toList(),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Text(
+//           context.l10n.launches,
+//           style: context.theme.textTheme.titleMedium,
+//         ),
+//         const SizedBox(height: 8),
+//         Column(
+//           children: launches.map((launch) {
+//             return LaunchCard(launch: launch);
+//           }).toList(),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class _ExpeditionsList extends StatelessWidget {
   final List<Expedition> expeditions;

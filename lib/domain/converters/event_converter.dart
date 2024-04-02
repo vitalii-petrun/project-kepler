@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:project_kepler/data/models/event2_dto.dart';
 import 'package:project_kepler/domain/converters/expedition_converter.dart';
-import 'package:project_kepler/domain/converters/launch_converter.dart';
+
 import 'package:project_kepler/domain/converters/spacestation_converter.dart';
 import 'package:project_kepler/domain/converters/type_converter.dart';
 
@@ -23,12 +23,6 @@ class EventDtoToEntityConverter extends Converter<EventDTO, Event> {
       videoUrl: input.videoUrl,
       featureImage: input.featureImage,
       date: DateTime.parse(input.date),
-      launches: input.launches == null
-          ? []
-          : input.launches!
-              .map((launch) =>
-                  LaunchDtoToEntityConverter().convert(launch as dynamic))
-              .toList(),
       expeditions: input.expeditions == null
           ? []
           : input.expeditions!

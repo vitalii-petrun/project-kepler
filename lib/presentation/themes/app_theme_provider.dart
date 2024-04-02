@@ -5,6 +5,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppThemeProvider extends ChangeNotifier {
   String currentTheme = 'system';
 
+  // final ThemeData lightTheme = ThemeData(
+  //   colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF546E7A)),
+  //   textTheme: GoogleFonts.exo2TextTheme(),
+  // );
+
+  // final ThemeData darkTheme = ThemeData(
+  //     colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF455A64)),
+  //     textTheme: GoogleFonts.exo2TextTheme().apply(
+  //       bodyColor: Colors.white,
+  //       displayColor: Colors.white,
+  //     ));
+
   final ThemeData lightTheme = ThemeData.light().copyWith(
     colorScheme: const ColorScheme.light(
       primary: Color(0xFF546E7A), // Slate Blue

@@ -19,7 +19,7 @@ class SpaceGreetingCardState extends State<SpaceGreetingCard>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2000), // Adjust duration as needed
+      duration: const Duration(milliseconds: 2000),
     );
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
     _controller.forward();
@@ -61,13 +61,16 @@ class SpaceGreetingCardState extends State<SpaceGreetingCard>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 126.0),
-            Text(
-              context.l10n.welcomeToApp,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: GoogleFonts.oswald().fontFamily,
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 300),
+              child: Text(
+                context.l10n.welcomeToApp,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: GoogleFonts.oswald().fontFamily,
+                ),
               ),
             ),
             const SizedBox(height: 8.0),
@@ -79,6 +82,7 @@ class SpaceGreetingCardState extends State<SpaceGreetingCard>
                 fontFamily: GoogleFonts.oswald().fontFamily,
               ),
             ),
+            const SizedBox(height: 16.0),
           ],
         ),
       ),

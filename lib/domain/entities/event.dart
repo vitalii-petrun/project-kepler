@@ -1,5 +1,4 @@
 import 'package:project_kepler/domain/entities/expedition.dart';
-import 'package:project_kepler/domain/entities/launch.dart';
 import 'package:project_kepler/domain/entities/spacestation.dart';
 import 'package:project_kepler/domain/entities/type.dart';
 
@@ -18,7 +17,6 @@ class Event {
   final String featureImage;
   final DateTime date;
 
-  final List<Launch> launches;
   final List<Expedition> expeditions;
   final List<SpaceStation> spaceStations;
 
@@ -34,7 +32,6 @@ class Event {
     required this.videoUrl,
     required this.featureImage,
     required this.date,
-    required this.launches,
     required this.expeditions,
     required this.spaceStations,
   });

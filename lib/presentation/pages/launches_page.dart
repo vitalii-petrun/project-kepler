@@ -60,12 +60,15 @@ class _LaunchesPageState extends State<LaunchesPage>
       drawer: const SpaceDrawer(),
       body: Column(
         children: [
-          SpaceTabBar(
-            controller: tabController,
-            tabs: [
-              Tab(child: SpaceTabBarItem(label: context.l10n.launches)),
-              Tab(child: SpaceTabBarItem(label: context.l10n.upcoming)),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: SpaceTabBar(
+              controller: tabController,
+              tabs: [
+                Tab(child: SpaceTabBarItem(label: context.l10n.recent)),
+                Tab(child: SpaceTabBarItem(label: context.l10n.upcoming)),
+              ],
+            ),
           ),
           Expanded(
             child: TabBarView(

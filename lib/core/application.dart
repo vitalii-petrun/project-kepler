@@ -5,10 +5,13 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/data/repositories/article_repository_impl.dart';
+import 'package:project_kepler/data/repositories/chat_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
+import 'package:project_kepler/domain/use_cases/generate_chat_response_use_case.dart';
 import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart';
 import 'package:project_kepler/domain/use_cases/get_upcoming_launches_use_case.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
+import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
@@ -125,6 +128,11 @@ class _ApplicationState extends State<Application> {
                   GetAllEventsUseCase(ApiRepositoryImpl(widget.apiClient)),
                 )),
         BlocProvider(create: (context) => UsersPageCubit()),
+        BlocProvider(
+          create: (context) => ChatCubit(GenerateChatResponseUseCase(
+            ChatRepositoryImpl(),
+          )),
+        ),
         BlocProvider(create: (context) {
           String userId = '';
 

@@ -2,9 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
+import 'package:project_kepler/presentation/widgets/present_function_button.dart';
 
 import 'package:project_kepler/presentation/widgets/events_card.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
@@ -70,6 +72,8 @@ class _HomePageState extends State<HomePage> {
                   articles: state.articles);
               // return _HomeBody.loading();
             } else if (state is HomePageError) {
+              logger.e(state.message);
+              logger.t(state.message);
               return const _FailedBody();
             } else {
               return const SizedBox();
@@ -117,7 +121,35 @@ class _HomeBody extends StatelessWidget {
               padding: EdgeInsets.all(8.0),
               child: SpaceGreetingCard(),
             ),
-            const SizedBox(height: 26.0),
+            const SizedBox(width: 16.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    PresentFunctionButton.animated(
+                        title: context.l10n.aiChat,
+                        route: '/ai_chat',
+                        icon: Icons.auto_awesome),
+                    const SizedBox(width: 8.0),
+                    if (context.read<AuthenticationCubit>().state
+                        is Unauthenticated)
+                      PresentFunctionButton(
+                        title: context.l10n.login,
+                        route: '/login',
+                        icon: Icons.login,
+                      ),
+                    const SizedBox(width: 8.0),
+                    PresentFunctionButton(
+                      title: context.l10n.news,
+                      route: '/news',
+                      icon: Icons.article,
+                    ),
+                  ],
+                ),
+              ),
+            ),
             _SpaceSectionTitle(
               title: context.l10n.upcomingLaunches,
               onPressed: () => context.router.pushNamed('/launches'),

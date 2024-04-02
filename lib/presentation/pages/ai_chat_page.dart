@@ -1,198 +1,11 @@
-// import 'package:auto_route/annotations.dart';
-// import 'package:dart_openai/dart_openai.dart';
-// import 'package:flutter/material.dart';
-// import 'package:project_kepler/core/extensions/build_context_ext.dart';
-
-// import '../utils/ui_helpers.dart';
-
-// @RoutePage()
-// class AIChatPage extends StatefulWidget {
-//   const AIChatPage({Key? key}) : super(key: key);
-
-//   @override
-//   AIChatPageState createState() => AIChatPageState();
-// }
-
-// class AIChatPageState extends State<AIChatPage> {
-//   final TextEditingController _controller = TextEditingController();
-//   late OpenAIModelModel model;
-//   List<ChatMessage> _messages = []; // Chat history
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     initModel();
-//   }
-
-//   void initModel() async {
-//     model = await OpenAI.instance.model.retrieve("gpt-3.5-turbo");
-//   }
-
-//   Future<void> _sendMessage() async {
-//     final text = _controller.text.trim();
-//     if (text.isEmpty) return;
-//     _controller.clear();
-
-//     // Add user message to chat history
-//     setState(() {
-//       _messages.add(ChatMessage(text: text, type: MessageType.user));
-//     });
-
-//     try {
-//       final systemMessage = OpenAIChatCompletionChoiceMessageModel(
-//         content: [
-//           OpenAIChatCompletionChoiceMessageContentItemModel.text(
-//             "You're a Astronomy Assistant, answer the user's questions",
-//           ),
-//         ],
-//         role: OpenAIChatMessageRole.assistant,
-//       );
-
-//       final userMessage = OpenAIChatCompletionChoiceMessageModel(
-//         content: [
-//           OpenAIChatCompletionChoiceMessageContentItemModel.text(text),
-//         ],
-//         role: OpenAIChatMessageRole.user,
-//       );
-
-//       final requestMessages = [
-//         systemMessage,
-//         userMessage,
-//       ];
-
-//       final response = await OpenAI.instance.chat.create(
-//         model: model.id,
-//         seed: 6,
-//         messages: requestMessages,
-//         temperature: 0.2,
-//         maxTokens: 500,
-//       );
-//       final aiResponse = response.choices.first.message.content?.first.text;
-
-//       // Add AI response to chat history
-//       setState(() {
-//         _messages
-//             .add(ChatMessage(text: aiResponse ?? '', type: MessageType.ai));
-//       });
-//     } catch (e) {
-//       setState(() {
-//         _messages.add(
-//             ChatMessage(text: 'Error: ${e.toString()}', type: MessageType.ai));
-//       });
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('AI Chat'),
-//       ),
-//       body: Column(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: <Widget>[
-//           Expanded(
-//             child: Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: ListView.builder(
-//                 itemCount: _messages.length,
-//                 itemBuilder: (context, index) {
-//                   final message = _messages[index];
-//                   return Align(
-//                     alignment: message.type == MessageType.user
-//                         ? Alignment.centerRight
-//                         : Alignment.centerLeft,
-//                     child: Container(
-//                       constraints: BoxConstraints(
-//                           maxWidth: MediaQuery.of(context).size.width *
-//                               0.7), // Limiting width
-//                       padding: const EdgeInsets.symmetric(
-//                           vertical: 8.0, horizontal: 12.0),
-//                       margin: const EdgeInsets.symmetric(vertical: 4.0),
-//                       decoration: BoxDecoration(
-//                         color: message.type == MessageType.user
-//                             ? context.theme.colorScheme.primary
-//                             : AppColors.aiChatBubbleColor,
-//                         borderRadius: BorderRadius.circular(12),
-//                       ),
-//                       child: Column(
-//                         crossAxisAlignment: message.type == MessageType.user
-//                             ? CrossAxisAlignment.end
-//                             : CrossAxisAlignment.start,
-//                         children: [
-//                           Row(
-//                             mainAxisSize: MainAxisSize.min,
-//                             children: [
-//                               Icon(
-//                                 message.type == MessageType.user
-//                                     ? Icons.person
-//                                     : Icons.computer,
-//                                 size: 16,
-//                                 color: Colors.white,
-//                               ),
-//                               const SizedBox(width: 4),
-//                               Text(
-//                                 message.type == MessageType.user
-//                                     ? "You"
-//                                     : "AI Companion",
-//                                 style: const TextStyle(
-//                                     fontSize: 12, color: Colors.white),
-//                               ),
-//                             ],
-//                           ),
-//                           const SizedBox(height: 4),
-//                           Text(message.text),
-//                         ],
-//                       ),
-//                     ),
-//                   );
-//                 },
-//               ),
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: TextField(
-//               controller: _controller,
-//               maxLines: null,
-//               keyboardType: TextInputType.multiline,
-//               decoration: InputDecoration(
-//                 labelText: 'Enter your message',
-//                 labelStyle: TextStyle(color: context.theme.colorScheme.surface),
-//                 fillColor: context.theme.colorScheme.surface,
-//                 filled: true,
-//                 border: OutlineInputBorder(
-//                   borderSide: BorderSide.none,
-//                   borderRadius: BorderRadius.circular(20),
-//                 ),
-//                 suffixIcon: IconButton(
-//                   icon: const Icon(Icons.send,
-//                       color: AppColors.aiChatBubbleColor),
-//                   onPressed: _sendMessage,
-//                 ),
-//               ),
-//               onSubmitted: (value) => _sendMessage(),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class ChatMessage {
-//   final String text;
-//   final MessageType type;
-
-//   ChatMessage({required this.text, required this.type});
-// }
-
-// enum MessageType { user, ai }
-
 import 'package:auto_route/annotations.dart';
-import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/domain/entities/chat_message.dart';
+import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_state.dart';
 import '../utils/ui_helpers.dart';
 
 @RoutePage()
@@ -205,86 +18,125 @@ class AIChatPage extends StatefulWidget {
 
 class AIChatPageState extends State<AIChatPage> {
   final TextEditingController _controller = TextEditingController();
-  late OpenAIModelModel model;
-  List<ChatMessage> _messages = [];
 
   @override
   void initState() {
+    context.read<ChatCubit>().initChat();
     super.initState();
-    initModel();
-  }
-
-  void initModel() async {
-    model = await OpenAI.instance.model.retrieve("gpt-3.5-turbo");
-  }
-
-  Future<void> sendMessage([String? messageText]) async {
-    final text = messageText ?? _controller.text.trim();
-    if (text.isEmpty) return;
-    _controller.clear();
-
-    setState(() {
-      _messages.add(ChatMessage(text: text, type: MessageType.user));
-    });
-
-    try {
-      final systemMessage = OpenAIChatCompletionChoiceMessageModel(
-        content: [
-          OpenAIChatCompletionChoiceMessageContentItemModel.text(
-            "You're a Astronomy Assistant, answer the user's questions",
-          ),
-        ],
-        role: OpenAIChatMessageRole.assistant,
-      );
-
-      final userMessage = OpenAIChatCompletionChoiceMessageModel(
-        content: [
-          OpenAIChatCompletionChoiceMessageContentItemModel.text(text),
-        ],
-        role: OpenAIChatMessageRole.user,
-      );
-
-      final requestMessages = [
-        systemMessage,
-        userMessage,
-      ];
-
-      final response = await OpenAI.instance.chat.create(
-        model: model.id,
-        seed: 6,
-        messages: requestMessages,
-        temperature: 0.2,
-        maxTokens: 500,
-      );
-      final aiResponse = response.choices.first.message.content?.first.text;
-
-      setState(() {
-        _messages
-            .add(ChatMessage(text: aiResponse ?? '', type: MessageType.ai));
-      });
-    } catch (e) {
-      setState(() {
-        _messages.add(
-            ChatMessage(text: 'Error: ${e.toString()}', type: MessageType.ai));
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('AI Chat')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          if (_messages.isEmpty) const Expanded(child: EmptyHistory()),
-          if (_messages.isNotEmpty)
-            Expanded(
-              child: ChatMessageList(messages: _messages),
-            ),
-          InputField(controller: _controller, sendMessage: sendMessage),
-        ],
+      appBar: AppBar(title: Text(context.l10n.aiChat)),
+      body: BlocBuilder<ChatCubit, ChatState>(
+        builder: (context, state) {
+          logger.d(state);
+          if (state is ChatSuccess) {
+            return ChatView(
+                messages: state.messages,
+                controller: _controller,
+                sendMessage: () async {
+                  if (_controller.text.isNotEmpty) {
+                    await context
+                        .read<ChatCubit>()
+                        .sendMessage(_controller.text);
+                    _controller.clear();
+                  }
+                });
+          } else if (state is ChatLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ChatError) {
+            return Center(child: Text(state.error));
+          } else if (state is ChatInitial) {
+            context.read<ChatCubit>().sendMessage('');
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
       ),
+    );
+  }
+}
+
+class AIChat extends StatefulWidget {
+  ///Just chat without app bar, used in ChatFAB widget.
+
+  // TODO: add field to pass context if needed
+  const AIChat({Key? key}) : super(key: key);
+
+  @override
+  AIChatState createState() => AIChatState();
+}
+
+class AIChatState extends State<AIChat> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    context.read<ChatCubit>().initChat();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: BlocBuilder<ChatCubit, ChatState>(
+        builder: (context, state) {
+          logger.d(state);
+          if (state is ChatSuccess) {
+            return ChatView(
+                messages: state.messages,
+                controller: _controller,
+                sendMessage: () async {
+                  if (_controller.text.isNotEmpty) {
+                    await context
+                        .read<ChatCubit>()
+                        .sendMessage(_controller.text);
+                    _controller.clear();
+                  }
+                });
+          } else if (state is ChatLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ChatError) {
+            return Center(child: Text(state.error));
+          } else if (state is ChatInitial) {
+            context.read<ChatCubit>().sendMessage('');
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
+    );
+  }
+}
+
+class ChatView extends StatelessWidget {
+  final List<ChatMessage> messages;
+  final TextEditingController controller;
+  final Future<void> Function() sendMessage;
+
+  const ChatView(
+      {Key? key,
+      required this.messages,
+      required this.controller,
+      required this.sendMessage})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        if (messages.isEmpty) const Expanded(child: EmptyHistory()),
+        if (messages.isNotEmpty)
+          Expanded(
+            child: ChatMessageList(messages: messages),
+          ),
+        InputField(controller: controller, sendMessage: sendMessage),
+      ],
     );
   }
 }
@@ -348,13 +200,17 @@ class MessageBubble extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  message.type == MessageType.user ? "You" : "AI Companion",
+                  message.type == MessageType.user
+                      ? context.l10n.you
+                      : context.l10n.aiChat,
                   style: const TextStyle(fontSize: 12, color: Colors.white),
                 ),
               ],
             ),
-            const SizedBox(height: 4),
-            Text(message.text),
+            const SizedBox(height: 12),
+            Text(message.text,
+                style: context.theme.textTheme.bodyLarge
+                    ?.copyWith(color: Colors.grey[200])),
           ],
         ),
       ),
@@ -412,9 +268,6 @@ class EmptyHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Assuming AIChatPageState is accessible or use a suitable approach to access _sendMessage()
-    final state = context.findAncestorStateOfType<AIChatPageState>();
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -436,10 +289,8 @@ class EmptyHistory extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: PromptChipMessage(
                           text: question,
-                          onTap: () {
-                            state?.sendMessage(
-                                question); // Use the sendMessage method
-                          },
+                          onTap: () =>
+                              context.read<ChatCubit>().sendMessage(question),
                         ),
                       ))
                   .toList(),
@@ -477,12 +328,3 @@ class PromptChipMessage extends StatelessWidget {
     );
   }
 }
-
-class ChatMessage {
-  final String text;
-  final MessageType type;
-
-  ChatMessage({required this.text, required this.type});
-}
-
-enum MessageType { user, ai }

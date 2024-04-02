@@ -165,6 +165,8 @@ class _DrawerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(30),
+      highlightColor: context.theme.colorScheme.primary.withOpacity(0.1),
       child: Padding(
         padding: const EdgeInsets.only(left: 20, top: 12, bottom: 12),
         child: Row(

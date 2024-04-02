@@ -19,4 +19,8 @@ class AppColors {
   static const Color newsCardColor = Color(0xFF2196F3);
   static const Color spaceTitleColor = Color(0xFF7f4bd7);
   static const Color aiChatBubbleColor = Color(0xFF3F51B5);
+
+  static const Color presentFunction = Color(0xFF0D47A1);
+  static const Color presentFunction2 = Color(0xFF2196F3);
+  static const Color presentFunction4 = Color(0xFF00BFA5);
 }

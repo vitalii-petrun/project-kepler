@@ -66,7 +66,10 @@ class _LaunchCardState extends State<LaunchCard> {
                 launchServiceProvider: widget.launch.launchServiceProvider.name,
               ),
             ),
-            _ImageSection(image: widget.launch.image ?? ""),
+            // The image used as default is a SpaceX Falcon 9 image.
+            _ImageSection(
+                image: widget.launch.image ??
+                    "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/images/falcon_9_image_20230807133459.jpeg"),
             const SizedBox(height: 8),
             if (widget.isCompact)
               CountdownTimer.compact(
