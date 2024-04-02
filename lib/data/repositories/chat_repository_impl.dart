@@ -1,7 +1,7 @@
-// data/repositories/chat_repository_impl.dart
 import 'package:dart_openai/dart_openai.dart';
 import 'package:project_kepler/domain/repositories/chat_repository.dart';
 
+/// A concrete implementation of the [ChatRepository] interface.
 class ChatRepositoryImpl implements ChatRepository {
   late final OpenAIModelModel _model;
 
@@ -13,14 +13,21 @@ class ChatRepositoryImpl implements ChatRepository {
     _model = await OpenAI.instance.model.retrieve("gpt-3.5-turbo");
   }
 
+  /// The initial prompt to start the conversation.
+  ///  Configures the AI to act as an Astronomy Assistant.
+  final _initialPrompt =
+      """You're a Astronomy Assistant, answer the user's questions about astronomy.
+      User message could contain data in JSON format, it's a context of page where they're requestion  your help,
+      so if question is related to additional data you can use it to provide better answer.
+      """;
+
   @override
   Future<String> generateAIResponse(String message) async {
     try {
       final systemMessage = OpenAIChatCompletionChoiceMessageModel(
         content: [
           OpenAIChatCompletionChoiceMessageContentItemModel.text(
-            "You're a Astronomy Assistant, answer the user's questions",
-          ),
+              _initialPrompt),
         ],
         role: OpenAIChatMessageRole.assistant,
       );
