@@ -38,10 +38,9 @@ class AIChatPageState extends State<AIChatPage> {
                 controller: _controller,
                 sendMessage: () async {
                   if (_controller.text.isNotEmpty) {
-                    await context
-                        .read<ChatCubit>()
-                        .sendMessage(_controller.text);
+                    String text = _controller.text;
                     _controller.clear();
+                    await context.read<ChatCubit>().sendMessage(text);
                   }
                 });
           } else if (state is ChatLoading) {
@@ -94,10 +93,11 @@ class AIChatState extends State<AIChat> {
                   logger.d("hello..?");
                   logger.d("Received Context: ${widget.pageContext}");
                   if (_controller.text.isNotEmpty) {
-                    await context.read<ChatCubit>().sendMessage(
-                        _controller.text,
-                        context: widget.pageContext);
+                    String text = _controller.text;
                     _controller.clear();
+                    await context
+                        .read<ChatCubit>()
+                        .sendMessage(text, context: widget.pageContext);
                   }
                 });
           } else if (state is ChatLoading) {
