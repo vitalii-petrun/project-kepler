@@ -21,7 +21,7 @@ class ExpeditionDTOtoEntityConverter
   }
 }
 
-class ExpeditionEntitytoDTOConverter
+class ExpeditionEntityToDTOConverter
     extends Converter<Expedition, ExpeditionDTO> {
   @override
   ExpeditionDTO convert(Expedition input) {

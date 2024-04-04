@@ -69,3 +69,9 @@ class ChatRepositoryImpl implements ChatRepository {
     }
   }
 }
+
+// OpenAI: This part of the name indicates that the class is related to the OpenAI API.
+// ChatCompletion: This refers to the specific API endpoint being used, which is the "chat completion" endpoint. This endpoint is designed for conversational AI models like ChatGPT.
+// Choice: A single response from the API is called a "choice".
+// Message: Each message in the conversation is represented by this class.
+// Model: This part of the name indicates that the class is a model or data structure representing a message.

@@ -44,7 +44,7 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
     Map<String, dynamic> pageContext = {
       'launch': LaunchEntityToDtoConverter().convert(widget.launch).toJson(),
     };
-    logger.d('Created context: $pageContext');
+
     return Scaffold(
       floatingActionButton: ChatFAB(
         child: AIChat(pageContext: pageContext),
