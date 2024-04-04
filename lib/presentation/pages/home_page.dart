@@ -114,79 +114,82 @@ class _HomeBody extends StatelessWidget {
       onRefresh: () async => context.read<HomePageCubit>().fetch(),
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: SpaceGreetingCard(),
-            ),
-            const SizedBox(width: 16.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    PresentFunctionButton.animated(
-                        title: context.l10n.aiChat,
-                        route: '/ai_chat',
-                        icon: Icons.auto_awesome),
-                    const SizedBox(width: 8.0),
-                    if (context.read<AuthenticationCubit>().state
-                        is Unauthenticated)
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: SpaceGreetingCard(),
+              ),
+              const SizedBox(width: 16.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      PresentFunctionButton.animated(
+                          title: context.l10n.aiChat,
+                          route: '/ai_chat',
+                          icon: Icons.auto_awesome),
+                      const SizedBox(width: 8.0),
+                      if (context.read<AuthenticationCubit>().state
+                          is Unauthenticated)
+                        PresentFunctionButton(
+                          title: context.l10n.login,
+                          route: '/login',
+                          icon: Icons.login,
+                        ),
+                      const SizedBox(width: 8.0),
                       PresentFunctionButton(
-                        title: context.l10n.login,
-                        route: '/login',
-                        icon: Icons.login,
+                        title: context.l10n.news,
+                        route: '/news',
+                        icon: Icons.article,
                       ),
-                    const SizedBox(width: 8.0),
-                    PresentFunctionButton(
-                      title: context.l10n.news,
-                      route: '/news',
-                      icon: Icons.article,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            _SpaceSectionTitle(
-              title: context.l10n.upcomingLaunches,
-              onPressed: () => context.router.pushNamed('/launches'),
-              icon: Icons.rocket_rounded,
-            ),
-            if (isLoading)
-              _LaunchesSection.loading()
-            else
-              _LaunchesSection(launches: launches),
-            const SizedBox(height: 16.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: _SpaceSectionTitle(
-                title: context.l10n.upcomingEvents,
-                onPressed: () => context.router.pushNamed('/events'),
-                icon: Icons.event,
+              _SpaceSectionTitle(
+                title: context.l10n.upcomingLaunches,
+                onPressed: () => context.router.pushNamed('/launches'),
+                icon: Icons.rocket_rounded,
               ),
-            ),
-            if (isLoading)
-              _EventsSection.loading()
-            else
-              _EventsSection(events: events),
-            const SizedBox(height: 16.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: _SpaceSectionTitle(
-                title: context.l10n.recentNewss,
-                onPressed: () => context.router.pushNamed('/news'),
-                icon: Icons.article,
+              if (isLoading)
+                _LaunchesSection.loading()
+              else
+                _LaunchesSection(launches: launches),
+              const SizedBox(height: 16.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: _SpaceSectionTitle(
+                  title: context.l10n.upcomingEvents,
+                  onPressed: () => context.router.pushNamed('/events'),
+                  icon: Icons.event,
+                ),
               ),
-            ),
-            if (isLoading)
-              _ArticlesSection.loading()
-            else
-              _ArticlesSection(articles: articles),
-            const SizedBox(height: 22.0),
-          ],
+              if (isLoading)
+                _EventsSection.loading()
+              else
+                _EventsSection(events: events),
+              const SizedBox(height: 16.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: _SpaceSectionTitle(
+                  title: context.l10n.recentNewss,
+                  onPressed: () => context.router.pushNamed('/news'),
+                  icon: Icons.article,
+                ),
+              ),
+              if (isLoading)
+                _ArticlesSection.loading()
+              else
+                _ArticlesSection(articles: articles),
+              const SizedBox(height: 22.0),
+            ],
+          ),
         ),
       ),
     );
