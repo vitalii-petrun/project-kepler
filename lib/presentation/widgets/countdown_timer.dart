@@ -80,24 +80,20 @@ class CountdownTimerState extends State<CountdownTimer> {
         if (!widget.isCompact) const SizedBox(height: 18),
         if (widget.isCompact) ...[
           const SizedBox(height: 8),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 200),
-            child: Wrap(
-              runAlignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              alignment: WrapAlignment.center,
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                _CountdownItem.compact(number: days, label: context.l10n.days),
-                _CountdownItem.compact(
-                    number: hours, label: context.l10n.hours),
-                _CountdownItem.compact(
-                    number: minutes, label: context.l10n.minutes),
-                _CountdownItem.compact(
-                    number: seconds, label: context.l10n.seconds),
-              ],
-            ),
+          Wrap(
+            runAlignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _CountdownItem.compact(number: days, label: context.l10n.days),
+              _CountdownItem.compact(number: hours, label: context.l10n.hours),
+              _CountdownItem.compact(
+                  number: minutes, label: context.l10n.minutes),
+              _CountdownItem.compact(
+                  number: seconds, label: context.l10n.seconds),
+            ],
           ),
         ],
         if (!widget.isCompact)
@@ -146,10 +142,12 @@ class _CountdownItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.1),
+        color: context.theme.colorScheme.secondary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.all(8),
+      padding: isCompact
+          ? const EdgeInsets.symmetric(horizontal: 41, vertical: 4)
+          : const EdgeInsets.all(8),
       child: SizedBox(
         width: 70,
         child: Column(
@@ -167,18 +165,6 @@ class _CountdownItem extends StatelessWidget {
     );
   }
 }
-
-// class _CountdownItemsDivider extends StatelessWidget {
-//   const _CountdownItemsDivider({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       ":",
-//       style: context.theme.textTheme.headlineMedium,
-//     );
-//   }
-// }
 
 enum LaunchStatus {
   goForLaunch("Go for Launch"),

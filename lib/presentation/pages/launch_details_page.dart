@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
-import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/converters/launch_converter.dart';
 import 'package:project_kepler/domain/entities/rocket_configuration.dart';
 import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
