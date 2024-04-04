@@ -25,7 +25,11 @@ class LogoutButton extends StatelessWidget {
         ),
       ),
       onPressed: () => _handleSignOutTap(context),
-      child: Text(context.l10n.logout),
+      child: Text(
+        context.l10n.logout,
+        style:
+            context.theme.textTheme.labelLarge?.copyWith(color: Colors.white),
+      ),
     );
   }
 }
