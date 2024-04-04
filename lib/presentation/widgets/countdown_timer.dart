@@ -80,20 +80,24 @@ class CountdownTimerState extends State<CountdownTimer> {
         if (!widget.isCompact) const SizedBox(height: 18),
         if (widget.isCompact) ...[
           const SizedBox(height: 8),
-          Wrap(
-            runAlignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.center,
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _CountdownItem.compact(number: days, label: context.l10n.days),
-              _CountdownItem.compact(number: hours, label: context.l10n.hours),
-              _CountdownItem.compact(
-                  number: minutes, label: context.l10n.minutes),
-              _CountdownItem.compact(
-                  number: seconds, label: context.l10n.seconds),
-            ],
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 200),
+            child: Wrap(
+              runAlignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.center,
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _CountdownItem.compact(number: days, label: context.l10n.days),
+                _CountdownItem.compact(
+                    number: hours, label: context.l10n.hours),
+                _CountdownItem.compact(
+                    number: minutes, label: context.l10n.minutes),
+                _CountdownItem.compact(
+                    number: seconds, label: context.l10n.seconds),
+              ],
+            ),
           ),
         ],
         if (!widget.isCompact)
