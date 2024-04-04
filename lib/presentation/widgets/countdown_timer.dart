@@ -142,10 +142,12 @@ class _CountdownItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.1),
+        color: context.theme.colorScheme.secondary.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.all(8),
+      padding: isCompact
+          ? const EdgeInsets.symmetric(horizontal: 41, vertical: 4)
+          : const EdgeInsets.all(8),
       child: SizedBox(
         width: 70,
         child: Column(
@@ -163,18 +165,6 @@ class _CountdownItem extends StatelessWidget {
     );
   }
 }
-
-// class _CountdownItemsDivider extends StatelessWidget {
-//   const _CountdownItemsDivider({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       ":",
-//       style: context.theme.textTheme.headlineMedium,
-//     );
-//   }
-// }
 
 enum LaunchStatus {
   goForLaunch("Go for Launch"),

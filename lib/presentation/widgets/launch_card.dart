@@ -133,6 +133,8 @@ class _HeaderSection extends StatelessWidget {
         children: [
           Text(
             launchName,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: textTheme.titleLarge?.copyWith(
               color: colorScheme.onPrimary,
             ),
@@ -368,7 +370,7 @@ class _BodySection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.1),
+        color: context.theme.colorScheme.secondary.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
       ),
       width: double.infinity,
