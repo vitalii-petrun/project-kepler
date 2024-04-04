@@ -38,3 +38,36 @@ class EventDtoToEntityConverter extends Converter<EventDTO, Event> {
     );
   }
 }
+
+class EventEntityToDtoConverter extends Converter<Event, EventDTO> {
+  @override
+  EventDTO convert(Event input) {
+    return EventDTO(
+      id: input.id,
+      url: input.url,
+      slug: 'slug',
+      name: input.name,
+      type: TypeEntityToDTOConverter().convert(input.type),
+      description: input.description,
+      webcastLive: input.webcastLive,
+      location: input.location,
+      newsUrl: input.newsUrl,
+      videoUrl: input.videoUrl,
+      featureImage: input.featureImage,
+      date: input.date.toIso8601String(),
+      expeditions: input.expeditions
+          .map((expedition) =>
+              ExpeditionEntityToDTOConverter().convert(expedition))
+          .toList(),
+      spaceStations: input.spaceStations
+          .map((spaceStation) =>
+              SpaceStationEntityToDTOConverter().convert(spaceStation))
+          .toList(),
+      lastUpdated: '',
+      duration: '',
+      agencies: [],
+      launches: [],
+      programs: [],
+    );
+  }
+}

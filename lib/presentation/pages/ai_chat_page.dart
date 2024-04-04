@@ -38,10 +38,9 @@ class AIChatPageState extends State<AIChatPage> {
                 controller: _controller,
                 sendMessage: () async {
                   if (_controller.text.isNotEmpty) {
-                    await context
-                        .read<ChatCubit>()
-                        .sendMessage(_controller.text);
+                    String text = _controller.text;
                     _controller.clear();
+                    await context.read<ChatCubit>().sendMessage(text);
                   }
                 });
           } else if (state is ChatLoading) {
@@ -61,10 +60,12 @@ class AIChatPageState extends State<AIChatPage> {
 }
 
 class AIChat extends StatefulWidget {
-  ///Just chat without app bar, used in ChatFAB widget.
+  ///Just chat without app bar, to use AI ChatBot outside of the page.
 
-  // TODO: add field to pass context if needed
-  const AIChat({Key? key}) : super(key: key);
+  /// Page context for AI ChatBot.
+  final Map<String, dynamic>? pageContext;
+
+  const AIChat({Key? key, this.pageContext}) : super(key: key);
 
   @override
   AIChatState createState() => AIChatState();
@@ -84,17 +85,19 @@ class AIChatState extends State<AIChat> {
     return Scaffold(
       body: BlocBuilder<ChatCubit, ChatState>(
         builder: (context, state) {
-          logger.d(state);
           if (state is ChatSuccess) {
             return ChatView(
                 messages: state.messages,
                 controller: _controller,
                 sendMessage: () async {
+                  logger.d("hello..?");
+                  logger.d("Received Context: ${widget.pageContext}");
                   if (_controller.text.isNotEmpty) {
+                    String text = _controller.text;
+                    _controller.clear();
                     await context
                         .read<ChatCubit>()
-                        .sendMessage(_controller.text);
-                    _controller.clear();
+                        .sendMessage(text, context: widget.pageContext);
                   }
                 });
           } else if (state is ChatLoading) {
@@ -102,7 +105,6 @@ class AIChatState extends State<AIChat> {
           } else if (state is ChatError) {
             return Center(child: Text(state.error));
           } else if (state is ChatInitial) {
-            context.read<ChatCubit>().sendMessage('');
             return const Center(child: CircularProgressIndicator());
           } else {
             return const SizedBox.shrink();

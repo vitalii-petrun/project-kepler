@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:project_kepler/domain/entities/launch.dart';
 import 'package:project_kepler/presentation/pages/launches_page.dart';
 
 import '../../domain/entities/event.dart';

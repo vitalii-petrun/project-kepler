@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/domain/converters/launch_converter.dart';
 import 'package:project_kepler/domain/entities/rocket_configuration.dart';
 import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
 import 'package:project_kepler/presentation/pages/ai_chat_page.dart';
-import 'package:project_kepler/presentation/widgets/chat_wrapper.dart';
+import 'package:project_kepler/presentation/widgets/chat_fab.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,9 +20,12 @@ import '../widgets/no_internet.dart';
 @RoutePage()
 class LaunchDetailsPage extends StatefulWidget {
   final String launchId;
+  final Launch launch;
 
   const LaunchDetailsPage(
-      {Key? key, @PathParam('launchId') required this.launchId})
+      {Key? key,
+      @PathParam('launchId') required this.launchId,
+      required this.launch})
       : super(key: key);
 
   @override
@@ -36,8 +41,14 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> pageContext = {
+      'launch': LaunchEntityToDtoConverter().convert(widget.launch).toJson(),
+    };
+
     return Scaffold(
-      floatingActionButton: const ChatFAB(child: AIChat()),
+      floatingActionButton: ChatFAB(
+        child: AIChat(pageContext: pageContext),
+      ),
       body: BlocBuilder<LaunchDetailsPageCubit, LaunchDetailsPageState>(
         builder: (context, state) {
           if (state is LaunchDetailsPageStateLoaded) {

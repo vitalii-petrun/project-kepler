@@ -75,15 +75,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     LaunchDetailsRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<LaunchDetailsRouteArgs>(
-          orElse: () => LaunchDetailsRouteArgs(
-              launchId: pathParams.getString('launchId')));
+      final args = routeData.argsAs<LaunchDetailsRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: LaunchDetailsPage(
           key: args.key,
           launchId: args.launchId,
+          launch: args.launch,
         ),
       );
     },
@@ -282,12 +280,14 @@ class LaunchDetailsRoute extends PageRouteInfo<LaunchDetailsRouteArgs> {
   LaunchDetailsRoute({
     Key? key,
     required String launchId,
+    required Launch launch,
     List<PageRouteInfo>? children,
   }) : super(
           LaunchDetailsRoute.name,
           args: LaunchDetailsRouteArgs(
             key: key,
             launchId: launchId,
+            launch: launch,
           ),
           rawPathParams: {'launchId': launchId},
           initialChildren: children,
@@ -303,15 +303,18 @@ class LaunchDetailsRouteArgs {
   const LaunchDetailsRouteArgs({
     this.key,
     required this.launchId,
+    required this.launch,
   });
 
   final Key? key;
 
   final String launchId;
 
+  final Launch launch;
+
   @override
   String toString() {
-    return 'LaunchDetailsRouteArgs{key: $key, launchId: $launchId}';
+    return 'LaunchDetailsRouteArgs{key: $key, launchId: $launchId, launch: $launch}';
   }
 }
 

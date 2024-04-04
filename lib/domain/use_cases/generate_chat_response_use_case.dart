@@ -6,9 +6,11 @@ class GenerateChatResponseUseCase {
 
   GenerateChatResponseUseCase(this._chatRepository);
 
-  Future<ChatMessage> sendMessage(String message) async {
+  Future<ChatMessage> sendMessage(String message,
+      {Map<String, dynamic>? context}) async {
     try {
-      final aiResponse = await _chatRepository.generateAIResponse(message);
+      final aiResponse =
+          await _chatRepository.generateAIResponse(message, context: context);
       return ChatMessage(text: aiResponse, type: MessageType.ai);
     } catch (e) {
       return ChatMessage(text: 'Error: $e', type: MessageType.ai);

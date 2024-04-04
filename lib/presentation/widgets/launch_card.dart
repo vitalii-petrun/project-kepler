@@ -56,7 +56,8 @@ class _LaunchCardState extends State<LaunchCard> {
             GestureDetector(
               onTap: () {
                 AutoRouter.of(context).push(
-                  LaunchDetailsRoute(launchId: widget.launch.id),
+                  LaunchDetailsRoute(
+                      launchId: widget.launch.id, launch: widget.launch),
                 );
               },
               child: _HeaderSection(
@@ -237,8 +238,8 @@ class _FooterSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
-              onTap: () =>
-                  context.router.push(LaunchDetailsRoute(launchId: launch.id)),
+              onTap: () => context.router.push(
+                  LaunchDetailsRoute(launchId: launch.id, launch: launch)),
               borderRadius: BorderRadius.circular(8),
               child: Padding(
                 padding: const EdgeInsets.all(8),

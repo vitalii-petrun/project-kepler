@@ -17,7 +17,8 @@ class ChatCubit extends Cubit<ChatState> {
     }
   }
 
-  Future<void> sendMessage(String message) async {
+  Future<void> sendMessage(String message,
+      {Map<String, dynamic>? context}) async {
     if (message.isEmpty) return;
     _addUserMessage(message);
     final currentState = state;
@@ -25,7 +26,14 @@ class ChatCubit extends Cubit<ChatState> {
         currentState is ChatSuccess ? currentState.messages : [];
 
     try {
-      final newMessage = await _chatUseCase.sendMessage(message);
+      final newMessage = await _chatUseCase.sendMessage(message, context: {
+        'user_message': message,
+        'previous_messages': currentMessages
+            .where((element) => element.type == MessageType.ai)
+            .map((e) => e.text)
+            .toList(),
+        'context': context ?? "Treat this as a context placeholder"
+      });
       emit(ChatSuccess([...currentMessages, newMessage]));
     } catch (e) {
       emit(ChatError(e.toString(), currentMessages));

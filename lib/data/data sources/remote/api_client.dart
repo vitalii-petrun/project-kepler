@@ -18,12 +18,10 @@ class ApiClient {
       final response = await _dio.get('$_baseUrl$path');
       _handleResponse(response);
       return response;
-    } on DioError catch (dioError) {
+    } on DioException catch (dioError) {
       throw _handleError(dioError);
     }
   }
-
-  // Add other HTTP methods as needed...
 
   void _handleResponse(Response response) {
     if (response.statusCode != 200) {
@@ -31,7 +29,7 @@ class ApiClient {
     }
   }
 
-  Exception _handleError(DioError dioError) {
+  Exception _handleError(DioException dioError) {
     // Handle different types of errors: network, HTTP, etc.
     // Convert DioError to a domain-specific error if needed
     return Exception(dioError.message);

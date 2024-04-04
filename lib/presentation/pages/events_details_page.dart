@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/domain/converters/event_converter.dart';
 import 'package:project_kepler/domain/entities/event.dart';
+import 'package:project_kepler/presentation/pages/ai_chat_page.dart';
+import 'package:project_kepler/presentation/widgets/chat_fab.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../domain/entities/expedition.dart';
@@ -29,7 +32,14 @@ class EventsDetailsPage extends StatefulWidget {
 class _EventsDetailsPageState extends State<EventsDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> pageContext = {
+      'event': EventEntityToDtoConverter().convert(widget.event).toJson(),
+    };
+
     return Scaffold(
+      floatingActionButton: ChatFAB(
+        child: AIChat(pageContext: pageContext),
+      ),
       body: _LoadedBody(event: widget.event),
     );
   }
