@@ -142,7 +142,7 @@ class _CountdownItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.theme.colorScheme.secondary.withOpacity(0.1),
+        color: context.theme.colorScheme.secondary.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
       ),
       padding: isCompact

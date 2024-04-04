@@ -167,7 +167,7 @@ class _BodySection extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.1),
+            color: context.theme.colorScheme.secondary.withOpacity(0.2),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(

@@ -370,7 +370,7 @@ class _BodySection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: context.theme.colorScheme.secondary.withOpacity(0.1),
+        color: context.theme.colorScheme.secondary.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
       ),
       width: double.infinity,
