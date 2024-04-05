@@ -6,7 +6,7 @@ import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/chat_message.dart';
 import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_state.dart';
-import 'package:project_kepler/presentation/pages/message_loading_animation.dart';
+import 'package:project_kepler/presentation/widgets/message_loading_animation.dart';
 import '../utils/ui_helpers.dart';
 
 @RoutePage()

@@ -31,10 +31,7 @@ class ChatCubit extends Cubit<ChatState> {
       isLoading = true;
       final newMessage = await _chatUseCase.sendMessage(message, context: {
         'user_message': message,
-        'previous_messages': currentMessages
-            .where((element) => element.type == MessageType.ai)
-            .map((e) => e.text)
-            .toList(),
+        'previous_messages': currentMessages.map((e) => e.text).toList(),
         'context': context ?? "Treat this as a context placeholder"
       });
       isLoading = false;
