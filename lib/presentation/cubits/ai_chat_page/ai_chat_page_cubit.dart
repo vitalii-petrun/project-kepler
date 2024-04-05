@@ -8,6 +8,8 @@ class ChatCubit extends Cubit<ChatState> {
 
   ChatCubit(this._chatUseCase) : super(ChatInitial());
 
+  bool isLoading = false;
+
   Future<void> initChat() async {
     try {
       final messages = <ChatMessage>[];
@@ -26,6 +28,7 @@ class ChatCubit extends Cubit<ChatState> {
         currentState is ChatSuccess ? currentState.messages : [];
 
     try {
+      isLoading = true;
       final newMessage = await _chatUseCase.sendMessage(message, context: {
         'user_message': message,
         'previous_messages': currentMessages
@@ -34,6 +37,7 @@ class ChatCubit extends Cubit<ChatState> {
             .toList(),
         'context': context ?? "Treat this as a context placeholder"
       });
+      isLoading = false;
       emit(ChatSuccess([...currentMessages, newMessage]));
     } catch (e) {
       emit(ChatError(e.toString(), currentMessages));
