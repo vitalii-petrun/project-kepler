@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 
 class LoadingAnimation extends StatelessWidget {
   const LoadingAnimation({Key? key}) : super(key: key);
@@ -8,7 +9,12 @@ class LoadingAnimation extends StatelessWidget {
     return ShaderMask(
       shaderCallback: (Rect bounds) {
         return const LinearGradient(
-          colors: [Colors.blue, Colors.green, Colors.yellow, Colors.red],
+          colors: [
+            AppColors.quaternaryColor,
+            AppColors.primaryColor,
+            AppColors.secondaryColor,
+            AppColors.tertiaryColor,
+          ],
           stops: [0.0, 0.25, 0.5, 0.75],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -16,7 +22,7 @@ class LoadingAnimation extends StatelessWidget {
       },
       blendMode: BlendMode.srcIn,
       child: const AnimatedGradientField(
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 3),
       ),
     );
   }
@@ -42,7 +48,7 @@ class _AnimatedGradientFieldState extends State<AnimatedGradientField>
     super.initState();
     _controller = AnimationController(vsync: this, duration: widget.duration)
       ..repeat(reverse: true);
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    _animation = Tween<double>(begin: 0.2, end: 1.0).animate(_controller);
   }
 
   @override
@@ -70,7 +76,7 @@ class _AnimatedGradientFieldState extends State<AnimatedGradientField>
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 4.0),
               Container(
                 width:
                     _animation.value * MediaQuery.of(context).size.width * 0.7,
@@ -80,7 +86,7 @@ class _AnimatedGradientFieldState extends State<AnimatedGradientField>
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
-              const SizedBox(height: 8.0),
+              const SizedBox(height: 4.0),
               Container(
                 width:
                     _animation.value * MediaQuery.of(context).size.width * 0.6,

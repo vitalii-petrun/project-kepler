@@ -179,7 +179,9 @@ class _ChatViewState extends State<ChatView> {
                 if (widget.isLoading)
                   const Padding(
                     padding: EdgeInsets.all(16.0),
-                    child: LoadingAnimation(),
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: LoadingAnimation()),
                   ),
               ],
             ),

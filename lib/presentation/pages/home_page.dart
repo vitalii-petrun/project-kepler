@@ -6,6 +6,7 @@ import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
+import 'package:project_kepler/presentation/widgets/message_loading_animation.dart';
 import 'package:project_kepler/presentation/widgets/present_function_button.dart';
 
 import 'package:project_kepler/presentation/widgets/events_card.dart';

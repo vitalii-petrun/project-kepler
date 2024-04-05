@@ -11,6 +11,11 @@ void showConnectionError(
 }
 
 class AppColors {
+  static const Color primaryColor = Color(0xFF0D47A1);
+  static const Color secondaryColor = Color(0xFF2196F3);
+  static const Color tertiaryColor = Color(0xFF00BFA5);
+  static const Color quaternaryColor = Color(0xFF7f4bd7);
+  static const Color quinaryColor = Color(0xFF3F51B5);
   //indigo
   static const Color eventCardColor = Color(0xFF3F51B5);
   //deep blue
