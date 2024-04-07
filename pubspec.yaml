@@ -21,11 +21,14 @@ dependencies:
 
   # Storage
   shared_preferences: ^2.0.15
+
   # Localization
   intl: ^0.18.0
   locale_emoji_flutter: ^0.2.1
+  translator: ^1.0.0
   flutter_localizations:
     sdk: flutter
+
   # Navigation
   auto_route: ^6.0.5
   # Tools
