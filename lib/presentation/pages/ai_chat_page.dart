@@ -6,6 +6,7 @@ import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/chat_message.dart';
 import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_state.dart';
+import 'package:project_kepler/presentation/widgets/message_loading_animation.dart';
 import '../utils/ui_helpers.dart';
 
 @RoutePage()
@@ -36,10 +37,12 @@ class AIChatPageState extends State<AIChatPage> {
             return ChatView(
                 messages: state.messages,
                 controller: _controller,
+                isLoading: context.watch<ChatCubit>().isLoading,
                 sendMessage: () async {
                   if (_controller.text.isNotEmpty) {
                     String text = _controller.text;
                     _controller.clear();
+                    FocusScope.of(context).unfocus();
                     await context.read<ChatCubit>().sendMessage(text);
                   }
                 });
@@ -89,12 +92,14 @@ class AIChatState extends State<AIChat> {
             return ChatView(
                 messages: state.messages,
                 controller: _controller,
+                isLoading: context.watch<ChatCubit>().isLoading,
                 sendMessage: () async {
-                  logger.d("hello..?");
                   logger.d("Received Context: ${widget.pageContext}");
                   if (_controller.text.isNotEmpty) {
                     String text = _controller.text;
                     _controller.clear();
+                    FocusScope.of(context).unfocus();
+
                     await context
                         .read<ChatCubit>()
                         .sendMessage(text, context: widget.pageContext);
@@ -115,47 +120,137 @@ class AIChatState extends State<AIChat> {
   }
 }
 
-class ChatView extends StatelessWidget {
+class ChatView extends StatefulWidget {
   final List<ChatMessage> messages;
   final TextEditingController controller;
   final Future<void> Function() sendMessage;
+  final bool isLoading;
 
-  const ChatView(
-      {Key? key,
-      required this.messages,
-      required this.controller,
-      required this.sendMessage})
-      : super(key: key);
+  const ChatView({
+    Key? key,
+    required this.messages,
+    required this.controller,
+    required this.sendMessage,
+    this.isLoading = false,
+  }) : super(key: key);
+
+  @override
+  _ChatViewState createState() => _ChatViewState();
+}
+
+class _ChatViewState extends State<ChatView> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToBottom();
+    });
+  }
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        if (messages.isEmpty) const Expanded(child: EmptyHistory()),
-        if (messages.isNotEmpty)
+        if (widget.messages.isEmpty && !widget.isLoading)
+          const Expanded(child: EmptyHistory()),
+        if (widget.messages.isNotEmpty)
           Expanded(
-            child: ChatMessageList(messages: messages),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ChatMessageList(
+                    messages: widget.messages,
+                    scrollController: _scrollController,
+                  ),
+                ),
+                if (widget.isLoading)
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: LoadingAnimation()),
+                  ),
+              ],
+            ),
           ),
-        InputField(controller: controller, sendMessage: sendMessage),
+        InputField(
+          controller: widget.controller,
+          sendMessage: widget.sendMessage,
+        ),
       ],
     );
   }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 }
 
-class ChatMessageList extends StatelessWidget {
+class ChatMessageList extends StatefulWidget {
   final List<ChatMessage> messages;
+  final ScrollController scrollController;
 
-  const ChatMessageList({Key? key, required this.messages}) : super(key: key);
+  const ChatMessageList({
+    Key? key,
+    required this.messages,
+    required this.scrollController,
+  }) : super(key: key);
+
+  @override
+  State<ChatMessageList> createState() => _ChatMessageListState();
+}
+
+class _ChatMessageListState extends State<ChatMessageList> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToBottom();
+    });
+  }
+
+  void _scrollToBottom() {
+    if (widget.scrollController.hasClients) {
+      widget.scrollController.animateTo(
+        widget.scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant ChatMessageList oldWidget) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToBottom();
+    });
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView.builder(
-        itemCount: messages.length,
+        controller: widget.scrollController,
+        itemCount: widget.messages.length,
         itemBuilder: (context, index) {
-          return MessageBubble(message: messages[index]);
+          return MessageBubble(message: widget.messages[index]);
         },
       ),
     );

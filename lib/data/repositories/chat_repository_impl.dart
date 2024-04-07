@@ -1,4 +1,5 @@
 import 'package:dart_openai/dart_openai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/repositories/chat_repository.dart';
 
@@ -18,7 +19,10 @@ class ChatRepositoryImpl implements ChatRepository {
   /// The initial prompt to start the conversation.
   ///  Configures the AI to act as an Astronomy Assistant.
   final _initialPrompt =
-      """ You're a Astronomy Assistant, answer the user's questions about astronomy.""";
+      """ You're an Astronomy Assistant, answer the user's questions about astronomy.
+      Your answer should be informative and helpful. 
+      Provide accurate information and answer the user's questions to the best of your ability.
+      """;
 
   @override
   Future<String> generateAIResponse(String message,
@@ -52,12 +56,13 @@ class ChatRepositoryImpl implements ChatRepository {
       ];
       logger.i('Request messages: $requestMessages');
 
+      logger.d(int.parse(dotenv.env['MAX_TOKEN_PER_REQUEST']!));
       final response = await OpenAI.instance.chat.create(
         model: _model.id,
         seed: 6,
         messages: requestMessages,
         temperature: 0.2,
-        maxTokens: 500,
+        maxTokens: int.parse(dotenv.env['MAX_TOKEN_PER_REQUEST']!),
       );
       final aiResponse = response.choices.first.message.content?.first.text;
 

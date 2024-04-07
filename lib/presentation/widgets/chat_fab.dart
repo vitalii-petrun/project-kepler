@@ -11,17 +11,6 @@ class ChatFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      // onPressed: () => showMaterialModalBottomSheet(
-      //   shape: const RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-      //   ),
-      //   context: context,
-      //   builder: (context) => Container(
-      //       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 20),
-      //       constraints: BoxConstraints(
-      //           maxHeight: context.screenHeight - context.screenHeight * 0.20),
-      //       child: child),
-      // ),
       onPressed: () {
         Navigator.of(context).push(
           FloatingSheetRoute(
@@ -31,7 +20,7 @@ class ChatFAB extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 2, vertical: 20),
                 constraints: BoxConstraints(
                     maxHeight:
-                        context.screenHeight - context.screenHeight * 0.20),
+                        context.screenHeight - context.screenHeight * 0.10),
                 child: child,
               );
             },
