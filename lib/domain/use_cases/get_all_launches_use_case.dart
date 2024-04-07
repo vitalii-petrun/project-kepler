@@ -1,3 +1,5 @@
+import 'package:project_kepler/core/global.dart';
+
 import '../../data/repositories/api_repository_impl.dart';
 import '../entities/launch.dart';
 
@@ -7,6 +9,7 @@ class GetAllLaunchesUseCase {
   GetAllLaunchesUseCase(this.repository);
 
   Future<List<Launch>> call() async {
-    return await repository.getLaunchList();
+    final launchList = await repository.getLaunchList();
+    return await languageDetectionService.translateIfNeeded(launchList);
   }
 }
