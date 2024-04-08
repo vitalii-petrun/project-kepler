@@ -13,9 +13,9 @@ class TranslationService {
     } else if (model is EventDTO) {
       return await _translateEventDTO(model, targetLang) as T;
     } else if (model is ArticleDTO) {
-      return await _translateArticle(model, targetLang) as T;
+      return await _translateArticleDTO(model, targetLang) as T;
     } else {
-      throw Exception('Unsupported model type');
+      throw Exception('Internal Error: Unsupported model type');
     }
   }
 
@@ -31,7 +31,7 @@ class TranslationService {
 
     // Translate each field
     for (String key in modelMap.keys) {
-      if (modelMap[key] is String) {
+      if (modelMap[key] is String && key != 'description') {
         modelMap[key] = await translateText(modelMap[key], to: targetLang);
       }
     }
@@ -44,7 +44,7 @@ class TranslationService {
 
     // Translate each field
     for (String key in modelMap.keys) {
-      if (modelMap[key] is String) {
+      if (modelMap[key] is String && key != 'description') {
         modelMap[key] = await translateText(modelMap[key], to: targetLang);
       }
     }
@@ -52,13 +52,13 @@ class TranslationService {
     return EventDTO.fromJson(modelMap);
   }
 
-  Future<ArticleDTO> _translateArticle(
+  Future<ArticleDTO> _translateArticleDTO(
       ArticleDTO model, String targetLang) async {
     Map<String, dynamic> modelMap = model.toJson();
 
     // Translate each field
     for (String key in modelMap.keys) {
-      if (modelMap[key] is String) {
+      if (modelMap[key] is String && key != 'summary') {
         modelMap[key] = await translateText(modelMap[key], to: targetLang);
       }
     }
