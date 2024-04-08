@@ -1,68 +1,24 @@
-import 'package:project_kepler/data/models/article_dto.dart';
-import 'package:project_kepler/data/models/event2_dto.dart';
-import 'package:project_kepler/data/models/launch_dto.dart';
-
+import 'package:project_kepler/domain/entities/translatable.dart';
 import 'package:translator/translator.dart';
 
 class TranslationService {
   final GoogleTranslator translator = GoogleTranslator();
 
-  Future<T> translateModel<T>(T model, String targetLang) async {
-    if (model is LaunchDTO) {
-      return await _translateLaunchDTO(model, targetLang) as T;
-    } else if (model is EventDTO) {
-      return await _translateEventDTO(model, targetLang) as T;
-    } else if (model is ArticleDTO) {
-      return await _translateArticleDTO(model, targetLang) as T;
-    } else {
-      throw Exception('Internal Error: Unsupported model type');
-    }
-  }
+  Future<Translatable> translateEntity(
+      Translatable entity, String targetLang) async {
+    var fieldsToTranslate = entity.getTranslatableFields();
+    Map<String, dynamic> translatedFields = {};
 
-  Future<String> translateText(String text,
-      {String from = 'auto', required String to}) async {
-    var translation = await translator.translate(text, from: from, to: to);
-    return translation.text;
-  }
-
-  Future<LaunchDTO> _translateLaunchDTO(
-      LaunchDTO model, String targetLang) async {
-    Map<String, dynamic> modelMap = model.toJson();
-
-    // Translate each field
-    for (String key in modelMap.keys) {
-      if (modelMap[key] is String && key != 'description') {
-        modelMap[key] = await translateText(modelMap[key], to: targetLang);
+    for (var fieldName in fieldsToTranslate.keys) {
+      var originalText = fieldsToTranslate[fieldName];
+      if (originalText is String) {
+        var translation =
+            await translator.translate(originalText, to: targetLang);
+        translatedFields[fieldName] = translation.text;
       }
     }
 
-    return LaunchDTO.fromJson(modelMap);
-  }
-
-  Future<EventDTO> _translateEventDTO(EventDTO model, String targetLang) async {
-    Map<String, dynamic> modelMap = model.toJson();
-
-    // Translate each field
-    for (String key in modelMap.keys) {
-      if (modelMap[key] is String && key != 'description') {
-        modelMap[key] = await translateText(modelMap[key], to: targetLang);
-      }
-    }
-
-    return EventDTO.fromJson(modelMap);
-  }
-
-  Future<ArticleDTO> _translateArticleDTO(
-      ArticleDTO model, String targetLang) async {
-    Map<String, dynamic> modelMap = model.toJson();
-
-    // Translate each field
-    for (String key in modelMap.keys) {
-      if (modelMap[key] is String && key != 'summary') {
-        modelMap[key] = await translateText(modelMap[key], to: targetLang);
-      }
-    }
-
-    return ArticleDTO.fromJson(modelMap);
+    entity.updateWithTranslatedFields(translatedFields);
+    return entity;
   }
 }
