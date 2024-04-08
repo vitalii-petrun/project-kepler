@@ -11,12 +11,28 @@ class LanguageDetectionService {
   Future<T> translateIfNeeded<T>(T model) async {
     final currentLocale = _localeProvider.currentLocale;
     const defaultLocale = 'en';
-    logger.d('Current locale: $currentLocale');
+
     if (currentLocale != defaultLocale) {
-      logger.d('Translating model to $currentLocale');
+      if (model is List) {
+        logger.d('Translating list');
+        return await translateList(model) as T;
+      }
+      logger.d('Translating model');
       return await _translationService.translateModel(model, currentLocale);
     }
-    logger.d('No translation needed');
+
     return model;
+  }
+
+  Future<List<T>> translateList<T>(List<T> list) async {
+    final translatedList = <T>[];
+
+    for (var element in list) {
+      logger.d('Translating element of type: ${element.runtimeType}');
+      final translatedElement = await _translationService.translateModel(
+          element, _localeProvider.currentLocale);
+      translatedList.add(translatedElement);
+    }
+    return translatedList;
   }
 }
