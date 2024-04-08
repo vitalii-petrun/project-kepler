@@ -1,9 +1,11 @@
+import 'package:project_kepler/core/global.dart';
 import 'package:translator/translator.dart';
 
 class TranslationService {
   final GoogleTranslator _translator = GoogleTranslator();
 
   Future<T> translateModel<T>(T model, String targetLanguage) async {
+    logger.d('Translating model to $targetLanguage');
     final translatedModel = await _translateObject(model, targetLanguage);
     return translatedModel as T;
   }
@@ -28,6 +30,7 @@ class TranslationService {
     final translatedMap = <String, dynamic>{};
     for (final entry in map.entries) {
       final key = entry.key;
+      logger.d('Translating: $key');
       final value = await _translateObject(entry.value, targetLanguage);
       translatedMap[key] = value;
     }
@@ -40,6 +43,7 @@ class TranslationService {
   ) async {
     final translatedList = <dynamic>[];
     for (final item in list) {
+      logger.d('Translating: $item');
       final translatedItem = await _translateObject(item, targetLanguage);
       translatedList.add(translatedItem);
     }
@@ -51,7 +55,9 @@ class TranslationService {
     String targetLanguage,
   ) async {
     if (value is String) {
-      return await _translator.translate(value, to: targetLanguage);
+      logger.d('Translating: $value');
+      var res = await _translator.translate(value, to: targetLanguage);
+      return res.text;
     }
     return value;
   }
