@@ -1,7 +1,8 @@
 import 'package:project_kepler/domain/entities/orbit.dart';
+import 'package:project_kepler/domain/entities/translatable.dart';
 
 /// Space mission within which the launch is carried out.
-class Mission {
+class Mission implements Translatable {
   /// ID of mission.
   final int id;
 
@@ -9,7 +10,7 @@ class Mission {
   final String name;
 
   /// Description of mission.
-  final String description;
+  String description;
 
   /// Mission type.
   final String type;
@@ -19,4 +20,23 @@ class Mission {
 
   /// Creates [Mission] object.
   Mission(this.id, this.name, this.description, this.type, this.orbit);
+
+  @override
+  List<Translatable> getNestedTranslatables() {
+    return [];
+  }
+
+  @override
+  Map<String, dynamic> getTranslatableFields() {
+    return {
+      'description': description,
+    };
+  }
+
+  @override
+  void updateWithTranslatedFields(Map<String, dynamic> translatedFields) {
+    if (translatedFields.containsKey('description')) {
+      description = translatedFields['description'];
+    }
+  }
 }
