@@ -1,11 +1,6 @@
-import 'package:project_kepler/core/utils/translation_service.dart';
-
 main() async {
-  String text = "Once upon a time";
-  TranslationService translationService = TranslationService();
-  var res = await translationService.translateModel(text, 'uk');
-
-  print(res);
+  // String text = "Once upon a time";
+  // TranslationService translationService = TranslationService();
 
   // final translator = GoogleTranslator();
 
