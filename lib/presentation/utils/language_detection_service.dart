@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/core/utils/translation_service.dart';
 import 'package:project_kepler/domain/entities/translatable.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
@@ -12,9 +14,13 @@ class LanguageDetectionService {
   Future<Translatable> translateIfNecessary(Translatable model) async {
     final currentLocale = _localeProvider.currentLocale;
     const defaultLocale = 'en';
+    //Due to additional time consumption, translation can be disabled.
+    final isTranslationEnabled =
+        dotenv.env['API_TRANSLATION_ENABLED'] == 'true';
 
     if (currentLocale != defaultLocale &&
-        model.getTranslatableFields().isNotEmpty) {
+        model.getTranslatableFields().isNotEmpty &&
+        isTranslationEnabled) {
       return await _translationService.translateEntity(model, currentLocale);
     }
 
