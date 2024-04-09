@@ -21,6 +21,12 @@ class ShimmerLoadingBody extends StatelessWidget {
   }
 }
 
+final _placeHolderColor = Colors.grey[600];
+const _periodDuration = Duration(milliseconds: 700);
+final _baseColor = const Color.fromARGB(255, 27, 27, 27).withOpacity(0.5);
+final _highlightColor = const Color.fromARGB(255, 31, 31, 31).withOpacity(0.75);
+final _backgroundColor = Colors.grey[900];
+
 class LaunchCardPlaceholder extends StatelessWidget {
   const LaunchCardPlaceholder({Key? key}) : super(key: key);
   @override
@@ -31,18 +37,24 @@ class LaunchCardPlaceholder extends StatelessWidget {
           top: 20,
           left: 10,
           child: Container(
-            width: 100,
+            width: 190,
             height: 20,
-            color: Colors.grey[800],
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
         Positioned(
-          top: 40,
+          top: 50,
           left: 10,
           child: Container(
-            width: 200,
+            width: 240,
             height: 20,
-            color: Colors.grey[800],
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
         Positioned(
@@ -51,7 +63,22 @@ class LaunchCardPlaceholder extends StatelessWidget {
           child: Container(
             width: 200,
             height: 40,
-            color: Colors.grey[800],
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 250,
+          left: (context.screenWidth - 32) / 4,
+          child: Container(
+            width: 200,
+            height: 40,
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
         Positioned(
@@ -60,7 +87,10 @@ class LaunchCardPlaceholder extends StatelessWidget {
           child: Container(
             width: context.screenWidth - 32,
             height: 100,
-            color: Colors.grey[800],
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
         Positioned(
@@ -69,16 +99,20 @@ class LaunchCardPlaceholder extends StatelessWidget {
           child: Container(
             width: 100,
             height: 20,
-            color: Colors.grey[800],
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
         Shimmer.fromColors(
-          baseColor: Colors.grey[700]!.withOpacity(0.3),
-          highlightColor: Colors.grey[800]!.withOpacity(0.3),
+          baseColor: _baseColor,
+          period: _periodDuration,
+          highlightColor: _highlightColor,
           child: Container(
             height: 500,
             decoration: BoxDecoration(
-              color: Colors.grey[900],
+              color: _backgroundColor,
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -98,18 +132,24 @@ class CompactCardPlaceholder extends StatelessWidget {
           top: 20,
           left: 10,
           child: Container(
-            width: 100,
+            width: 190,
             height: 20,
-            color: Colors.grey[800],
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
         Positioned(
-          top: 40,
+          top: 50,
           left: 10,
           child: Container(
-            width: 200,
+            width: 240,
             height: 20,
-            color: Colors.grey[800],
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
         Positioned(
@@ -117,8 +157,11 @@ class CompactCardPlaceholder extends StatelessWidget {
           left: 10,
           child: Container(
             width: 280,
-            height: 100,
-            color: Colors.grey[800],
+            height: 130,
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
         Positioned(
@@ -127,17 +170,21 @@ class CompactCardPlaceholder extends StatelessWidget {
           child: Container(
             width: 100,
             height: 20,
-            color: Colors.grey[800],
+            decoration: BoxDecoration(
+              color: _placeHolderColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         ),
         Shimmer.fromColors(
-          baseColor: Colors.grey[700]!.withOpacity(0.3),
-          highlightColor: Colors.grey[800]!.withOpacity(0.3),
+          baseColor: _baseColor,
+          highlightColor: _highlightColor,
+          period: _periodDuration,
           child: Container(
             height: 400,
             width: 300,
             decoration: BoxDecoration(
-              color: Colors.grey[700],
+              color: _backgroundColor,
               borderRadius: BorderRadius.circular(10),
             ),
           ),
