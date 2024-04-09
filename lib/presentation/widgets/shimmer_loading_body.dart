@@ -23,7 +23,7 @@ class ShimmerLoadingBody extends StatelessWidget {
 
 final _placeHolderColor = Colors.grey[600];
 const _periodDuration = Duration(milliseconds: 700);
-final _baseColor = const Color.fromARGB(255, 27, 27, 27).withOpacity(0.5);
+final _baseColor = const Color.fromARGB(255, 66, 66, 66).withOpacity(0.5);
 final _highlightColor = const Color.fromARGB(255, 31, 31, 31).withOpacity(0.75);
 final _backgroundColor = Colors.grey[900];
 
