@@ -1,3 +1,5 @@
+import 'package:project_kepler/core/global.dart';
+
 import '../../../data/repositories/api_repository_impl.dart';
 import '../../../domain/entities/launch.dart';
 import '../../../domain/entities/agency.dart';
@@ -9,8 +11,10 @@ class GetLaunchDetailsUseCase {
 
   Future<LaunchDetailsResult> call(String id) async {
     final launch = await repository.getLaunchDetailsById(id);
+    final translatedLaunch =
+        await languageDetectionService.translateIfNecessary(launch);
     final agency = await repository.getAgencyById(launch.pad.agencyID);
-    return LaunchDetailsResult(launch, agency);
+    return LaunchDetailsResult(translatedLaunch as Launch, agency);
   }
 }
 

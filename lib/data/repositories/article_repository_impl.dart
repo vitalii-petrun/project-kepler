@@ -18,6 +18,7 @@ class ArticleRepositoryImpl {
     final launchDtoList = (response.data["results"] as List)
         .map((item) => ArticleDTO.fromJson(item))
         .toList();
+
     return launchDtoList.map(articleConverter.convert).toList();
   }
 

@@ -1,10 +1,12 @@
-class Article {
+import 'package:project_kepler/domain/entities/translatable.dart';
+
+class Article implements Translatable {
   final int id;
   final String title;
   final String url;
   final String? imageUrl;
   final String? newsSite;
-  final String summary;
+  String summary;
   final DateTime? publishedAt;
   final DateTime? updatedAt;
   final bool featured;
@@ -20,4 +22,23 @@ class Article {
     required this.updatedAt,
     required this.featured,
   });
+
+  @override
+  List<Translatable> getNestedTranslatables() {
+    return [];
+  }
+
+  @override
+  Map<String, dynamic> getTranslatableFields() {
+    return {
+      'summary': summary,
+    };
+  }
+
+  @override
+  void updateWithTranslatedFields(Map<String, dynamic> translatedFields) {
+    if (translatedFields.containsKey('summary')) {
+      summary = translatedFields['summary'];
+    }
+  }
 }
