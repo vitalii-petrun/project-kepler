@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_kepler/core/global.dart';
 
 import '../../data/models/launch_dto.dart';
 import '../converters/launch_converter.dart';
@@ -21,9 +22,14 @@ class FetchFavouriteLaunchesUseCase {
         .where('userId', isEqualTo: userId)
         .get();
 
-    return snapshot.docs.map((e) {
-      final launchDTO = LaunchDTO.fromJson(e.data());
-      return dtoToEntityConverter.convert(launchDTO);
-    }).toList();
+    return snapshot.docs
+        .map((e) async {
+          final launchDTO = LaunchDTO.fromJson(e.data());
+          final launch = dtoToEntityConverter.convert(launchDTO);
+
+          return await languageDetectionService.translateIfNecessary(launch);
+        })
+        .cast<Launch>()
+        .toList();
   }
 }
