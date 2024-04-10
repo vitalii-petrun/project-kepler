@@ -22,11 +22,13 @@ class FetchFavouriteLaunchesUseCase {
         .where('userId', isEqualTo: userId)
         .get();
 
+    logger.d('Fetched favourite launches for user $userId');
+
     return snapshot.docs
         .map((e) async {
           final launchDTO = LaunchDTO.fromJson(e.data());
           final launch = dtoToEntityConverter.convert(launchDTO);
-
+          logger.d('Fetched launch ${launch.id}');
           return await languageDetectionService.translateIfNecessary(launch);
         })
         .cast<Launch>()
