@@ -35,10 +35,10 @@ class AnimatedGradientField extends StatefulWidget {
       : super(key: key);
 
   @override
-  _AnimatedGradientFieldState createState() => _AnimatedGradientFieldState();
+  AnimatedGradientFieldState createState() => AnimatedGradientFieldState();
 }
 
-class _AnimatedGradientFieldState extends State<AnimatedGradientField>
+class AnimatedGradientFieldState extends State<AnimatedGradientField>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;

@@ -1,5 +1,4 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/core/utils/translation_service.dart';
 import 'package:project_kepler/domain/entities/translatable.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
