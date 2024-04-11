@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
@@ -256,7 +258,10 @@ class _FooterSection extends StatelessWidget {
             ),
             BlocBuilder<FavoriteLaunchesPageCubit, FavouriteLaunchesPageState>(
               builder: (context, state) {
-                if (state is FavouriteLaunchesLoaded) {
+                if (context.read<AuthenticationCubit>().state
+                    is! Authenticated) {
+                  return const SizedBox();
+                } else if (state is FavouriteLaunchesLoaded) {
                   bool isFavorite = _checkIfFavourite(launch, state.launches);
 
                   return _AnimatedHeartButton(
