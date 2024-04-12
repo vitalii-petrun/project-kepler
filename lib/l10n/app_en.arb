@@ -102,7 +102,7 @@
   "ai": "AI",
   "aiChatDescription": "Our AI chat is here to answer any questions you have about space and space exploration. Feel free to ask anything!",
   "ask": "Ask",
-  "refreshRateTooltip": "Set the screen refresh rate for the app.\n\n A higher refresh rate may consume more battery, but provides a smoother experience.",
+  "refreshRateTooltip": "Set the screen refresh rate for the app.\n\n🔋 A higher refresh rate may consume more battery, but provides a smoother experience.",
   "tryOurAiChat": "Try our AI chat!",
   "you": "You",
   "screenRefreshRate": "Screen Refresh Rate",

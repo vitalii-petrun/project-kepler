@@ -87,6 +87,16 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
+String getEmojiForRefreshRate(double refreshRate) {
+  if (refreshRate >= 120) {
+    return '🚀'; // High refresh rate, indicating very smooth
+  } else if (refreshRate >= 90) {
+    return '✨'; // Moderately high, indicating good smoothness
+  } else {
+    return '🔋'; // Standard refresh rate
+  }
+}
+
 class _RefreshRateChooser extends StatelessWidget {
   const _RefreshRateChooser({Key? key}) : super(key: key);
 
@@ -98,16 +108,15 @@ class _RefreshRateChooser extends StatelessWidget {
           return const CircularProgressIndicator();
         }
 
-        // Filter and round the display modes
         List<DropdownMenuItem<DisplayMode>> dropdownItems = provider
             .availableModes
             .where((mode) => mode.refreshRate > 0) // Exclude modes with 0 Hz
             .map((mode) {
-          // Round the refresh rate for display
           final roundedRate = mode.refreshRate.round();
+          final emoji = getEmojiForRefreshRate(mode.refreshRate);
           return DropdownMenuItem<DisplayMode>(
             value: mode,
-            child: Text("$roundedRate Hz"),
+            child: Text("$emoji $roundedRate Hz "), // Display rate with emoji
           );
         }).toList();
 
@@ -120,8 +129,8 @@ class _RefreshRateChooser extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           ),
-          items: dropdownItems,
           borderRadius: BorderRadius.circular(10.0),
+          items: dropdownItems,
           onChanged: (DisplayMode? newMode) {
             if (newMode != null) {
               provider.setDisplayMode(newMode);
@@ -184,7 +193,10 @@ class _SettingCard extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            content: Text(tooltip!),
+                            content: Text(
+                              tooltip!,
+                              style: context.theme.textTheme.bodyLarge,
+                            ),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.of(context).pop(),
