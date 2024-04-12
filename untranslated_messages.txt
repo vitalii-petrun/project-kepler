@@ -2,6 +2,8 @@
   "uk": [
     "aiChatDescription",
     "ask",
-    "tryOurAiChat"
+    "refreshRateTooltip",
+    "tryOurAiChat",
+    "screenRefreshRate"
   ]
 }

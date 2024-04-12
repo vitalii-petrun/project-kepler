@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:locale_emoji_flutter/locale_emoji_flutter.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
+import 'package:project_kepler/presentation/themes/refresh_rate_provider.dart';
 import 'package:project_kepler/presentation/widgets/log_out_button.dart';
 import 'package:project_kepler/presentation/widgets/space_drawer.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +41,12 @@ class SettingsPage extends StatelessWidget {
                   _SettingCard(
                     title: context.l10n.language,
                     child: const _LanguageDropdown(),
+                  ),
+                  const SizedBox(height: 20),
+                  _SettingCard(
+                    title: context.l10n.screenRefreshRate,
+                    tooltip: context.l10n.refreshRateTooltip,
+                    child: const _RefreshRateChooser(),
                   ),
                   const SizedBox(height: 20),
                   if (state is Authenticated)
@@ -79,13 +87,70 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
+String getEmojiForRefreshRate(double refreshRate) {
+  if (refreshRate >= 120) {
+    return '🚀'; // High refresh rate, indicating very smooth
+  } else if (refreshRate >= 90) {
+    return '✨'; // Moderately high, indicating good smoothness
+  } else {
+    return '🔋'; // Standard refresh rate
+  }
+}
+
+class _RefreshRateChooser extends StatelessWidget {
+  const _RefreshRateChooser({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<RefreshRateProvider>(
+      builder: (context, provider, child) {
+        if (provider.availableModes.isEmpty) {
+          return const CircularProgressIndicator();
+        }
+
+        List<DropdownMenuItem<DisplayMode>> dropdownItems = provider
+            .availableModes
+            .where((mode) => mode.refreshRate > 0) // Exclude modes with 0 Hz
+            .map((mode) {
+          final roundedRate = mode.refreshRate.round();
+          final emoji = getEmojiForRefreshRate(mode.refreshRate);
+          return DropdownMenuItem<DisplayMode>(
+            value: mode,
+            child: Text("$emoji $roundedRate Hz "), // Display rate with emoji
+          );
+        }).toList();
+
+        return DropdownButtonFormField<DisplayMode>(
+          value: provider.selectedMode,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+          items: dropdownItems,
+          onChanged: (DisplayMode? newMode) {
+            if (newMode != null) {
+              provider.setDisplayMode(newMode);
+            }
+          },
+        );
+      },
+    );
+  }
+}
+
 class _SettingCard extends StatelessWidget {
   final String title;
   final Widget child;
+  final String? tooltip; // Optional tooltip message
 
   const _SettingCard({
     required this.title,
     required this.child,
+    this.tooltip,
     Key? key,
   }) : super(key: key);
 
@@ -113,9 +178,37 @@ class _SettingCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: context.theme.textTheme.titleLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: context.theme.textTheme.titleLarge,
+                  ),
+                  // Conditionally display the info icon if a tooltip is provided
+                  if (tooltip != null)
+                    IconButton(
+                      icon: const Icon(Icons.info_outline),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            content: Text(
+                              tooltip!,
+                              style: context.theme.textTheme.bodyLarge,
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      tooltip: 'Learn more',
+                    ),
+                ],
               ),
               const SizedBox(height: 10),
               child,
