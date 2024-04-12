@@ -37,6 +37,7 @@ import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/spacex_news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/users_page/users_page_cubit.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
+import 'package:project_kepler/presentation/themes/refresh_rate_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -115,6 +116,7 @@ class ProviderInitializer {
         );
       }),
       BlocProvider.value(value: authenticationCubit),
+      ChangeNotifierProvider(create: (_) => RefreshRateProvider()),
     ];
   }
 }
