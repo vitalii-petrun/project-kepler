@@ -28,7 +28,7 @@ class _EventsPageState extends State<EventsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<EventsPageCubit>().fetch();
+    context.read<EventsCubit>().fetch();
   }
 
   @override
@@ -52,7 +52,7 @@ class _EventsPageState extends State<EventsPage> {
         ],
       ),
       body: SafeArea(
-        child: BlocConsumer<EventsPageCubit, EventsPageState>(
+        child: BlocConsumer<EventsCubit, EventsPageState>(
           listener: (context, state) {
             debugPrint('EventsPageState: $state');
             if (state is EventsError) {
@@ -61,7 +61,7 @@ class _EventsPageState extends State<EventsPage> {
                   content: Text(state.message),
                   action: SnackBarAction(
                     label: context.l10n.retry,
-                    onPressed: () => context.read<EventsPageCubit>().fetch(),
+                    onPressed: () => context.read<EventsCubit>().fetch(),
                   ),
                 ),
               );
@@ -95,7 +95,7 @@ class _LoadedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => context.read<EventsPageCubit>().fetch(),
+      onRefresh: () async => context.read<EventsCubit>().fetch(),
       child: ListView.separated(
           itemCount: events.length,
           itemBuilder: (context, index) {
@@ -120,7 +120,7 @@ class _FailedBody extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return RefreshIndicator(
-          onRefresh: () async => context.read<EventsPageCubit>().fetch(),
+          onRefresh: () async => context.read<EventsCubit>().fetch(),
           child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: SizedBox(
