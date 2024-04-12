@@ -57,4 +57,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       // Optionally log the error
     }
   }
+
+  String getUid() {
+    if (state is Authenticated) {
+      return (state as Authenticated).user.uid;
+    } else {
+      return "NO_USER";
+    }
+  }
 }

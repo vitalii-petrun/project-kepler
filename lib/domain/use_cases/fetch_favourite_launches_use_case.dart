@@ -7,29 +7,32 @@ import '../entities/launch.dart';
 
 class FetchFavouriteLaunchesUseCase {
   final FirebaseFirestore firestore;
-  final String userId;
+  String? userId;
   final LaunchDtoToEntityConverter dtoToEntityConverter;
 
   FetchFavouriteLaunchesUseCase({
     required this.firestore,
-    required this.userId,
+    this.userId,
     required this.dtoToEntityConverter,
   });
 
   Future<List<Launch>> call() async {
     final snapshot = await firestore
-        .collection('launches')
-        .where('userId', isEqualTo: userId)
+        .collection('users')
+        .doc(userId)
+        .collection('favorites')
         .get();
 
-    return snapshot.docs
-        .map((e) async {
-          final launchDTO = LaunchDTO.fromJson(e.data());
-          final launch = dtoToEntityConverter.convert(launchDTO);
+    final launches = <Launch>[];
+    for (final doc in snapshot.docs) {
+      final launchDTO = LaunchDTO.fromJson(doc.data());
+      final launch = dtoToEntityConverter.convert(launchDTO);
 
-          return await languageDetectionService.translateIfNecessary(launch);
-        })
-        .cast<Launch>()
-        .toList();
+      final translatedLaunch =
+          await languageDetectionService.translateIfNecessary(launch);
+      launches.add(translatedLaunch as Launch);
+    }
+
+    return launches;
   }
 }

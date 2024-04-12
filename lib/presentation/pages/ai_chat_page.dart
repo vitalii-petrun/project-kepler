@@ -135,10 +135,10 @@ class ChatView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ChatViewState createState() => _ChatViewState();
+  ChatViewState createState() => ChatViewState();
 }
 
-class _ChatViewState extends State<ChatView> {
+class ChatViewState extends State<ChatView> {
   final ScrollController _scrollController = ScrollController();
 
   @override

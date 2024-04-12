@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 
 import '../../../domain/entities/launch.dart';
 import '../../../domain/use_cases/fetch_favourite_launches_use_case.dart';
@@ -10,15 +12,30 @@ class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
   final FetchFavouriteLaunchesUseCase fetchFavouriteLaunchesUseCase;
   final SetFavouriteLaunchUseCase setFavouriteLaunchUseCase;
   final RemoveFavouriteLaunchUseCase removeFavouriteLaunchUseCase;
-  final String currentUserUid;
+  final AuthenticationCubit authenticationCubit;
 
   FavoriteLaunchesPageCubit({
     required this.fetchFavouriteLaunchesUseCase,
     required this.setFavouriteLaunchUseCase,
     required this.removeFavouriteLaunchUseCase,
-    required this.currentUserUid,
+    required this.authenticationCubit,
   }) : super(FavouriteLaunchesInit()) {
+    setUserId();
     fetchFavouriteLaunches();
+  }
+
+  void setUserId() {
+    final userId = authenticationCubit.getUid();
+    logger.d('User id: $userId');
+    setFavouriteLaunchUseCase.userId = userId;
+    fetchFavouriteLaunchesUseCase.userId = userId;
+    removeFavouriteLaunchUseCase.userId = userId;
+  }
+
+  void clearUserId() {
+    setFavouriteLaunchUseCase.userId = null;
+    removeFavouriteLaunchUseCase.userId = null;
+    fetchFavouriteLaunchesUseCase.userId = null;
   }
 
   void fetchFavouriteLaunches() async {

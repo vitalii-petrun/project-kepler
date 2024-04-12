@@ -35,10 +35,10 @@ class AnimatedGradientField extends StatefulWidget {
       : super(key: key);
 
   @override
-  _AnimatedGradientFieldState createState() => _AnimatedGradientFieldState();
+  AnimatedGradientFieldState createState() => AnimatedGradientFieldState();
 }
 
-class _AnimatedGradientFieldState extends State<AnimatedGradientField>
+class AnimatedGradientFieldState extends State<AnimatedGradientField>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -59,6 +59,8 @@ class _AnimatedGradientFieldState extends State<AnimatedGradientField>
 
   @override
   Widget build(BuildContext context) {
+    final baseColor = Colors.grey[300];
+    final screenWidth = MediaQuery.of(context).size.width;
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
@@ -68,31 +70,28 @@ class _AnimatedGradientFieldState extends State<AnimatedGradientField>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width:
-                    _animation.value * MediaQuery.of(context).size.width * 0.5,
+                width: _animation.value * screenWidth * 0.5,
                 height: 16.0,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: baseColor,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
               const SizedBox(height: 4.0),
               Container(
-                width:
-                    _animation.value * MediaQuery.of(context).size.width * 0.7,
+                width: _animation.value * screenWidth * 0.7,
                 height: 16.0,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: baseColor,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
               const SizedBox(height: 4.0),
               Container(
-                width:
-                    _animation.value * MediaQuery.of(context).size.width * 0.6,
+                width: _animation.value * screenWidth * 0.6,
                 height: 16.0,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: baseColor,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
