@@ -12,10 +12,10 @@ import 'package:project_kepler/presentation/cubits/launches/launches_page_state.
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
+import 'package:project_kepler/presentation/widgets/failed_body.dart';
 import 'package:project_kepler/presentation/widgets/present_function_button.dart';
 
 import 'package:project_kepler/presentation/widgets/events_card.dart';
-import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
 
 import '../../domain/entities/article.dart';
@@ -134,7 +134,7 @@ class _HomeBody extends StatelessWidget {
                   );
                 } else if (state is LaunchesError) {
                   logger.d(state.message);
-                  return const _FailedBody();
+                  return FailedBody(message: context.l10n.failedToLoadLaunches);
                 }
                 return const SizedBox.shrink();
               }),
@@ -147,10 +147,6 @@ class _HomeBody extends StatelessWidget {
                   icon: Icons.event,
                 ),
               ),
-              // if (isLoading)
-              //   _EventsSection.loading()
-              // else
-              //   _EventsSection(events: events),
               BlocBuilder<EventsCubit, EventsPageState>(
                 builder: (context, state) {
                   if (state is EventsLoading) {
@@ -158,7 +154,9 @@ class _HomeBody extends StatelessWidget {
                   } else if (state is EventsLoaded) {
                     return _EventsSection(events: state.events);
                   } else {
-                    return const _FailedBody();
+                    return FailedBody(
+                      message: context.l10n.failedToLoadEvents,
+                    );
                   }
                 },
               ),
@@ -171,10 +169,6 @@ class _HomeBody extends StatelessWidget {
                   icon: Icons.article,
                 ),
               ),
-              // if (isLoading)
-              //   _ArticlesSection.loading()
-              // else
-              //   _ArticlesSection(articles: articles),
               BlocBuilder<NewsCubit, NewsState>(
                 builder: (context, state) {
                   if (state is NewsLoading) {
@@ -182,7 +176,7 @@ class _HomeBody extends StatelessWidget {
                   } else if (state is RecentArticlesLoaded) {
                     return _ArticlesSection(articles: state.articles);
                   } else {
-                    return const _FailedBody();
+                    return const FailedBody();
                   }
                 },
               ),
@@ -328,54 +322,6 @@ class _LaunchesSection extends StatelessWidget {
   }
 }
 
-// class _SpaceSectionTitle extends StatelessWidget {
-//   final String title;
-//   final Color accentColor;
-
-//   const _SpaceSectionTitle({
-//     Key? key,
-//     required this.title,
-//     this.accentColor = Colors.deepOrangeAccent,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: double.infinity,
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(16.0),
-//         boxShadow: [
-//           BoxShadow(
-//             color: context.theme.brightness == Brightness.dark
-//                 ? Colors.black.withOpacity(0.3)
-//                 : Colors.grey.withOpacity(0.3),
-//             blurRadius: 8.0,
-//             spreadRadius: 2.0,
-//             offset: const Offset(1, 3),
-//           ),
-//         ],
-//         gradient: LinearGradient(
-//           begin: Alignment.topLeft,
-//           end: Alignment.bottomRight,
-//           colors: [
-//             context.theme.brightness == Brightness.dark
-//                 ? accentColor
-//                 : accentColor.withOpacity(0.6),
-//             accentColor,
-//           ],
-//           stops: const [0.6, 1],
-//         ),
-//       ),
-//       padding: const EdgeInsets.all(12.0),
-//       child: Text(
-//         title,
-//         style: context.theme.textTheme.titleLarge?.copyWith(
-//           color: Colors.white,
-//         ),
-//       ),
-//     );
-//   }
-// }
 class _SpaceSectionTitle extends StatelessWidget {
   final String title;
   final IconData? icon;
@@ -431,25 +377,6 @@ class _SpaceSectionTitle extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _FailedBody extends StatelessWidget {
-  const _FailedBody({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return RefreshIndicator(
-          onRefresh: () async => context.read<HomePageCubit>().fetch(),
-          child: const SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: SizedBox(height: 300, child: Center(child: NoInternet())),
-          ),
-        );
-      },
     );
   }
 }

@@ -107,8 +107,16 @@
     "at": "в",
     "ai": "ШІ",
     "you": "Ви",
+    "aiChatDescription": "Наш ШІ чат тут, щоб відповісти на будь-які ваші питання про космос та космічні дослідження. Не соромтеся запитувати будь-що!",
+    "ask": "Запитати",
+    "refreshRateTooltip": "Частота оновлення екрану",
+    "tryOurAiChat": "Спробуйте наш ШІ чат",
+    "failedToLoadLaunches": "Не вдалося завантажити запуски",
+    "failedToLoadEvents": "Не вдалося завантажити події",
+    "failedToLoadNews": "Не вдалося завантажити новини",
+    "screenRefreshRate": "Частота оновлення екрану",
     "darkMatterQuestion": "Що таке темна матерія?",
     "bigBangTheoryQuestion": "Що таке теорія великого вибуху?",
-    "speedOfLightQuestion"  : "Яка швидкість світла?",
+    "speedOfLightQuestion": "Яка швидкість світла?",
     "universeMadeOfQuestion": "З чого складається Всесвіт?"
 }
