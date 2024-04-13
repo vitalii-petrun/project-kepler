@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -132,7 +133,7 @@ class _EventImage extends StatelessWidget {
               image: DecorationImage(
                 colorFilter:
                     const ColorFilter.mode(Colors.black54, BlendMode.darken),
-                image: NetworkImage(event.featureImage),
+                image: CachedNetworkImageProvider(event.featureImage),
                 fit: BoxFit.cover,
               ),
               color: theme.colorScheme.background,
