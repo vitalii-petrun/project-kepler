@@ -3,10 +3,10 @@ import 'package:project_kepler/presentation/cubits/events_page/events_state.dart
 
 import '../../../domain/use_cases/get_all_events_use_case.dart';
 
-class EventsPageCubit extends Cubit<EventsPageState> {
+class EventsCubit extends Cubit<EventsPageState> {
   final GetAllEventsUseCase getAllEventsUseCase;
 
-  EventsPageCubit(this.getAllEventsUseCase) : super(EventsInit());
+  EventsCubit(this.getAllEventsUseCase) : super(EventsInit());
 
   void fetch() async {
     emit(EventsLoading());

@@ -114,6 +114,7 @@ class NewsCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: CachedNetworkImage(
+          placeholder: (context, url) => const CircularProgressIndicator(),
           imageUrl: article.imageUrl ?? '',
           fit: BoxFit.cover,
           errorWidget: (context, url, error) => Container(

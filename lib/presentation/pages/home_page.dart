@@ -4,19 +4,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
+import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
+import 'package:project_kepler/presentation/cubits/events_page/events_state.dart';
 import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/launches/launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
+import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
+import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
+import 'package:project_kepler/presentation/widgets/failed_body.dart';
 import 'package:project_kepler/presentation/widgets/present_function_button.dart';
 
 import 'package:project_kepler/presentation/widgets/events_card.dart';
-import 'package:project_kepler/presentation/widgets/no_internet.dart';
 import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
 
 import '../../domain/entities/article.dart';
 import '../../domain/entities/event.dart';
 import '../../domain/entities/launch.dart';
 import '../cubits/authentication/authentication_cubit.dart';
-import '../cubits/home_page/home_page_state.dart';
 import '../widgets/launch_card.dart';
 import '../widgets/news_card.dart';
 
@@ -36,7 +41,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomePageCubit>().fetch();
+    context.read<LaunchesPageCubit>().fetch();
+    context.read<EventsCubit>().fetch();
+    context.read<NewsCubit>().fetchRecentArticles();
   }
 
   @override
@@ -60,53 +67,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: const SpaceDrawer(),
-      body: SafeArea(
-        child: BlocBuilder<HomePageCubit, HomePageState>(
-          builder: (context, state) {
-            if (state is HomePageLoading) {
-              return _HomeBody.loading();
-            } else if (state is HomePageLoaded) {
-              return _HomeBody(
-                  launches: state.launches,
-                  events: state.events,
-                  articles: state.articles);
-              // return _HomeBody.loading();
-            } else if (state is HomePageError) {
-              logger.e(state.message);
-              logger.t(state.message);
-              return const _FailedBody();
-            } else {
-              return const SizedBox();
-            }
-          },
-        ),
-      ),
+      body: const SafeArea(child: _HomeBody()),
     );
   }
 }
 
 class _HomeBody extends StatelessWidget {
-  final List<Launch> launches;
-  final List<Event> events;
-  final List<Article> articles;
-  final bool isLoading;
-
-  const _HomeBody({
-    Key? key,
-    required this.launches,
-    required this.events,
-    required this.articles,
-    this.isLoading = false,
-  }) : super(key: key);
-
-  factory _HomeBody.loading() {
-    return const _HomeBody(
-      launches: [],
-      events: [],
-      articles: [],
-      isLoading: true,
-    );
-  }
+  const _HomeBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -157,10 +124,20 @@ class _HomeBody extends StatelessWidget {
                 onPressed: () => context.router.pushNamed('/launches'),
                 icon: Icons.rocket_rounded,
               ),
-              if (isLoading)
-                _LaunchesSection.loading()
-              else
-                _LaunchesSection(launches: launches),
+              BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
+                  builder: (context, state) {
+                if (state is LaunchesLoading) {
+                  return _LaunchesSection.loading();
+                } else if (state is LaunchesLoaded) {
+                  return _LaunchesSection(
+                    launches: state.launches,
+                  );
+                } else if (state is LaunchesError) {
+                  logger.d(state.message);
+                  return FailedBody(message: context.l10n.failedToLoadLaunches);
+                }
+                return const SizedBox.shrink();
+              }),
               const SizedBox(height: 16.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -170,10 +147,19 @@ class _HomeBody extends StatelessWidget {
                   icon: Icons.event,
                 ),
               ),
-              if (isLoading)
-                _EventsSection.loading()
-              else
-                _EventsSection(events: events),
+              BlocBuilder<EventsCubit, EventsPageState>(
+                builder: (context, state) {
+                  if (state is EventsLoading) {
+                    return _EventsSection.loading();
+                  } else if (state is EventsLoaded) {
+                    return _EventsSection(events: state.events);
+                  } else {
+                    return FailedBody(
+                      message: context.l10n.failedToLoadEvents,
+                    );
+                  }
+                },
+              ),
               const SizedBox(height: 16.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -183,10 +169,17 @@ class _HomeBody extends StatelessWidget {
                   icon: Icons.article,
                 ),
               ),
-              if (isLoading)
-                _ArticlesSection.loading()
-              else
-                _ArticlesSection(articles: articles),
+              BlocBuilder<NewsCubit, NewsState>(
+                builder: (context, state) {
+                  if (state is NewsLoading) {
+                    return _ArticlesSection.loading();
+                  } else if (state is RecentArticlesLoaded) {
+                    return _ArticlesSection(articles: state.articles);
+                  } else {
+                    return const FailedBody();
+                  }
+                },
+              ),
               const SizedBox(height: 22.0),
             ],
           ),
@@ -329,54 +322,6 @@ class _LaunchesSection extends StatelessWidget {
   }
 }
 
-// class _SpaceSectionTitle extends StatelessWidget {
-//   final String title;
-//   final Color accentColor;
-
-//   const _SpaceSectionTitle({
-//     Key? key,
-//     required this.title,
-//     this.accentColor = Colors.deepOrangeAccent,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: double.infinity,
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(16.0),
-//         boxShadow: [
-//           BoxShadow(
-//             color: context.theme.brightness == Brightness.dark
-//                 ? Colors.black.withOpacity(0.3)
-//                 : Colors.grey.withOpacity(0.3),
-//             blurRadius: 8.0,
-//             spreadRadius: 2.0,
-//             offset: const Offset(1, 3),
-//           ),
-//         ],
-//         gradient: LinearGradient(
-//           begin: Alignment.topLeft,
-//           end: Alignment.bottomRight,
-//           colors: [
-//             context.theme.brightness == Brightness.dark
-//                 ? accentColor
-//                 : accentColor.withOpacity(0.6),
-//             accentColor,
-//           ],
-//           stops: const [0.6, 1],
-//         ),
-//       ),
-//       padding: const EdgeInsets.all(12.0),
-//       child: Text(
-//         title,
-//         style: context.theme.textTheme.titleLarge?.copyWith(
-//           color: Colors.white,
-//         ),
-//       ),
-//     );
-//   }
-// }
 class _SpaceSectionTitle extends StatelessWidget {
   final String title;
   final IconData? icon;
@@ -432,27 +377,6 @@ class _SpaceSectionTitle extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _FailedBody extends StatelessWidget {
-  const _FailedBody({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return RefreshIndicator(
-          onRefresh: () async => context.read<HomePageCubit>().fetch(),
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: SizedBox(
-                height: constraints.maxHeight,
-                child: const Center(child: NoInternet())),
-          ),
-        );
-      },
     );
   }
 }

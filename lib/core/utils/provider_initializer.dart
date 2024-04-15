@@ -90,7 +90,7 @@ class ProviderInitializer {
                 FetchBlogsUseCase(ArticleRepositoryImpl(newsApiClient))),
       ),
       BlocProvider(
-          create: (context) => EventsPageCubit(
+          create: (context) => EventsCubit(
                 GetAllEventsUseCase(ApiRepositoryImpl(apiClient)),
               )),
       BlocProvider(create: (context) => UsersPageCubit()),

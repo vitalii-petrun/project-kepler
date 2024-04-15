@@ -1,9 +1,1 @@
-{
-  "uk": [
-    "aiChatDescription",
-    "ask",
-    "refreshRateTooltip",
-    "tryOurAiChat",
-    "screenRefreshRate"
-  ]
-}
+{}

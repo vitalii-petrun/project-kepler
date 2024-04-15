@@ -1,18 +1,25 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/core/utils/cache_interceptor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiClient {
   final Dio _dio;
   final String _baseUrl;
   final String apiKey;
 
-  ApiClient(this._dio, this._baseUrl, {this.apiKey = ''});
+  ApiClient(this._dio, this._baseUrl, {this.apiKey = ''}) {
+    final sp = SharedPreferences.getInstance();
+    sp.then((sharedPrefs) {
+      _dio.interceptors.add(CacheInterceptor(sharedPrefs));
+    });
+  }
 
   Future<Response> get(String path) async {
-    debugPrint('GET: $_baseUrl$path');
+    logger.d('GET: $_baseUrl$path');
     try {
       if (apiKey.isNotEmpty) {
-        debugPrint('API Key: $apiKey');
+        logger.d('API Key: $apiKey');
         _dio.options.headers['Authorization'] = apiKey;
       }
       final response = await _dio.get('$_baseUrl$path');
@@ -30,8 +37,6 @@ class ApiClient {
   }
 
   Exception _handleError(DioException dioError) {
-    // Handle different types of errors: network, HTTP, etc.
-    // Convert DioError to a domain-specific error if needed
     return Exception(dioError.message);
   }
 }
