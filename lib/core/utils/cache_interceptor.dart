@@ -17,8 +17,12 @@ class CacheInterceptor extends Interceptor {
 
     if (cachedData != null) {
       final data = jsonDecode(cachedData);
-      final expiryDate = DateTime.tryParse(data['expiryDate']);
 
+      final expiryDate = DateTime.tryParse(data['expiryDate']);
+      logger.d('Expiry date: $expiryDate');
+      logger.d('Current date: ${DateTime.now()}');
+      logger.d(
+          "Expiry in  ${expiryDate?.difference(DateTime.now()).inSeconds} seconds");
       if (expiryDate != null && DateTime.now().isBefore(expiryDate)) {
         // If cached data is not expired, return it directly
         logger.d('Returning cached data');
@@ -29,6 +33,7 @@ class CacheInterceptor extends Interceptor {
         ));
       }
     }
+    logger.d('No valid cached data, proceed with request');
     // No valid cached data, proceed with request
     handler.next(options);
   }
@@ -37,6 +42,7 @@ class CacheInterceptor extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
     // Cache duration from .env file
     final cacheDuration = dotenv.env['CACHE_DURATION'];
+
     final duration = cacheDuration != null
         ? Duration(seconds: int.parse(cacheDuration))
         : const Duration(seconds: 60);
