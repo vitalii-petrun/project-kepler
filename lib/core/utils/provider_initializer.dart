@@ -103,7 +103,7 @@ class ProviderInitializer {
         return FavoriteLaunchesPageCubit(
           fetchFavouriteLaunchesUseCase: FetchFavouriteLaunchesUseCase(
             firestore: FirebaseFirestore.instance,
-            dtoToEntityConverter: LaunchDtoToEntityConverter(),
+            apiRepository: ApiRepositoryImpl(apiClient),
           ),
           setFavouriteLaunchUseCase: SetFavouriteLaunchUseCase(
             firestore: FirebaseFirestore.instance,

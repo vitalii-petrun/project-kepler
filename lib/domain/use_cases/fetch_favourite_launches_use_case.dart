@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/domain/repositories/api_repository.dart';
 
-import '../../data/models/launch_dto.dart';
-import '../converters/launch_converter.dart';
 import '../entities/launch.dart';
 
 class FetchFavouriteLaunchesUseCase {
   final FirebaseFirestore firestore;
   String? userId;
-  final LaunchDtoToEntityConverter dtoToEntityConverter;
+  final ApiRepository apiRepository;
 
   FetchFavouriteLaunchesUseCase({
-    required this.firestore,
     this.userId,
-    required this.dtoToEntityConverter,
+    required this.firestore,
+    required this.apiRepository,
   });
 
   Future<List<Launch>> call() async {
@@ -21,12 +20,13 @@ class FetchFavouriteLaunchesUseCase {
         .collection('users')
         .doc(userId)
         .collection('favorites')
+        .doc('launches')
+        .collection('launches')
         .get();
 
     final launches = <Launch>[];
     for (final doc in snapshot.docs) {
-      final launchDTO = LaunchDTO.fromJson(doc.data());
-      final launch = dtoToEntityConverter.convert(launchDTO);
+      final launch = await apiRepository.getLaunchDetailsById(doc.id);
 
       final translatedLaunch =
           await languageDetectionService.translateIfNecessary(launch);
