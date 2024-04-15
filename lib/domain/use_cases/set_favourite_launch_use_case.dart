@@ -21,7 +21,12 @@ class SetFavouriteLaunchUseCase {
         .collection('users')
         .doc(userId)
         .collection('favorites')
+        .doc('launches')
+        .collection('launches')
         .doc(launch.id)
-        .set(launchDto.toJson());
+        .set({
+      'id': launchDto.id,
+      'name': launchDto.name,
+    });
   }
 }

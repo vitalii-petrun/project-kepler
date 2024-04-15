@@ -20,7 +20,7 @@ class SetFavouriteEventUseCase {
         .collection('users')
         .doc(userId)
         .collection('favorites')
-        .doc(userId)
+        .doc("events")
         .collection('events')
         .doc(eventDTO.id.toString())
         .set({
