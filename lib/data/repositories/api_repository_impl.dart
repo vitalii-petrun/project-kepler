@@ -50,6 +50,14 @@ class ApiRepositoryImpl implements ApiRepository {
   }
 
   @override
+  Future<Event> getEventById(String id) async {
+    final response = await _apiClient.get('/event/$id/');
+    final eventDto = EventDTO.fromJson(response.data);
+
+    return eventDtoToEntityConverter.convert(eventDto);
+  }
+
+  @override
   Future<Launch> getLaunchDetailsById(String id) async {
     final response = await _apiClient.get('/launch/$id/');
     final launchDto = LaunchDTO.fromJson(response.data);

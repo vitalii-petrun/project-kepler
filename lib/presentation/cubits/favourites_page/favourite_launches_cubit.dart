@@ -6,15 +6,15 @@ import '../../../domain/entities/launch.dart';
 import '../../../domain/use_cases/fetch_favourite_launches_use_case.dart';
 import '../../../domain/use_cases/remove_favourite_launch_use_case.dart';
 import '../../../domain/use_cases/set_favourite_launch_use_case.dart';
-import 'favourite_launches_page_state.dart';
+import 'favourite_launches_state.dart';
 
-class FavoriteLaunchesPageCubit extends Cubit<FavouriteLaunchesPageState> {
+class FavoriteLaunchesCubit extends Cubit<FavouriteLaunchesState> {
   final FetchFavouriteLaunchesUseCase fetchFavouriteLaunchesUseCase;
   final SetFavouriteLaunchUseCase setFavouriteLaunchUseCase;
   final RemoveFavouriteLaunchUseCase removeFavouriteLaunchUseCase;
   final AuthenticationCubit authenticationCubit;
 
-  FavoriteLaunchesPageCubit({
+  FavoriteLaunchesCubit({
     required this.fetchFavouriteLaunchesUseCase,
     required this.setFavouriteLaunchUseCase,
     required this.removeFavouriteLaunchUseCase,

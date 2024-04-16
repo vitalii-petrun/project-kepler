@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 
 import '../../domain/entities/launch.dart';
-import '../cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
-import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
+import '../cubits/favourites_page/favourite_launches_cubit.dart';
+import '../cubits/favourites_page/favourite_launches_state.dart';
 import '../widgets/launch_card.dart';
 import '../widgets/no_favourite.dart';
 import '../widgets/no_internet.dart';
@@ -23,7 +23,7 @@ class _FavouriteLaunchesPageState extends State<FavouriteLaunchesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<FavoriteLaunchesPageCubit>().fetchFavouriteLaunches();
+    context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
   }
 
   @override
@@ -31,7 +31,7 @@ class _FavouriteLaunchesPageState extends State<FavouriteLaunchesPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: RoundedAppBar(title: Text(context.l10n.favourite)),
-      body: BlocBuilder<FavoriteLaunchesPageCubit, FavouriteLaunchesPageState>(
+      body: BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
         builder: (context, state) {
           if (state is FavouriteLaunchesInit) {
             return const Center(child: CircularProgressIndicator());
@@ -64,7 +64,7 @@ class _LoadedBody extends StatelessWidget {
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: () async {
-          context.read<FavoriteLaunchesPageCubit>().fetchFavouriteLaunches();
+          context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
         },
         child: ListView.builder(
           itemCount: launches.length,
@@ -89,7 +89,7 @@ class _FailedBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<FavoriteLaunchesPageCubit>().fetchFavouriteLaunches();
+        context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
       },
       child: LayoutBuilder(
         builder: (context, constraints) {

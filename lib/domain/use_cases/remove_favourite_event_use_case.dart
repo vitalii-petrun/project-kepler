@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class RemoveFavouriteLaunchUseCase {
+class RemoveFavouriteEventUseCase {
   final FirebaseFirestore firestore;
   String? userId;
 
-  RemoveFavouriteLaunchUseCase({
+  RemoveFavouriteEventUseCase({
     required this.firestore,
     this.userId,
   });
 
-  Future<void> call(String launchId) async {
+  Future<void> call(String eventId) async {
     await firestore
         .collection('users')
         .doc(userId)
         .collection('favorites')
-        .doc('launches')
-        .collection('launches')
-        .doc(launchId)
+        .doc('events')
+        .collection('events')
+        .doc(eventId)
         .delete();
   }
 }

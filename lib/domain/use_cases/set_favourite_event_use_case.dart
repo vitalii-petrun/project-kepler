@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/event.dart';
 
 class SetFavouriteEventUseCase {
@@ -11,9 +12,12 @@ class SetFavouriteEventUseCase {
   });
 
   Future<void> call(Event event) async {
+    logger.d('Setting favourite event call().  User id: $userId');
     if (userId == null) {
       throw Exception("User ID is null");
     }
+    logger.d('Setting favourite event.  User id: $userId');
+
     await firestore
         .collection('users')
         .doc(userId)

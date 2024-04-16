@@ -16,6 +16,8 @@ class FetchFavouriteLaunchesUseCase {
   });
 
   Future<List<Launch>> call() async {
+    logger.d('Fetching favourite launches.  User id: $userId');
+
     final snapshot = await firestore
         .collection('users')
         .doc(userId)

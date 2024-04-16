@@ -6,12 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
-import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/favourites_page/favourite_launches_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 
 import '../../domain/entities/launch.dart';
-import '../cubits/favourite_launches_page/favourite_launches_page_state.dart';
+import '../cubits/favourites_page/favourite_launches_state.dart';
 import '../utils/ui_helpers.dart';
 
 class LaunchCard extends StatefulWidget {
@@ -257,9 +257,9 @@ class _FooterSection extends StatelessWidget {
                 ),
               ),
             ),
-            BlocBuilder<FavoriteLaunchesPageCubit, FavouriteLaunchesPageState>(
+            BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
               builder: (context, state) {
-                if (context.read<AuthenticationCubit>().state
+                if (context.watch<AuthenticationCubit>().state
                     is! Authenticated) {
                   return const SizedBox();
                 } else if (state is FavouriteLaunchesLoaded) {
@@ -318,12 +318,11 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
   @override
   Widget build(BuildContext context) {
     _isFavourite = widget.isFavourite;
-    return BlocBuilder<FavoriteLaunchesPageCubit, FavouriteLaunchesPageState>(
+    return BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
       builder: (context, state) {
         return IconButton(
           onPressed: () {
-            FavoriteLaunchesPageCubit cubit =
-                context.read<FavoriteLaunchesPageCubit>();
+            FavoriteLaunchesCubit cubit = context.read<FavoriteLaunchesCubit>();
 
             if (widget.isFavourite) {
               cubit.removeFavouriteLaunch(widget.launch.id);

@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
-import 'package:project_kepler/presentation/cubits/favourite_launches_page/favourite_launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/favourites_page/favourite_events_cubit.dart';
+import 'package:project_kepler/presentation/cubits/favourites_page/favourite_launches_cubit.dart';
 
 class AuthStateHandler extends StatelessWidget {
   final Widget child;
@@ -14,10 +15,14 @@ class AuthStateHandler extends StatelessWidget {
     return BlocListener<AuthenticationCubit, AuthenticationState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          logger.d('User is authenticated');
-          context.read<FavoriteLaunchesPageCubit>().setUserId();
+          logger.d('User ${state.user.email} is authenticated');
+          context.read<FavoriteLaunchesCubit>().setUserId();
+          context.read<FavouriteEventsCubit>().setUserId();
+          context.read<FavouriteEventsCubit>().fetchFavouriteEvents();
+          context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
         } else if (state is Unauthenticated) {
-          context.read<FavoriteLaunchesPageCubit>().clearUserId();
+          context.read<FavoriteLaunchesCubit>().clearUserId();
+          context.read<FavouriteEventsCubit>().clearUserId();
         }
       },
       child: child,
