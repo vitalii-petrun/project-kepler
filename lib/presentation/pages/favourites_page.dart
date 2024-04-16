@@ -12,14 +12,14 @@ import '../widgets/no_internet.dart';
 import '../widgets/rounded_app_bar.dart';
 
 @RoutePage()
-class FavouriteLaunchesPage extends StatefulWidget {
-  const FavouriteLaunchesPage({Key? key}) : super(key: key);
+class FavouritesPage extends StatefulWidget {
+  const FavouritesPage({Key? key}) : super(key: key);
 
   @override
-  State<FavouriteLaunchesPage> createState() => _FavouriteLaunchesPageState();
+  State<FavouritesPage> createState() => _FavouritesPageState();
 }
 
-class _FavouriteLaunchesPageState extends State<FavouriteLaunchesPage> {
+class _FavouritesPageState extends State<FavouritesPage> {
   @override
   void initState() {
     super.initState();

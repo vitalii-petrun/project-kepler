@@ -15,7 +15,7 @@ import '../pages/login_page.dart';
 import '../pages/news_page.dart';
 import '../pages/profile_page.dart';
 import '../pages/settings_page.dart';
-import '../pages/favourite_launches_page.dart';
+import '../pages/favourites_page.dart';
 
 import '../pages/users_page.dart';
 
@@ -36,7 +36,7 @@ class AppRouter extends _$AppRouter {
       children: [
         AutoRoute(path: '', page: HomeRoute.page),
         AutoRoute(page: SettingsRoute.page, path: 'settings'),
-        AutoRoute(page: FavouriteLaunchesRoute.page, path: 'favourites'),
+        AutoRoute(page: FavouritesRoute.page, path: 'favourites'),
         AutoRoute(page: LaunchesRoute.page, path: 'launches'),
       ],
     ),

@@ -86,9 +86,22 @@ class _HomeBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: SpaceGreetingCard(),
+              BlocBuilder<AuthenticationCubit, AuthenticationState>(
+                builder: (context, state) {
+                  if (state is Authenticated) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SpaceGreetingCard(
+                        user: state.user,
+                      ),
+                    );
+                  } else {
+                    return const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SpaceGreetingCard(),
+                    );
+                  }
+                },
               ),
               const SizedBox(width: 16.0),
               Padding(
