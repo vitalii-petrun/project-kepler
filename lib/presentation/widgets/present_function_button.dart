@@ -107,17 +107,9 @@ class _Button extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
         color: isAnimated
             ? Colors.transparent
-            : context.theme.colorScheme.secondary.withOpacity(0.6),
-        boxShadow: [
-          BoxShadow(
-            color: context.theme.brightness == Brightness.dark
-                ? Colors.black.withOpacity(0.3)
-                : Colors.grey.withOpacity(0.3),
-            blurRadius: 8.0,
-            spreadRadius: 2.0,
-            offset: const Offset(1, 3),
-          ),
-        ],
+            : context.theme.brightness == Brightness.dark
+                ? AppColors.primaryColor.withOpacity(0.3)
+                : AppColors.primaryColor.withOpacity(0.8),
       ),
       child: TextButton(
         onPressed: () => context.router.pushNamed(route),

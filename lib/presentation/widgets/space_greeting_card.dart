@@ -44,7 +44,9 @@ class SpaceGreetingCardState extends State<SpaceGreetingCard>
               borderRadius: BorderRadius.circular(16.0),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primaryColor.withOpacity(0.2),
+                  color: context.theme.brightness == Brightness.dark
+                      ? AppColors.primaryColor.withOpacity(0.2)
+                      : AppColors.primaryColor.withOpacity(0.8),
                 ),
               ],
             )
