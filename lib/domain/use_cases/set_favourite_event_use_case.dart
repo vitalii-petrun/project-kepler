@@ -1,31 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project_kepler/data/models/event2_dto.dart';
-import 'package:project_kepler/domain/converters/event_converter.dart';
 import 'package:project_kepler/domain/entities/event.dart';
 
 class SetFavouriteEventUseCase {
   final FirebaseFirestore firestore;
   String? userId;
-  final EventEntityToDtoConverter entityToDtoConverter;
 
   SetFavouriteEventUseCase({
     required this.firestore,
     this.userId,
-    required this.entityToDtoConverter,
   });
 
   Future<void> call(Event event) async {
-    EventDTO eventDTO = entityToDtoConverter.convert(event);
+    if (userId == null) {
+      throw Exception("User ID is null");
+    }
     await firestore
         .collection('users')
         .doc(userId)
         .collection('favorites')
-        .doc("events")
+        .doc('events')
         .collection('events')
-        .doc(eventDTO.id.toString())
+        .doc(event.id.toString())
         .set({
-      'id': eventDTO.id,
-      'name': eventDTO.name,
+      'id': event.id,
+      'name': event.name,
     });
   }
 }
