@@ -10,6 +10,18 @@ void showConnectionError(
   );
 }
 
+Color darkenColor(Color color, {double factor = 0.2}) {
+  int red = (color.red * (1 - factor)).round();
+  int green = (color.green * (1 - factor)).round();
+  int blue = (color.blue * (1 - factor)).round();
+
+  red = red.clamp(0, 255);
+  green = green.clamp(0, 255);
+  blue = blue.clamp(0, 255);
+
+  return Color.fromRGBO(red, green, blue, 1);
+}
+
 class AppColors {
   static const Color primaryColor = Color(0xFF0D47A1);
   static const Color secondaryColor = Color(0xFF2196F3);

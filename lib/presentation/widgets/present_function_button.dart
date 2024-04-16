@@ -70,13 +70,13 @@ class _AnimatedWrapper extends StatelessWidget {
         primaryEnd: Alignment.bottomLeft,
         secondaryBegin: Alignment.bottomLeft,
         secondaryEnd: Alignment.topRight,
-        primaryColors: const [
-          AppColors.aiChatBubbleColor,
-          AppColors.spaceTitleColor
+        primaryColors: [
+          darkenColor(AppColors.aiChatBubbleColor),
+          darkenColor(AppColors.spaceTitleColor),
         ],
-        secondaryColors: const [
-          AppColors.presentFunction4,
-          AppColors.presentFunction2,
+        secondaryColors: [
+          darkenColor(AppColors.presentFunction4),
+          darkenColor(AppColors.presentFunction2),
         ],
         child: child,
       ),
@@ -126,7 +126,7 @@ class _Button extends StatelessWidget {
             Text(
               title,
               style: context.theme.textTheme.titleMedium
-                  ?.copyWith(color: Colors.white),
+                  ?.copyWith(color: Colors.white, fontWeight: FontWeight.w600),
             ),
           ],
         ),
