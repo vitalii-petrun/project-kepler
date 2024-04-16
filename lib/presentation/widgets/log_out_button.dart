@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/presentation/navigation/app_router.dart';
 
 import '../cubits/authentication/authentication_cubit.dart';
 
@@ -12,8 +13,6 @@ class LogoutButton extends StatelessWidget {
     final AuthenticationCubit authentication =
         context.read<AuthenticationCubit>();
     authentication.signOut();
-
-    context.router.replaceNamed("/home");
   }
 
   @override

@@ -55,7 +55,7 @@ class SpaceGreetingCardState extends State<SpaceGreetingCard>
                 image: const AssetImage('assets/welcome.jpg'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.5),
+                  Colors.black.withOpacity(0.7),
                   BlendMode.darken,
                 ),
               ),
