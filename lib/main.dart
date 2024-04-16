@@ -31,12 +31,12 @@ void main() async {
 
   ApiClient apiClient = ApiClient(
     httpClient,
-    'https://lldev.thespacedevs.com/2.2.0',
+    dotenv.env['THE_SPACE_DEVS_API_URL']!,
   );
 
   ApiClient newsApiClient = ApiClient(
     httpClient,
-    'https://api.spaceflightnewsapi.net/v4',
+    dotenv.env['SPACEFLIGHT_API_URL']!,
   );
 
   runApp(
