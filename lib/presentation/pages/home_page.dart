@@ -6,7 +6,6 @@ import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_state.dart';
-import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
@@ -15,7 +14,7 @@ import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 import 'package:project_kepler/presentation/widgets/failed_body.dart';
 import 'package:project_kepler/presentation/widgets/present_function_button.dart';
 
-import 'package:project_kepler/presentation/widgets/events_card.dart';
+import 'package:project_kepler/presentation/widgets/event_card.dart';
 import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
 
 import '../../domain/entities/article.dart';
@@ -38,12 +37,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
+  void _fetchData() {
     context.read<LaunchesPageCubit>().fetch();
     context.read<EventsCubit>().fetch();
     context.read<NewsCubit>().fetchRecentArticles();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
   }
 
   @override
@@ -78,7 +81,11 @@ class _HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => context.read<HomePageCubit>().fetch(),
+      onRefresh: () async {
+        context.read<LaunchesPageCubit>().fetch();
+        context.read<EventsCubit>().fetch();
+        context.read<NewsCubit>().fetchRecentArticles();
+      },
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
@@ -86,9 +93,22 @@ class _HomeBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: SpaceGreetingCard(),
+              BlocBuilder<AuthenticationCubit, AuthenticationState>(
+                builder: (context, state) {
+                  if (state is Authenticated) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SpaceGreetingCard(
+                        user: state.user,
+                      ),
+                    );
+                  } else {
+                    return const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: SpaceGreetingCard(),
+                    );
+                  }
+                },
               ),
               const SizedBox(width: 16.0),
               Padding(

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../data/models/launch_dto.dart';
 import '../converters/launch_converter.dart';
 import '../entities/launch.dart';
 
@@ -16,12 +15,20 @@ class SetFavouriteLaunchUseCase {
   });
 
   Future<void> call(Launch launch) async {
-    LaunchDTO launchDto = entityToDtoConverter.convert(launch);
+    // Ensure the user ID is not null
+    if (userId == null) {
+      throw Exception("User ID is null");
+    }
     await firestore
         .collection('users')
         .doc(userId)
         .collection('favorites')
+        .doc('launches')
+        .collection('launches')
         .doc(launch.id)
-        .set(launchDto.toJson());
+        .set({
+      'id': launch.id,
+      'name': launch.name,
+    });
   }
 }

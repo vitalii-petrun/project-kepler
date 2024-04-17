@@ -1,11 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:intl/intl.dart';
 
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/event.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
+import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
+import 'package:project_kepler/presentation/cubits/favourites_page/favourite_events_cubit.dart';
+import 'package:project_kepler/presentation/cubits/favourites_page/favourite_events_state.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 import 'package:project_kepler/presentation/widgets/info_badge.dart';
 
@@ -204,10 +209,8 @@ class _FooterSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
-              onTap: () {
-                context.router
-                    .push(EventsDetailsRoute(event: event, eventId: event.id));
-              },
+              onTap: () => context.router
+                  .push(EventsDetailsRoute(eventId: event.id, event: event)),
               borderRadius: BorderRadius.circular(8),
               child: Padding(
                 padding: const EdgeInsets.all(8),
@@ -220,9 +223,98 @@ class _FooterSection extends StatelessWidget {
                 ),
               ),
             ),
+            BlocBuilder<FavouriteEventsCubit, FavouriteEventsState>(
+              builder: (context, state) {
+                if (context.watch<AuthenticationCubit>().state
+                    is! Authenticated) {
+                  return const SizedBox();
+                } else if (state is FavouriteEventsLoaded) {
+                  bool isFavorite = state.events.any((e) => e.id == event.id);
+
+                  return _AnimatedHeartButton(
+                    event: event,
+                    isFavourite: isFavorite,
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _AnimatedHeartButton extends StatefulWidget {
+  final Event event;
+  final bool isFavourite;
+
+  const _AnimatedHeartButton({
+    required this.event,
+    required this.isFavourite,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<_AnimatedHeartButton> createState() => _AnimatedHeartButtonState();
+}
+
+class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+      duration: const Duration(milliseconds: 200), vsync: this, value: 1.0);
+
+  late bool _isFavourite;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isFavourite = widget.isFavourite;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _isFavourite = widget.isFavourite;
+    return BlocBuilder<FavouriteEventsCubit, FavouriteEventsState>(
+      builder: (context, state) {
+        return IconButton(
+          onPressed: () {
+            FavouriteEventsCubit cubit = context.read<FavouriteEventsCubit>();
+
+            if (widget.isFavourite) {
+              cubit.removeFavouriteEvent(widget.event.id.toString());
+            } else {
+              cubit.setFavouriteEvent(widget.event);
+            }
+
+            setState(() => _isFavourite = !_isFavourite);
+            _controller.reverse().then((value) => _controller.forward());
+          },
+          icon: ScaleTransition(
+            scale: Tween(begin: 0.6, end: 1.0).animate(
+                CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
+            child: _isFavourite
+                ? Icon(
+                    Icons.favorite,
+                    size: 30,
+                    color: context.theme.colorScheme.error,
+                  )
+                : const Icon(
+                    Icons.favorite_border,
+                    size: 30,
+                  ),
+          ),
+        );
+      },
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
 
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 
@@ -58,11 +59,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  String getUid() {
+  String? getUid() {
+    logger.d('Getting user id. Current state: $state');
     if (state is Authenticated) {
       return (state as Authenticated).user.uid;
     } else {
-      return "NO_USER";
+      return null;
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/presentation/navigation/app_router.dart';
 
 import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/authentication/authentication_state.dart';
@@ -20,7 +21,7 @@ class LoginPage extends StatelessWidget {
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
         listener: (context, state) {
           if (state is Authenticated) {
-            context.router.replaceNamed("/profile");
+            context.router.replaceAll([const ProfileRoute()]);
           }
         },
         builder: (context, state) {

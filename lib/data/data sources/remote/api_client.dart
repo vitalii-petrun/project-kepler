@@ -16,7 +16,7 @@ class ApiClient {
   }
 
   Future<Response> get(String path) async {
-    logger.d('GET: $_baseUrl$path');
+    // logger.d('GET: $_baseUrl$path');
     try {
       if (apiKey.isNotEmpty) {
         logger.d('API Key: $apiKey');

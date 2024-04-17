@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
+import 'package:project_kepler/presentation/navigation/app_router.dart';
 
 import '../widgets/log_out_button.dart';
 import '../widgets/rounded_app_bar.dart';
@@ -22,7 +23,7 @@ class ProfilePage extends StatelessWidget {
       body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
           listener: (context, state) {
         if (state is Unauthenticated) {
-          context.router.replaceNamed("/login");
+          context.router.replaceAll([const HomeRoute()]);
         }
       }, builder: (context, state) {
         if (state is Authenticated) {
