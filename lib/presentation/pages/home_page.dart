@@ -15,7 +15,7 @@ import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 import 'package:project_kepler/presentation/widgets/failed_body.dart';
 import 'package:project_kepler/presentation/widgets/present_function_button.dart';
 
-import 'package:project_kepler/presentation/widgets/events_card.dart';
+import 'package:project_kepler/presentation/widgets/event_card.dart';
 import 'package:project_kepler/presentation/widgets/rounded_app_bar.dart';
 
 import '../../domain/entities/article.dart';

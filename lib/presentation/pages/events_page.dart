@@ -10,7 +10,7 @@ import '../cubits/authentication/authentication_cubit.dart';
 import '../cubits/events_page/events_cubit.dart';
 import '../cubits/events_page/events_state.dart';
 
-import '../widgets/events_card.dart';
+import '../widgets/event_card.dart';
 
 import '../widgets/rounded_app_bar.dart';
 

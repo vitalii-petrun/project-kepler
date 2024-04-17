@@ -6,7 +6,9 @@ import 'package:locale_emoji_flutter/locale_emoji_flutter.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
 import 'package:project_kepler/presentation/themes/refresh_rate_provider.dart';
+import 'package:project_kepler/presentation/utils/ui_helpers.dart';
 import 'package:project_kepler/presentation/widgets/log_out_button.dart';
+import 'package:project_kepler/presentation/widgets/login_button.dart';
 import 'package:project_kepler/presentation/widgets/space_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -59,22 +61,9 @@ class SettingsPage extends StatelessWidget {
                   if (state is! Authenticated)
                     _SettingCard(
                       title: context.l10n.logIn,
-                      child: SizedBox(
+                      child: const SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: context.theme.colorScheme.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onPressed: () {
-                            context.router.pushNamed('/login');
-                          },
-                          child: Text(context.l10n.logIn,
-                              style: context.theme.textTheme.labelLarge
-                                  ?.copyWith(color: Colors.white)),
-                        ),
+                        child: LoginButton(),
                       ),
                     ),
                 ],
@@ -84,16 +73,6 @@ class SettingsPage extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-String getEmojiForRefreshRate(double refreshRate) {
-  if (refreshRate >= 120) {
-    return '🚀'; // High refresh rate, indicating very smooth
-  } else if (refreshRate >= 90) {
-    return '✨'; // Moderately high, indicating good smoothness
-  } else {
-    return '🔋'; // Standard refresh rate
   }
 }
 
