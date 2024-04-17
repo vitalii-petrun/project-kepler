@@ -1,5 +1,7 @@
 {
   "uk": [
-    "welcomeBack"
+    "welcomeBack",
+    "loginPromptFav",
+    "unlockFavs"
   ]
 }
