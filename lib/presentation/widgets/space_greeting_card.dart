@@ -73,7 +73,7 @@ class SpaceGreetingCardState extends State<SpaceGreetingCard>
         opacity: _animation,
         child: widget.user != null
             ? Text(
-                context.l10n.welcomeBack(widget.user!.displayName!),
+                "👋 ${context.l10n.welcomeBack(widget.user!.displayName!)}",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24.0,
@@ -88,7 +88,7 @@ class SpaceGreetingCardState extends State<SpaceGreetingCard>
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 300),
                     child: Text(
-                      context.l10n.welcomeToApp,
+                      "👽 ${context.l10n.welcomeToApp}",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 24.0,

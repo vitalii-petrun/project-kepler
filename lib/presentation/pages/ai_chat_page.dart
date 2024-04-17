@@ -29,7 +29,7 @@ class AIChatPageState extends State<AIChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.aiChat)),
+      appBar: AppBar(title: Text("👽 ${context.l10n.aiChat}")),
       body: BlocBuilder<ChatCubit, ChatState>(
         builder: (context, state) {
           logger.d(state);
