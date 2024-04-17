@@ -13,7 +13,7 @@ class FailedBody extends StatelessWidget {
         return SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: SizedBox(
-            height: constraints.maxHeight,
+            height: context.screenHeight,
             child: Center(
                 child:
                     Text(message, style: context.theme.textTheme.titleLarge)),

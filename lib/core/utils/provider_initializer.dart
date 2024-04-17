@@ -31,7 +31,6 @@ import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_launches_cubit.dart';
 import 'package:project_kepler/presentation/cubits/friends_page/friends_page_cubit.dart';
-import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
@@ -51,11 +50,11 @@ class ProviderInitializer {
     return [
       ChangeNotifierProvider(create: ((_) => AppThemeProvider()..initialize())),
       ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
-      BlocProvider(
-          create: (context) => HomePageCubit(
-              GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient)),
-              GetAllEventsUseCase(ApiRepositoryImpl(apiClient)),
-              FetchArticlesUseCase(ArticleRepositoryImpl(newsApiClient)))),
+      // BlocProvider(
+      //     create: (context) => HomePageCubit(
+      //         GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient)),
+      //         GetAllEventsUseCase(ApiRepositoryImpl(apiClient)),
+      //         FetchArticlesUseCase(ArticleRepositoryImpl(newsApiClient)))),
       BlocProvider(
         create: (context) => LaunchesPageCubit(
             GetAllLaunchesUseCase(ApiRepositoryImpl(apiClient))),

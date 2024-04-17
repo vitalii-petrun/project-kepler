@@ -6,7 +6,6 @@ import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_state.dart';
-import 'package:project_kepler/presentation/cubits/home_page/home_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
@@ -38,12 +37,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
+  void _fetchData() {
     context.read<LaunchesPageCubit>().fetch();
     context.read<EventsCubit>().fetch();
     context.read<NewsCubit>().fetchRecentArticles();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
   }
 
   @override
@@ -78,7 +81,11 @@ class _HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async => context.read<HomePageCubit>().fetch(),
+      onRefresh: () async {
+        context.read<LaunchesPageCubit>().fetch();
+        context.read<EventsCubit>().fetch();
+        context.read<NewsCubit>().fetchRecentArticles();
+      },
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(

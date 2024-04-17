@@ -1,6 +1,5 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
@@ -111,8 +110,12 @@ class FavouritesPageState extends State<FavouritesPage>
           return ListView.builder(
             itemCount: state.events.length,
             itemBuilder: (context, index) {
-              return EventCard(
-                  event: state.events[index], eventId: state.events[index].id);
+              return Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: EventCard(
+                    event: state.events[index],
+                    eventId: state.events[index].id),
+              );
             },
           );
         } else if (state is FavouriteEventsError) {
@@ -130,13 +133,16 @@ class FavouritesPageState extends State<FavouritesPage>
           return ListView.builder(
             itemCount: state.launches.length,
             itemBuilder: (context, index) {
-              return LaunchCard(launch: state.launches[index]);
+              return Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: LaunchCard(launch: state.launches[index]),
+              );
             },
           );
         } else if (state is FavouriteLaunchesError) {
           return Center(child: Text('Error: ${state.message}'));
         }
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
