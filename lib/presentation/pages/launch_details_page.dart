@@ -5,17 +5,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/converters/launch_converter.dart';
+import 'package:project_kepler/domain/entities/mission.dart';
 import 'package:project_kepler/domain/entities/rocket_configuration.dart';
 import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
 import 'package:project_kepler/presentation/pages/ai_chat_page.dart';
 import 'package:project_kepler/presentation/widgets/chat_fab.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
+import 'package:project_kepler/presentation/widgets/failed_body.dart';
 import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
 import '../cubits/launch_details/launch_details_page_state.dart';
-import '../widgets/no_internet.dart';
 
 @RoutePage()
 class LaunchDetailsPage extends StatefulWidget {
@@ -56,51 +57,12 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
           } else if (state is LaunchDetailsPageStateLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is LaunchDetailsPageStateError) {
-            return _FailedBody(launchId: widget.launchId);
+            return FailedBody(message: state.message);
           } else {
             return const Center(child: CircularProgressIndicator());
           }
         },
       ),
-    );
-  }
-}
-
-class _FailedBody extends StatelessWidget {
-  final String launchId;
-
-  const _FailedBody({
-    required this.launchId,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return RefreshIndicator(
-          onRefresh: () async =>
-              context.read<LaunchDetailsPageCubit>().getLaunchDetails(launchId),
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: SizedBox(
-              height: constraints.maxHeight,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const NoInternet(),
-                    TextButton(
-                      onPressed: () => context.router.pop(),
-                      child: Text(context.l10n.goBack),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }
@@ -121,17 +83,9 @@ class _LoadedBody extends StatefulWidget {
 
 class _LoadedBodyState extends State<_LoadedBody>
     with SingleTickerProviderStateMixin {
-  late final TabController _tabController;
-
-  @override
-  void initState() {
-    _tabController = TabController(length: 2, vsync: this);
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    const expandedHeight = 500.0;
+    const expandedHeight = 460.0;
     const collapsedHeight = 60.0;
     final theme = context.theme;
     return RefreshIndicator(
@@ -149,32 +103,22 @@ class _LoadedBodyState extends State<_LoadedBody>
               color: context.theme.colorScheme.onBackground,
             ),
             flexibleSpace: FlexibleSpaceBar(
+              expandedTitleScale: 1.3,
               collapseMode: CollapseMode.pin,
               title: Text(
                 widget.launch.name,
                 style: theme.textTheme.headlineSmall!
                     .copyWith(color: theme.colorScheme.onBackground),
-                maxLines: 3,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              titlePadding: const EdgeInsets.only(
-                left: 52,
-                right: 46,
-                bottom: 16,
-              ),
+              titlePadding: const EdgeInsets.only(left: 46, bottom: 16),
               background:
                   _LaunchImage(launch: widget.launch, agency: widget.agency),
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              _LaunchTabBar(tabController: _tabController),
-              _LaunchTabView(
-                launch: widget.launch,
-                agency: widget.agency,
-                tabController: _tabController,
-              ),
-            ]),
+          SliverToBoxAdapter(
+            child: _LaunchDetails(launch: widget.launch, agency: widget.agency),
           ),
         ],
       ),
@@ -209,7 +153,7 @@ class _LaunchImage extends StatelessWidget {
                 colorFilter:
                     const ColorFilter.mode(Colors.black54, BlendMode.darken),
                 image: CachedNetworkImageProvider(
-                    agency?.imageUrl ?? launch.image ?? ''),
+                    agency?.imageUrl ?? launch.image ?? context.l10n.unknown),
                 fit: BoxFit.cover,
               ),
               color: theme.colorScheme.background,
@@ -217,7 +161,7 @@ class _LaunchImage extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: collapsedHeight + 80,
+          bottom: collapsedHeight + 40,
           left: context.screenWidth / 2 - 50,
           child: Container(
             padding: const EdgeInsets.all(5),
@@ -226,99 +170,13 @@ class _LaunchImage extends StatelessWidget {
               shape: const CircleBorder(),
             ),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(launch.image ?? ''),
+              backgroundImage:
+                  NetworkImage(launch.image ?? context.l10n.unknown),
               radius: 45,
             ),
           ),
         ),
       ],
-    );
-  }
-}
-
-class _LaunchTabBar extends StatelessWidget {
-  final TabController tabController;
-
-  const _LaunchTabBar({Key? key, required this.tabController})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: context.theme.colorScheme.secondary,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          const SizedBox(),
-          TabBar(
-            controller: tabController,
-            indicatorColor: context.theme.colorScheme.surface,
-            tabs: [
-              Tab(text: context.l10n.details),
-              Tab(text: context.l10n.mission),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _LaunchTabView extends StatelessWidget {
-  final TabController tabController;
-  final Launch launch;
-  final Agency? agency;
-
-  const _LaunchTabView({
-    required this.tabController,
-    required this.agency,
-    required this.launch,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 1700,
-      child: TabBarView(
-        controller: tabController,
-        children: [
-          _LaunchDetails(launch: launch, agency: agency),
-          _LaunchMission(launch: launch),
-        ],
-      ),
-    );
-  }
-}
-
-class _LaunchMission extends StatelessWidget {
-  final Launch launch;
-  const _LaunchMission({Key? key, required this.launch}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 8),
-          TitledDetailsCard(
-            title: context.l10n.missionDetails,
-            child: Text(
-              launch.mission?.description ?? context.l10n.noDescriptionProvided,
-              style: context.theme.textTheme.bodyMedium,
-            ),
-          ),
-          TitledDetailsCard(
-            title: context.l10n.rocketConfiguration,
-            child: _RocketConfigurationTable(
-              rocketConfiguration: launch.rocket.configuration,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -342,11 +200,16 @@ class _LaunchDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            context.l10n.about,
-            style: context.theme.textTheme.titleLarge,
+          Padding(
+            padding: const EdgeInsets.only(top: 8, bottom: 16),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                "🚀 ${context.l10n.about}",
+                style: context.theme.textTheme.headlineLarge,
+              ),
+            ),
           ),
-          const SizedBox(height: 8),
           _DetailsCard(
             child: Column(
               children: [
@@ -354,23 +217,65 @@ class _LaunchDetails extends StatelessWidget {
                   net: launch.net,
                   launchStatus: launch.status.name,
                 ),
+                const SizedBox(height: 20),
                 _LaunchDateInfo(
                   launchDate: DateFormat('dd MMMM yyyy').format(parsedTime),
                   launchTime: DateFormat('HH:mm').format(parsedTime),
                 ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const Text(
+                      '🕒',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        launch.status.description,
+                        style: context.theme.textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
+          const SizedBox(height: 8),
+          if (launch.mission?.description != null)
+            TitledDetailsCard(
+              title: context.l10n.missionDetails,
+              child: _MissionDetails(
+                mission: launch.mission as Mission,
+              ),
+            ),
+          TitledDetailsCard(
+            title: context.l10n.rocketConfiguration,
+            child: _RocketConfigurationTable(
+              rocketConfiguration: launch.rocket.configuration,
+            ),
+          ),
+          const SizedBox(height: 8),
           TitledDetailsCard(
             title: context.l10n.agencyInformaton,
             child: agency != null
                 ? Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CachedNetworkImage(imageUrl: agency?.logoUrl ?? ""),
+                      agency?.logoUrl != null
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CachedNetworkImage(
+                                imageUrl: agency!.logoUrl as String,
+                                height: 80,
+                              ),
+                            )
+                          : const SizedBox(),
                       const SizedBox(height: 12),
                       _InfoRow(
-                          title: context.l10n.name, value: agency?.name ?? ''),
+                          icon: Icons.location_on,
+                          title: context.l10n.name,
+                          value: agency?.name ?? context.l10n.unknown),
                       const SizedBox(height: 8),
                       Flexible(
                         child: Text(
@@ -381,20 +286,71 @@ class _LaunchDetails extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       _InfoRow(
+                          icon: Icons.location_city,
                           title: context.l10n.counryCode,
                           value: agency?.countryCode ?? context.l10n.unknown),
                       _InfoRow(
-                          title: context.l10n.type, value: agency?.type ?? ''),
+                          icon: Icons.business_center,
+                          title: context.l10n.type,
+                          value: agency?.type ?? context.l10n.unknown),
                       _InfoRow(
+                          icon: Icons.language,
                           title: context.l10n.abbrev,
-                          value: agency?.abbrev ?? ''),
+                          value: agency?.abbrev ?? context.l10n.unknown),
                       _InfoRow(
+                          icon: Icons.person,
                           title: context.l10n.administrator,
-                          value: agency?.administrator ?? ''),
+                          value: agency?.administrator ?? context.l10n.unknown),
                     ],
                   )
                 : Text(context.l10n.noAgencyInformation),
           )
+        ],
+      ),
+    );
+  }
+}
+
+class _MissionDetails extends StatelessWidget {
+  final Mission mission;
+
+  const _MissionDetails({
+    required this.mission,
+    Key? key,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Text(
+            mission.name,
+            style: context.theme.textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 8),
+          _InfoRow(
+            icon: Icons.confirmation_number,
+            title: context.l10n.type,
+            value: mission.type,
+          ),
+          const SizedBox(height: 8),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: "🛰️ ${mission.description}",
+                  style: context.theme.textTheme.bodyLarge,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          _InfoRow(
+            icon: Icons.location_on,
+            title: context.l10n.orbit,
+            value: mission.orbit.name,
+          ),
         ],
       ),
     );
@@ -419,32 +375,43 @@ class _RocketConfigurationTable extends StatelessWidget {
         children: [
           rocketManufacturer?.logoUrl != null
               ? Center(
-                  child: CachedNetworkImage(
-                    imageUrl: rocketManufacturer?.logoUrl ?? '',
-                    height: 100,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          rocketManufacturer?.logoUrl ?? context.l10n.unknown,
+                      height: 80,
+                    ),
                   ),
                 )
               : const SizedBox(),
           const SizedBox(height: 8),
           _InfoRow(
-              title: context.l10n.name, value: rocketConfiguration.fullName),
+              icon: Icons.confirmation_number,
+              title: context.l10n.name,
+              value: rocketConfiguration.fullName),
           _InfoRow(
-              title: context.l10n.family, value: rocketConfiguration.family),
+              icon: Icons.code,
+              title: context.l10n.family,
+              value: rocketConfiguration.family),
           _InfoRow(
+              icon: Icons.precision_manufacturing,
               title: context.l10n.manufacturer,
-              value: rocketManufacturer?.name ?? ''),
-          Text(rocketManufacturer?.description ?? ''),
+              value: rocketManufacturer?.name ?? context.l10n.unknown),
+          Text(rocketManufacturer?.description ?? context.l10n.unknown),
           const SizedBox(height: 4),
           _InfoRow(
+              icon: Icons.location_city,
               title: context.l10n.counryCode,
-              value: rocketManufacturer?.countryCode ?? ''),
+              value: rocketManufacturer?.countryCode ?? context.l10n.unknown),
           InkWell(
             child: _InfoRow(
+              icon: Icons.link,
               title: context.l10n.wiki,
               value: rocketConfiguration.wikiUrl ?? context.l10n.noWikiProvided,
             ),
             onTap: () => launchUrl(
-              Uri.parse(rocketConfiguration.wikiUrl ?? ''),
+              Uri.parse(rocketConfiguration.wikiUrl ?? context.l10n.unknown),
               mode: LaunchMode.externalApplication,
             ),
           ),
@@ -456,10 +423,12 @@ class _RocketConfigurationTable extends StatelessWidget {
 
 class _InfoRow extends StatelessWidget {
   final String title;
+  final IconData? icon;
   final String value;
 
   const _InfoRow({
     required this.title,
+    this.icon,
     required this.value,
     Key? key,
   }) : super(key: key);
@@ -470,6 +439,10 @@ class _InfoRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         children: [
+          if (icon != null) ...[
+            Icon(icon),
+            const SizedBox(width: 8),
+          ],
           Text(
             title,
             style: context.theme.textTheme.bodyLarge
@@ -500,28 +473,49 @@ class _LaunchDateInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          context.l10n.launchDate,
-          style: context.theme.textTheme.bodyLarge
-              ?.copyWith(fontWeight: FontWeight.w700),
-        ),
-        Text(
-          launchDate,
-          style: context.theme.textTheme.bodyLarge,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          context.l10n.launchTime,
-          style: context.theme.textTheme.bodyLarge
-              ?.copyWith(fontWeight: FontWeight.w700),
-        ),
-        Text(
-          launchTime,
-          style: context.theme.textTheme.bodyLarge,
-        ),
-      ],
+    return Container(
+      alignment: Alignment.center,
+      constraints: const BoxConstraints(minWidth: 300),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.date_range),
+              const SizedBox(width: 8),
+              Text(
+                context.l10n.launchDate,
+                style: context.theme.textTheme.bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                launchDate,
+                style: context.theme.textTheme.bodyLarge,
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.access_time),
+              const SizedBox(width: 8),
+              Text(
+                context.l10n.launchTime,
+                style: context.theme.textTheme.bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                launchTime,
+                style: context.theme.textTheme.bodyLarge,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

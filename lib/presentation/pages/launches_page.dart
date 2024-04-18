@@ -5,6 +5,7 @@ import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
 import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
+import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 
 import '../../domain/entities/launch.dart';
@@ -64,8 +65,8 @@ class _LaunchesPageState extends State<LaunchesPage>
             child: SpaceTabBar(
               controller: tabController,
               tabs: [
-                Tab(child: SpaceTabBarItem(label: context.l10n.recent)),
                 Tab(child: SpaceTabBarItem(label: context.l10n.upcoming)),
+                Tab(child: SpaceTabBarItem(label: context.l10n.recent)),
               ],
             ),
           ),
@@ -73,12 +74,12 @@ class _LaunchesPageState extends State<LaunchesPage>
             child: TabBarView(
               controller: tabController,
               children: [
-                BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
+                BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
                   builder: (context, state) {
                     if (state is LaunchesLoaded) {
                       return _LoadedBody(
                           onRefresh: () async =>
-                              context.read<LaunchesPageCubit>().fetch(),
+                              context.read<UpcomingLaunchesCubit>().fetch(),
                           launches: state.launches);
                     } else if (state is LaunchesError) {
                       return const _FailedBody();
@@ -87,13 +88,18 @@ class _LaunchesPageState extends State<LaunchesPage>
                     }
                   },
                 ),
-                BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
+                BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
                   builder: (context, state) {
                     if (state is LaunchesLoaded) {
                       return _LoadedBody(
                           onRefresh: () async =>
-                              context.read<UpcomingLaunchesCubit>().fetch(),
-                          launches: state.launches);
+                              context.read<LaunchesPageCubit>().fetch(),
+                          launches: state.launches
+                              .where((element) =>
+                                  element.status.name !=
+                                  LaunchStatus.goForLaunch.value)
+                              // Sort incorrect data from the API.
+                              .toList());
                     } else if (state is LaunchesError) {
                       return const _FailedBody();
                     } else {

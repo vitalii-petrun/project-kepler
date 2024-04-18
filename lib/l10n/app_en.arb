@@ -106,6 +106,7 @@
   "refreshRateTooltip": "Set the screen refresh rate for the app.\n\n🔋 A higher refresh rate may consume more battery, but provides a smoother experience.",
   "tryOurAiChat": "Try our AI chat!",
   "you": "You",
+  "orbit": "Orbit",
   "loginPromptFav": "Please log in to access your favourite events and launches.",
   "unlockFavs": "Unlock your Favourites!",
   "failedToLoadLaunches": "Failed to load launches",
