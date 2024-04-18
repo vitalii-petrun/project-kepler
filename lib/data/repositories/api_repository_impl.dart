@@ -22,7 +22,7 @@ class ApiRepositoryImpl implements ApiRepository {
 
   @override
   Future<List<Launch>> getLaunchList() async {
-    final response = await _apiClient.get('/launch/');
+    final response = await _apiClient.get('/launch/previous/');
     final launchDtoList = (response.data["results"] as List)
         .map((item) => LaunchDTO.fromJson(item))
         .toList();

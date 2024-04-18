@@ -8,6 +8,7 @@ import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart
 import 'package:project_kepler/presentation/cubits/events_page/events_state.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
+import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
@@ -38,7 +39,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   void _fetchData() {
-    context.read<LaunchesPageCubit>().fetch();
+    context.read<UpcomingLaunchesCubit>().fetch();
     context.read<EventsCubit>().fetch();
     context.read<NewsCubit>().fetchRecentArticles();
   }
@@ -144,7 +145,7 @@ class _HomeBody extends StatelessWidget {
                 onPressed: () => context.router.pushNamed('/launches'),
                 icon: Icons.rocket_rounded,
               ),
-              BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
+              BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
                   builder: (context, state) {
                 if (state is LaunchesLoading) {
                   return _LaunchesSection.loading();
