@@ -22,8 +22,8 @@ class TitledDetailsCard extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4),
-                topRight: Radius.circular(4),
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
               ),
               color: context.theme.colorScheme.secondary,
             ),
@@ -32,7 +32,7 @@ class TitledDetailsCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   title,
-                  style: context.theme.textTheme.titleMedium
+                  style: context.theme.textTheme.titleLarge
                       ?.copyWith(color: context.theme.colorScheme.onPrimary),
                 ),
               ),
