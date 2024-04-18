@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:provider/provider.dart';
 
@@ -19,8 +20,8 @@ class SpaceDrawer extends StatelessWidget {
         child: SizedBox(
             height: 80, width: 80, child: Image.asset('assets/logo.png')),
       ),
-      applicationName: 'Project Kepler',
-      applicationVersion: '2.0.1',
+      applicationName: dotenv.env['APP_NAME'],
+      applicationVersion: dotenv.env['APP_VERSION'],
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
