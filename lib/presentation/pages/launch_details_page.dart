@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -326,6 +327,17 @@ class _MissionDetails extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
+          Text(
+            mission.name,
+            style: context.theme.textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 8),
+          _InfoRow(
+            icon: Icons.confirmation_number,
+            title: context.l10n.type,
+            value: mission.type,
+          ),
+          const SizedBox(height: 8),
           Text.rich(
             TextSpan(
               children: [
