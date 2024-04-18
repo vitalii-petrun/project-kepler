@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
@@ -11,6 +12,7 @@ import 'package:project_kepler/presentation/cubits/launch_details/launch_details
 import 'package:project_kepler/presentation/pages/ai_chat_page.dart';
 import 'package:project_kepler/presentation/widgets/chat_fab.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
+import 'package:project_kepler/presentation/widgets/failed_body.dart';
 import 'package:project_kepler/presentation/widgets/titled_details_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../domain/entities/agency.dart';
@@ -37,7 +39,7 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<LaunchDetailsPageCubit>().getLaunchDetails(widget.launchId);
+    // context.read<LaunchDetailsPageCubit>().getLaunchDetails(widget.launchId);
   }
 
   @override
@@ -57,51 +59,12 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
           } else if (state is LaunchDetailsPageStateLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is LaunchDetailsPageStateError) {
-            return _FailedBody(launchId: widget.launchId);
+            return FailedBody(message: state.message);
           } else {
             return const Center(child: CircularProgressIndicator());
           }
         },
       ),
-    );
-  }
-}
-
-class _FailedBody extends StatelessWidget {
-  final String launchId;
-
-  const _FailedBody({
-    required this.launchId,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return RefreshIndicator(
-          onRefresh: () async =>
-              context.read<LaunchDetailsPageCubit>().getLaunchDetails(launchId),
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: SizedBox(
-              height: constraints.maxHeight,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const NoInternet(),
-                    TextButton(
-                      onPressed: () => context.router.pop(),
-                      child: Text(context.l10n.goBack),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }
@@ -151,6 +114,7 @@ class _LoadedBodyState extends State<_LoadedBody>
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
+              titlePadding: const EdgeInsets.only(left: 46, bottom: 16),
               background:
                   _LaunchImage(launch: widget.launch, agency: widget.agency),
             ),
@@ -255,10 +219,26 @@ class _LaunchDetails extends StatelessWidget {
                   net: launch.net,
                   launchStatus: launch.status.name,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 20),
                 _LaunchDateInfo(
                   launchDate: DateFormat('dd MMMM yyyy').format(parsedTime),
                   launchTime: DateFormat('HH:mm').format(parsedTime),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const Text(
+                      '🕒',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        launch.status.description,
+                        style: context.theme.textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -344,25 +324,25 @@ class _MissionDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text.rich(
-        TextSpan(
-          children: [
-            const WidgetSpan(
-              alignment: PlaceholderAlignment.middle,
-              child: Icon(
-                Icons.info,
-              ),
-            ),
-            const WidgetSpan(
-              alignment: PlaceholderAlignment.middle,
-              child: SizedBox(width: 8),
-            ),
+      child: Column(
+        children: [
+          Text.rich(
             TextSpan(
-              text: mission.description,
-              style: context.theme.textTheme.bodyLarge,
+              children: [
+                TextSpan(
+                  text: "🛰️ ${mission.description}",
+                  style: context.theme.textTheme.bodyLarge,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 8),
+          _InfoRow(
+            icon: Icons.location_on,
+            title: context.l10n.orbit,
+            value: mission.orbit.name,
+          ),
+        ],
       ),
     );
   }
@@ -484,28 +464,49 @@ class _LaunchDateInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          context.l10n.launchDate,
-          style: context.theme.textTheme.bodyLarge
-              ?.copyWith(fontWeight: FontWeight.w700),
-        ),
-        Text(
-          launchDate,
-          style: context.theme.textTheme.bodyLarge,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          context.l10n.launchTime,
-          style: context.theme.textTheme.bodyLarge
-              ?.copyWith(fontWeight: FontWeight.w700),
-        ),
-        Text(
-          launchTime,
-          style: context.theme.textTheme.bodyLarge,
-        ),
-      ],
+    return Container(
+      alignment: Alignment.center,
+      constraints: const BoxConstraints(minWidth: 300),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.date_range),
+              const SizedBox(width: 8),
+              Text(
+                context.l10n.launchDate,
+                style: context.theme.textTheme.bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                launchDate,
+                style: context.theme.textTheme.bodyLarge,
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.access_time),
+              const SizedBox(width: 8),
+              Text(
+                context.l10n.launchTime,
+                style: context.theme.textTheme.bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                launchTime,
+                style: context.theme.textTheme.bodyLarge,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
