@@ -10,7 +10,7 @@ class ChatFAB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
+    return FloatingActionButton.extended(
       onPressed: () {
         Navigator.of(context).push(
           FloatingSheetRoute(
@@ -27,7 +27,8 @@ class ChatFAB extends StatelessWidget {
           ),
         );
       },
-      child: const Icon(Icons.auto_awesome),
+      label: Text(context.l10n.ai),
+      icon: const Icon(Icons.auto_awesome),
     );
   }
 }

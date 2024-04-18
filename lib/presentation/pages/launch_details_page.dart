@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
@@ -19,7 +17,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
 import '../cubits/launch_details/launch_details_page_state.dart';
-import '../widgets/no_internet.dart';
 
 @RoutePage()
 class LaunchDetailsPage extends StatefulWidget {
@@ -40,7 +37,7 @@ class _LaunchDetailsPageState extends State<LaunchDetailsPage> {
   @override
   void initState() {
     super.initState();
-    // context.read<LaunchDetailsPageCubit>().getLaunchDetails(widget.launchId);
+    context.read<LaunchDetailsPageCubit>().getLaunchDetails(widget.launchId);
   }
 
   @override
