@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
 
@@ -32,9 +33,9 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    'assets/logo.png',
-                    height: 200,
+                  child: Lottie.asset(
+                    'assets/lottie/rocket.json',
+                    height: 300,
                   ),
                 ),
                 const SizedBox(height: 20),
