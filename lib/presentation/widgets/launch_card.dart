@@ -8,6 +8,7 @@ import 'package:project_kepler/presentation/cubits/authentication/authentication
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_launches_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
+import 'package:project_kepler/presentation/widgets/animated_heart_button.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 
 import '../../domain/entities/launch.dart';
@@ -265,9 +266,12 @@ class _FooterSection extends StatelessWidget {
                 } else if (state is FavouriteLaunchesLoaded) {
                   bool isFavorite = _checkIfFavourite(launch, state.launches);
 
-                  return _AnimatedHeartButton(
-                    launch: launch,
+                  return AnimatedHeartButton<Launch>(
+                    item: launch,
                     isFavourite: isFavorite,
+                    onToggleFavourite: (launch) => context
+                        .read<FavoriteLaunchesCubit>()
+                        .toggleFavouriteLaunch(launch),
                   );
                 } else {
                   return const CircularProgressIndicator();
@@ -277,74 +281,6 @@ class _FooterSection extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _AnimatedHeartButton extends StatefulWidget {
-  final Launch launch;
-  final bool isFavourite;
-
-  const _AnimatedHeartButton({
-    required this.launch,
-    required this.isFavourite,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<_AnimatedHeartButton> createState() => _AnimatedHeartButtonState();
-}
-
-class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-      duration: const Duration(milliseconds: 200), vsync: this, value: 1.0);
-
-  late bool _isFavourite;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _isFavourite = widget.isFavourite;
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _isFavourite = widget.isFavourite;
-    return BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
-      builder: (context, state) {
-        return IconButton(
-          onPressed: () {
-            FavoriteLaunchesCubit cubit = context.read<FavoriteLaunchesCubit>();
-
-            setState(() => _isFavourite = !_isFavourite);
-            _controller.reverse().then((value) => _controller.forward());
-
-            cubit.toggleFavouriteLaunch(widget.launch);
-          },
-          icon: ScaleTransition(
-            scale: Tween(begin: 0.6, end: 1.0).animate(
-                CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
-            child: _isFavourite
-                ? Icon(
-                    Icons.favorite,
-                    size: 30,
-                    color: context.theme.colorScheme.error,
-                  )
-                : const Icon(
-                    Icons.favorite_border,
-                    size: 30,
-                  ),
-          ),
-        );
-      },
     );
   }
 }

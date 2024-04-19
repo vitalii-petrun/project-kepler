@@ -12,6 +12,7 @@ import 'package:project_kepler/presentation/cubits/authentication/authentication
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_events_state.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
+import 'package:project_kepler/presentation/widgets/animated_heart_button.dart';
 import 'package:project_kepler/presentation/widgets/info_badge.dart';
 
 import '../navigation/app_router.dart';
@@ -231,9 +232,12 @@ class _FooterSection extends StatelessWidget {
                 } else if (state is FavouriteEventsLoaded) {
                   bool isFavorite = state.events.any((e) => e.id == event.id);
 
-                  return _AnimatedHeartButton(
-                    event: event,
+                  return AnimatedHeartButton<Event>(
+                    item: event,
                     isFavourite: isFavorite,
+                    onToggleFavourite: (event) => context
+                        .read<FavouriteEventsCubit>()
+                        .toggleFavouriteEvent(event),
                   );
                 } else {
                   return const CircularProgressIndicator();
@@ -241,65 +245,6 @@ class _FooterSection extends StatelessWidget {
               },
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _AnimatedHeartButton extends StatefulWidget {
-  final Event event;
-  final bool isFavourite;
-
-  const _AnimatedHeartButton({
-    required this.event,
-    required this.isFavourite,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<_AnimatedHeartButton> createState() => _AnimatedHeartButtonState();
-}
-
-class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-      duration: const Duration(milliseconds: 200), vsync: this, value: 1.0);
-
-  late bool _isFavourite;
-
-  @override
-  void initState() {
-    super.initState();
-    _isFavourite = widget.isFavourite;
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _isFavourite = widget.isFavourite;
-
-    return IconButton(
-      onPressed: () {
-        // Change UI state first
-        setState(() => _isFavourite = !_isFavourite);
-        _controller.reverse().then((value) => _controller.forward());
-
-        // Perform business logic asynchronously
-        context.read<FavouriteEventsCubit>().toggleFavouriteEvent(widget.event);
-      },
-      icon: ScaleTransition(
-        scale: Tween(begin: 0.6, end: 1.0).animate(
-            CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
-        child: Icon(
-          _isFavourite ? Icons.favorite : Icons.favorite_border,
-          size: 30,
-          color: _isFavourite ? context.theme.colorScheme.error : null,
         ),
       ),
     );
