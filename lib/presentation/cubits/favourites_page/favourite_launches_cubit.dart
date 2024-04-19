@@ -38,6 +38,29 @@ class FavoriteLaunchesCubit extends Cubit<FavouriteLaunchesState> {
     fetchFavouriteLaunchesUseCase.userId = null;
   }
 
+  void toggleFavouriteLaunch(Launch launch) {
+    var currentState = state;
+    if (currentState is FavouriteLaunchesLoaded) {
+      var currentEvents = List<Launch>.from(currentState.launches);
+      bool isFavourite = currentEvents.any((e) => e.id == launch.id);
+
+      // Update the state optimistically
+      if (isFavourite) {
+        currentEvents.removeWhere((e) => e.id == launch.id);
+      } else {
+        currentEvents.add(launch);
+      }
+      emit(FavouriteLaunchesLoaded(currentEvents));
+
+      // Perform the actual update asynchronously
+      if (isFavourite) {
+        removeFavouriteLaunch(launch.id);
+      } else {
+        setFavouriteLaunch(launch);
+      }
+    }
+  }
+
   void fetchFavouriteLaunches() async {
     try {
       final launches = await fetchFavouriteLaunchesUseCase();

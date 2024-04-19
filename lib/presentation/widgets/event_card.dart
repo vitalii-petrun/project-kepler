@@ -271,7 +271,6 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
   @override
   void initState() {
     super.initState();
-
     _isFavourite = widget.isFavourite;
   }
 
@@ -284,37 +283,25 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
   @override
   Widget build(BuildContext context) {
     _isFavourite = widget.isFavourite;
-    return BlocBuilder<FavouriteEventsCubit, FavouriteEventsState>(
-      builder: (context, state) {
-        return IconButton(
-          onPressed: () {
-            FavouriteEventsCubit cubit = context.read<FavouriteEventsCubit>();
 
-            if (widget.isFavourite) {
-              cubit.removeFavouriteEvent(widget.event.id.toString());
-            } else {
-              cubit.setFavouriteEvent(widget.event);
-            }
+    return IconButton(
+      onPressed: () {
+        // Change UI state first
+        setState(() => _isFavourite = !_isFavourite);
+        _controller.reverse().then((value) => _controller.forward());
 
-            setState(() => _isFavourite = !_isFavourite);
-            _controller.reverse().then((value) => _controller.forward());
-          },
-          icon: ScaleTransition(
-            scale: Tween(begin: 0.6, end: 1.0).animate(
-                CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
-            child: _isFavourite
-                ? Icon(
-                    Icons.favorite,
-                    size: 30,
-                    color: context.theme.colorScheme.error,
-                  )
-                : const Icon(
-                    Icons.favorite_border,
-                    size: 30,
-                  ),
-          ),
-        );
+        // Perform business logic asynchronously
+        context.read<FavouriteEventsCubit>().toggleFavouriteEvent(widget.event);
       },
+      icon: ScaleTransition(
+        scale: Tween(begin: 0.6, end: 1.0).animate(
+            CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
+        child: Icon(
+          _isFavourite ? Icons.favorite : Icons.favorite_border,
+          size: 30,
+          color: _isFavourite ? context.theme.colorScheme.error : null,
+        ),
+      ),
     );
   }
 }

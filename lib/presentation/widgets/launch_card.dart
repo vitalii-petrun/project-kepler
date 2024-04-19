@@ -324,14 +324,10 @@ class _AnimatedHeartButtonState extends State<_AnimatedHeartButton>
           onPressed: () {
             FavoriteLaunchesCubit cubit = context.read<FavoriteLaunchesCubit>();
 
-            if (widget.isFavourite) {
-              cubit.removeFavouriteLaunch(widget.launch.id);
-            } else {
-              cubit.setFavouriteLaunch(widget.launch);
-            }
-
             setState(() => _isFavourite = !_isFavourite);
             _controller.reverse().then((value) => _controller.forward());
+
+            cubit.toggleFavouriteLaunch(widget.launch);
           },
           icon: ScaleTransition(
             scale: Tween(begin: 0.6, end: 1.0).animate(
