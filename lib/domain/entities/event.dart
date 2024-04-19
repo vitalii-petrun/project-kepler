@@ -33,6 +33,24 @@ class Event implements Translatable {
     required this.expeditions,
     required this.spaceStations,
   });
+  //debug purposes
+  Event.empty()
+      : id = 0,
+        url = '',
+        name = '',
+        type = TypeEntity(
+          id: 0,
+          name: '',
+        ),
+        description = '',
+        webcastLive = false,
+        location = '',
+        newsUrl = '',
+        videoUrl = '',
+        featureImage = '',
+        date = DateTime.now(),
+        expeditions = [],
+        spaceStations = [];
 
   @override
   List<Translatable> getNestedTranslatables() {

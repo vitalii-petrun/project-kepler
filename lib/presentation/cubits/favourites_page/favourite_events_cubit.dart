@@ -37,6 +37,29 @@ class FavouriteEventsCubit extends Cubit<FavouriteEventsState> {
     fetchFavouriteEventsUseCase.userId = null;
   }
 
+  void toggleFavouriteEvent(Event event) {
+    var currentState = state;
+    if (currentState is FavouriteEventsLoaded) {
+      var currentEvents = List<Event>.from(currentState.events);
+      bool isFavourite = currentEvents.any((e) => e.id == event.id);
+
+      // Update the state optimistically
+      if (isFavourite) {
+        currentEvents.removeWhere((e) => e.id == event.id);
+      } else {
+        currentEvents.add(event);
+      }
+      emit(FavouriteEventsLoaded(currentEvents));
+
+      // Perform the actual update asynchronously
+      if (isFavourite) {
+        removeFavouriteEvent(event.id.toString());
+      } else {
+        setFavouriteEvent(event);
+      }
+    }
+  }
+
   void fetchFavouriteEvents() async {
     try {
       final events = await fetchFavouriteEventsUseCase();
@@ -48,20 +71,19 @@ class FavouriteEventsCubit extends Cubit<FavouriteEventsState> {
 
   void setFavouriteEvent(Event event) async {
     try {
-      logger.d('Setting favourite event: ${event.id}');
       await setFavouriteEventUseCase(event);
-      fetchFavouriteEvents();
     } catch (e) {
-      emit(FavouriteEventsError(e.toString()));
+      logger.e('Failed to set favourite event: ${e.toString()}');
+      // Optionally handle errors by reverting the optimistic update
     }
   }
 
   void removeFavouriteEvent(String eventId) async {
     try {
       await removeFavouriteEventUseCase(eventId);
-      fetchFavouriteEvents();
     } catch (e) {
-      emit(FavouriteEventsError(e.toString()));
+      logger.e('Failed to remove favourite event: ${e.toString()}');
+      // Optionally handle errors by reverting the optimistic update
     }
   }
 }
