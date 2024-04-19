@@ -29,18 +29,15 @@ class _AnimatedHeartButtonState<T> extends State<AnimatedHeartButton<T>>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     )..addListener(updateParticles);
 
-    // _controller.addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     // Optionally delay this reverse to let particles settle
-    //     Future.delayed(const Duration(milliseconds: 500), () {
-    //       _controller.reverse();
-    //     });
-    //   }
-    // });
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _controller.reverse();
+      }
+    });
 
     _controller.addListener(() {
       setState(() {
@@ -88,7 +85,7 @@ class _AnimatedHeartButtonState<T> extends State<AnimatedHeartButton<T>>
             .withOpacity(1 - rad / 5), // Fade based on size
         velocity: velocity,
         gravity: 0.02, // Slightly stronger gravity
-        decay: 1, // Quick decay for fast fading
+        decay: 0.95, // Quick decay for fast fading
       );
     });
   }
@@ -99,7 +96,7 @@ class _AnimatedHeartButtonState<T> extends State<AnimatedHeartButton<T>>
       alignment: Alignment.center,
       children: [
         CustomPaint(
-          size: const Size(20, 20),
+          size: const Size(30, 30),
           painter: ParticlePainter(particles: particles),
         ),
         IconButton(
