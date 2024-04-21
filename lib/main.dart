@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_kepler/core/application.dart';
+import 'package:project_kepler/core/di/configuration.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
@@ -21,6 +22,7 @@ late final AppRouter appRouter;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  configureDependencies();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
