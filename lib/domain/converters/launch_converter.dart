@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:injectable/injectable.dart';
 import 'package:project_kepler/domain/converters/pad_converter.dart';
 import 'package:project_kepler/domain/converters/rocket_converter.dart';
 import 'package:project_kepler/domain/entities/launch.dart';
@@ -9,6 +10,7 @@ import 'launch_service_provider_converter.dart';
 import 'launch_status_converter.dart';
 import 'mission_converter.dart';
 
+@injectable
 class LaunchDtoToEntityConverter extends Converter<LaunchDTO, Launch> {
   @override
   Launch convert(LaunchDTO input) {
