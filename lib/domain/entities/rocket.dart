@@ -10,4 +10,9 @@ class Rocket {
 
   /// Creates [Rocket] object.
   Rocket(this.id, this.configuration);
+
+  /// Creates empty [Rocket] object.
+  Rocket.empty()
+      : id = 0,
+        configuration = RocketConfiguration.empty();
 }

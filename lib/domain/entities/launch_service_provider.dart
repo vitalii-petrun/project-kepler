@@ -8,4 +8,8 @@ class LaunchServiceProvider {
     this.name,
     this.type,
   );
+
+  factory LaunchServiceProvider.empty() {
+    return LaunchServiceProvider(0, '', '');
+  }
 }

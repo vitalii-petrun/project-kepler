@@ -19,4 +19,11 @@ class PadLocation {
     this.totalLaunchCount,
     this.totalLandingCount,
   );
+
+  /// Creates empty [PadLocation] object.
+  PadLocation.empty()
+      : id = 0,
+        name = '',
+        totalLaunchCount = 0,
+        totalLandingCount = 0;
 }
