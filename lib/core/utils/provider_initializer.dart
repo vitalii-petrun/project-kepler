@@ -8,7 +8,9 @@ import 'package:project_kepler/data/repositories/api_repository_impl.dart';
 import 'package:project_kepler/data/repositories/article_repository_impl.dart';
 import 'package:project_kepler/data/repositories/chat_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
+import 'package:project_kepler/domain/converters/agency_converter.dart';
 import 'package:project_kepler/domain/converters/article_converter.dart';
+import 'package:project_kepler/domain/converters/event_converter.dart';
 import 'package:project_kepler/domain/converters/launch_converter.dart';
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart';
 import 'package:project_kepler/domain/use_cases/fetch_blogs_use_case.dart';
@@ -47,7 +49,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 class ProviderInitializer {
-  /// Service locator for the app
+  /// Service Locator.
   static List<SingleChildWidget> initializeProviders(ApiClient apiClient,
       ApiClient newsApiClient, AuthenticationCubit authenticationCubit) {
     return [
@@ -55,15 +57,20 @@ class ProviderInitializer {
       ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
       BlocProvider(
         create: (context) => LaunchesPageCubit(GetAllLaunchesUseCase(
-            ApiRepositoryImpl(apiClient), languageDetectionService)),
+            ApiRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
+            languageDetectionService)),
       ),
       BlocProvider(
         create: (context) => LaunchDetailsPageCubit(GetLaunchDetailsUseCase(
-            ApiRepositoryImpl(apiClient), languageDetectionService)),
+            ApiRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
+            languageDetectionService)),
       ),
       BlocProvider(
-        create: (context) => UpcomingLaunchesCubit(
-            GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient))),
+        create: (context) => UpcomingLaunchesCubit(GetUpcomingLaunchesUseCase(
+            ApiRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()))),
       ),
       BlocProvider(
           create: (context) =>
@@ -100,7 +107,12 @@ class ProviderInitializer {
       BlocProvider(
           create: (context) => EventsCubit(
                 GetAllEventsUseCase(
-                    ApiRepositoryImpl(apiClient), languageDetectionService),
+                    ApiRepositoryImpl(
+                        apiClient,
+                        LaunchDtoToEntityConverter(),
+                        EventDtoToEntityConverter(),
+                        AgencyDtoToEntityConverter()),
+                    languageDetectionService),
               )),
       BlocProvider(create: (context) => UsersPageCubit()),
       BlocProvider(
@@ -112,7 +124,11 @@ class ProviderInitializer {
         return FavoriteLaunchesCubit(
           fetchFavouriteLaunchesUseCase: FetchFavouriteLaunchesUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: ApiRepositoryImpl(apiClient),
+            apiRepository: ApiRepositoryImpl(
+                apiClient,
+                LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(),
+                AgencyDtoToEntityConverter()),
             languageDetectionService: languageDetectionService,
           ),
           setFavouriteLaunchUseCase: SetFavouriteLaunchUseCase(
@@ -129,7 +145,11 @@ class ProviderInitializer {
         return FavouriteEventsCubit(
           fetchFavouriteEventsUseCase: FetchFavouriteEventsUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: ApiRepositoryImpl(apiClient),
+            apiRepository: ApiRepositoryImpl(
+                apiClient,
+                LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(),
+                AgencyDtoToEntityConverter()),
             languageDetectionService: languageDetectionService,
           ),
           setFavouriteEventUseCase: SetFavouriteEventUseCase(
