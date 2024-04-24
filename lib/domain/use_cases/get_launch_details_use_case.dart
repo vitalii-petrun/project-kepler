@@ -1,13 +1,14 @@
-import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/domain/repositories/api_repository.dart';
+import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
-import '../../../data/repositories/api_repository_impl.dart';
 import '../../../domain/entities/launch.dart';
 import '../../../domain/entities/agency.dart';
 
 class GetLaunchDetailsUseCase {
-  final ApiRepositoryImpl repository;
+  final ApiRepository repository;
+  final LanguageDetectionService languageDetectionService;
 
-  GetLaunchDetailsUseCase(this.repository);
+  GetLaunchDetailsUseCase(this.repository, this.languageDetectionService);
 
   Future<LaunchDetailsResult> call(String id) async {
     final launch = await repository.getLaunchDetailsById(id);

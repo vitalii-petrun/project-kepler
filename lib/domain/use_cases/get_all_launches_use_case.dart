@@ -1,13 +1,14 @@
-import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/translatable.dart';
+import 'package:project_kepler/domain/repositories/api_repository.dart';
+import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
-import '../../data/repositories/api_repository_impl.dart';
 import '../entities/launch.dart';
 
 class GetAllLaunchesUseCase {
-  final ApiRepositoryImpl repository;
+  final ApiRepository repository;
+  final LanguageDetectionService languageDetectionService;
 
-  GetAllLaunchesUseCase(this.repository);
+  GetAllLaunchesUseCase(this.repository, this.languageDetectionService);
 
   Future<List<Launch>> call() async {
     final response = await repository.getLaunchList();

@@ -1,13 +1,13 @@
-import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/event.dart';
 import 'package:project_kepler/domain/entities/translatable.dart';
-
-import '../../data/repositories/api_repository_impl.dart';
+import 'package:project_kepler/domain/repositories/api_repository.dart';
+import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
 class GetAllEventsUseCase {
-  final ApiRepositoryImpl repository;
+  final ApiRepository repository;
+  final LanguageDetectionService languageDetectionService;
 
-  GetAllEventsUseCase(this.repository);
+  GetAllEventsUseCase(this.repository, this.languageDetectionService);
 
   Future<List<Event>> call() async {
     final response = await repository.getAllEvents();

@@ -1,11 +1,13 @@
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/article.dart';
 import 'package:project_kepler/domain/repositories/article_repository.dart';
+import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
 class FetchArticlesUseCase {
   final ArticleRepository repository;
+  final LanguageDetectionService languageDetectionService;
 
-  FetchArticlesUseCase(this.repository);
+  FetchArticlesUseCase(this.repository, this.languageDetectionService);
 
   Future<List<Article>> call() async {
     try {

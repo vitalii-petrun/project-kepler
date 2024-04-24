@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_kepler/core/global.dart';
 
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/data/repositories/api_repository_impl.dart';
@@ -46,23 +47,19 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 class ProviderInitializer {
+  /// Service locator for the app
   static List<SingleChildWidget> initializeProviders(ApiClient apiClient,
       ApiClient newsApiClient, AuthenticationCubit authenticationCubit) {
     return [
       ChangeNotifierProvider(create: ((_) => AppThemeProvider()..initialize())),
       ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
-      // BlocProvider(
-      //     create: (context) => HomePageCubit(
-      //         GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient)),
-      //         GetAllEventsUseCase(ApiRepositoryImpl(apiClient)),
-      //         FetchArticlesUseCase(ArticleRepositoryImpl(newsApiClient)))),
       BlocProvider(
-        create: (context) => LaunchesPageCubit(
-            GetAllLaunchesUseCase(ApiRepositoryImpl(apiClient))),
+        create: (context) => LaunchesPageCubit(GetAllLaunchesUseCase(
+            ApiRepositoryImpl(apiClient), languageDetectionService)),
       ),
       BlocProvider(
-        create: (context) => LaunchDetailsPageCubit(
-            GetLaunchDetailsUseCase(ApiRepositoryImpl(apiClient))),
+        create: (context) => LaunchDetailsPageCubit(GetLaunchDetailsUseCase(
+            ApiRepositoryImpl(apiClient), languageDetectionService)),
       ),
       BlocProvider(
         create: (context) => UpcomingLaunchesCubit(
@@ -75,29 +72,35 @@ class ProviderInitializer {
         create: (context) => NewsCubit(
             fetchRecentArticlesUseCase: FetchArticlesUseCase(
                 ArticleRepositoryImpl(
-                    newsApiClient, ArticleDtoToEntityConverter()))),
+                    newsApiClient, ArticleDtoToEntityConverter()),
+                languageDetectionService)),
       ),
       BlocProvider(
         create: (context) => NasaNewsCubit(
           fetchNasaArticlesUseCase: FetchNasaArticlesUseCase(
               ArticleRepositoryImpl(
-                  newsApiClient, ArticleDtoToEntityConverter())),
+                  newsApiClient, ArticleDtoToEntityConverter()),
+              languageDetectionService),
         ),
       ),
       BlocProvider(
           create: (context) => SpaceXNewsCubit(
                 fetchSpaceXArticlesUseCase: FetchSpaceXArticlesUseCase(
                     ArticleRepositoryImpl(
-                        newsApiClient, ArticleDtoToEntityConverter())),
+                        newsApiClient, ArticleDtoToEntityConverter()),
+                    languageDetectionService),
               )),
       BlocProvider(
         create: (context) => BlogsCubit(
-            fetchBlogsUseCase: FetchBlogsUseCase(ArticleRepositoryImpl(
-                newsApiClient, ArticleDtoToEntityConverter()))),
+            fetchBlogsUseCase: FetchBlogsUseCase(
+                ArticleRepositoryImpl(
+                    newsApiClient, ArticleDtoToEntityConverter()),
+                languageDetectionService)),
       ),
       BlocProvider(
           create: (context) => EventsCubit(
-                GetAllEventsUseCase(ApiRepositoryImpl(apiClient)),
+                GetAllEventsUseCase(
+                    ApiRepositoryImpl(apiClient), languageDetectionService),
               )),
       BlocProvider(create: (context) => UsersPageCubit()),
       BlocProvider(
@@ -110,6 +113,7 @@ class ProviderInitializer {
           fetchFavouriteLaunchesUseCase: FetchFavouriteLaunchesUseCase(
             firestore: FirebaseFirestore.instance,
             apiRepository: ApiRepositoryImpl(apiClient),
+            languageDetectionService: languageDetectionService,
           ),
           setFavouriteLaunchUseCase: SetFavouriteLaunchUseCase(
             firestore: FirebaseFirestore.instance,
@@ -126,6 +130,7 @@ class ProviderInitializer {
           fetchFavouriteEventsUseCase: FetchFavouriteEventsUseCase(
             firestore: FirebaseFirestore.instance,
             apiRepository: ApiRepositoryImpl(apiClient),
+            languageDetectionService: languageDetectionService,
           ),
           setFavouriteEventUseCase: SetFavouriteEventUseCase(
             firestore: FirebaseFirestore.instance,
