@@ -7,6 +7,7 @@ import 'package:project_kepler/data/repositories/api_repository_impl.dart';
 import 'package:project_kepler/data/repositories/article_repository_impl.dart';
 import 'package:project_kepler/data/repositories/chat_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
+import 'package:project_kepler/domain/converters/article_converter.dart';
 import 'package:project_kepler/domain/converters/launch_converter.dart';
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart';
 import 'package:project_kepler/domain/use_cases/fetch_blogs_use_case.dart';
@@ -72,25 +73,27 @@ class ProviderInitializer {
               FriendsPageCubit(FetchFriendsUseCase(FirestoreUserRepository()))),
       BlocProvider(
         create: (context) => NewsCubit(
-          fetchRecentArticlesUseCase:
-              FetchArticlesUseCase(ArticleRepositoryImpl(newsApiClient)),
-        ),
+            fetchRecentArticlesUseCase: FetchArticlesUseCase(
+                ArticleRepositoryImpl(
+                    newsApiClient, ArticleDtoToEntityConverter()))),
       ),
       BlocProvider(
         create: (context) => NasaNewsCubit(
-          fetchNasaArticlesUseCase:
-              FetchNasaArticlesUseCase(ArticleRepositoryImpl(newsApiClient)),
+          fetchNasaArticlesUseCase: FetchNasaArticlesUseCase(
+              ArticleRepositoryImpl(
+                  newsApiClient, ArticleDtoToEntityConverter())),
         ),
       ),
       BlocProvider(
           create: (context) => SpaceXNewsCubit(
                 fetchSpaceXArticlesUseCase: FetchSpaceXArticlesUseCase(
-                    ArticleRepositoryImpl(newsApiClient)),
+                    ArticleRepositoryImpl(
+                        newsApiClient, ArticleDtoToEntityConverter())),
               )),
       BlocProvider(
         create: (context) => BlogsCubit(
-            fetchBlogsUseCase:
-                FetchBlogsUseCase(ArticleRepositoryImpl(newsApiClient))),
+            fetchBlogsUseCase: FetchBlogsUseCase(ArticleRepositoryImpl(
+                newsApiClient, ArticleDtoToEntityConverter()))),
       ),
       BlocProvider(
           create: (context) => EventsCubit(

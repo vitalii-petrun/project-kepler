@@ -1,23 +1,29 @@
 import 'package:project_kepler/core/global.dart';
-import 'package:project_kepler/domain/entities/translatable.dart';
-
-import '../../data/repositories/article_repository_impl.dart';
-import '../entities/article.dart';
+import 'package:project_kepler/domain/entities/article.dart';
+import 'package:project_kepler/domain/repositories/article_repository.dart';
 
 class FetchArticlesUseCase {
-  final ArticleRepositoryImpl repository;
+  final ArticleRepository repository;
 
   FetchArticlesUseCase(this.repository);
 
   Future<List<Article>> call() async {
-    final response = await repository.fetchArticles();
-
-    List<Translatable> translatedArticles = [];
-    for (var article in response) {
-      translatedArticles
-          .add(await languageDetectionService.translateIfNecessary(article));
+    try {
+      final articles = await repository.fetchArticles();
+      return await _translateArticlesIfNeeded(articles);
+    } catch (e) {
+      logger.e('Error fetching articles: $e');
+      rethrow;
     }
+  }
 
-    return translatedArticles.cast<Article>();
+  Future<List<Article>> _translateArticlesIfNeeded(
+      List<Article> articles) async {
+    List<Article> translatedArticles = [];
+    for (var article in articles) {
+      translatedArticles.add(await languageDetectionService
+          .translateIfNecessary(article) as Article);
+    }
+    return translatedArticles;
   }
 }

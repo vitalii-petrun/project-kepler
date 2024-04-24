@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-
 import 'package:project_kepler/data/repositories/api_repository_impl.dart';
+
 import 'package:project_kepler/domain/repositories/api_repository.dart';
 
 @GenerateNiceMocks([MockSpec<ApiRepositoryImpl>()])
