@@ -8,10 +8,12 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:dio/dio.dart' as _i3;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import '../../domain/converters/launch_converter.dart' as _i3;
+import '../../data/data%20sources/remote/api_client.dart' as _i4;
+import 'modules/api_client_module.dart' as _i5;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i1.GetIt $configureDependencies(
@@ -24,7 +26,10 @@ _i1.GetIt $configureDependencies(
     environment,
     environmentFilter,
   );
-  gh.factory<_i3.LaunchDtoToEntityConverter>(
-      () => _i3.LaunchDtoToEntityConverter());
+  final apiClientModule = _$ApiClientModule();
+  gh.singleton<_i3.Dio>(() => apiClientModule.dio);
+  gh.singleton<_i4.ApiClient>(() => apiClientModule.apiClient(gh<_i3.Dio>()));
   return getIt;
 }
+
+class _$ApiClientModule extends _i5.ApiClientModule {}

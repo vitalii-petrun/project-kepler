@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/data/models/event2_dto.dart';
+import 'package:project_kepler/data/models/launch_dto.dart';
 import 'package:project_kepler/domain/converters/agency_converter.dart';
 import 'package:project_kepler/domain/converters/event_converter.dart';
 import 'package:project_kepler/domain/converters/launch_converter.dart';
@@ -23,24 +25,22 @@ class ApiRepositoryImpl implements ApiRepository {
       this._eventConverter, this._agencyConverter);
 
   @override
-  Future<List<Launch>> getLaunchList() async =>
-      _fetchItems('/launch/', _launchConverter);
+  Future<List<Launch>> getLaunchList() async => _fetchLaunches('/launch/');
 
   @override
   Future<List<Launch>> getUpcomingLaunchList() async =>
-      _fetchItems('/launch/upcoming/', _launchConverter);
+      _fetchLaunches('/launch/upcoming/');
 
   @override
-  Future<List<Event>> getAllEvents() async =>
-      _fetchItems('/event/', _eventConverter);
+  Future<List<Event>> getAllEvents() async => _fetchEvents('/event/');
 
   @override
   Future<Event> getEventById(String id) async =>
-      (await _fetchItems('/event/$id/', _eventConverter)).first;
+      (await _fetchEvents('/event/$id/')).first;
 
   @override
   Future<Launch> getLaunchDetailsById(String id) async {
-    final launch = await _fetchItems('/launch/$id/', _launchConverter);
+    final launch = await _fetchLaunches('/launch/$id/');
     return launch.first;
   }
 
@@ -59,14 +59,40 @@ class ApiRepositoryImpl implements ApiRepository {
     }
   }
 
-  Future<List<T>> _fetchItems<T>(
-      String endpoint, Converter<dynamic, T> converter) async {
+  // Future<List<T>> _fetchItems<T>(
+  //     String endpoint, Converter<dynamic, T> converter) async {
+  //   try {
+  //     final response = await _apiClient.get(endpoint);
+  //     final itemList = (response.data["results"] as List)
+  //         .map((item) => converter.convert(item))
+  //         .toList();
+  //     return itemList;
+  //   } catch (e) {
+  //     logger.e('Failed to fetch data: $e');
+  //     throw Exception('Failed to fetch data: $e');
+  //   }
+  // }
+
+  Future<List<Launch>> _fetchLaunches(String endpoint) async {
     try {
       final response = await _apiClient.get(endpoint);
-      final itemList = (response.data["results"] as List)
-          .map((item) => converter.convert(item))
+      final launchDtoList = (response.data["results"] as List)
+          .map((item) => LaunchDTO.fromJson(item))
           .toList();
-      return itemList;
+      return launchDtoList.map(_launchConverter.convert).toList();
+    } catch (e) {
+      logger.e('Failed to fetch data: $e');
+      throw Exception('Failed to fetch data: $e');
+    }
+  }
+
+  Future<List<Event>> _fetchEvents(String endpoint) async {
+    try {
+      final response = await _apiClient.get(endpoint);
+      final eventDtoList = (response.data["results"] as List)
+          .map((item) => EventDTO.fromJson(item))
+          .toList();
+      return eventDtoList.map(_eventConverter.convert).toList();
     } catch (e) {
       logger.e('Failed to fetch data: $e');
       throw Exception('Failed to fetch data: $e');

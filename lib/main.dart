@@ -22,10 +22,10 @@ late final AppRouter appRouter;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
+  configureDependencies();
   OpenAI.apiKey = dotenv.env['OPENAI_API_KEY']!;
 
   appRouter = AppRouter();
