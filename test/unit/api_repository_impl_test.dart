@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/data/repositories/api_repository_impl.dart';
@@ -14,8 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:project_kepler/domain/repositories/api_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-@GenerateNiceMocks([MockSpec<ApiRepositoryImpl>()])
-import 'api_repository_impl_test.mocks.dart';
+import '../helpers/test_helpers.mocks.dart';
 
 void main() {
   late ApiRepository apiRepositoryImpl;
@@ -26,7 +24,7 @@ void main() {
     await locator.reset();
     await dotenv.load();
     await configureDependencies();
-    apiRepositoryImpl = MockApiRepositoryImpl();
+    apiRepositoryImpl = MockApiRepository();
     realApiRepositoryImpl = ApiRepositoryImpl(
       locator<ApiClient>(),
       LaunchDtoToEntityConverter(),

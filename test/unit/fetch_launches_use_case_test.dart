@@ -1,17 +1,21 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/launch.dart';
 import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart';
-import 'package:mockito/annotations.dart';
 
-import 'fetch_launches_use_case_test.mocks.dart';
+import '../helpers/test_helpers.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<GetAllLaunchesUseCase>()])
 void main() {
   late GetAllLaunchesUseCase fetchLaunchesUseCase;
+  late MockApiRepository apiRepository;
 
   setUp(() {
-    fetchLaunchesUseCase = MockGetAllLaunchesUseCase();
+    apiRepository = MockApiRepository();
+    fetchLaunchesUseCase = GetAllLaunchesUseCase(
+      apiRepository,
+      languageDetectionService,
+    );
   });
 
   group('FetchLaunchesUseCase', () {

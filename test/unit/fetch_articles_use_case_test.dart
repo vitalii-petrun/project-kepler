@@ -1,11 +1,10 @@
-@GenerateNiceMocks([MockSpec<FetchArticlesUseCase>()])
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
+
 import 'package:mockito/mockito.dart';
 import 'package:project_kepler/domain/entities/article.dart';
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart';
 
-import 'fetch_articles_use_case_test.mocks.dart';
+import '../helpers/test_helpers.mocks.dart';
 
 void main() {
   late FetchArticlesUseCase fetchArticlesUseCase;
