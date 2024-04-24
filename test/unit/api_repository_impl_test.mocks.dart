@@ -3,17 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
+import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:project_kepler/data/repositories/api_repository_impl.dart'
-    as _i7;
-import 'package:project_kepler/domain/converters/agency_converter.dart' as _i3;
-import 'package:project_kepler/domain/converters/event_converter.dart' as _i4;
-import 'package:project_kepler/domain/converters/launch_converter.dart' as _i2;
-import 'package:project_kepler/domain/entities/agency.dart' as _i9;
-import 'package:project_kepler/domain/entities/event.dart' as _i5;
-import 'package:project_kepler/domain/entities/launch.dart' as _i6;
+    as _i4;
+import 'package:project_kepler/domain/entities/agency.dart' as _i6;
+import 'package:project_kepler/domain/entities/event.dart' as _i2;
+import 'package:project_kepler/domain/entities/launch.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -28,9 +25,8 @@ import 'package:project_kepler/domain/entities/launch.dart' as _i6;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeLaunchDtoToEntityConverter_0 extends _i1.SmartFake
-    implements _i2.LaunchDtoToEntityConverter {
-  _FakeLaunchDtoToEntityConverter_0(
+class _FakeEvent_0 extends _i1.SmartFake implements _i2.Event {
+  _FakeEvent_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -39,40 +35,8 @@ class _FakeLaunchDtoToEntityConverter_0 extends _i1.SmartFake
         );
 }
 
-class _FakeAgencyDtoToEntityConverter_1 extends _i1.SmartFake
-    implements _i3.AgencyDtoToEntityConverter {
-  _FakeAgencyDtoToEntityConverter_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeEventDtoToEntityConverter_2 extends _i1.SmartFake
-    implements _i4.EventDtoToEntityConverter {
-  _FakeEventDtoToEntityConverter_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeEvent_3 extends _i1.SmartFake implements _i5.Event {
-  _FakeEvent_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeLaunch_4 extends _i1.SmartFake implements _i6.Launch {
-  _FakeLaunch_4(
+class _FakeLaunch_1 extends _i1.SmartFake implements _i3.Launch {
+  _FakeLaunch_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -84,134 +48,92 @@ class _FakeLaunch_4 extends _i1.SmartFake implements _i6.Launch {
 /// A class which mocks [ApiRepositoryImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiRepositoryImpl extends _i1.Mock implements _i7.ApiRepositoryImpl {
+class MockApiRepositoryImpl extends _i1.Mock implements _i4.ApiRepositoryImpl {
   @override
-  _i2.LaunchDtoToEntityConverter get launchDtoToEntityConverter =>
-      (super.noSuchMethod(
-        Invocation.getter(#launchDtoToEntityConverter),
-        returnValue: _FakeLaunchDtoToEntityConverter_0(
-          this,
-          Invocation.getter(#launchDtoToEntityConverter),
-        ),
-        returnValueForMissingStub: _FakeLaunchDtoToEntityConverter_0(
-          this,
-          Invocation.getter(#launchDtoToEntityConverter),
-        ),
-      ) as _i2.LaunchDtoToEntityConverter);
-
-  @override
-  _i3.AgencyDtoToEntityConverter get agencyDtoToEntityConverter =>
-      (super.noSuchMethod(
-        Invocation.getter(#agencyDtoToEntityConverter),
-        returnValue: _FakeAgencyDtoToEntityConverter_1(
-          this,
-          Invocation.getter(#agencyDtoToEntityConverter),
-        ),
-        returnValueForMissingStub: _FakeAgencyDtoToEntityConverter_1(
-          this,
-          Invocation.getter(#agencyDtoToEntityConverter),
-        ),
-      ) as _i3.AgencyDtoToEntityConverter);
-
-  @override
-  _i4.EventDtoToEntityConverter get eventDtoToEntityConverter =>
-      (super.noSuchMethod(
-        Invocation.getter(#eventDtoToEntityConverter),
-        returnValue: _FakeEventDtoToEntityConverter_2(
-          this,
-          Invocation.getter(#eventDtoToEntityConverter),
-        ),
-        returnValueForMissingStub: _FakeEventDtoToEntityConverter_2(
-          this,
-          Invocation.getter(#eventDtoToEntityConverter),
-        ),
-      ) as _i4.EventDtoToEntityConverter);
-
-  @override
-  _i8.Future<List<_i6.Launch>> getLaunchList() => (super.noSuchMethod(
+  _i5.Future<List<_i3.Launch>> getLaunchList() => (super.noSuchMethod(
         Invocation.method(
           #getLaunchList,
           [],
         ),
-        returnValue: _i8.Future<List<_i6.Launch>>.value(<_i6.Launch>[]),
+        returnValue: _i5.Future<List<_i3.Launch>>.value(<_i3.Launch>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i6.Launch>>.value(<_i6.Launch>[]),
-      ) as _i8.Future<List<_i6.Launch>>);
+            _i5.Future<List<_i3.Launch>>.value(<_i3.Launch>[]),
+      ) as _i5.Future<List<_i3.Launch>>);
 
   @override
-  _i8.Future<List<_i6.Launch>> getUpcomingLaunchList() => (super.noSuchMethod(
+  _i5.Future<List<_i3.Launch>> getUpcomingLaunchList() => (super.noSuchMethod(
         Invocation.method(
           #getUpcomingLaunchList,
           [],
         ),
-        returnValue: _i8.Future<List<_i6.Launch>>.value(<_i6.Launch>[]),
+        returnValue: _i5.Future<List<_i3.Launch>>.value(<_i3.Launch>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i6.Launch>>.value(<_i6.Launch>[]),
-      ) as _i8.Future<List<_i6.Launch>>);
+            _i5.Future<List<_i3.Launch>>.value(<_i3.Launch>[]),
+      ) as _i5.Future<List<_i3.Launch>>);
 
   @override
-  _i8.Future<List<_i5.Event>> getAllEvents() => (super.noSuchMethod(
+  _i5.Future<List<_i2.Event>> getAllEvents() => (super.noSuchMethod(
         Invocation.method(
           #getAllEvents,
           [],
         ),
-        returnValue: _i8.Future<List<_i5.Event>>.value(<_i5.Event>[]),
+        returnValue: _i5.Future<List<_i2.Event>>.value(<_i2.Event>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i5.Event>>.value(<_i5.Event>[]),
-      ) as _i8.Future<List<_i5.Event>>);
+            _i5.Future<List<_i2.Event>>.value(<_i2.Event>[]),
+      ) as _i5.Future<List<_i2.Event>>);
 
   @override
-  _i8.Future<_i5.Event> getEventById(String? id) => (super.noSuchMethod(
+  _i5.Future<_i2.Event> getEventById(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getEventById,
           [id],
         ),
-        returnValue: _i8.Future<_i5.Event>.value(_FakeEvent_3(
+        returnValue: _i5.Future<_i2.Event>.value(_FakeEvent_0(
           this,
           Invocation.method(
             #getEventById,
             [id],
           ),
         )),
-        returnValueForMissingStub: _i8.Future<_i5.Event>.value(_FakeEvent_3(
+        returnValueForMissingStub: _i5.Future<_i2.Event>.value(_FakeEvent_0(
           this,
           Invocation.method(
             #getEventById,
             [id],
           ),
         )),
-      ) as _i8.Future<_i5.Event>);
+      ) as _i5.Future<_i2.Event>);
 
   @override
-  _i8.Future<_i6.Launch> getLaunchDetailsById(String? id) =>
+  _i5.Future<_i3.Launch> getLaunchDetailsById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getLaunchDetailsById,
           [id],
         ),
-        returnValue: _i8.Future<_i6.Launch>.value(_FakeLaunch_4(
+        returnValue: _i5.Future<_i3.Launch>.value(_FakeLaunch_1(
           this,
           Invocation.method(
             #getLaunchDetailsById,
             [id],
           ),
         )),
-        returnValueForMissingStub: _i8.Future<_i6.Launch>.value(_FakeLaunch_4(
+        returnValueForMissingStub: _i5.Future<_i3.Launch>.value(_FakeLaunch_1(
           this,
           Invocation.method(
             #getLaunchDetailsById,
             [id],
           ),
         )),
-      ) as _i8.Future<_i6.Launch>);
+      ) as _i5.Future<_i3.Launch>);
 
   @override
-  _i8.Future<_i9.Agency?> getAgencyById(int? id) => (super.noSuchMethod(
+  _i5.Future<_i6.Agency?> getAgencyById(int? id) => (super.noSuchMethod(
         Invocation.method(
           #getAgencyById,
           [id],
         ),
-        returnValue: _i8.Future<_i9.Agency?>.value(),
-        returnValueForMissingStub: _i8.Future<_i9.Agency?>.value(),
-      ) as _i8.Future<_i9.Agency?>);
+        returnValue: _i5.Future<_i6.Agency?>.value(),
+        returnValueForMissingStub: _i5.Future<_i6.Agency?>.value(),
+      ) as _i5.Future<_i6.Agency?>);
 }
