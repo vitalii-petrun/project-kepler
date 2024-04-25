@@ -3,20 +3,21 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i7;
+import 'dart:async' as _i8;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:project_kepler/domain/entities/agency.dart' as _i8;
-import 'package:project_kepler/domain/entities/article.dart' as _i10;
+import 'package:project_kepler/domain/entities/agency.dart' as _i9;
+import 'package:project_kepler/domain/entities/article.dart' as _i11;
 import 'package:project_kepler/domain/entities/event.dart' as _i3;
 import 'package:project_kepler/domain/entities/launch.dart' as _i2;
+import 'package:project_kepler/domain/entities/translatable.dart' as _i7;
 import 'package:project_kepler/domain/repositories/api_repository.dart' as _i6;
 import 'package:project_kepler/domain/repositories/article_repository.dart'
     as _i4;
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart'
-    as _i9;
+    as _i10;
 import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart'
-    as _i11;
+    as _i12;
 import 'package:project_kepler/presentation/utils/language_detection_service.dart'
     as _i5;
 
@@ -85,104 +86,114 @@ class _FakeApiRepository_4 extends _i1.SmartFake implements _i6.ApiRepository {
         );
 }
 
+class _FakeTranslatable_5 extends _i1.SmartFake implements _i7.Translatable {
+  _FakeTranslatable_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ApiRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockApiRepository extends _i1.Mock implements _i6.ApiRepository {
   @override
-  _i7.Future<List<_i2.Launch>> getUpcomingLaunchList() => (super.noSuchMethod(
+  _i8.Future<List<_i2.Launch>> getUpcomingLaunchList() => (super.noSuchMethod(
         Invocation.method(
           #getUpcomingLaunchList,
           [],
         ),
-        returnValue: _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+        returnValue: _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
         returnValueForMissingStub:
-            _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
-      ) as _i7.Future<List<_i2.Launch>>);
+            _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+      ) as _i8.Future<List<_i2.Launch>>);
 
   @override
-  _i7.Future<List<_i2.Launch>> getLaunchList() => (super.noSuchMethod(
+  _i8.Future<List<_i2.Launch>> getLaunchList() => (super.noSuchMethod(
         Invocation.method(
           #getLaunchList,
           [],
         ),
-        returnValue: _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+        returnValue: _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
         returnValueForMissingStub:
-            _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
-      ) as _i7.Future<List<_i2.Launch>>);
+            _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+      ) as _i8.Future<List<_i2.Launch>>);
 
   @override
-  _i7.Future<_i2.Launch> getLaunchDetailsById(String? id) =>
+  _i8.Future<_i2.Launch> getLaunchDetailsById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getLaunchDetailsById,
           [id],
         ),
-        returnValue: _i7.Future<_i2.Launch>.value(_FakeLaunch_0(
+        returnValue: _i8.Future<_i2.Launch>.value(_FakeLaunch_0(
           this,
           Invocation.method(
             #getLaunchDetailsById,
             [id],
           ),
         )),
-        returnValueForMissingStub: _i7.Future<_i2.Launch>.value(_FakeLaunch_0(
+        returnValueForMissingStub: _i8.Future<_i2.Launch>.value(_FakeLaunch_0(
           this,
           Invocation.method(
             #getLaunchDetailsById,
             [id],
           ),
         )),
-      ) as _i7.Future<_i2.Launch>);
+      ) as _i8.Future<_i2.Launch>);
 
   @override
-  _i7.Future<List<_i3.Event>> getAllEvents() => (super.noSuchMethod(
+  _i8.Future<List<_i3.Event>> getAllEvents() => (super.noSuchMethod(
         Invocation.method(
           #getAllEvents,
           [],
         ),
-        returnValue: _i7.Future<List<_i3.Event>>.value(<_i3.Event>[]),
+        returnValue: _i8.Future<List<_i3.Event>>.value(<_i3.Event>[]),
         returnValueForMissingStub:
-            _i7.Future<List<_i3.Event>>.value(<_i3.Event>[]),
-      ) as _i7.Future<List<_i3.Event>>);
+            _i8.Future<List<_i3.Event>>.value(<_i3.Event>[]),
+      ) as _i8.Future<List<_i3.Event>>);
 
   @override
-  _i7.Future<_i3.Event> getEventById(String? id) => (super.noSuchMethod(
+  _i8.Future<_i3.Event> getEventById(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getEventById,
           [id],
         ),
-        returnValue: _i7.Future<_i3.Event>.value(_FakeEvent_1(
+        returnValue: _i8.Future<_i3.Event>.value(_FakeEvent_1(
           this,
           Invocation.method(
             #getEventById,
             [id],
           ),
         )),
-        returnValueForMissingStub: _i7.Future<_i3.Event>.value(_FakeEvent_1(
+        returnValueForMissingStub: _i8.Future<_i3.Event>.value(_FakeEvent_1(
           this,
           Invocation.method(
             #getEventById,
             [id],
           ),
         )),
-      ) as _i7.Future<_i3.Event>);
+      ) as _i8.Future<_i3.Event>);
 
   @override
-  _i7.Future<_i8.Agency?> getAgencyById(int? id) => (super.noSuchMethod(
+  _i8.Future<_i9.Agency?> getAgencyById(int? id) => (super.noSuchMethod(
         Invocation.method(
           #getAgencyById,
           [id],
         ),
-        returnValue: _i7.Future<_i8.Agency?>.value(),
-        returnValueForMissingStub: _i7.Future<_i8.Agency?>.value(),
-      ) as _i7.Future<_i8.Agency?>);
+        returnValue: _i8.Future<_i9.Agency?>.value(),
+        returnValueForMissingStub: _i8.Future<_i9.Agency?>.value(),
+      ) as _i8.Future<_i9.Agency?>);
 }
 
 /// A class which mocks [FetchArticlesUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFetchArticlesUseCase extends _i1.Mock
-    implements _i9.FetchArticlesUseCase {
+    implements _i10.FetchArticlesUseCase {
   @override
   _i4.ArticleRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -211,22 +222,22 @@ class MockFetchArticlesUseCase extends _i1.Mock
       ) as _i5.LanguageDetectionService);
 
   @override
-  _i7.Future<List<_i10.Article>> call() => (super.noSuchMethod(
+  _i8.Future<List<_i11.Article>> call() => (super.noSuchMethod(
         Invocation.method(
           #call,
           [],
         ),
-        returnValue: _i7.Future<List<_i10.Article>>.value(<_i10.Article>[]),
+        returnValue: _i8.Future<List<_i11.Article>>.value(<_i11.Article>[]),
         returnValueForMissingStub:
-            _i7.Future<List<_i10.Article>>.value(<_i10.Article>[]),
-      ) as _i7.Future<List<_i10.Article>>);
+            _i8.Future<List<_i11.Article>>.value(<_i11.Article>[]),
+      ) as _i8.Future<List<_i11.Article>>);
 }
 
 /// A class which mocks [GetAllLaunchesUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetAllLaunchesUseCase extends _i1.Mock
-    implements _i11.GetAllLaunchesUseCase {
+    implements _i12.GetAllLaunchesUseCase {
   @override
   _i6.ApiRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -255,13 +266,43 @@ class MockGetAllLaunchesUseCase extends _i1.Mock
       ) as _i5.LanguageDetectionService);
 
   @override
-  _i7.Future<List<_i2.Launch>> call() => (super.noSuchMethod(
+  _i8.Future<List<_i2.Launch>> call() => (super.noSuchMethod(
         Invocation.method(
           #call,
           [],
         ),
-        returnValue: _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+        returnValue: _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
         returnValueForMissingStub:
-            _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
-      ) as _i7.Future<List<_i2.Launch>>);
+            _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+      ) as _i8.Future<List<_i2.Launch>>);
+}
+
+/// A class which mocks [LanguageDetectionService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLanguageDetectionService extends _i1.Mock
+    implements _i5.LanguageDetectionService {
+  @override
+  _i8.Future<_i7.Translatable> translateIfNecessary(_i7.Translatable? model) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #translateIfNecessary,
+          [model],
+        ),
+        returnValue: _i8.Future<_i7.Translatable>.value(_FakeTranslatable_5(
+          this,
+          Invocation.method(
+            #translateIfNecessary,
+            [model],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i8.Future<_i7.Translatable>.value(_FakeTranslatable_5(
+          this,
+          Invocation.method(
+            #translateIfNecessary,
+            [model],
+          ),
+        )),
+      ) as _i8.Future<_i7.Translatable>);
 }
