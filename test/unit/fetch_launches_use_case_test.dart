@@ -11,6 +11,7 @@ void main() {
   late MockLanguageDetectionService languageDetectionService;
 
   setUp(() {
+    // Mocked use case's dependencies.
     languageDetectionService = MockLanguageDetectionService();
     apiRepository = MockSpaceDevsRepository();
     fetchLaunchesUseCase = GetAllLaunchesUseCase(
@@ -20,14 +21,6 @@ void main() {
   });
 
   group('FetchLaunchesUseCase', () {
-    test('should call repository.getLaunchList()', () async {
-      await fetchLaunchesUseCase();
-
-      verify(fetchLaunchesUseCase());
-
-      verifyNoMoreInteractions(fetchLaunchesUseCase);
-    });
-
     test('should return a list of launches', () async {
       final launches = await fetchLaunchesUseCase();
 

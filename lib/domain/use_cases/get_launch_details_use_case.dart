@@ -1,4 +1,4 @@
-import 'package:project_kepler/domain/repositories/api_repository.dart';
+import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
 import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
 import '../../../domain/entities/launch.dart';

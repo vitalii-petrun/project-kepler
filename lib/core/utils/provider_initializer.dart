@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/global.dart';
 
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
-import 'package:project_kepler/data/repositories/api_repository_impl.dart';
+import 'package:project_kepler/data/repositories/space_devs_repository_impl.dart';
 import 'package:project_kepler/data/repositories/article_repository_impl.dart';
 import 'package:project_kepler/data/repositories/chat_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';

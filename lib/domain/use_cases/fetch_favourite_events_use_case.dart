@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/event.dart';
-import 'package:project_kepler/domain/repositories/api_repository.dart';
+import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
 import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
 class FetchFavouriteEventsUseCase {
