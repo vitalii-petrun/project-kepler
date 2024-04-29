@@ -7,12 +7,12 @@ import '../helpers/test_helpers.mocks.dart';
 
 void main() {
   late GetAllLaunchesUseCase fetchLaunchesUseCase;
-  late MockApiRepository apiRepository;
+  late MockSpaceDevsRepository apiRepository;
   late MockLanguageDetectionService languageDetectionService;
 
   setUp(() {
     languageDetectionService = MockLanguageDetectionService();
-    apiRepository = MockApiRepository();
+    apiRepository = MockSpaceDevsRepository();
     fetchLaunchesUseCase = GetAllLaunchesUseCase(
       apiRepository,
       languageDetectionService,

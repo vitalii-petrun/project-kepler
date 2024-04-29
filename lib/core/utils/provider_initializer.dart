@@ -57,19 +57,19 @@ class ProviderInitializer {
       ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
       BlocProvider(
         create: (context) => LaunchesPageCubit(GetAllLaunchesUseCase(
-            ApiRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+            SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
             languageDetectionService)),
       ),
       BlocProvider(
         create: (context) => LaunchDetailsPageCubit(GetLaunchDetailsUseCase(
-            ApiRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+            SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
             languageDetectionService)),
       ),
       BlocProvider(
         create: (context) => UpcomingLaunchesCubit(GetUpcomingLaunchesUseCase(
-            ApiRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+            SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(), AgencyDtoToEntityConverter()))),
       ),
       BlocProvider(
@@ -107,7 +107,7 @@ class ProviderInitializer {
       BlocProvider(
           create: (context) => EventsCubit(
                 GetAllEventsUseCase(
-                    ApiRepositoryImpl(
+                    SpaceDevsRepositoryImpl(
                         apiClient,
                         LaunchDtoToEntityConverter(),
                         EventDtoToEntityConverter(),
@@ -124,7 +124,7 @@ class ProviderInitializer {
         return FavoriteLaunchesCubit(
           fetchFavouriteLaunchesUseCase: FetchFavouriteLaunchesUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: ApiRepositoryImpl(
+            apiRepository: SpaceDevsRepositoryImpl(
                 apiClient,
                 LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(),
@@ -145,7 +145,7 @@ class ProviderInitializer {
         return FavouriteEventsCubit(
           fetchFavouriteEventsUseCase: FetchFavouriteEventsUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: ApiRepositoryImpl(
+            apiRepository: SpaceDevsRepositoryImpl(
                 apiClient,
                 LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(),

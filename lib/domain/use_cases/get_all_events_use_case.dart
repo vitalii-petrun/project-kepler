@@ -4,7 +4,7 @@ import 'package:project_kepler/domain/repositories/api_repository.dart';
 import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
 class GetAllEventsUseCase {
-  final ApiRepository repository;
+  final SpaceDevsRepository repository;
   final LanguageDetectionService languageDetectionService;
 
   GetAllEventsUseCase(this.repository, this.languageDetectionService);

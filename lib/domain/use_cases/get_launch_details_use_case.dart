@@ -5,7 +5,7 @@ import '../../../domain/entities/launch.dart';
 import '../../../domain/entities/agency.dart';
 
 class GetLaunchDetailsUseCase {
-  final ApiRepository repository;
+  final SpaceDevsRepository repository;
   final LanguageDetectionService languageDetectionService;
 
   GetLaunchDetailsUseCase(this.repository, this.languageDetectionService);

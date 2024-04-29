@@ -5,7 +5,7 @@ import 'package:project_kepler/domain/repositories/api_repository.dart';
 import '../entities/launch.dart';
 
 class GetUpcomingLaunchesUseCase {
-  final ApiRepository repository;
+  final SpaceDevsRepository repository;
 
   GetUpcomingLaunchesUseCase(this.repository);
 

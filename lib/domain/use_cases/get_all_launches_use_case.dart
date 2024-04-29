@@ -5,7 +5,7 @@ import 'package:project_kepler/presentation/utils/language_detection_service.dar
 import '../entities/launch.dart';
 
 class GetAllLaunchesUseCase {
-  final ApiRepository repository;
+  final SpaceDevsRepository repository;
   final LanguageDetectionService languageDetectionService;
 
   GetAllLaunchesUseCase(this.repository, this.languageDetectionService);

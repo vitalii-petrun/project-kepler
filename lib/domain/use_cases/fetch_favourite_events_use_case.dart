@@ -7,7 +7,7 @@ import 'package:project_kepler/presentation/utils/language_detection_service.dar
 class FetchFavouriteEventsUseCase {
   final FirebaseFirestore firestore;
   String? userId;
-  final ApiRepository apiRepository;
+  final SpaceDevsRepository apiRepository;
   final LanguageDetectionService languageDetectionService;
 
   FetchFavouriteEventsUseCase({

@@ -10,10 +10,11 @@ import 'package:project_kepler/domain/entities/agency.dart' as _i9;
 import 'package:project_kepler/domain/entities/article.dart' as _i11;
 import 'package:project_kepler/domain/entities/event.dart' as _i3;
 import 'package:project_kepler/domain/entities/launch.dart' as _i2;
-import 'package:project_kepler/domain/entities/translatable.dart' as _i7;
-import 'package:project_kepler/domain/repositories/api_repository.dart' as _i6;
+import 'package:project_kepler/domain/entities/translatable.dart' as _i6;
 import 'package:project_kepler/domain/repositories/article_repository.dart'
     as _i4;
+import 'package:project_kepler/domain/repositories/space_devs_repository.dart'
+    as _i7;
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart'
     as _i10;
 import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart'
@@ -76,8 +77,8 @@ class _FakeLanguageDetectionService_3 extends _i1.SmartFake
         );
 }
 
-class _FakeApiRepository_4 extends _i1.SmartFake implements _i6.ApiRepository {
-  _FakeApiRepository_4(
+class _FakeTranslatable_4 extends _i1.SmartFake implements _i6.Translatable {
+  _FakeTranslatable_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -86,20 +87,11 @@ class _FakeApiRepository_4 extends _i1.SmartFake implements _i6.ApiRepository {
         );
 }
 
-class _FakeTranslatable_5 extends _i1.SmartFake implements _i7.Translatable {
-  _FakeTranslatable_5(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-/// A class which mocks [ApiRepository].
+/// A class which mocks [SpaceDevsRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiRepository extends _i1.Mock implements _i6.ApiRepository {
+class MockSpaceDevsRepository extends _i1.Mock
+    implements _i7.SpaceDevsRepository {
   @override
   _i8.Future<List<_i2.Launch>> getUpcomingLaunchList() => (super.noSuchMethod(
         Invocation.method(
@@ -239,19 +231,6 @@ class MockFetchArticlesUseCase extends _i1.Mock
 class MockGetAllLaunchesUseCase extends _i1.Mock
     implements _i12.GetAllLaunchesUseCase {
   @override
-  _i6.ApiRepository get repository => (super.noSuchMethod(
-        Invocation.getter(#repository),
-        returnValue: _FakeApiRepository_4(
-          this,
-          Invocation.getter(#repository),
-        ),
-        returnValueForMissingStub: _FakeApiRepository_4(
-          this,
-          Invocation.getter(#repository),
-        ),
-      ) as _i6.ApiRepository);
-
-  @override
   _i5.LanguageDetectionService get languageDetectionService =>
       (super.noSuchMethod(
         Invocation.getter(#languageDetectionService),
@@ -283,13 +262,13 @@ class MockGetAllLaunchesUseCase extends _i1.Mock
 class MockLanguageDetectionService extends _i1.Mock
     implements _i5.LanguageDetectionService {
   @override
-  _i8.Future<_i7.Translatable> translateIfNecessary(_i7.Translatable? model) =>
+  _i8.Future<_i6.Translatable> translateIfNecessary(_i6.Translatable? model) =>
       (super.noSuchMethod(
         Invocation.method(
           #translateIfNecessary,
           [model],
         ),
-        returnValue: _i8.Future<_i7.Translatable>.value(_FakeTranslatable_5(
+        returnValue: _i8.Future<_i6.Translatable>.value(_FakeTranslatable_4(
           this,
           Invocation.method(
             #translateIfNecessary,
@@ -297,12 +276,12 @@ class MockLanguageDetectionService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i7.Translatable>.value(_FakeTranslatable_5(
+            _i8.Future<_i6.Translatable>.value(_FakeTranslatable_4(
           this,
           Invocation.method(
             #translateIfNecessary,
             [model],
           ),
         )),
-      ) as _i8.Future<_i7.Translatable>);
+      ) as _i8.Future<_i6.Translatable>);
 }

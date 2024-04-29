@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/data/models/event2_dto.dart';
 import 'package:project_kepler/data/models/launch_dto.dart';
@@ -10,18 +8,18 @@ import 'package:project_kepler/domain/entities/event.dart';
 
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
-import '../../domain/repositories/api_repository.dart';
+import '../../domain/repositories/space_devs_repository.dart';
 import '../data sources/remote/api_client.dart';
 import '../models/agency_dto.dart';
 
-class ApiRepositoryImpl implements ApiRepository {
+class SpaceDevsRepositoryImpl implements SpaceDevsRepository {
   final ApiClient _apiClient;
 
   final LaunchDtoToEntityConverter _launchConverter;
   final EventDtoToEntityConverter _eventConverter;
   final AgencyDtoToEntityConverter _agencyConverter;
 
-  ApiRepositoryImpl(this._apiClient, this._launchConverter,
+  SpaceDevsRepositoryImpl(this._apiClient, this._launchConverter,
       this._eventConverter, this._agencyConverter);
 
   @override

@@ -8,7 +8,7 @@ import '../entities/launch.dart';
 class FetchFavouriteLaunchesUseCase {
   final FirebaseFirestore firestore;
   String? userId;
-  final ApiRepository apiRepository;
+  final SpaceDevsRepository apiRepository;
   final LanguageDetectionService languageDetectionService;
 
   FetchFavouriteLaunchesUseCase({
