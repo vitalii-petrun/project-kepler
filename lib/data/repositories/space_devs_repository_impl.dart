@@ -33,13 +33,11 @@ class SpaceDevsRepositoryImpl implements SpaceDevsRepository {
   Future<List<Event>> getAllEvents() async => _fetchEvents('/event/');
 
   @override
-  Future<Event> getEventById(String id) async =>
-      (await _fetchEvents('/event/$id/')).first;
+  Future<Event> getEventById(String id) => _fetchEvent('/event/$id/');
 
   @override
   Future<Launch> getLaunchDetailsById(String id) async {
-    final launch = await _fetchLaunches('/launch/$id/');
-    return launch.first;
+    return _fetchLaunch('/launch/$id/');
   }
 
   @override
@@ -57,20 +55,6 @@ class SpaceDevsRepositoryImpl implements SpaceDevsRepository {
     }
   }
 
-  // Future<List<T>> _fetchItems<T>(
-  //     String endpoint, Converter<dynamic, T> converter) async {
-  //   try {
-  //     final response = await _apiClient.get(endpoint);
-  //     final itemList = (response.data["results"] as List)
-  //         .map((item) => converter.convert(item))
-  //         .toList();
-  //     return itemList;
-  //   } catch (e) {
-  //     logger.e('Failed to fetch data: $e');
-  //     throw Exception('Failed to fetch data: $e');
-  //   }
-  // }
-
   Future<List<Launch>> _fetchLaunches(String endpoint) async {
     try {
       final response = await _apiClient.get(endpoint);
@@ -84,6 +68,17 @@ class SpaceDevsRepositoryImpl implements SpaceDevsRepository {
     }
   }
 
+  Future<Launch> _fetchLaunch(String endpoint) async {
+    try {
+      final response = await _apiClient.get(endpoint);
+      final launchDto = LaunchDTO.fromJson(response.data);
+      return _launchConverter.convert(launchDto);
+    } catch (e) {
+      logger.e('Failed to fetch data: $e');
+      throw Exception('Failed to fetch data: $e');
+    }
+  }
+
   Future<List<Event>> _fetchEvents(String endpoint) async {
     try {
       final response = await _apiClient.get(endpoint);
@@ -91,6 +86,17 @@ class SpaceDevsRepositoryImpl implements SpaceDevsRepository {
           .map((item) => EventDTO.fromJson(item))
           .toList();
       return eventDtoList.map(_eventConverter.convert).toList();
+    } catch (e) {
+      logger.e('Failed to fetch data: $e');
+      throw Exception('Failed to fetch data: $e');
+    }
+  }
+
+  Future<Event> _fetchEvent(String endpoint) async {
+    try {
+      final response = await _apiClient.get(endpoint);
+      final eventDto = EventDTO.fromJson(response.data);
+      return _eventConverter.convert(eventDto);
     } catch (e) {
       logger.e('Failed to fetch data: $e');
       throw Exception('Failed to fetch data: $e');
