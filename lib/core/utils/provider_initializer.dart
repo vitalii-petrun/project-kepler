@@ -1,17 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_kepler/core/di/locator.dart';
 import 'package:project_kepler/core/global.dart';
-
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/data/repositories/space_devs_repository_impl.dart';
 import 'package:project_kepler/data/repositories/article_repository_impl.dart';
-import 'package:project_kepler/data/repositories/chat_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
 import 'package:project_kepler/domain/converters/agency_converter.dart';
 import 'package:project_kepler/domain/converters/article_converter.dart';
 import 'package:project_kepler/domain/converters/event_converter.dart';
 import 'package:project_kepler/domain/converters/launch_converter.dart';
+import 'package:project_kepler/domain/repositories/chat_repository.dart';
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart';
 import 'package:project_kepler/domain/use_cases/fetch_blogs_use_case.dart';
 import 'package:project_kepler/domain/use_cases/fetch_favourite_events_use_case.dart';
@@ -117,7 +116,7 @@ class ProviderInitializer {
       BlocProvider(create: (context) => UsersPageCubit()),
       BlocProvider(
         create: (context) => ChatCubit(GenerateChatResponseUseCase(
-          ChatRepositoryImpl(),
+          locator<ChatRepository>(),
         )),
       ),
       BlocProvider(create: (context) {

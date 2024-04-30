@@ -8,7 +8,7 @@ import 'package:project_kepler/presentation/utils/language_detection_service.dar
   MockSpec<SpaceDevsRepository>(),
   MockSpec<FetchArticlesUseCase>(),
   MockSpec<GetAllLaunchesUseCase>(),
-  MockSpec<LanguageDetectionService>()
+  MockSpec<LanguageDetectionService>(),
 ])
 
 // ignore: unused_import
