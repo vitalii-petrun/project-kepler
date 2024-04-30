@@ -51,7 +51,6 @@ void main() async {
       apiClient: apiClient,
       newsApiClient: newsApiClient,
       authenticationCubit: AuthenticationCubit(
-        //TODO: inject this
         signOutUseCase: SignOutUseCase(firebaseAuth: FirebaseAuth.instance),
         signInWithGoogleUseCase: SignInWithGoogleUseCase(
           firebaseAuth: FirebaseAuth.instance,
