@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/di/locator.dart';
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
-import 'package:project_kepler/data/repositories/space_devs_repository_impl.dart';
 import 'package:project_kepler/data/repositories/article_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
+import 'package:project_kepler/data/repositories/space_devs_repository_impl.dart';
 import 'package:project_kepler/domain/converters/agency_converter.dart';
 import 'package:project_kepler/domain/converters/article_converter.dart';
 import 'package:project_kepler/domain/converters/event_converter.dart';
@@ -46,6 +46,10 @@ import 'package:project_kepler/presentation/themes/app_theme_provider.dart';
 import 'package:project_kepler/presentation/themes/refresh_rate_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+
+// TODO: The method initializeProviders returns a list of providers with multiple instances of
+//  SpaceDevsRepositoryImpl  being created for different use cases. This approach
+//  is inefficient and goes against the principle of dependency injection, where a single instance should be reused.
 
 class ProviderInitializer {
   /// Service Locator.

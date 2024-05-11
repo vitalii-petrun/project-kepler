@@ -3,6 +3,8 @@ import 'package:project_kepler/domain/entities/article.dart';
 import 'package:project_kepler/domain/repositories/article_repository.dart';
 import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
+// TODO: The _translateArticlesIfNeeded function performs a potentially heavy operation within a loop and awaits each translation one by one,
+//which can be inefficient. Consider using  Future.wait to parallelize the translation tasks.
 class FetchArticlesUseCase {
   final ArticleRepository repository;
   final LanguageDetectionService languageDetectionService;

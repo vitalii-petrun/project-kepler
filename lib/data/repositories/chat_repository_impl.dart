@@ -59,7 +59,8 @@ class ChatRepositoryImpl implements ChatRepository {
       seed: 6,
       messages: requestMessages,
       temperature: 0.2,
-      maxTokens: int.parse(dotenv.env['MAX_TOKEN_PER_REQUEST']!),
+      maxTokens:
+          int.tryParse(dotenv.env['MAX_TOKEN_PER_REQUEST'] ?? '') ?? 1000,
     );
 
     final aiResponse = response.choices.first.message.content?.first.text;

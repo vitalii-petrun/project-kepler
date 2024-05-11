@@ -3,6 +3,10 @@ import 'package:project_kepler/domain/entities/translatable.dart';
 import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
 import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
+/// Use case for retrieving all events.
+///
+/// Utilizes [SpaceDevsRepository] for fetching events data and
+/// [LanguageDetectionService] for setting up appropriate language configurations.
 class GetAllEventsUseCase {
   final SpaceDevsRepository repository;
   final LanguageDetectionService languageDetectionService;

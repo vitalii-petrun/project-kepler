@@ -41,10 +41,10 @@ class ArticleRepositoryImpl implements ArticleRepository {
   Future<List<Article>> _fetchArticlesFromEndpoint(String endpoint) async {
     try {
       final response = await apiClient.get(endpoint);
-      final launchDtoList = (response.data["results"] as List)
+      final articleDtoList = (response.data["results"] as List)
           .map((item) => ArticleDTO.fromJson(item))
           .toList();
-      return launchDtoList.map(articleConverter.convert).toList();
+      return articleDtoList.map(articleConverter.convert).toList();
     } catch (e) {
       logger.e('Failed to fetch data: $e');
       throw Exception('Failed to fetch data: $e');
