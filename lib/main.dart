@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_kepler/core/application.dart';
 import 'package:project_kepler/core/di/configuration.dart';
 import 'package:project_kepler/core/di/locator.dart';
+import 'package:project_kepler/core/utils/notification_service.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/data/repositories/chat_repository_impl.dart';
 import 'package:project_kepler/domain/repositories/chat_repository.dart';
@@ -25,6 +26,7 @@ late final AppRouter appRouter;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await NotificationService().init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
   configureDependencies();

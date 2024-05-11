@@ -5,6 +5,19 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i8;
 
+import 'package:flutter_local_notifications/src/flutter_local_notifications_plugin.dart'
+    as _i13;
+import 'package:flutter_local_notifications/src/initialization_settings.dart'
+    as _i14;
+import 'package:flutter_local_notifications/src/notification_details.dart'
+    as _i16;
+import 'package:flutter_local_notifications/src/platform_specifics/android/schedule_mode.dart'
+    as _i19;
+import 'package:flutter_local_notifications/src/platform_specifics/ios/enums.dart'
+    as _i18;
+import 'package:flutter_local_notifications/src/types.dart' as _i20;
+import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
+    as _i15;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:project_kepler/domain/entities/agency.dart' as _i9;
 import 'package:project_kepler/domain/entities/article.dart' as _i11;
@@ -21,6 +34,7 @@ import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart'
     as _i12;
 import 'package:project_kepler/presentation/utils/language_detection_service.dart'
     as _i5;
+import 'package:timezone/timezone.dart' as _i17;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -278,6 +292,15 @@ class MockGetAllLaunchesUseCase extends _i1.Mock
         returnValueForMissingStub:
             _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
       ) as _i8.Future<List<_i2.Launch>>);
+
+  @override
+  void someFunction() => super.noSuchMethod(
+        Invocation.method(
+          #someFunction,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [LanguageDetectionService].
@@ -308,4 +331,189 @@ class MockLanguageDetectionService extends _i1.Mock
           ),
         )),
       ) as _i8.Future<_i7.Translatable>);
+}
+
+/// A class which mocks [FlutterLocalNotificationsPlugin].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFlutterLocalNotificationsPlugin extends _i1.Mock
+    implements _i13.FlutterLocalNotificationsPlugin {
+  @override
+  _i8.Future<bool?> initialize(
+    _i14.InitializationSettings? initializationSettings, {
+    _i15.DidReceiveNotificationResponseCallback?
+        onDidReceiveNotificationResponse,
+    _i15.DidReceiveBackgroundNotificationResponseCallback?
+        onDidReceiveBackgroundNotificationResponse,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #initialize,
+          [initializationSettings],
+          {
+            #onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+            #onDidReceiveBackgroundNotificationResponse:
+                onDidReceiveBackgroundNotificationResponse,
+          },
+        ),
+        returnValue: _i8.Future<bool?>.value(),
+        returnValueForMissingStub: _i8.Future<bool?>.value(),
+      ) as _i8.Future<bool?>);
+
+  @override
+  _i8.Future<_i15.NotificationAppLaunchDetails?>
+      getNotificationAppLaunchDetails() => (super.noSuchMethod(
+            Invocation.method(
+              #getNotificationAppLaunchDetails,
+              [],
+            ),
+            returnValue: _i8.Future<_i15.NotificationAppLaunchDetails?>.value(),
+            returnValueForMissingStub:
+                _i8.Future<_i15.NotificationAppLaunchDetails?>.value(),
+          ) as _i8.Future<_i15.NotificationAppLaunchDetails?>);
+
+  @override
+  _i8.Future<void> show(
+    int? id,
+    String? title,
+    String? body,
+    _i16.NotificationDetails? notificationDetails, {
+    String? payload,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #show,
+          [
+            id,
+            title,
+            body,
+            notificationDetails,
+          ],
+          {#payload: payload},
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> cancel(
+    int? id, {
+    String? tag,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cancel,
+          [id],
+          {#tag: tag},
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> cancelAll() => (super.noSuchMethod(
+        Invocation.method(
+          #cancelAll,
+          [],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> zonedSchedule(
+    int? id,
+    String? title,
+    String? body,
+    _i17.TZDateTime? scheduledDate,
+    _i16.NotificationDetails? notificationDetails, {
+    required _i18.UILocalNotificationDateInterpretation?
+        uiLocalNotificationDateInterpretation,
+    bool? androidAllowWhileIdle = false,
+    _i19.AndroidScheduleMode? androidScheduleMode,
+    String? payload,
+    _i20.DateTimeComponents? matchDateTimeComponents,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #zonedSchedule,
+          [
+            id,
+            title,
+            body,
+            scheduledDate,
+            notificationDetails,
+          ],
+          {
+            #uiLocalNotificationDateInterpretation:
+                uiLocalNotificationDateInterpretation,
+            #androidAllowWhileIdle: androidAllowWhileIdle,
+            #androidScheduleMode: androidScheduleMode,
+            #payload: payload,
+            #matchDateTimeComponents: matchDateTimeComponents,
+          },
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> periodicallyShow(
+    int? id,
+    String? title,
+    String? body,
+    _i15.RepeatInterval? repeatInterval,
+    _i16.NotificationDetails? notificationDetails, {
+    String? payload,
+    bool? androidAllowWhileIdle = false,
+    _i19.AndroidScheduleMode? androidScheduleMode,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #periodicallyShow,
+          [
+            id,
+            title,
+            body,
+            repeatInterval,
+            notificationDetails,
+          ],
+          {
+            #payload: payload,
+            #androidAllowWhileIdle: androidAllowWhileIdle,
+            #androidScheduleMode: androidScheduleMode,
+          },
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<List<_i15.PendingNotificationRequest>>
+      pendingNotificationRequests() => (super.noSuchMethod(
+            Invocation.method(
+              #pendingNotificationRequests,
+              [],
+            ),
+            returnValue:
+                _i8.Future<List<_i15.PendingNotificationRequest>>.value(
+                    <_i15.PendingNotificationRequest>[]),
+            returnValueForMissingStub:
+                _i8.Future<List<_i15.PendingNotificationRequest>>.value(
+                    <_i15.PendingNotificationRequest>[]),
+          ) as _i8.Future<List<_i15.PendingNotificationRequest>>);
+
+  @override
+  _i8.Future<List<_i15.ActiveNotification>> getActiveNotifications() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getActiveNotifications,
+          [],
+        ),
+        returnValue: _i8.Future<List<_i15.ActiveNotification>>.value(
+            <_i15.ActiveNotification>[]),
+        returnValueForMissingStub:
+            _i8.Future<List<_i15.ActiveNotification>>.value(
+                <_i15.ActiveNotification>[]),
+      ) as _i8.Future<List<_i15.ActiveNotification>>);
 }
