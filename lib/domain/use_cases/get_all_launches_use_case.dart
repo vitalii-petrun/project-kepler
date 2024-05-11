@@ -21,16 +21,7 @@ class GetAllLaunchesUseCase {
       translatedArticles
           .add(await languageDetectionService.translateIfNecessary(article));
     }
-    someFunction();
-    return translatedArticles.cast<Launch>();
-  }
 
-  void someFunction() {
-    logger.d('Some function called');
-    NotificationService().showNotification(
-      1,
-      "Space Launch Alert TEST",
-      "The Falcon 9 rocket will launch the Starlink 4-11 mission",
-    );
+    return translatedArticles.cast<Launch>();
   }
 }
