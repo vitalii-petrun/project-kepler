@@ -42,4 +42,15 @@ class RocketConfiguration {
     this.wikiUrl,
     this.imageURL,
   );
+
+  RocketConfiguration.empty()
+      : id = 0,
+        name = '',
+        family = '',
+        fullName = '',
+        variant = '',
+        manufacturer = null,
+        infoUrl = '',
+        wikiUrl = '',
+        imageURL = '';
 }

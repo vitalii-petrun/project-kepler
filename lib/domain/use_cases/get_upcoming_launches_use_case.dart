@@ -1,11 +1,11 @@
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/translatable.dart';
+import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
 
-import '../../data/repositories/api_repository_impl.dart';
 import '../entities/launch.dart';
 
 class GetUpcomingLaunchesUseCase {
-  final ApiRepositoryImpl repository;
+  final SpaceDevsRepository repository;
 
   GetUpcomingLaunchesUseCase(this.repository);
 

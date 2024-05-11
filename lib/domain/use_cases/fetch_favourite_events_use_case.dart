@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/event.dart';
-import 'package:project_kepler/domain/repositories/api_repository.dart';
+import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
+import 'package:project_kepler/presentation/utils/language_detection_service.dart';
 
 class FetchFavouriteEventsUseCase {
   final FirebaseFirestore firestore;
   String? userId;
-  final ApiRepository apiRepository;
+  final SpaceDevsRepository apiRepository;
+  final LanguageDetectionService languageDetectionService;
 
   FetchFavouriteEventsUseCase({
     this.userId,
     required this.firestore,
+    required this.languageDetectionService,
     required this.apiRepository,
   });
 

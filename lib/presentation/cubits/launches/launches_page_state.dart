@@ -1,6 +1,12 @@
+import 'package:equatable/equatable.dart';
 import 'package:project_kepler/domain/entities/launch.dart';
 
-abstract class LaunchesPageState {}
+abstract class LaunchesPageState extends Equatable {
+  const LaunchesPageState();
+
+  @override
+  List<Object> get props => [];
+}
 
 class LaunchesInit extends LaunchesPageState {}
 
@@ -8,11 +14,11 @@ class LaunchesLoading extends LaunchesPageState {}
 
 class LaunchesLoaded extends LaunchesPageState {
   final List<Launch> launches;
-  LaunchesLoaded(this.launches);
+  const LaunchesLoaded(this.launches);
 }
 
 class LaunchesError extends LaunchesPageState {
   final String message;
 
-  LaunchesError(this.message);
+  const LaunchesError(this.message);
 }

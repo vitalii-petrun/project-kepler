@@ -17,4 +17,11 @@ class Pad {
 
   /// Creates [Pad] object.
   Pad(this.id, this.agencyID, this.name, this.location);
+
+  /// Creates empty [Pad] object.
+  Pad.empty()
+      : id = 0,
+        agencyID = 0,
+        name = '',
+        location = PadLocation.empty();
 }

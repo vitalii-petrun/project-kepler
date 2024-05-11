@@ -3,8 +3,8 @@ import 'package:project_kepler/core/utils/translation_service.dart';
 import 'package:project_kepler/domain/entities/translatable.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
 
-/// Detects the language of the current locale and translates the model if needed.
 class LanguageDetectionService {
+  /// Detects the language of the current locale and translates the model if needed.
   final TranslationService _translationService;
   final LocaleProvider _localeProvider;
 

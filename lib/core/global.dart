@@ -5,6 +5,7 @@ import 'package:project_kepler/presentation/utils/language_detection_service.dar
 
 Logger logger = Logger();
 final localeProvider = LocaleProvider()..initialize();
+
 final translationService = TranslationService();
 final languageDetectionService =
     LanguageDetectionService(translationService, localeProvider);

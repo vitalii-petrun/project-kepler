@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:project_kepler/core/di/locator.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
-import 'package:project_kepler/data/repositories/api_repository_impl.dart';
 import 'package:project_kepler/data/repositories/article_repository_impl.dart';
-import 'package:project_kepler/data/repositories/chat_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
+import 'package:project_kepler/data/repositories/space_devs_repository_impl.dart';
+import 'package:project_kepler/domain/converters/agency_converter.dart';
+import 'package:project_kepler/domain/converters/article_converter.dart';
+import 'package:project_kepler/domain/converters/event_converter.dart';
 import 'package:project_kepler/domain/converters/launch_converter.dart';
+import 'package:project_kepler/domain/repositories/chat_repository.dart';
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart';
 import 'package:project_kepler/domain/use_cases/fetch_blogs_use_case.dart';
 import 'package:project_kepler/domain/use_cases/fetch_favourite_events_use_case.dart';
@@ -44,69 +47,92 @@ import 'package:project_kepler/presentation/themes/refresh_rate_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+// TODO: The method initializeProviders returns a list of providers with multiple instances of
+//  SpaceDevsRepositoryImpl  being created for different use cases. This approach
+//  is inefficient and goes against the principle of dependency injection, where a single instance should be reused.
+
 class ProviderInitializer {
+  /// Service Locator.
   static List<SingleChildWidget> initializeProviders(ApiClient apiClient,
       ApiClient newsApiClient, AuthenticationCubit authenticationCubit) {
     return [
       ChangeNotifierProvider(create: ((_) => AppThemeProvider()..initialize())),
       ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
-      // BlocProvider(
-      //     create: (context) => HomePageCubit(
-      //         GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient)),
-      //         GetAllEventsUseCase(ApiRepositoryImpl(apiClient)),
-      //         FetchArticlesUseCase(ArticleRepositoryImpl(newsApiClient)))),
       BlocProvider(
-        create: (context) => LaunchesPageCubit(
-            GetAllLaunchesUseCase(ApiRepositoryImpl(apiClient))),
+        create: (context) => LaunchesPageCubit(GetAllLaunchesUseCase(
+            SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
+            languageDetectionService)),
       ),
       BlocProvider(
-        create: (context) => LaunchDetailsPageCubit(
-            GetLaunchDetailsUseCase(ApiRepositoryImpl(apiClient))),
+        create: (context) => LaunchDetailsPageCubit(GetLaunchDetailsUseCase(
+            SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
+            languageDetectionService)),
       ),
       BlocProvider(
-        create: (context) => UpcomingLaunchesCubit(
-            GetUpcomingLaunchesUseCase(ApiRepositoryImpl(apiClient))),
+        create: (context) => UpcomingLaunchesCubit(GetUpcomingLaunchesUseCase(
+            SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()))),
       ),
       BlocProvider(
           create: (context) =>
               FriendsPageCubit(FetchFriendsUseCase(FirestoreUserRepository()))),
       BlocProvider(
         create: (context) => NewsCubit(
-          fetchRecentArticlesUseCase:
-              FetchArticlesUseCase(ArticleRepositoryImpl(newsApiClient)),
-        ),
+            fetchRecentArticlesUseCase: FetchArticlesUseCase(
+                ArticleRepositoryImpl(
+                    newsApiClient, ArticleDtoToEntityConverter()),
+                languageDetectionService)),
       ),
       BlocProvider(
         create: (context) => NasaNewsCubit(
-          fetchNasaArticlesUseCase:
-              FetchNasaArticlesUseCase(ArticleRepositoryImpl(newsApiClient)),
+          fetchNasaArticlesUseCase: FetchNasaArticlesUseCase(
+              ArticleRepositoryImpl(
+                  newsApiClient, ArticleDtoToEntityConverter()),
+              languageDetectionService),
         ),
       ),
       BlocProvider(
           create: (context) => SpaceXNewsCubit(
                 fetchSpaceXArticlesUseCase: FetchSpaceXArticlesUseCase(
-                    ArticleRepositoryImpl(newsApiClient)),
+                    ArticleRepositoryImpl(
+                        newsApiClient, ArticleDtoToEntityConverter()),
+                    languageDetectionService),
               )),
       BlocProvider(
         create: (context) => BlogsCubit(
-            fetchBlogsUseCase:
-                FetchBlogsUseCase(ArticleRepositoryImpl(newsApiClient))),
+            fetchBlogsUseCase: FetchBlogsUseCase(
+                ArticleRepositoryImpl(
+                    newsApiClient, ArticleDtoToEntityConverter()),
+                languageDetectionService)),
       ),
       BlocProvider(
           create: (context) => EventsCubit(
-                GetAllEventsUseCase(ApiRepositoryImpl(apiClient)),
+                GetAllEventsUseCase(
+                    SpaceDevsRepositoryImpl(
+                        apiClient,
+                        LaunchDtoToEntityConverter(),
+                        EventDtoToEntityConverter(),
+                        AgencyDtoToEntityConverter()),
+                    languageDetectionService),
               )),
       BlocProvider(create: (context) => UsersPageCubit()),
       BlocProvider(
         create: (context) => ChatCubit(GenerateChatResponseUseCase(
-          ChatRepositoryImpl(),
+          locator<ChatRepository>(),
         )),
       ),
       BlocProvider(create: (context) {
         return FavoriteLaunchesCubit(
           fetchFavouriteLaunchesUseCase: FetchFavouriteLaunchesUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: ApiRepositoryImpl(apiClient),
+            apiRepository: SpaceDevsRepositoryImpl(
+                apiClient,
+                LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(),
+                AgencyDtoToEntityConverter()),
+            languageDetectionService: languageDetectionService,
           ),
           setFavouriteLaunchUseCase: SetFavouriteLaunchUseCase(
             firestore: FirebaseFirestore.instance,
@@ -122,7 +148,12 @@ class ProviderInitializer {
         return FavouriteEventsCubit(
           fetchFavouriteEventsUseCase: FetchFavouriteEventsUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: ApiRepositoryImpl(apiClient),
+            apiRepository: SpaceDevsRepositoryImpl(
+                apiClient,
+                LaunchDtoToEntityConverter(),
+                EventDtoToEntityConverter(),
+                AgencyDtoToEntityConverter()),
+            languageDetectionService: languageDetectionService,
           ),
           setFavouriteEventUseCase: SetFavouriteEventUseCase(
             firestore: FirebaseFirestore.instance,

@@ -29,6 +29,17 @@ class Launch implements Translatable {
     this.image,
   );
 
+  Launch.empty()
+      : id = '',
+        name = '',
+        status = LaunchStatus.empty(),
+        net = '',
+        launchServiceProvider = LaunchServiceProvider.empty(),
+        rocket = Rocket.empty(),
+        mission = null,
+        pad = Pad.empty(),
+        image = '';
+
   @override
   Map<String, dynamic> getTranslatableFields() {
     return {

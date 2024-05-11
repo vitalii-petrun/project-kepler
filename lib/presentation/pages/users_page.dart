@@ -33,7 +33,7 @@ class _UsersPageState extends State<UsersPage> {
       extendBodyBehindAppBar: true,
       appBar: RoundedAppBar(
         leading: IconButton(
-          onPressed: () => context.router.pop(),
+          onPressed: () => context.router.maybePop(),
           icon: const Icon(Icons.arrow_back),
         ),
         title: Text(context.l10n.users),

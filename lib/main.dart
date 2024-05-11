@@ -1,5 +1,4 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:dart_openai/dart_openai.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_kepler/core/application.dart';
+import 'package:project_kepler/core/di/configuration.dart';
+import 'package:project_kepler/core/di/locator.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
+import 'package:project_kepler/data/repositories/chat_repository_impl.dart';
+import 'package:project_kepler/domain/repositories/chat_repository.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/navigation/app_router.dart';
 
@@ -24,7 +27,10 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await dotenv.load(fileName: ".env");
-  OpenAI.apiKey = dotenv.env['OPENAI_API_KEY']!;
+  configureDependencies();
+
+  final chatRepository = await ChatRepositoryImpl.create();
+  locator.registerSingleton<ChatRepository>(chatRepository);
 
   appRouter = AppRouter();
   Dio httpClient = Dio();
