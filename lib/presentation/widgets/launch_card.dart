@@ -314,7 +314,7 @@ class _BodySection extends StatelessWidget {
       child: Text(
         missionDescription == "?"
             ? context.l10n.noDescriptionProvided
-            : missionDescription!,
+            : missionDescription ?? context.l10n.noDescriptionProvided,
         style: context.theme.textTheme.bodyLarge?.copyWith(fontSize: 16),
         textAlign: TextAlign.justify,
         maxLines: isCompact ? 3 : 6,

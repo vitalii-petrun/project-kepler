@@ -107,16 +107,21 @@ class FavouritesPageState extends State<FavouritesPage>
     return BlocBuilder<FavouriteEventsCubit, FavouriteEventsState>(
       builder: (context, state) {
         if (state is FavouriteEventsLoaded) {
-          return ListView.builder(
-            itemCount: state.events.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: EventCard(
-                    event: state.events[index],
-                    eventId: state.events[index].id),
-              );
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<FavouriteEventsCubit>().fetchFavouriteEvents();
             },
+            child: ListView.builder(
+              itemCount: state.events.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: EventCard(
+                      event: state.events[index],
+                      eventId: state.events[index].id),
+                );
+              },
+            ),
           );
         } else if (state is FavouriteEventsError) {
           return Center(child: Text('Error: ${state.message}'));
@@ -130,14 +135,19 @@ class FavouritesPageState extends State<FavouritesPage>
     return BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
       builder: (context, state) {
         if (state is FavouriteLaunchesLoaded) {
-          return ListView.builder(
-            itemCount: state.launches.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: LaunchCard(launch: state.launches[index]),
-              );
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
             },
+            child: ListView.builder(
+              itemCount: state.launches.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: LaunchCard(launch: state.launches[index]),
+                );
+              },
+            ),
           );
         } else if (state is FavouriteLaunchesError) {
           return Center(child: Text('Error: ${state.message}'));

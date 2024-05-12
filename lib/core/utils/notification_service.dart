@@ -1,5 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:timezone/timezone.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   static final NotificationService _notificationService =
@@ -65,17 +67,23 @@ class NotificationService {
         priority: Priority.high,
       ),
     );
-
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      body,
-      scheduledDate,
-      notificationDetails,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-      payload: payload,
-    );
+    logger.d('Scheduling notification for launch $title at $scheduledDate');
+    logger.d('Current time: ${TZDateTime.now(tz.local)}');
+    try {
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        title,
+        body,
+        scheduledDate,
+        notificationDetails,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time,
+        payload: payload,
+      );
+      logger.d('Notification scheduled successfully');
+    } catch (e) {
+      logger.e('Failed to schedule notification: $e');
+    }
   }
 }
