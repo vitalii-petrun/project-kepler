@@ -68,7 +68,7 @@ class NotificationService {
       ),
     );
     logger.d('Scheduling notification for launch $title at $scheduledDate');
-    logger.d('Current time: ${TZDateTime.now(tz.local)}');
+
     try {
       await flutterLocalNotificationsPlugin.zonedSchedule(
         id,

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project_kepler/core/global.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:project_kepler/core/utils/notification_service.dart';
 
