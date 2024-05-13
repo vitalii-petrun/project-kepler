@@ -28,6 +28,7 @@ class _AnimatedHeartButtonState<T> extends State<AnimatedHeartButton<T>>
   @override
   void initState() {
     super.initState();
+    _isFavourite = widget.isFavourite;
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
