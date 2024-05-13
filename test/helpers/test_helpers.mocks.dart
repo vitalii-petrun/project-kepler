@@ -292,15 +292,6 @@ class MockGetAllLaunchesUseCase extends _i1.Mock
         returnValueForMissingStub:
             _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
       ) as _i8.Future<List<_i2.Launch>>);
-
-  @override
-  void someFunction() => super.noSuchMethod(
-        Invocation.method(
-          #someFunction,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
 }
 
 /// A class which mocks [LanguageDetectionService].

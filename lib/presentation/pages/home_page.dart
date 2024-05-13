@@ -3,15 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/core/global.dart';
-import 'package:project_kepler/domain/entities/launch_service_provider.dart';
-import 'package:project_kepler/domain/entities/launch_status.dart';
-import 'package:project_kepler/domain/entities/mission.dart';
-import 'package:project_kepler/domain/entities/pad.dart';
-import 'package:project_kepler/domain/entities/rocket.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_state.dart';
-import 'package:project_kepler/presentation/cubits/launches/launches_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
 import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
@@ -88,12 +82,11 @@ class _HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<LaunchesPageCubit>().fetch();
-        context.read<EventsCubit>().fetch();
-        context.read<NewsCubit>().fetchRecentArticles();
+        await context.read<UpcomingLaunchesCubit>().fetch();
+        await context.read<EventsCubit>().fetch();
+        await context.read<NewsCubit>().fetchRecentArticles();
       },
       child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
           child: Column(
@@ -153,6 +146,7 @@ class _HomeBody extends StatelessWidget {
               BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
                   builder: (context, state) {
                 if (state is LaunchesLoading) {
+                  logger.d('[State] Loading launches...');
                   return _LaunchesSection.loading();
                 } else if (state is LaunchesLoaded) {
                   return _LaunchesSection(

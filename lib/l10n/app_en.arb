@@ -107,6 +107,8 @@
   "tryOurAiChat": "Try our AI chat!",
   "you": "You",
   "orbit": "Orbit",
+  "noFavLaunches": "No favourite launches yet",
+  "noFavEvents": "No favourite events yet",
   "loginPromptFav": "Please log in to access your favourite events and launches.",
   "unlockFavs": "Unlock your Favourites!",
   "failedToLoadLaunches": "Failed to load launches",

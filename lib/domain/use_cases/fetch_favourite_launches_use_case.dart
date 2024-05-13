@@ -38,6 +38,6 @@ class FetchFavouriteLaunchesUseCase {
       launches.add(translatedLaunch as Launch);
     }
 
-    return launches;
+    return launches.reversed.toList();
   }
 }

@@ -39,18 +39,19 @@ class FavoriteLaunchesCubit extends Cubit<FavouriteLaunchesState> {
   }
 
   void toggleFavouriteLaunch(Launch launch) {
+    logger.d('Toggling favourite launch: ${launch.id}');
     var currentState = state;
     if (currentState is FavouriteLaunchesLoaded) {
-      var currentEvents = List<Launch>.from(currentState.launches);
-      bool isFavourite = currentEvents.any((e) => e.id == launch.id);
+      var currentLaunches = List<Launch>.from(currentState.launches);
+      bool isFavourite = currentLaunches.any((e) => e.id == launch.id);
 
       // Update the state optimistically
       if (isFavourite) {
-        currentEvents.removeWhere((e) => e.id == launch.id);
+        currentLaunches.removeWhere((e) => e.id == launch.id);
       } else {
-        currentEvents.add(launch);
+        currentLaunches.add(launch);
       }
-      emit(FavouriteLaunchesLoaded(currentEvents));
+      emit(FavouriteLaunchesLoaded(currentLaunches));
 
       // Perform the actual update asynchronously
       if (isFavourite) {
@@ -73,7 +74,6 @@ class FavoriteLaunchesCubit extends Cubit<FavouriteLaunchesState> {
   void setFavouriteLaunch(Launch launch) async {
     try {
       await setFavouriteLaunchUseCase(launch);
-      fetchFavouriteLaunches();
     } catch (e) {
       emit(FavouriteLaunchesError(e.toString()));
     }
@@ -82,9 +82,18 @@ class FavoriteLaunchesCubit extends Cubit<FavouriteLaunchesState> {
   void removeFavouriteLaunch(String launchId) async {
     try {
       await removeFavouriteLaunchUseCase(launchId);
-      fetchFavouriteLaunches();
     } catch (e) {
       emit(FavouriteLaunchesError(e.toString()));
     }
+  }
+
+  bool checkIfFavourite(Launch launch) {
+    var currentState = state;
+    if (currentState is FavouriteLaunchesLoaded) {
+      var currentLaunches = List<Launch>.from(currentState.launches);
+      bool isFavourite = currentLaunches.any((e) => e.id == launch.id);
+      return isFavourite;
+    }
+    return false;
   }
 }

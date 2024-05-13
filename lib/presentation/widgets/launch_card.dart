@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_launches_cubit.dart';
@@ -222,18 +223,6 @@ class _FooterSection extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  static bool _checkIfFavourite(Launch launch, List<Launch> launches) {
-    bool isFavourite = false;
-
-    for (Launch savedLaunch in launches) {
-      if (savedLaunch.id == launch.id) {
-        isFavourite = true;
-      }
-    }
-
-    return isFavourite;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -258,14 +247,25 @@ class _FooterSection extends StatelessWidget {
                 ),
               ),
             ),
-            BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
+            BlocConsumer<FavoriteLaunchesCubit, FavouriteLaunchesState>(
+              listener: (context, state) {
+                if (launch.id == "67152d83-c689-4cff-8330-b42c166049c9") {
+                  logger.d(
+                      '[LISTENER] 67152d83-c689-4cff-8330-b42c166049c9 TRIGGERED');
+                }
+              },
               builder: (context, state) {
                 if (context.watch<AuthenticationCubit>().state
                     is! Authenticated) {
                   return const SizedBox();
                 } else if (state is FavouriteLaunchesLoaded) {
-                  bool isFavorite = _checkIfFavourite(launch, state.launches);
-
+                  bool isFavorite = context
+                      .read<FavoriteLaunchesCubit>()
+                      .checkIfFavourite(launch);
+                  if (launch.id == "67152d83-c689-4cff-8330-b42c166049c9") {
+                    logger.d(
+                        '[LAUNCH CARD REBUILD] ${launch.id} isFavorite: $isFavorite');
+                  }
                   return AnimatedHeartButton<Launch>(
                     item: launch,
                     isFavourite: isFavorite,

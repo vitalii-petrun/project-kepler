@@ -8,7 +8,7 @@ class EventsCubit extends Cubit<EventsPageState> {
 
   EventsCubit(this.getAllEventsUseCase) : super(EventsInit());
 
-  void fetch() async {
+  Future<void> fetch() async {
     emit(EventsLoading());
     try {
       final events = await getAllEventsUseCase();

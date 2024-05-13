@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
 
 class AnimatedHeartButton<T> extends StatefulWidget {
   final T item;
@@ -22,12 +23,14 @@ class AnimatedHeartButton<T> extends StatefulWidget {
 class _AnimatedHeartButtonState<T> extends State<AnimatedHeartButton<T>>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  bool _isFavourite = false;
+  late bool _isFavourite;
   List<Particle> particles = [];
 
   @override
   void initState() {
     super.initState();
+    logger
+        .d("[AnimatedHeartButton] received isFavourite: ${widget.isFavourite}");
     _isFavourite = widget.isFavourite;
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
@@ -93,9 +96,11 @@ class _AnimatedHeartButtonState<T> extends State<AnimatedHeartButton<T>>
 
   @override
   Widget build(BuildContext context) {
+    _isFavourite = widget.isFavourite;
     return Stack(
       alignment: Alignment.center,
       children: [
+        Text("$_isFavourite"),
         CustomPaint(
           size: const Size(30, 30),
           painter: ParticlePainter(particles: particles),

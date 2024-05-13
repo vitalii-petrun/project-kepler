@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
@@ -104,56 +105,102 @@ class FavouritesPageState extends State<FavouritesPage>
   }
 
   Widget _buildEventsTab() {
-    return BlocBuilder<FavouriteEventsCubit, FavouriteEventsState>(
-      builder: (context, state) {
-        if (state is FavouriteEventsLoaded) {
-          return RefreshIndicator(
-            onRefresh: () async {
-              context.read<FavouriteEventsCubit>().fetchFavouriteEvents();
-            },
-            child: ListView.builder(
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
+      },
+      child: BlocBuilder<FavouriteEventsCubit, FavouriteEventsState>(
+        builder: (context, state) {
+          if (state is FavouriteEventsLoaded) {
+            if (state.events.isEmpty) {
+              return _EmptyFavItems(
+                title: context.l10n.noFavEvents,
+              );
+            }
+            return ListView.builder(
               itemCount: state.events.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: EventCard(
+                      key: ValueKey(state.events[index].id),
                       event: state.events[index],
                       eventId: state.events[index].id),
                 );
               },
-            ),
-          );
-        } else if (state is FavouriteEventsError) {
-          return Center(child: Text('Error: ${state.message}'));
-        }
-        return const Center(child: CircularProgressIndicator());
-      },
+            );
+          } else if (state is FavouriteEventsError) {
+            return Center(child: Text('Error: ${state.message}'));
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 
   Widget _buildLaunchesTab() {
-    return BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
-      builder: (context, state) {
-        if (state is FavouriteLaunchesLoaded) {
-          return RefreshIndicator(
-            onRefresh: () async {
-              context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
-            },
-            child: ListView.builder(
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
+      },
+      child: BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
+        builder: (context, state) {
+          if (state is FavouriteLaunchesLoaded) {
+            if (state.launches.isEmpty) {
+              return _EmptyFavItems(
+                title: context.l10n.noFavLaunches,
+              );
+            }
+            return ListView.builder(
               itemCount: state.launches.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: LaunchCard(launch: state.launches[index]),
+                  child: LaunchCard(
+                      key: ValueKey(state.launches[index].id),
+                      launch: state.launches[index]),
                 );
               },
+            );
+          } else if (state is FavouriteLaunchesError) {
+            return Center(child: Text('Error: ${state.message}'));
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
+  }
+}
+
+class _EmptyFavItems extends StatelessWidget {
+  final String title;
+
+  const _EmptyFavItems({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Lottie.asset(
+            'assets/lottie/empty.json',
+            height: 200,
+          ),
+          const SizedBox(height: 20),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
             ),
-          );
-        } else if (state is FavouriteLaunchesError) {
-          return Center(child: Text('Error: ${state.message}'));
-        }
-        return const Center(child: CircularProgressIndicator());
-      },
+          ),
+        ],
+      ),
     );
   }
 }

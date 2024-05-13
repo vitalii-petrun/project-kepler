@@ -2,6 +2,8 @@
   "uk": [
     "welcomeBack",
     "orbit",
+    "noFavLaunches",
+    "noFavEvents",
     "loginPromptFav",
     "unlockFavs"
   ]
