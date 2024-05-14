@@ -62,7 +62,7 @@ class FavoriteLaunchesCubit extends Cubit<FavouriteLaunchesState> {
     }
   }
 
-  void fetchFavouriteLaunches() async {
+  Future<void> fetchFavouriteLaunches() async {
     try {
       final launches = await fetchFavouriteLaunchesUseCase();
       emit(FavouriteLaunchesLoaded(launches));

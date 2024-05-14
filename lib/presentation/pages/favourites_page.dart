@@ -107,7 +107,7 @@ class FavouritesPageState extends State<FavouritesPage>
   Widget _buildEventsTab() {
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
+        await context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
       },
       child: BlocBuilder<FavouriteEventsCubit, FavouriteEventsState>(
         builder: (context, state) {
@@ -141,7 +141,7 @@ class FavouritesPageState extends State<FavouritesPage>
   Widget _buildLaunchesTab() {
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
+        await context.read<FavoriteLaunchesCubit>().fetchFavouriteLaunches();
       },
       child: BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
         builder: (context, state) {

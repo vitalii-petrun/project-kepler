@@ -100,7 +100,6 @@ class _AnimatedHeartButtonState<T> extends State<AnimatedHeartButton<T>>
     return Stack(
       alignment: Alignment.center,
       children: [
-        Text("$_isFavourite"),
         CustomPaint(
           size: const Size(30, 30),
           painter: ParticlePainter(particles: particles),
