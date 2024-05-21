@@ -1,24 +1,38 @@
-import 'package:project_kepler/domain/entities/translatable.dart';
-import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
-import 'package:project_kepler/presentation/utils/language_detection_service.dart';
+import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/domain/use_cases/locale_aware_use_case.dart';
+import 'package:project_kepler/l10n/locale_translation_service.dart';
 
 import '../entities/launch.dart';
 
-class GetAllLaunchesUseCase {
-  final SpaceDevsRepository repository;
-  final LanguageDetectionService languageDetectionService;
+import 'package:project_kepler/domain/entities/translatable.dart';
+import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
 
-  GetAllLaunchesUseCase(this.repository, this.languageDetectionService);
+class GetAllLaunchesUseCase extends LocaleAwareUseCase {
+  final SpaceDevsRepository repository;
+
+  GetAllLaunchesUseCase(
+      this.repository, LocaleTranslationService localeTranslationService)
+      : super(localeTranslationService);
 
   Future<List<Launch>> call() async {
     final response = await repository.getLaunchList();
+    return await _translateArticlesIfNeeded(response);
+  }
 
-    List<Translatable> translatedArticles = [];
-    for (var article in response) {
-      translatedArticles
-          .add(await languageDetectionService.translateIfNecessary(article));
-    }
+  Future<List<Launch>> _translateArticlesIfNeeded(
+      List<Translatable> articles) async {
+    return Future.wait(
+      articles.map((article) async {
+        return await localeTranslationService.translateIfNecessary(article)
+            as Launch;
+      }).toList(),
+    );
+  }
 
-    return translatedArticles.cast<Launch>();
+  @override
+  void onLocaleChanged() {
+    // Implement the logic that needs to be executed when the locale changes
+    logger.d("Locale changed [@override void onLocaleChanged()]");
+    call();
   }
 }

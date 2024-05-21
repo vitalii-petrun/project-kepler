@@ -1,28 +1,33 @@
 import 'package:project_kepler/domain/repositories/article_repository.dart';
-import 'package:project_kepler/presentation/utils/language_detection_service.dart';
+import 'package:project_kepler/domain/use_cases/locale_aware_use_case.dart';
+import 'package:project_kepler/l10n/locale_translation_service.dart';
 
 import '../entities/article.dart';
 
-class FetchBlogsUseCase {
+class FetchBlogsUseCase extends LocaleAwareUseCase {
   final ArticleRepository repository;
-  final LanguageDetectionService languageDetectionService;
 
-  FetchBlogsUseCase(this.repository, this.languageDetectionService);
+  FetchBlogsUseCase(
+      this.repository, LocaleTranslationService localeTranslationService)
+      : super(localeTranslationService);
 
   Future<List<Article>> call() async {
     final response = await repository.fetchBlogs();
-
-    final translatedArticles = await _translateArticlesIfNeeded(response);
-    return translatedArticles.cast<Article>();
+    return await _translateArticlesIfNeeded(response);
   }
 
   Future<List<Article>> _translateArticlesIfNeeded(
       List<Article> articles) async {
-    List<Article> translatedArticles = [];
-    for (var article in articles) {
-      translatedArticles.add(await languageDetectionService
-          .translateIfNecessary(article) as Article);
-    }
-    return translatedArticles;
+    return Future.wait(
+      articles.map((article) async {
+        return await localeTranslationService.translateIfNecessary(article)
+            as Article;
+      }).toList(),
+    );
+  }
+
+  @override
+  void onLocaleChanged() {
+    call();
   }
 }
