@@ -7,7 +7,7 @@ part of 'mission_dto.dart';
 // **************************************************************************
 
 MissionDTO _$MissionDTOFromJson(Map<String, dynamic> json) => MissionDTO(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['name'] as String,
       json['description'] as String,
       json['type'] as String,

@@ -7,8 +7,8 @@ part of 'pad_dto.dart';
 // **************************************************************************
 
 PadDTO _$PadDTOFromJson(Map<String, dynamic> json) => PadDTO(
-      json['id'] as int,
-      json['agency_id'] as int?,
+      (json['id'] as num).toInt(),
+      (json['agency_id'] as num?)?.toInt(),
       json['name'] as String,
       PadLocationDTO.fromJson(json['location'] as Map<String, dynamic>),
     );

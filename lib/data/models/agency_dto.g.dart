@@ -7,7 +7,7 @@ part of 'agency_dto.dart';
 // **************************************************************************
 
 AgencyDTO _$AgencyDTOFromJson(Map<String, dynamic> json) => AgencyDTO(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['name'] as String,
       json['abbrev'] as String,
       json['countryCode'] as String?,

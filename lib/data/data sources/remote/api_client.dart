@@ -11,7 +11,7 @@ class ApiClient {
   ApiClient(this._dio, this._baseUrl, {this.apiKey = ''}) {
     final sp = SharedPreferences.getInstance();
     sp.then((sharedPrefs) {
-      _dio.interceptors.add(CacheInterceptor(sharedPrefs));
+      // _dio.interceptors.add(CacheInterceptor(sharedPrefs));
     });
   }
 

@@ -8,7 +8,7 @@ part of 'expedition_dto.dart';
 
 ExpeditionDTO _$ExpeditionDTOFromJson(Map<String, dynamic> json) =>
     ExpeditionDTO(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       url: json['url'] as String,
       name: json['name'] as String,
       start: json['start'] as String,

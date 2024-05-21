@@ -8,7 +8,7 @@ part of 'space_station_dto.dart';
 
 SpaceStationDTO _$SpaceStationDTOFromJson(Map<String, dynamic> json) =>
     SpaceStationDTO(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       url: json['url'] as String,
       name: json['name'] as String,
       status: TypeDTO.fromJson(json['status'] as Map<String, dynamic>),

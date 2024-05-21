@@ -7,7 +7,7 @@ part of 'event2_dto.dart';
 // **************************************************************************
 
 EventDTO _$EventDTOFromJson(Map<String, dynamic> json) => EventDTO(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       url: json['url'] as String,
       slug: json['slug'] as String,
       name: json['name'] as String,
