@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/di/locator.dart';
 import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/core/utils/translation_service.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/data/repositories/article_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
@@ -28,6 +29,7 @@ import 'package:project_kepler/domain/use_cases/remove_favourite_launch_use_case
 import 'package:project_kepler/domain/use_cases/set_favourite_event_use_case.dart';
 import 'package:project_kepler/domain/use_cases/set_favourite_launch_use_case.dart';
 import 'package:project_kepler/l10n/locale_provider.dart';
+import 'package:project_kepler/l10n/locale_translation_service.dart';
 import 'package:project_kepler/presentation/cubits/ai_chat_page/ai_chat_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
@@ -52,28 +54,34 @@ import 'package:provider/single_child_widget.dart';
 //  is inefficient and goes against the principle of dependency injection, where a single instance should be reused.
 
 class ProviderInitializer {
+  static final localeProvider = LocaleProvider()..initialize();
+
   /// Service Locator.
   static List<SingleChildWidget> initializeProviders(ApiClient apiClient,
       ApiClient newsApiClient, AuthenticationCubit authenticationCubit) {
     return [
       ChangeNotifierProvider(create: ((_) => AppThemeProvider()..initialize())),
-      ChangeNotifierProvider(create: ((_) => LocaleProvider()..initialize())),
+      ChangeNotifierProvider(create: ((_) => localeProvider)),
+      ChangeNotifierProvider(
+          create: ((_) =>
+              LocaleTranslationService(TranslationService(), localeProvider))),
       BlocProvider(
         create: (context) => LaunchesPageCubit(GetAllLaunchesUseCase(
             SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
-            languageDetectionService)),
+            localeTranslationService)),
       ),
       BlocProvider(
         create: (context) => LaunchDetailsPageCubit(GetLaunchDetailsUseCase(
             SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
-            languageDetectionService)),
+            localeTranslationService)),
       ),
       BlocProvider(
         create: (context) => UpcomingLaunchesCubit(GetUpcomingLaunchesUseCase(
             SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
-                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()))),
+                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
+            localeTranslationService)),
       ),
       BlocProvider(
           create: (context) =>
@@ -83,14 +91,14 @@ class ProviderInitializer {
             fetchRecentArticlesUseCase: FetchArticlesUseCase(
                 ArticleRepositoryImpl(
                     newsApiClient, ArticleDtoToEntityConverter()),
-                languageDetectionService)),
+                localeTranslationService)),
       ),
       BlocProvider(
         create: (context) => NasaNewsCubit(
           fetchNasaArticlesUseCase: FetchNasaArticlesUseCase(
               ArticleRepositoryImpl(
                   newsApiClient, ArticleDtoToEntityConverter()),
-              languageDetectionService),
+              localeTranslationService),
         ),
       ),
       BlocProvider(
@@ -98,14 +106,14 @@ class ProviderInitializer {
                 fetchSpaceXArticlesUseCase: FetchSpaceXArticlesUseCase(
                     ArticleRepositoryImpl(
                         newsApiClient, ArticleDtoToEntityConverter()),
-                    languageDetectionService),
+                    localeTranslationService),
               )),
       BlocProvider(
         create: (context) => BlogsCubit(
             fetchBlogsUseCase: FetchBlogsUseCase(
                 ArticleRepositoryImpl(
                     newsApiClient, ArticleDtoToEntityConverter()),
-                languageDetectionService)),
+                localeTranslationService)),
       ),
       BlocProvider(
           create: (context) => EventsCubit(
@@ -115,7 +123,7 @@ class ProviderInitializer {
                         LaunchDtoToEntityConverter(),
                         EventDtoToEntityConverter(),
                         AgencyDtoToEntityConverter()),
-                    languageDetectionService),
+                    localeTranslationService),
               )),
       BlocProvider(create: (context) => UsersPageCubit()),
       BlocProvider(
@@ -132,7 +140,7 @@ class ProviderInitializer {
                 LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(),
                 AgencyDtoToEntityConverter()),
-            languageDetectionService: languageDetectionService,
+            localeTranslationService: localeTranslationService,
           ),
           setFavouriteLaunchUseCase: SetFavouriteLaunchUseCase(
             firestore: FirebaseFirestore.instance,
@@ -153,7 +161,7 @@ class ProviderInitializer {
                 LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(),
                 AgencyDtoToEntityConverter()),
-            languageDetectionService: languageDetectionService,
+            localeTranslationService: localeTranslationService,
           ),
           setFavouriteEventUseCase: SetFavouriteEventUseCase(
             firestore: FirebaseFirestore.instance,
