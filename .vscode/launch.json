@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+            //without debug
+            "name": "mobile_app",
+            "type": "dart",
+            "request": "launch",
+            "noDebug": true,
+            "program": "lib/main.dart",
+            "args": [],
+        },
+    ]
+}
