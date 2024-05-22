@@ -19,13 +19,7 @@ class LocaleTranslationService extends ChangeNotifier {
     final isTranslationEnabled =
         dotenv.env['API_TRANSLATION_ENABLED'] == 'true';
 
-    if (currentLocale != defaultLocale &&
-        model.getTranslatableFields().isNotEmpty &&
-        isTranslationEnabled) {
-      logger.d('Current locale: $currentLocale');
-
-      logger.d('Translating entity: $model');
-
+    if (currentLocale != defaultLocale && isTranslationEnabled) {
       return await _translationService.translateEntity(model, currentLocale);
     }
 

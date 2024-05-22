@@ -1,3 +1,4 @@
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/translatable.dart';
 import 'package:translator/translator.dart';
 
@@ -7,6 +8,7 @@ class TranslationService {
   Future<Translatable> translateEntity(
       Translatable entity, String targetLang) async {
     // Translate the top-level entity's fields
+
     var fieldsToTranslate = entity.getTranslatableFields();
     Map<String, dynamic> translatedFields = {};
 
@@ -21,8 +23,9 @@ class TranslationService {
 
     entity.updateWithTranslatedFields(translatedFields);
 
-    // Translate any nested Translatable entities
+    // Translate any nested Translatable entities regardless of top-level fields
     var nestedTranslatables = entity.getNestedTranslatables();
+
     for (Translatable nested in nestedTranslatables) {
       await translateEntity(nested, targetLang);
     }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/core/utils/cache_interceptor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiClient {
@@ -10,7 +11,7 @@ class ApiClient {
   ApiClient(this._dio, this._baseUrl, {this.apiKey = ''}) {
     final sp = SharedPreferences.getInstance();
     sp.then((sharedPrefs) {
-      // _dio.interceptors.add(CacheInterceptor(sharedPrefs));
+      _dio.interceptors.add(CacheInterceptor(sharedPrefs));
     });
   }
 

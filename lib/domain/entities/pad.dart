@@ -1,7 +1,8 @@
 import 'package:project_kepler/domain/entities/pad_location.dart';
+import 'package:project_kepler/domain/entities/translatable.dart';
 
 /// Describes place where launch of rocket is provided.
-class Pad {
+class Pad extends Translatable {
   /// ID of object.
   final int id;
 
@@ -10,7 +11,7 @@ class Pad {
   final int? agencyID;
 
   /// Pad name.
-  final String name;
+  String name;
 
   /// Physical location of the site.
   final PadLocation location;
@@ -24,4 +25,16 @@ class Pad {
         agencyID = 0,
         name = '',
         location = PadLocation.empty();
+
+  @override
+  Map<String, dynamic> getTranslatableFields() {
+    return {"name": name};
+  }
+
+  @override
+  void updateWithTranslatedFields(Map<String, dynamic> translatedFields) {
+    if (translatedFields.containsKey('name')) {
+      name = translatedFields['name'];
+    }
+  }
 }
