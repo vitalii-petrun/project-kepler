@@ -54,7 +54,7 @@ import 'package:provider/single_child_widget.dart';
 //  is inefficient and goes against the principle of dependency injection, where a single instance should be reused.
 
 class ProviderInitializer {
-  static final localeProvider = LocaleProvider()..initialize();
+  static final localeProvider = locator<LocaleProvider>();
 
   /// Service Locator.
   static List<SingleChildWidget> initializeProviders(ApiClient apiClient,

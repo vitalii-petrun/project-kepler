@@ -82,9 +82,12 @@ class _HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        await context.read<UpcomingLaunchesCubit>().fetch();
-        await context.read<EventsCubit>().fetch();
-        await context.read<NewsCubit>().fetchRecentArticles();
+        // Fetch all data in parallel
+        await Future.wait([
+          context.read<UpcomingLaunchesCubit>().fetch(),
+          context.read<EventsCubit>().fetch(),
+          context.read<NewsCubit>().fetchRecentArticles(),
+        ]);
       },
       child: SingleChildScrollView(
         child: Padding(
