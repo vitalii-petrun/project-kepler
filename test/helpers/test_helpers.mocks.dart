@@ -3,40 +3,38 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
-import 'dart:ui' as _i12;
+import 'dart:async' as _i7;
 
 import 'package:flutter_local_notifications/src/flutter_local_notifications_plugin.dart'
-    as _i15;
+    as _i13;
 import 'package:flutter_local_notifications/src/initialization_settings.dart'
-    as _i16;
+    as _i14;
 import 'package:flutter_local_notifications/src/notification_details.dart'
-    as _i18;
+    as _i16;
 import 'package:flutter_local_notifications/src/platform_specifics/android/schedule_mode.dart'
-    as _i21;
+    as _i19;
 import 'package:flutter_local_notifications/src/platform_specifics/ios/enums.dart'
-    as _i20;
-import 'package:flutter_local_notifications/src/types.dart' as _i22;
+    as _i18;
+import 'package:flutter_local_notifications/src/types.dart' as _i20;
 import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
-    as _i17;
+    as _i15;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:project_kepler/domain/entities/agency.dart' as _i9;
-import 'package:project_kepler/domain/entities/article.dart' as _i11;
+import 'package:project_kepler/domain/entities/agency.dart' as _i8;
+import 'package:project_kepler/domain/entities/article.dart' as _i10;
 import 'package:project_kepler/domain/entities/event.dart' as _i3;
 import 'package:project_kepler/domain/entities/launch.dart' as _i2;
-import 'package:project_kepler/domain/entities/translatable.dart' as _i7;
+import 'package:project_kepler/domain/entities/translatable.dart' as _i6;
 import 'package:project_kepler/domain/repositories/article_repository.dart'
     as _i4;
 import 'package:project_kepler/domain/repositories/space_devs_repository.dart'
-    as _i6;
+    as _i5;
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart'
-    as _i10;
+    as _i9;
 import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart'
-    as _i13;
-import 'package:project_kepler/l10n/locale_translation_service.dart' as _i5;
+    as _i11;
 import 'package:project_kepler/presentation/utils/language_detection_service.dart'
-    as _i14;
-import 'package:timezone/timezone.dart' as _i19;
+    as _i12;
+import 'package:timezone/timezone.dart' as _i17;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -82,9 +80,9 @@ class _FakeArticleRepository_2 extends _i1.SmartFake
         );
 }
 
-class _FakeLocaleTranslationService_3 extends _i1.SmartFake
-    implements _i5.LocaleTranslationService {
-  _FakeLocaleTranslationService_3(
+class _FakeSpaceDevsRepository_3 extends _i1.SmartFake
+    implements _i5.SpaceDevsRepository {
+  _FakeSpaceDevsRepository_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -93,19 +91,8 @@ class _FakeLocaleTranslationService_3 extends _i1.SmartFake
         );
 }
 
-class _FakeSpaceDevsRepository_4 extends _i1.SmartFake
-    implements _i6.SpaceDevsRepository {
-  _FakeSpaceDevsRepository_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeTranslatable_5 extends _i1.SmartFake implements _i7.Translatable {
-  _FakeTranslatable_5(
+class _FakeTranslatable_4 extends _i1.SmartFake implements _i6.Translatable {
+  _FakeTranslatable_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -118,101 +105,101 @@ class _FakeTranslatable_5 extends _i1.SmartFake implements _i7.Translatable {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSpaceDevsRepository extends _i1.Mock
-    implements _i6.SpaceDevsRepository {
+    implements _i5.SpaceDevsRepository {
   @override
-  _i8.Future<List<_i2.Launch>> getUpcomingLaunchList() => (super.noSuchMethod(
+  _i7.Future<List<_i2.Launch>> getUpcomingLaunchList() => (super.noSuchMethod(
         Invocation.method(
           #getUpcomingLaunchList,
           [],
         ),
-        returnValue: _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+        returnValue: _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
-      ) as _i8.Future<List<_i2.Launch>>);
+            _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+      ) as _i7.Future<List<_i2.Launch>>);
 
   @override
-  _i8.Future<List<_i2.Launch>> getLaunchList() => (super.noSuchMethod(
+  _i7.Future<List<_i2.Launch>> getLaunchList() => (super.noSuchMethod(
         Invocation.method(
           #getLaunchList,
           [],
         ),
-        returnValue: _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+        returnValue: _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
-      ) as _i8.Future<List<_i2.Launch>>);
+            _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+      ) as _i7.Future<List<_i2.Launch>>);
 
   @override
-  _i8.Future<_i2.Launch> getLaunchDetailsById(String? id) =>
+  _i7.Future<_i2.Launch> getLaunchDetailsById(String? id) =>
       (super.noSuchMethod(
         Invocation.method(
           #getLaunchDetailsById,
           [id],
         ),
-        returnValue: _i8.Future<_i2.Launch>.value(_FakeLaunch_0(
+        returnValue: _i7.Future<_i2.Launch>.value(_FakeLaunch_0(
           this,
           Invocation.method(
             #getLaunchDetailsById,
             [id],
           ),
         )),
-        returnValueForMissingStub: _i8.Future<_i2.Launch>.value(_FakeLaunch_0(
+        returnValueForMissingStub: _i7.Future<_i2.Launch>.value(_FakeLaunch_0(
           this,
           Invocation.method(
             #getLaunchDetailsById,
             [id],
           ),
         )),
-      ) as _i8.Future<_i2.Launch>);
+      ) as _i7.Future<_i2.Launch>);
 
   @override
-  _i8.Future<List<_i3.Event>> getAllEvents() => (super.noSuchMethod(
+  _i7.Future<List<_i3.Event>> getAllEvents() => (super.noSuchMethod(
         Invocation.method(
           #getAllEvents,
           [],
         ),
-        returnValue: _i8.Future<List<_i3.Event>>.value(<_i3.Event>[]),
+        returnValue: _i7.Future<List<_i3.Event>>.value(<_i3.Event>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i3.Event>>.value(<_i3.Event>[]),
-      ) as _i8.Future<List<_i3.Event>>);
+            _i7.Future<List<_i3.Event>>.value(<_i3.Event>[]),
+      ) as _i7.Future<List<_i3.Event>>);
 
   @override
-  _i8.Future<_i3.Event> getEventById(String? id) => (super.noSuchMethod(
+  _i7.Future<_i3.Event> getEventById(String? id) => (super.noSuchMethod(
         Invocation.method(
           #getEventById,
           [id],
         ),
-        returnValue: _i8.Future<_i3.Event>.value(_FakeEvent_1(
+        returnValue: _i7.Future<_i3.Event>.value(_FakeEvent_1(
           this,
           Invocation.method(
             #getEventById,
             [id],
           ),
         )),
-        returnValueForMissingStub: _i8.Future<_i3.Event>.value(_FakeEvent_1(
+        returnValueForMissingStub: _i7.Future<_i3.Event>.value(_FakeEvent_1(
           this,
           Invocation.method(
             #getEventById,
             [id],
           ),
         )),
-      ) as _i8.Future<_i3.Event>);
+      ) as _i7.Future<_i3.Event>);
 
   @override
-  _i8.Future<_i9.Agency?> getAgencyById(int? id) => (super.noSuchMethod(
+  _i7.Future<_i8.Agency?> getAgencyById(int? id) => (super.noSuchMethod(
         Invocation.method(
           #getAgencyById,
           [id],
         ),
-        returnValue: _i8.Future<_i9.Agency?>.value(),
-        returnValueForMissingStub: _i8.Future<_i9.Agency?>.value(),
-      ) as _i8.Future<_i9.Agency?>);
+        returnValue: _i7.Future<_i8.Agency?>.value(),
+        returnValueForMissingStub: _i7.Future<_i8.Agency?>.value(),
+      ) as _i7.Future<_i8.Agency?>);
 }
 
 /// A class which mocks [FetchArticlesUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFetchArticlesUseCase extends _i1.Mock
-    implements _i10.FetchArticlesUseCase {
+    implements _i9.FetchArticlesUseCase {
   @override
   _i4.ArticleRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
@@ -227,192 +214,60 @@ class MockFetchArticlesUseCase extends _i1.Mock
       ) as _i4.ArticleRepository);
 
   @override
-  _i5.LocaleTranslationService get localeTranslationService =>
-      (super.noSuchMethod(
-        Invocation.getter(#localeTranslationService),
-        returnValue: _FakeLocaleTranslationService_3(
-          this,
-          Invocation.getter(#localeTranslationService),
-        ),
-        returnValueForMissingStub: _FakeLocaleTranslationService_3(
-          this,
-          Invocation.getter(#localeTranslationService),
-        ),
-      ) as _i5.LocaleTranslationService);
-
-  @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-
-  @override
-  _i8.Future<List<_i11.Article>> call() => (super.noSuchMethod(
+  _i7.Future<List<_i10.Article>> call() => (super.noSuchMethod(
         Invocation.method(
           #call,
           [],
         ),
-        returnValue: _i8.Future<List<_i11.Article>>.value(<_i11.Article>[]),
+        returnValue: _i7.Future<List<_i10.Article>>.value(<_i10.Article>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i11.Article>>.value(<_i11.Article>[]),
-      ) as _i8.Future<List<_i11.Article>>);
-
-  @override
-  void onLocaleChanged() => super.noSuchMethod(
-        Invocation.method(
-          #onLocaleChanged,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+            _i7.Future<List<_i10.Article>>.value(<_i10.Article>[]),
+      ) as _i7.Future<List<_i10.Article>>);
 }
 
 /// A class which mocks [GetAllLaunchesUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetAllLaunchesUseCase extends _i1.Mock
-    implements _i13.GetAllLaunchesUseCase {
+    implements _i11.GetAllLaunchesUseCase {
   @override
-  _i6.SpaceDevsRepository get repository => (super.noSuchMethod(
+  _i5.SpaceDevsRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeSpaceDevsRepository_4(
+        returnValue: _FakeSpaceDevsRepository_3(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeSpaceDevsRepository_4(
+        returnValueForMissingStub: _FakeSpaceDevsRepository_3(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i6.SpaceDevsRepository);
+      ) as _i5.SpaceDevsRepository);
 
   @override
-  _i5.LocaleTranslationService get localeTranslationService =>
-      (super.noSuchMethod(
-        Invocation.getter(#localeTranslationService),
-        returnValue: _FakeLocaleTranslationService_3(
-          this,
-          Invocation.getter(#localeTranslationService),
-        ),
-        returnValueForMissingStub: _FakeLocaleTranslationService_3(
-          this,
-          Invocation.getter(#localeTranslationService),
-        ),
-      ) as _i5.LocaleTranslationService);
-
-  @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-
-  @override
-  _i8.Future<List<_i2.Launch>> call() => (super.noSuchMethod(
+  _i7.Future<List<_i2.Launch>> call() => (super.noSuchMethod(
         Invocation.method(
           #call,
           [],
         ),
-        returnValue: _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+        returnValue: _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
-      ) as _i8.Future<List<_i2.Launch>>);
-
-  @override
-  void onLocaleChanged() => super.noSuchMethod(
-        Invocation.method(
-          #onLocaleChanged,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+            _i7.Future<List<_i2.Launch>>.value(<_i2.Launch>[]),
+      ) as _i7.Future<List<_i2.Launch>>);
 }
 
 /// A class which mocks [LanguageDetectionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLanguageDetectionService extends _i1.Mock
-    implements _i14.LanguageDetectionService {
+    implements _i12.LanguageDetectionService {
   @override
-  _i8.Future<_i7.Translatable> translateIfNecessary(_i7.Translatable? model) =>
+  _i7.Future<_i6.Translatable> translateIfNecessary(_i6.Translatable? model) =>
       (super.noSuchMethod(
         Invocation.method(
           #translateIfNecessary,
           [model],
         ),
-        returnValue: _i8.Future<_i7.Translatable>.value(_FakeTranslatable_5(
+        returnValue: _i7.Future<_i6.Translatable>.value(_FakeTranslatable_4(
           this,
           Invocation.method(
             #translateIfNecessary,
@@ -420,27 +275,27 @@ class MockLanguageDetectionService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i8.Future<_i7.Translatable>.value(_FakeTranslatable_5(
+            _i7.Future<_i6.Translatable>.value(_FakeTranslatable_4(
           this,
           Invocation.method(
             #translateIfNecessary,
             [model],
           ),
         )),
-      ) as _i8.Future<_i7.Translatable>);
+      ) as _i7.Future<_i6.Translatable>);
 }
 
 /// A class which mocks [FlutterLocalNotificationsPlugin].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFlutterLocalNotificationsPlugin extends _i1.Mock
-    implements _i15.FlutterLocalNotificationsPlugin {
+    implements _i13.FlutterLocalNotificationsPlugin {
   @override
-  _i8.Future<bool?> initialize(
-    _i16.InitializationSettings? initializationSettings, {
-    _i17.DidReceiveNotificationResponseCallback?
+  _i7.Future<bool?> initialize(
+    _i14.InitializationSettings? initializationSettings, {
+    _i15.DidReceiveNotificationResponseCallback?
         onDidReceiveNotificationResponse,
-    _i17.DidReceiveBackgroundNotificationResponseCallback?
+    _i15.DidReceiveBackgroundNotificationResponseCallback?
         onDidReceiveBackgroundNotificationResponse,
   }) =>
       (super.noSuchMethod(
@@ -453,28 +308,28 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
                 onDidReceiveBackgroundNotificationResponse,
           },
         ),
-        returnValue: _i8.Future<bool?>.value(),
-        returnValueForMissingStub: _i8.Future<bool?>.value(),
-      ) as _i8.Future<bool?>);
+        returnValue: _i7.Future<bool?>.value(),
+        returnValueForMissingStub: _i7.Future<bool?>.value(),
+      ) as _i7.Future<bool?>);
 
   @override
-  _i8.Future<_i17.NotificationAppLaunchDetails?>
+  _i7.Future<_i15.NotificationAppLaunchDetails?>
       getNotificationAppLaunchDetails() => (super.noSuchMethod(
             Invocation.method(
               #getNotificationAppLaunchDetails,
               [],
             ),
-            returnValue: _i8.Future<_i17.NotificationAppLaunchDetails?>.value(),
+            returnValue: _i7.Future<_i15.NotificationAppLaunchDetails?>.value(),
             returnValueForMissingStub:
-                _i8.Future<_i17.NotificationAppLaunchDetails?>.value(),
-          ) as _i8.Future<_i17.NotificationAppLaunchDetails?>);
+                _i7.Future<_i15.NotificationAppLaunchDetails?>.value(),
+          ) as _i7.Future<_i15.NotificationAppLaunchDetails?>);
 
   @override
-  _i8.Future<void> show(
+  _i7.Future<void> show(
     int? id,
     String? title,
     String? body,
-    _i18.NotificationDetails? notificationDetails, {
+    _i16.NotificationDetails? notificationDetails, {
     String? payload,
   }) =>
       (super.noSuchMethod(
@@ -488,12 +343,12 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
           ],
           {#payload: payload},
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i8.Future<void> cancel(
+  _i7.Future<void> cancel(
     int? id, {
     String? tag,
   }) =>
@@ -503,33 +358,33 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
           [id],
           {#tag: tag},
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i8.Future<void> cancelAll() => (super.noSuchMethod(
+  _i7.Future<void> cancelAll() => (super.noSuchMethod(
         Invocation.method(
           #cancelAll,
           [],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i8.Future<void> zonedSchedule(
+  _i7.Future<void> zonedSchedule(
     int? id,
     String? title,
     String? body,
-    _i19.TZDateTime? scheduledDate,
-    _i18.NotificationDetails? notificationDetails, {
-    required _i20.UILocalNotificationDateInterpretation?
+    _i17.TZDateTime? scheduledDate,
+    _i16.NotificationDetails? notificationDetails, {
+    required _i18.UILocalNotificationDateInterpretation?
         uiLocalNotificationDateInterpretation,
     bool? androidAllowWhileIdle = false,
-    _i21.AndroidScheduleMode? androidScheduleMode,
+    _i19.AndroidScheduleMode? androidScheduleMode,
     String? payload,
-    _i22.DateTimeComponents? matchDateTimeComponents,
+    _i20.DateTimeComponents? matchDateTimeComponents,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -550,20 +405,20 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #matchDateTimeComponents: matchDateTimeComponents,
           },
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i8.Future<void> periodicallyShow(
+  _i7.Future<void> periodicallyShow(
     int? id,
     String? title,
     String? body,
-    _i17.RepeatInterval? repeatInterval,
-    _i18.NotificationDetails? notificationDetails, {
+    _i15.RepeatInterval? repeatInterval,
+    _i16.NotificationDetails? notificationDetails, {
     String? payload,
     bool? androidAllowWhileIdle = false,
-    _i21.AndroidScheduleMode? androidScheduleMode,
+    _i19.AndroidScheduleMode? androidScheduleMode,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -581,36 +436,36 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
             #androidScheduleMode: androidScheduleMode,
           },
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i8.Future<List<_i17.PendingNotificationRequest>>
+  _i7.Future<List<_i15.PendingNotificationRequest>>
       pendingNotificationRequests() => (super.noSuchMethod(
             Invocation.method(
               #pendingNotificationRequests,
               [],
             ),
             returnValue:
-                _i8.Future<List<_i17.PendingNotificationRequest>>.value(
-                    <_i17.PendingNotificationRequest>[]),
+                _i7.Future<List<_i15.PendingNotificationRequest>>.value(
+                    <_i15.PendingNotificationRequest>[]),
             returnValueForMissingStub:
-                _i8.Future<List<_i17.PendingNotificationRequest>>.value(
-                    <_i17.PendingNotificationRequest>[]),
-          ) as _i8.Future<List<_i17.PendingNotificationRequest>>);
+                _i7.Future<List<_i15.PendingNotificationRequest>>.value(
+                    <_i15.PendingNotificationRequest>[]),
+          ) as _i7.Future<List<_i15.PendingNotificationRequest>>);
 
   @override
-  _i8.Future<List<_i17.ActiveNotification>> getActiveNotifications() =>
+  _i7.Future<List<_i15.ActiveNotification>> getActiveNotifications() =>
       (super.noSuchMethod(
         Invocation.method(
           #getActiveNotifications,
           [],
         ),
-        returnValue: _i8.Future<List<_i17.ActiveNotification>>.value(
-            <_i17.ActiveNotification>[]),
+        returnValue: _i7.Future<List<_i15.ActiveNotification>>.value(
+            <_i15.ActiveNotification>[]),
         returnValueForMissingStub:
-            _i8.Future<List<_i17.ActiveNotification>>.value(
-                <_i17.ActiveNotification>[]),
-      ) as _i8.Future<List<_i17.ActiveNotification>>);
+            _i7.Future<List<_i15.ActiveNotification>>.value(
+                <_i15.ActiveNotification>[]),
+      ) as _i7.Future<List<_i15.ActiveNotification>>);
 }

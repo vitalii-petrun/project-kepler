@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/di/locator.dart';
-import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/core/utils/translation_service.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/data/repositories/article_repository_impl.dart';
@@ -67,63 +66,66 @@ class ProviderInitializer {
               LocaleTranslationService(TranslationService(), localeProvider))),
       BlocProvider(
         create: (context) => LaunchesPageCubit(GetAllLaunchesUseCase(
-            SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
-                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
-            localeTranslationService)),
+          SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+              EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
+        )),
       ),
       BlocProvider(
         create: (context) => LaunchDetailsPageCubit(GetLaunchDetailsUseCase(
-            SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
-                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
-            localeTranslationService)),
+          SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+              EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
+        )),
       ),
       BlocProvider(
-        create: (context) => UpcomingLaunchesCubit(GetUpcomingLaunchesUseCase(
+        create: (context) => UpcomingLaunchesCubit(
+          GetUpcomingLaunchesUseCase(
             SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
-            localeTranslationService)),
+          ),
+          locator<LocaleTranslationService>(),
+        ),
       ),
       BlocProvider(
           create: (context) =>
               FriendsPageCubit(FetchFriendsUseCase(FirestoreUserRepository()))),
       BlocProvider(
         create: (context) => NewsCubit(
-            fetchRecentArticlesUseCase: FetchArticlesUseCase(
-                ArticleRepositoryImpl(
-                    newsApiClient, ArticleDtoToEntityConverter()),
-                localeTranslationService)),
+          fetchRecentArticlesUseCase: FetchArticlesUseCase(
+            ArticleRepositoryImpl(newsApiClient, ArticleDtoToEntityConverter()),
+          ),
+          localeTranslationService: locator<LocaleTranslationService>(),
+        ),
       ),
       BlocProvider(
         create: (context) => NasaNewsCubit(
           fetchNasaArticlesUseCase: FetchNasaArticlesUseCase(
-              ArticleRepositoryImpl(
-                  newsApiClient, ArticleDtoToEntityConverter()),
-              localeTranslationService),
+            ArticleRepositoryImpl(newsApiClient, ArticleDtoToEntityConverter()),
+          ),
         ),
       ),
       BlocProvider(
           create: (context) => SpaceXNewsCubit(
                 fetchSpaceXArticlesUseCase: FetchSpaceXArticlesUseCase(
-                    ArticleRepositoryImpl(
-                        newsApiClient, ArticleDtoToEntityConverter()),
-                    localeTranslationService),
+                  ArticleRepositoryImpl(
+                      newsApiClient, ArticleDtoToEntityConverter()),
+                ),
               )),
       BlocProvider(
         create: (context) => BlogsCubit(
             fetchBlogsUseCase: FetchBlogsUseCase(
-                ArticleRepositoryImpl(
-                    newsApiClient, ArticleDtoToEntityConverter()),
-                localeTranslationService)),
+          ArticleRepositoryImpl(newsApiClient, ArticleDtoToEntityConverter()),
+        )),
       ),
       BlocProvider(
           create: (context) => EventsCubit(
                 GetAllEventsUseCase(
-                    SpaceDevsRepositoryImpl(
-                        apiClient,
-                        LaunchDtoToEntityConverter(),
-                        EventDtoToEntityConverter(),
-                        AgencyDtoToEntityConverter()),
-                    localeTranslationService),
+                  SpaceDevsRepositoryImpl(
+                      apiClient,
+                      LaunchDtoToEntityConverter(),
+                      EventDtoToEntityConverter(),
+                      AgencyDtoToEntityConverter()),
+                ),
+                locator<LocaleTranslationService>(),
               )),
       BlocProvider(create: (context) => UsersPageCubit()),
       BlocProvider(
@@ -140,7 +142,6 @@ class ProviderInitializer {
                 LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(),
                 AgencyDtoToEntityConverter()),
-            localeTranslationService: localeTranslationService,
           ),
           setFavouriteLaunchUseCase: SetFavouriteLaunchUseCase(
             firestore: FirebaseFirestore.instance,
@@ -161,7 +162,6 @@ class ProviderInitializer {
                 LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(),
                 AgencyDtoToEntityConverter()),
-            localeTranslationService: localeTranslationService,
           ),
           setFavouriteEventUseCase: SetFavouriteEventUseCase(
             firestore: FirebaseFirestore.instance,

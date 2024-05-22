@@ -1,13 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../domain/use_cases/get_upcoming_launches_use_case.dart';
+import 'package:project_kepler/domain/use_cases/get_upcoming_launches_use_case.dart';
 import 'launches_page_state.dart';
+import 'package:project_kepler/l10n/locale_translation_service.dart';
 
 class UpcomingLaunchesCubit extends Cubit<LaunchesPageState> {
   final GetUpcomingLaunchesUseCase getUpcomingLaunchesUseCase;
+  final LocaleTranslationService localeTranslationService;
 
-  UpcomingLaunchesCubit(this.getUpcomingLaunchesUseCase)
-      : super(LaunchesInit());
+  UpcomingLaunchesCubit(
+      this.getUpcomingLaunchesUseCase, this.localeTranslationService)
+      : super(LaunchesInit()) {
+    localeTranslationService.addListener(_onLocaleChanged);
+  }
 
   Future<void> fetch() async {
     emit(LaunchesLoading());
@@ -18,5 +22,15 @@ class UpcomingLaunchesCubit extends Cubit<LaunchesPageState> {
     } catch (e) {
       emit(LaunchesError(e.toString()));
     }
+  }
+
+  void _onLocaleChanged() {
+    fetch();
+  }
+
+  @override
+  Future<void> close() {
+    localeTranslationService.removeListener(_onLocaleChanged);
+    return super.close();
   }
 }
