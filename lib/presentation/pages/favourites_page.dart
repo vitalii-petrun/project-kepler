@@ -130,7 +130,7 @@ class FavouritesPageState extends State<FavouritesPage>
               },
             );
           } else if (state is FavouriteEventsError) {
-            return Center(child: Text('Error: ${state.message}'));
+            return Center(child: Text(context.l10n.errorLoadingEvents));
           }
           return const Center(child: CircularProgressIndicator());
         },
@@ -163,7 +163,7 @@ class FavouritesPageState extends State<FavouritesPage>
               },
             );
           } else if (state is FavouriteLaunchesError) {
-            return Center(child: Text('Error: ${state.message}'));
+            return Center(child: Text(context.l10n.errorLoadingLaunches));
           }
           return const Center(child: CircularProgressIndicator());
         },

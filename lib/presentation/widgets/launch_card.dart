@@ -250,13 +250,7 @@ class _FooterSection extends StatelessWidget {
                 ),
               ),
             ),
-            BlocConsumer<FavoriteLaunchesCubit, FavouriteLaunchesState>(
-              listener: (context, state) {
-                if (launch.id == "67152d83-c689-4cff-8330-b42c166049c9") {
-                  logger.d(
-                      '[LISTENER] 67152d83-c689-4cff-8330-b42c166049c9 TRIGGERED');
-                }
-              },
+            BlocBuilder<FavoriteLaunchesCubit, FavouriteLaunchesState>(
               builder: (context, state) {
                 if (context.watch<AuthenticationCubit>().state
                     is! Authenticated) {
@@ -265,10 +259,7 @@ class _FooterSection extends StatelessWidget {
                   bool isFavorite = context
                       .read<FavoriteLaunchesCubit>()
                       .checkIfFavourite(launch);
-                  if (launch.id == "67152d83-c689-4cff-8330-b42c166049c9") {
-                    logger.d(
-                        '[LAUNCH CARD REBUILD] ${launch.id} isFavorite: $isFavorite');
-                  }
+
                   return AnimatedHeartButton<Launch>(
                     item: launch,
                     isFavourite: isFavorite,

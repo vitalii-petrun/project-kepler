@@ -1,4 +1,3 @@
-import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/translatable.dart';
 import 'package:translator/translator.dart';
 

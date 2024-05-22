@@ -106,21 +106,25 @@ class _HeaderSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          Row(
-            children: [
-              const Icon(Icons.date_range, size: 16, color: Colors.white),
-              const SizedBox(width: 4),
-              Text(
-                eventDate,
-                style:
-                    textTheme.bodyLarge?.copyWith(color: colorScheme.onPrimary),
-              ),
-            ],
-          ),
+          _buildEventDateRow(eventDate, textTheme, colorScheme),
         ],
       ),
     );
   }
+}
+
+Widget _buildEventDateRow(
+    String eventDate, TextTheme textTheme, ColorScheme colorScheme) {
+  return Row(
+    children: [
+      const Icon(Icons.date_range, size: 16, color: Colors.white),
+      const SizedBox(width: 4),
+      Text(
+        eventDate,
+        style: textTheme.bodyLarge?.copyWith(color: colorScheme.onPrimary),
+      ),
+    ],
+  );
 }
 
 class _ImageSection extends StatelessWidget {

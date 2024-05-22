@@ -83,11 +83,15 @@ class _HomeBody extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         // Fetch all data in parallel
-        await Future.wait([
-          context.read<UpcomingLaunchesCubit>().fetch(),
-          context.read<EventsCubit>().fetch(),
-          context.read<NewsCubit>().fetchRecentArticles(),
-        ]);
+        try {
+          await Future.wait([
+            context.read<UpcomingLaunchesCubit>().fetch(),
+            context.read<EventsCubit>().fetch(),
+            context.read<NewsCubit>().fetchRecentArticles(),
+          ]);
+        } catch (e) {
+          logger.e('Failed to refresh home page data: $e');
+        }
       },
       child: SingleChildScrollView(
         child: Padding(

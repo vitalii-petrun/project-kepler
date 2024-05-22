@@ -1,4 +1,3 @@
-import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/entities/launch_service_provider.dart';
 import 'package:project_kepler/domain/entities/launch_status.dart';
 import 'package:project_kepler/domain/entities/mission.dart';
