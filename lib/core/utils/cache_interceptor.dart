@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:project_kepler/core/global.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -24,7 +25,7 @@ class CacheInterceptor extends Interceptor {
       //     "Cache expiry in  ${expiryDate != null ? expiryDate.difference(DateTime.now()).inSeconds : 'unknown'} seconds");
       if (expiryDate != null && DateTime.now().isBefore(expiryDate)) {
         // If cached data is not expired, return it directly
-        // logger.d('Returning cached data');
+        logger.d('Returning cached data');
         return handler.resolve(Response(
           requestOptions: options,
           statusCode: 200,
@@ -32,7 +33,7 @@ class CacheInterceptor extends Interceptor {
         ));
       }
     }
-    // logger.d('No valid cached data, proceed with request');
+    logger.d('No valid cached data, proceed with request');
     // No valid cached data, proceed with request
     handler.next(options);
   }

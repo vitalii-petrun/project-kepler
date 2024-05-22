@@ -32,7 +32,8 @@ class _LaunchesPageState extends State<LaunchesPage>
   void initState() {
     super.initState();
     context.read<LaunchesPageCubit>().fetch();
-    context.read<UpcomingLaunchesCubit>().fetch();
+    //context.read<UpcomingLaunchesCubit>().fetch();
+    //It's already being fetched on the Home Page
   }
 
   @override

@@ -1,14 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_kepler/l10n/locale_translation_service.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 
 import '../../../domain/use_cases/fetch_articles_use_case.dart';
 
 class NewsCubit extends Cubit<NewsState> {
   final FetchArticlesUseCase fetchRecentArticlesUseCase;
+  final LocaleTranslationService localeTranslationService;
 
   NewsCubit({
     required this.fetchRecentArticlesUseCase,
-  }) : super(NewsLoading());
+    required this.localeTranslationService,
+  }) : super(NewsLoading()) {
+    localeTranslationService.addListener(_onLocaleChanged);
+  }
 
   Future<void> fetchRecentArticles() async {
     _fetchData<RecentArticlesLoaded>(
@@ -28,5 +33,9 @@ class NewsCubit extends Cubit<NewsState> {
     } catch (e) {
       emit(NewsError(e.toString()));
     }
+  }
+
+  void _onLocaleChanged() {
+    fetchRecentArticles();
   }
 }

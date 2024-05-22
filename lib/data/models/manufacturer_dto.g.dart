@@ -8,7 +8,7 @@ part of 'manufacturer_dto.dart';
 
 ManufacturerDTO _$ManufacturerDTOFromJson(Map<String, dynamic> json) =>
     ManufacturerDTO(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['url'] as String,
       json['name'] as String,
       json['type'] as String,

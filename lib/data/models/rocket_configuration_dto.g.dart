@@ -9,7 +9,7 @@ part of 'rocket_configuration_dto.dart';
 RocketConfigurationDTO _$RocketConfigurationDTOFromJson(
         Map<String, dynamic> json) =>
     RocketConfigurationDTO(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['name'] as String,
       json['family'] as String,
       json['full_name'] as String,

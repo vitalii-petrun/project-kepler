@@ -7,7 +7,7 @@ part of 'rocket_dto.dart';
 // **************************************************************************
 
 RocketDTO _$RocketDTOFromJson(Map<String, dynamic> json) => RocketDTO(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       RocketConfigurationDTO.fromJson(
           json['configuration'] as Map<String, dynamic>),
     );

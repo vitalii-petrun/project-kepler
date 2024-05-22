@@ -3,7 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:project_kepler/core/di/locator.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
+import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/l10n/locale_provider.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_launches_cubit.dart';
@@ -179,7 +182,8 @@ class _HeaderSection extends StatelessWidget {
               const Icon(Icons.date_range, size: 16, color: Colors.white),
               const SizedBox(width: 4),
               Text(
-                DateFormat.yMMMd().format(DateTime.parse(date)),
+                DateFormat.yMMMd(locator<LocaleProvider>().currentLocale)
+                    .format(DateTime.parse(date)),
                 style: textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onPrimary,
                 ),
@@ -222,18 +226,6 @@ class _FooterSection extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  static bool _checkIfFavourite(Launch launch, List<Launch> launches) {
-    bool isFavourite = false;
-
-    for (Launch savedLaunch in launches) {
-      if (savedLaunch.id == launch.id) {
-        isFavourite = true;
-      }
-    }
-
-    return isFavourite;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -264,7 +256,9 @@ class _FooterSection extends StatelessWidget {
                     is! Authenticated) {
                   return const SizedBox();
                 } else if (state is FavouriteLaunchesLoaded) {
-                  bool isFavorite = _checkIfFavourite(launch, state.launches);
+                  bool isFavorite = context
+                      .read<FavoriteLaunchesCubit>()
+                      .checkIfFavourite(launch);
 
                   return AnimatedHeartButton<Launch>(
                     item: launch,
@@ -314,7 +308,7 @@ class _BodySection extends StatelessWidget {
       child: Text(
         missionDescription == "?"
             ? context.l10n.noDescriptionProvided
-            : missionDescription!,
+            : missionDescription ?? context.l10n.noDescriptionProvided,
         style: context.theme.textTheme.bodyLarge?.copyWith(fontSize: 16),
         textAlign: TextAlign.justify,
         maxLines: isCompact ? 3 : 6,

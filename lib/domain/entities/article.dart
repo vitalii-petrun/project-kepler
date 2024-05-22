@@ -2,7 +2,7 @@ import 'package:project_kepler/domain/entities/translatable.dart';
 
 class Article implements Translatable {
   final int id;
-  final String title;
+  String title;
   final String url;
   final String? imageUrl;
   final String? newsSite;
@@ -32,6 +32,7 @@ class Article implements Translatable {
   Map<String, dynamic> getTranslatableFields() {
     return {
       'summary': summary,
+      'title': title,
     };
   }
 
@@ -39,6 +40,9 @@ class Article implements Translatable {
   void updateWithTranslatedFields(Map<String, dynamic> translatedFields) {
     if (translatedFields.containsKey('summary')) {
       summary = translatedFields['summary'];
+    }
+    if (translatedFields.containsKey('title')) {
+      title = translatedFields['title'];
     }
   }
 }

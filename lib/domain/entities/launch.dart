@@ -14,7 +14,6 @@ class Launch implements Translatable {
   final Mission? mission;
   final Rocket rocket;
   final String? image;
-
   final Pad pad;
 
   Launch(
@@ -42,20 +41,19 @@ class Launch implements Translatable {
 
   @override
   Map<String, dynamic> getTranslatableFields() {
-    return {
-      'name': name,
-    };
+    return {};
   }
 
   @override
-  void updateWithTranslatedFields(Map<String, dynamic> translatedFields) {
-    if (translatedFields.containsKey('name')) {
-      name = translatedFields['name'];
-    }
-  }
+  void updateWithTranslatedFields(Map<String, dynamic> translatedFields) {}
 
   @override
   List<Translatable> getNestedTranslatables() {
-    return mission != null ? [mission!] : [];
+    List<Translatable> nestedTranslatables = [];
+    if (mission != null) {
+      nestedTranslatables.add(mission!);
+    }
+
+    return nestedTranslatables;
   }
 }

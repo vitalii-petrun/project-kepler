@@ -1,8 +1,1 @@
-{
-  "uk": [
-    "welcomeBack",
-    "orbit",
-    "loginPromptFav",
-    "unlockFavs"
-  ]
-}
+{}

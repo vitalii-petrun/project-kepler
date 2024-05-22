@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_kepler/core/di/locator.dart';
 import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
-import 'package:project_kepler/presentation/utils/language_detection_service.dart';
+import 'package:project_kepler/l10n/locale_translation_service.dart';
 
 import '../entities/launch.dart';
 
@@ -9,17 +10,12 @@ class FetchFavouriteLaunchesUseCase {
   final FirebaseFirestore firestore;
   String? userId;
   final SpaceDevsRepository apiRepository;
-  final LanguageDetectionService languageDetectionService;
 
-  FetchFavouriteLaunchesUseCase({
-    this.userId,
-    required this.firestore,
-    required this.languageDetectionService,
-    required this.apiRepository,
-  });
+  FetchFavouriteLaunchesUseCase(
+      {required this.firestore, this.userId, required this.apiRepository});
 
   Future<List<Launch>> call() async {
-    logger.d('Fetching favourite launches.  User id: $userId');
+    logger.d('Fetching favourite launches. User id: $userId');
 
     final snapshot = await firestore
         .collection('users')
@@ -29,15 +25,12 @@ class FetchFavouriteLaunchesUseCase {
         .collection('launches')
         .get();
 
-    final launches = <Launch>[];
-    for (final doc in snapshot.docs) {
+    final launches = await Future.wait(snapshot.docs.map((doc) async {
       final launch = await apiRepository.getLaunchDetailsById(doc.id);
+      return await locator<LocaleTranslationService>()
+          .translateIfNecessary(launch) as Launch;
+    }).toList());
 
-      final translatedLaunch =
-          await languageDetectionService.translateIfNecessary(launch);
-      launches.add(translatedLaunch as Launch);
-    }
-
-    return launches;
+    return launches.reversed.toList();
   }
 }

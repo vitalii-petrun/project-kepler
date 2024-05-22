@@ -7,7 +7,7 @@ part of 'orbit_dto.dart';
 // **************************************************************************
 
 OrbitDTO _$OrbitDTOFromJson(Map<String, dynamic> json) => OrbitDTO(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['name'] as String,
       json['abbrev'] as String,
     );

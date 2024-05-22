@@ -9,7 +9,7 @@ part of 'launch_service_provider_dto.dart';
 LaunchServiceProviderDTO _$LaunchServiceProviderDTOFromJson(
         Map<String, dynamic> json) =>
     LaunchServiceProviderDTO(
-      json['id'] as int,
+      (json['id'] as num).toInt(),
       json['name'] as String,
       json['type'] as String?,
     );

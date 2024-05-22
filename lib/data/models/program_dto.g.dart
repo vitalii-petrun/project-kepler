@@ -7,7 +7,7 @@ part of 'program_dto.dart';
 // **************************************************************************
 
 ProgramDTO _$ProgramDTOFromJson(Map<String, dynamic> json) => ProgramDTO(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       url: json['url'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,

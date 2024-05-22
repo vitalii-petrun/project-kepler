@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:project_kepler/core/utils/notification_service.dart';
 
 import '../converters/launch_converter.dart';
 import '../entities/launch.dart';
@@ -30,5 +32,30 @@ class SetFavouriteLaunchUseCase {
       'id': launch.id,
       'name': launch.name,
     });
+
+    await NotificationService().scheduleNotification(
+      // TODO: on remove - cancel notification
+      launch.id.hashCode,
+      '🚀 Launch Reminder',
+      'The launch ${launch.name} is about to start',
+      tz.TZDateTime.from(DateTime.parse(launch.net), tz.local),
+    );
+
+    // TEST SCHEDULE NOTIFICATION
+    // Schedule a notification 10 seconds from now
+    // logger.d('Scheduling notification for launch ${launch.name} in 15 seconds');
+    // await NotificationService().scheduleNotification(
+    //   launch.id.hashCode,
+    //   'Launch Reminder',
+    //   'The launch ${launch.name} is about to start',
+    //   tz.TZDateTime.now(tz.local).add(const Duration(seconds: 15)),
+    // );
+
+    // TEST SHOW NOTIFICATION
+    // await NotificationService().showNotification(
+    //   launch.id.hashCode,
+    //   'Launch Reminder',
+    //   'The launch ${launch.name} is about to start',
+    // );
   }
 }

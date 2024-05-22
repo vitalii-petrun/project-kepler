@@ -28,7 +28,8 @@ class _EventsPageState extends State<EventsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<EventsCubit>().fetch();
+    //context.read<EventsCubit>().fetch();
+    //It's already being fetched on the Home Page
   }
 
   @override
