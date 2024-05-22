@@ -1,10 +1,12 @@
+import 'package:project_kepler/domain/entities/translatable.dart';
+
 /// Physical location of the site.
-class PadLocation {
+class PadLocation extends Translatable {
   /// ID of object.
   final int id;
 
   /// Name of launch pad.
-  final String name;
+  String name;
 
   /// Total launch count
   final int? totalLaunchCount;
@@ -26,4 +28,16 @@ class PadLocation {
         name = '',
         totalLaunchCount = 0,
         totalLandingCount = 0;
+
+  @override
+  Map<String, dynamic> getTranslatableFields() {
+    return {"name": name};
+  }
+
+  @override
+  void updateWithTranslatedFields(Map<String, dynamic> translatedFields) {
+    if (translatedFields.containsKey('name')) {
+      name = translatedFields['name'];
+    }
+  }
 }

@@ -54,7 +54,7 @@ class Launch implements Translatable {
     if (mission != null) {
       nestedTranslatables.add(mission!);
     }
-    nestedTranslatables.add(pad);
+
     return nestedTranslatables;
   }
 }

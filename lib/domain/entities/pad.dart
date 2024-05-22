@@ -28,13 +28,17 @@ class Pad extends Translatable {
 
   @override
   Map<String, dynamic> getTranslatableFields() {
-    return {"name": name};
+    return {};
   }
 
   @override
-  void updateWithTranslatedFields(Map<String, dynamic> translatedFields) {
-    if (translatedFields.containsKey('name')) {
-      name = translatedFields['name'];
-    }
+  void updateWithTranslatedFields(Map<String, dynamic> translatedFields) {}
+
+  @override
+  List<Translatable> getNestedTranslatables() {
+    List<Translatable> nestedTranslatables = [];
+
+    nestedTranslatables.add(location);
+    return nestedTranslatables;
   }
 }

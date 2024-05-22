@@ -21,8 +21,8 @@ class CacheInterceptor extends Interceptor {
 
       final expiryDate = DateTime.tryParse(data['expiryDate']);
 
-      logger.d(
-          "Cache expiry in  ${expiryDate != null ? expiryDate.difference(DateTime.now()).inSeconds : 'unknown'} seconds");
+      // logger.d(
+      //     "Cache expiry in  ${expiryDate != null ? expiryDate.difference(DateTime.now()).inSeconds : 'unknown'} seconds");
       if (expiryDate != null && DateTime.now().isBefore(expiryDate)) {
         // If cached data is not expired, return it directly
         logger.d('Returning cached data');
