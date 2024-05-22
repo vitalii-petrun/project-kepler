@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:intl/intl.dart';
+import 'package:project_kepler/core/di/locator.dart';
 
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/domain/entities/event.dart';
+import 'package:project_kepler/l10n/locale_provider.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_events_cubit.dart';
@@ -49,7 +51,9 @@ class EventCard extends StatelessWidget {
           children: [
             _HeaderSection(
               eventName: event.name,
-              eventDate: DateFormat('MMMM d, yyyy').format(event.date),
+              eventDate:
+                  DateFormat.yMMMMd(locator<LocaleProvider>().currentLocale)
+                      .format(event.date),
               eventType: event.type.name,
             ),
             _ImageSection(image: event.featureImage),
@@ -101,9 +105,17 @@ class _HeaderSection extends StatelessWidget {
               color: colorScheme.onPrimary,
             ),
           ),
-          Text(
-            eventDate,
-            style: textTheme.bodyLarge?.copyWith(color: colorScheme.onPrimary),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              const Icon(Icons.date_range, size: 16, color: Colors.white),
+              const SizedBox(width: 4),
+              Text(
+                eventDate,
+                style:
+                    textTheme.bodyLarge?.copyWith(color: colorScheme.onPrimary),
+              ),
+            ],
           ),
         ],
       ),
@@ -163,7 +175,7 @@ class _BodySection extends StatelessWidget {
                 color: context.theme.colorScheme.onSurface),
             const SizedBox(width: 4),
             Text(
-              "${DateFormat('EEEE, MMMM d').format(event.date)} ${context.l10n.at} ${DateFormat('HH:mm').format(event.date)}",
+              "${DateFormat.MMMEd(locator<LocaleProvider>().currentLocale).format(event.date)} ${context.l10n.at} ${DateFormat('HH:mm').format(event.date)}",
               style: context.theme.textTheme.bodyLarge,
             ),
           ],

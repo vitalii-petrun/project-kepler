@@ -3,8 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:project_kepler/core/di/locator.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/l10n/locale_provider.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_cubit.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_launches_cubit.dart';
@@ -180,7 +182,8 @@ class _HeaderSection extends StatelessWidget {
               const Icon(Icons.date_range, size: 16, color: Colors.white),
               const SizedBox(width: 4),
               Text(
-                DateFormat.yMMMd().format(DateTime.parse(date)),
+                DateFormat.yMMMd(locator<LocaleProvider>().currentLocale)
+                    .format(DateTime.parse(date)),
                 style: textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onPrimary,
                 ),
