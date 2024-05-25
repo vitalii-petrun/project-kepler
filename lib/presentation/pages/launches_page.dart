@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
-import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
+import 'package:project_kepler/presentation/cubits/launches/launches_state.dart';
 import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_cubit.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';

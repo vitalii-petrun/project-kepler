@@ -6,7 +6,7 @@ import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_state.dart';
-import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
+import 'package:project_kepler/presentation/cubits/launches/launches_state.dart';
 import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';

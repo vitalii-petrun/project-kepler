@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/domain/use_cases/get_upcoming_launches_use_case.dart';
-import 'launches_page_state.dart';
+import 'launches_state.dart';
 import 'package:project_kepler/l10n/locale_translation_service.dart';
 
 class UpcomingLaunchesCubit extends Cubit<LaunchesState> {
