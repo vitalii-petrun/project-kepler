@@ -3,7 +3,7 @@ import 'package:project_kepler/domain/use_cases/get_upcoming_launches_use_case.d
 import 'launches_page_state.dart';
 import 'package:project_kepler/l10n/locale_translation_service.dart';
 
-class UpcomingLaunchesCubit extends Cubit<LaunchesPageState> {
+class UpcomingLaunchesCubit extends Cubit<LaunchesState> {
   final GetUpcomingLaunchesUseCase getUpcomingLaunchesUseCase;
   final LocaleTranslationService localeTranslationService;
 

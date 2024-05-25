@@ -7,7 +7,7 @@ import 'package:project_kepler/presentation/cubits/authentication/authentication
 import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_state.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
-import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
@@ -150,7 +150,7 @@ class _HomeBody extends StatelessWidget {
                 onPressed: () => context.router.pushNamed('/launches'),
                 icon: Icons.rocket_rounded,
               ),
-              BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
+              BlocBuilder<UpcomingLaunchesCubit, LaunchesState>(
                   builder: (context, state) {
                 if (state is LaunchesLoading) {
                   logger.d('[State] Loading launches...');

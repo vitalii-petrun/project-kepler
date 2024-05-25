@@ -36,8 +36,8 @@ import 'package:project_kepler/presentation/cubits/favourites_page/favourite_eve
 import 'package:project_kepler/presentation/cubits/favourites_page/favourite_launches_cubit.dart';
 import 'package:project_kepler/presentation/cubits/friends_page/friends_page_cubit.dart';
 import 'package:project_kepler/presentation/cubits/launch_details/launch_details_page_cubit.dart';
-import 'package:project_kepler/presentation/cubits/launches/launches_page_cubit.dart';
-import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/launches/launches_cubit.dart';
+import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/blogs_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/nasa_news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
@@ -65,7 +65,7 @@ class ProviderInitializer {
           create: ((_) =>
               LocaleTranslationService(TranslationService(), localeProvider))),
       BlocProvider(
-        create: (context) => LaunchesPageCubit(GetAllLaunchesUseCase(
+        create: (context) => LaunchesCubit(GetAllLaunchesUseCase(
           SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
               EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
         )),

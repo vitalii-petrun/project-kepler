@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/extensions/build_context_ext.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
-import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_cubit.dart';
 import 'package:project_kepler/presentation/widgets/countdown_timer.dart';
 import 'package:project_kepler/presentation/widgets/no_internet.dart';
 
 import '../../domain/entities/launch.dart';
 import '../cubits/authentication/authentication_cubit.dart';
-import '../cubits/launches/launches_page_cubit.dart';
+import '../cubits/launches/launches_cubit.dart';
 
 import '../widgets/launch_card.dart';
 
@@ -31,7 +31,7 @@ class _LaunchesPageState extends State<LaunchesPage>
   @override
   void initState() {
     super.initState();
-    context.read<LaunchesPageCubit>().fetch();
+    context.read<LaunchesCubit>().fetch();
     //context.read<UpcomingLaunchesCubit>().fetch();
     //It's already being fetched on the Home Page
   }
@@ -75,7 +75,7 @@ class _LaunchesPageState extends State<LaunchesPage>
             child: TabBarView(
               controller: tabController,
               children: [
-                BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
+                BlocBuilder<UpcomingLaunchesCubit, LaunchesState>(
                   builder: (context, state) {
                     if (state is LaunchesLoaded) {
                       return _LoadedBody(
@@ -89,12 +89,12 @@ class _LaunchesPageState extends State<LaunchesPage>
                     }
                   },
                 ),
-                BlocBuilder<LaunchesPageCubit, LaunchesPageState>(
+                BlocBuilder<LaunchesCubit, LaunchesState>(
                   builder: (context, state) {
                     if (state is LaunchesLoaded) {
                       return _LoadedBody(
                           onRefresh: () async =>
-                              context.read<LaunchesPageCubit>().fetch(),
+                              context.read<LaunchesCubit>().fetch(),
                           launches: state.launches
                               .where((element) =>
                                   element.status.name !=
@@ -163,7 +163,7 @@ class _FailedBody extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return RefreshIndicator(
-          onRefresh: () async => context.read<LaunchesPageCubit>().fetch(),
+          onRefresh: () async => context.read<LaunchesCubit>().fetch(),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: SizedBox(
