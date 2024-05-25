@@ -11,6 +11,7 @@ import 'package:project_kepler/domain/converters/article_converter.dart';
 import 'package:project_kepler/domain/converters/event_converter.dart';
 import 'package:project_kepler/domain/converters/launch_converter.dart';
 import 'package:project_kepler/domain/repositories/chat_repository.dart';
+import 'package:project_kepler/domain/repositories/launch_library_repository.dart';
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart';
 import 'package:project_kepler/domain/use_cases/fetch_blogs_use_case.dart';
 import 'package:project_kepler/domain/use_cases/fetch_favourite_events_use_case.dart';
@@ -54,6 +55,7 @@ import 'package:provider/single_child_widget.dart';
 
 class ProviderInitializer {
   static final localeProvider = locator<LocaleProvider>();
+  static final launchLibraryRepository = locator<LaunchLibraryRepository>();
 
   /// Service Locator.
   static List<SingleChildWidget> initializeProviders(ApiClient apiClient,
