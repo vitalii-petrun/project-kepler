@@ -3,7 +3,7 @@ import 'package:project_kepler/domain/entities/launch.dart';
 
 import '../entities/agency.dart';
 
-abstract class SpaceDevsRepository {
+abstract class LaunchLibraryRepository {
   Future<List<Launch>> getUpcomingLaunchList();
   Future<List<Launch>> getLaunchList();
   Future<Launch> getLaunchDetailsById(String id);

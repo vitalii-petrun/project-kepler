@@ -8,18 +8,18 @@ import 'package:project_kepler/domain/entities/event.dart';
 
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
-import '../../domain/repositories/space_devs_repository.dart';
+import '../../domain/repositories/launch_library_repository.dart';
 import '../data sources/remote/api_client.dart';
 import '../models/agency_dto.dart';
 
-class SpaceDevsRepositoryImpl implements SpaceDevsRepository {
+class LaunchLibraryRepositoryImpl implements LaunchLibraryRepository {
   final ApiClient _apiClient;
 
   final LaunchDtoToEntityConverter _launchConverter;
   final EventDtoToEntityConverter _eventConverter;
   final AgencyDtoToEntityConverter _agencyConverter;
 
-  SpaceDevsRepositoryImpl(this._apiClient, this._launchConverter,
+  LaunchLibraryRepositoryImpl(this._apiClient, this._launchConverter,
       this._eventConverter, this._agencyConverter);
 
   @override

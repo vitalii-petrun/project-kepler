@@ -9,7 +9,7 @@ import '../entities/launch.dart';
 class FetchFavouriteLaunchesUseCase {
   final FirebaseFirestore firestore;
   String? userId;
-  final SpaceDevsRepository apiRepository;
+  final LaunchLibraryRepository apiRepository;
 
   FetchFavouriteLaunchesUseCase(
       {required this.firestore, this.userId, required this.apiRepository});

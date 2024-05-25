@@ -5,7 +5,7 @@ import 'package:project_kepler/l10n/locale_translation_service.dart';
 import '../entities/article.dart';
 
 class FetchBlogsUseCase {
-  final ArticleRepository repository;
+  final SpaceflightRepository repository;
 
   FetchBlogsUseCase(this.repository);
 

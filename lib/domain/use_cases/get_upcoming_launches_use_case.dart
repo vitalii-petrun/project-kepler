@@ -7,7 +7,7 @@ import 'package:project_kepler/l10n/locale_translation_service.dart';
 import '../entities/launch.dart';
 
 class GetUpcomingLaunchesUseCase {
-  final SpaceDevsRepository repository;
+  final LaunchLibraryRepository repository;
 
   GetUpcomingLaunchesUseCase(this.repository);
 

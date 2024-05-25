@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_kepler/core/di/locator.dart';
 import 'package:project_kepler/core/utils/translation_service.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
-import 'package:project_kepler/data/repositories/article_repository_impl.dart';
+import 'package:project_kepler/data/repositories/spaceflight_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
-import 'package:project_kepler/data/repositories/space_devs_repository_impl.dart';
+import 'package:project_kepler/data/repositories/launch_library_repository_impl.dart';
 import 'package:project_kepler/domain/converters/agency_converter.dart';
 import 'package:project_kepler/domain/converters/article_converter.dart';
 import 'package:project_kepler/domain/converters/event_converter.dart';
@@ -66,20 +66,20 @@ class ProviderInitializer {
               LocaleTranslationService(TranslationService(), localeProvider))),
       BlocProvider(
         create: (context) => LaunchesCubit(GetAllLaunchesUseCase(
-          SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+          LaunchLibraryRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
               EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
         )),
       ),
       BlocProvider(
         create: (context) => LaunchDetailsPageCubit(GetLaunchDetailsUseCase(
-          SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+          LaunchLibraryRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
               EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
         )),
       ),
       BlocProvider(
         create: (context) => UpcomingLaunchesCubit(
           GetUpcomingLaunchesUseCase(
-            SpaceDevsRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
+            LaunchLibraryRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
           ),
           locator<LocaleTranslationService>(),
@@ -91,7 +91,8 @@ class ProviderInitializer {
       BlocProvider(
         create: (context) => NewsCubit(
           fetchRecentArticlesUseCase: FetchArticlesUseCase(
-            ArticleRepositoryImpl(newsApiClient, ArticleDtoToEntityConverter()),
+            SpaceflightRepositoryImpl(
+                newsApiClient, ArticleDtoToEntityConverter()),
           ),
           localeTranslationService: locator<LocaleTranslationService>(),
         ),
@@ -99,27 +100,29 @@ class ProviderInitializer {
       BlocProvider(
         create: (context) => NasaNewsCubit(
           fetchNasaArticlesUseCase: FetchNasaArticlesUseCase(
-            ArticleRepositoryImpl(newsApiClient, ArticleDtoToEntityConverter()),
+            SpaceflightRepositoryImpl(
+                newsApiClient, ArticleDtoToEntityConverter()),
           ),
         ),
       ),
       BlocProvider(
           create: (context) => SpaceXNewsCubit(
                 fetchSpaceXArticlesUseCase: FetchSpaceXArticlesUseCase(
-                  ArticleRepositoryImpl(
+                  SpaceflightRepositoryImpl(
                       newsApiClient, ArticleDtoToEntityConverter()),
                 ),
               )),
       BlocProvider(
         create: (context) => BlogsCubit(
             fetchBlogsUseCase: FetchBlogsUseCase(
-          ArticleRepositoryImpl(newsApiClient, ArticleDtoToEntityConverter()),
+          SpaceflightRepositoryImpl(
+              newsApiClient, ArticleDtoToEntityConverter()),
         )),
       ),
       BlocProvider(
           create: (context) => EventsCubit(
                 GetAllEventsUseCase(
-                  SpaceDevsRepositoryImpl(
+                  LaunchLibraryRepositoryImpl(
                       apiClient,
                       LaunchDtoToEntityConverter(),
                       EventDtoToEntityConverter(),
@@ -137,7 +140,7 @@ class ProviderInitializer {
         return FavoriteLaunchesCubit(
           fetchFavouriteLaunchesUseCase: FetchFavouriteLaunchesUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: SpaceDevsRepositoryImpl(
+            apiRepository: LaunchLibraryRepositoryImpl(
                 apiClient,
                 LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(),
@@ -157,7 +160,7 @@ class ProviderInitializer {
         return FavouriteEventsCubit(
           fetchFavouriteEventsUseCase: FetchFavouriteEventsUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: SpaceDevsRepositoryImpl(
+            apiRepository: LaunchLibraryRepositoryImpl(
                 apiClient,
                 LaunchDtoToEntityConverter(),
                 EventDtoToEntityConverter(),

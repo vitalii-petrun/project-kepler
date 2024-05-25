@@ -7,7 +7,7 @@ import 'package:project_kepler/domain/entities/translatable.dart';
 import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
 
 class GetAllLaunchesUseCase {
-  final SpaceDevsRepository repository;
+  final LaunchLibraryRepository repository;
 
   GetAllLaunchesUseCase(this.repository);
 

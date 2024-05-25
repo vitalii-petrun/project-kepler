@@ -6,7 +6,7 @@ import '../../../domain/entities/launch.dart';
 import '../../../domain/entities/agency.dart';
 
 class GetLaunchDetailsUseCase {
-  final SpaceDevsRepository repository;
+  final LaunchLibraryRepository repository;
 
   GetLaunchDetailsUseCase(this.repository);
 

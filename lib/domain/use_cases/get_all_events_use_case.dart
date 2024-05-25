@@ -6,10 +6,10 @@ import 'package:project_kepler/l10n/locale_translation_service.dart';
 
 /// Use case for retrieving all events.
 ///
-/// Utilizes [SpaceDevsRepository] for fetching events data and
+/// Utilizes [LaunchLibraryRepository] for fetching events data and
 /// [LocaleTranslationService] for setting up appropriate language configurations.
 class GetAllEventsUseCase {
-  final SpaceDevsRepository repository;
+  final LaunchLibraryRepository repository;
 
   GetAllEventsUseCase(this.repository);
 

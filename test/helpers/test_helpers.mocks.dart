@@ -23,11 +23,11 @@ import 'package:project_kepler/domain/entities/agency.dart' as _i8;
 import 'package:project_kepler/domain/entities/article.dart' as _i10;
 import 'package:project_kepler/domain/entities/event.dart' as _i3;
 import 'package:project_kepler/domain/entities/launch.dart' as _i2;
-import 'package:project_kepler/domain/entities/translatable.dart' as _i6;
-import 'package:project_kepler/domain/repositories/article_repository.dart'
+import 'package:project_kepler/domain/entities/translatable.dart' as _i5;
+import 'package:project_kepler/domain/repositories/launch_library_repository.dart'
+    as _i6;
+import 'package:project_kepler/domain/repositories/spaceflight_repository.dart'
     as _i4;
-import 'package:project_kepler/domain/repositories/space_devs_repository.dart'
-    as _i5;
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart'
     as _i9;
 import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart'
@@ -69,9 +69,9 @@ class _FakeEvent_1 extends _i1.SmartFake implements _i3.Event {
         );
 }
 
-class _FakeArticleRepository_2 extends _i1.SmartFake
-    implements _i4.ArticleRepository {
-  _FakeArticleRepository_2(
+class _FakeSpaceflightRepository_2 extends _i1.SmartFake
+    implements _i4.SpaceflightRepository {
+  _FakeSpaceflightRepository_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -80,9 +80,8 @@ class _FakeArticleRepository_2 extends _i1.SmartFake
         );
 }
 
-class _FakeSpaceDevsRepository_3 extends _i1.SmartFake
-    implements _i5.SpaceDevsRepository {
-  _FakeSpaceDevsRepository_3(
+class _FakeTranslatable_3 extends _i1.SmartFake implements _i5.Translatable {
+  _FakeTranslatable_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -91,21 +90,11 @@ class _FakeSpaceDevsRepository_3 extends _i1.SmartFake
         );
 }
 
-class _FakeTranslatable_4 extends _i1.SmartFake implements _i6.Translatable {
-  _FakeTranslatable_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-/// A class which mocks [SpaceDevsRepository].
+/// A class which mocks [LaunchLibraryRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSpaceDevsRepository extends _i1.Mock
-    implements _i5.SpaceDevsRepository {
+class MockLaunchLibraryRepository extends _i1.Mock
+    implements _i6.LaunchLibraryRepository {
   @override
   _i7.Future<List<_i2.Launch>> getUpcomingLaunchList() => (super.noSuchMethod(
         Invocation.method(
@@ -201,17 +190,17 @@ class MockSpaceDevsRepository extends _i1.Mock
 class MockFetchArticlesUseCase extends _i1.Mock
     implements _i9.FetchArticlesUseCase {
   @override
-  _i4.ArticleRepository get repository => (super.noSuchMethod(
+  _i4.SpaceflightRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeArticleRepository_2(
+        returnValue: _FakeSpaceflightRepository_2(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeArticleRepository_2(
+        returnValueForMissingStub: _FakeSpaceflightRepository_2(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i4.ArticleRepository);
+      ) as _i4.SpaceflightRepository);
 
   @override
   _i7.Future<List<_i10.Article>> call() => (super.noSuchMethod(
@@ -231,19 +220,6 @@ class MockFetchArticlesUseCase extends _i1.Mock
 class MockGetAllLaunchesUseCase extends _i1.Mock
     implements _i11.GetAllLaunchesUseCase {
   @override
-  _i5.SpaceDevsRepository get repository => (super.noSuchMethod(
-        Invocation.getter(#repository),
-        returnValue: _FakeSpaceDevsRepository_3(
-          this,
-          Invocation.getter(#repository),
-        ),
-        returnValueForMissingStub: _FakeSpaceDevsRepository_3(
-          this,
-          Invocation.getter(#repository),
-        ),
-      ) as _i5.SpaceDevsRepository);
-
-  @override
   _i7.Future<List<_i2.Launch>> call() => (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -261,13 +237,13 @@ class MockGetAllLaunchesUseCase extends _i1.Mock
 class MockLanguageDetectionService extends _i1.Mock
     implements _i12.LanguageDetectionService {
   @override
-  _i7.Future<_i6.Translatable> translateIfNecessary(_i6.Translatable? model) =>
+  _i7.Future<_i5.Translatable> translateIfNecessary(_i5.Translatable? model) =>
       (super.noSuchMethod(
         Invocation.method(
           #translateIfNecessary,
           [model],
         ),
-        returnValue: _i7.Future<_i6.Translatable>.value(_FakeTranslatable_4(
+        returnValue: _i7.Future<_i5.Translatable>.value(_FakeTranslatable_3(
           this,
           Invocation.method(
             #translateIfNecessary,
@@ -275,14 +251,14 @@ class MockLanguageDetectionService extends _i1.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i7.Future<_i6.Translatable>.value(_FakeTranslatable_4(
+            _i7.Future<_i5.Translatable>.value(_FakeTranslatable_3(
           this,
           Invocation.method(
             #translateIfNecessary,
             [model],
           ),
         )),
-      ) as _i7.Future<_i6.Translatable>);
+      ) as _i7.Future<_i5.Translatable>);
 }
 
 /// A class which mocks [FlutterLocalNotificationsPlugin].
