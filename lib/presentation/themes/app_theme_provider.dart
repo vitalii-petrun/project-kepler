@@ -6,26 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppThemeProvider extends ChangeNotifier {
   String currentTheme = 'system';
 
-  // final ThemeData lightTheme = ThemeData(
-  //   colorScheme: ColorScheme.fromSeed(
-  //     seedColor: const Color(0xFF0D1B2A),
-  //   ),
-  //   textTheme: GoogleFonts.exo2TextTheme(),
-  //   useMaterial3: true,
-  // );
-
-  // final ThemeData darkTheme = ThemeData(
-  //   colorScheme: ColorScheme.fromSeed(
-  //     seedColor: const Color(0xFF0D1B2A),
-  //     brightness: Brightness.dark,
-  //   ),
-  //   textTheme: GoogleFonts.exo2TextTheme().apply(
-  //     bodyColor: Colors.white,
-  //     displayColor: Colors.white,
-  //   ),
-  //   useMaterial3: true,
-  // );
-
   final ThemeData lightTheme = ThemeData.light().copyWith(
     colorScheme: const ColorScheme.light(
       primary: Color(0xFF546E7A), // Slate Blue
@@ -56,9 +36,6 @@ class AppThemeProvider extends ChangeNotifier {
       bodyColor: Colors.white,
       displayColor: Colors.white,
     ),
-    // navigationBarTheme: const NavigationBarThemeData(
-    //   indicatorColor: Color.fromARGB(255, 130, 171, 190),
-    // ),
   );
 
   ThemeMode get themeMode {

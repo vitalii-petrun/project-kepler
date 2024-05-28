@@ -99,7 +99,6 @@ class _LaunchesPageState extends State<LaunchesPage>
                               .where((element) =>
                                   element.status.name !=
                                   LaunchStatus.goForLaunch.value)
-                              // Sort incorrect data from the API.
                               .toList());
                     } else if (state is LaunchesError) {
                       return const _FailedBody();

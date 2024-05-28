@@ -19,6 +19,8 @@ import 'package:flutter_local_notifications/src/types.dart' as _i20;
 import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
     as _i15;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:project_kepler/core/utils/language_detection_service.dart'
+    as _i12;
 import 'package:project_kepler/domain/entities/agency.dart' as _i8;
 import 'package:project_kepler/domain/entities/article.dart' as _i10;
 import 'package:project_kepler/domain/entities/event.dart' as _i3;
@@ -32,8 +34,6 @@ import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart'
     as _i9;
 import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart'
     as _i11;
-import 'package:project_kepler/presentation/utils/language_detection_service.dart'
-    as _i12;
 import 'package:timezone/timezone.dart' as _i17;
 
 // ignore_for_file: type=lint

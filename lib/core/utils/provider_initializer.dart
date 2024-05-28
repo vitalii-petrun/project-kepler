@@ -5,10 +5,7 @@ import 'package:project_kepler/core/utils/translation_service.dart';
 import 'package:project_kepler/data/data%20sources/remote/api_client.dart';
 import 'package:project_kepler/data/repositories/spaceflight_repository_impl.dart';
 import 'package:project_kepler/data/repositories/firestore_user_repository.dart';
-import 'package:project_kepler/data/repositories/launch_library_repository_impl.dart';
-import 'package:project_kepler/domain/converters/agency_converter.dart';
 import 'package:project_kepler/domain/converters/article_converter.dart';
-import 'package:project_kepler/domain/converters/event_converter.dart';
 import 'package:project_kepler/domain/converters/launch_converter.dart';
 import 'package:project_kepler/domain/repositories/chat_repository.dart';
 import 'package:project_kepler/domain/repositories/launch_library_repository.dart';
@@ -49,10 +46,6 @@ import 'package:project_kepler/presentation/themes/refresh_rate_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-// TODO: The method initializeProviders returns a list of providers with multiple instances of
-//  SpaceDevsRepositoryImpl  being created for different use cases. This approach
-//  is inefficient and goes against the principle of dependency injection, where a single instance should be reused.
-
 class ProviderInitializer {
   static final localeProvider = locator<LocaleProvider>();
   static final launchLibraryRepository = locator<LaunchLibraryRepository>();
@@ -67,23 +60,16 @@ class ProviderInitializer {
           create: ((_) =>
               LocaleTranslationService(TranslationService(), localeProvider))),
       BlocProvider(
-        create: (context) => LaunchesCubit(GetAllLaunchesUseCase(
-          LaunchLibraryRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
-              EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
-        )),
+        create: (context) =>
+            LaunchesCubit(GetAllLaunchesUseCase(launchLibraryRepository)),
       ),
       BlocProvider(
-        create: (context) => LaunchDetailsPageCubit(GetLaunchDetailsUseCase(
-          LaunchLibraryRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
-              EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
-        )),
+        create: (context) => LaunchDetailsPageCubit(
+            GetLaunchDetailsUseCase(launchLibraryRepository)),
       ),
       BlocProvider(
         create: (context) => UpcomingLaunchesCubit(
-          GetUpcomingLaunchesUseCase(
-            LaunchLibraryRepositoryImpl(apiClient, LaunchDtoToEntityConverter(),
-                EventDtoToEntityConverter(), AgencyDtoToEntityConverter()),
-          ),
+          GetUpcomingLaunchesUseCase(launchLibraryRepository),
           locator<LocaleTranslationService>(),
         ),
       ),
@@ -123,13 +109,7 @@ class ProviderInitializer {
       ),
       BlocProvider(
           create: (context) => EventsCubit(
-                GetAllEventsUseCase(
-                  LaunchLibraryRepositoryImpl(
-                      apiClient,
-                      LaunchDtoToEntityConverter(),
-                      EventDtoToEntityConverter(),
-                      AgencyDtoToEntityConverter()),
-                ),
+                GetAllEventsUseCase(launchLibraryRepository),
                 locator<LocaleTranslationService>(),
               )),
       BlocProvider(create: (context) => UsersPageCubit()),
@@ -142,11 +122,7 @@ class ProviderInitializer {
         return FavoriteLaunchesCubit(
           fetchFavouriteLaunchesUseCase: FetchFavouriteLaunchesUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: LaunchLibraryRepositoryImpl(
-                apiClient,
-                LaunchDtoToEntityConverter(),
-                EventDtoToEntityConverter(),
-                AgencyDtoToEntityConverter()),
+            apiRepository: launchLibraryRepository,
           ),
           setFavouriteLaunchUseCase: SetFavouriteLaunchUseCase(
             firestore: FirebaseFirestore.instance,
@@ -162,11 +138,7 @@ class ProviderInitializer {
         return FavouriteEventsCubit(
           fetchFavouriteEventsUseCase: FetchFavouriteEventsUseCase(
             firestore: FirebaseFirestore.instance,
-            apiRepository: LaunchLibraryRepositoryImpl(
-                apiClient,
-                LaunchDtoToEntityConverter(),
-                EventDtoToEntityConverter(),
-                AgencyDtoToEntityConverter()),
+            apiRepository: launchLibraryRepository,
           ),
           setFavouriteEventUseCase: SetFavouriteEventUseCase(
             firestore: FirebaseFirestore.instance,

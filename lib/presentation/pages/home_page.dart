@@ -151,20 +151,22 @@ class _HomeBody extends StatelessWidget {
                 icon: Icons.rocket_rounded,
               ),
               BlocBuilder<UpcomingLaunchesCubit, LaunchesState>(
-                  builder: (context, state) {
-                if (state is LaunchesLoading) {
-                  logger.d('[State] Loading launches...');
-                  return _LaunchesSection.loading();
-                } else if (state is LaunchesLoaded) {
-                  return _LaunchesSection(
-                    launches: state.launches,
-                  );
-                } else if (state is LaunchesError) {
-                  logger.d(state.message);
-                  return FailedBody(message: context.l10n.failedToLoadLaunches);
-                }
-                return const SizedBox.shrink();
-              }),
+                builder: (context, state) {
+                  if (state is LaunchesLoading) {
+                    logger.d('[State] Loading launches...');
+                    return _LaunchesSection.loading();
+                  } else if (state is LaunchesLoaded) {
+                    return _LaunchesSection(
+                      launches: state.launches,
+                    );
+                  } else if (state is LaunchesError) {
+                    logger.d(state.message);
+                    return FailedBody(
+                        message: context.l10n.failedToLoadLaunches);
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
               const SizedBox(height: 16.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
