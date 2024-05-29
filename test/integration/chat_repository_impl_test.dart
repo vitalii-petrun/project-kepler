@@ -15,7 +15,7 @@ void main() {
       final aiResponse = await chatRepository.generateAIResponse(userMessage);
       expect(aiResponse, isNotEmpty);
       expect(aiResponse, contains('Jupiter'));
-      logger.d(aiResponse);
+      logger.i(aiResponse);
     });
 
     test('generateAIResponse handles context correctly', () async {
@@ -35,6 +35,7 @@ void main() {
       // Assert
       expect(aiResponse, isNotEmpty);
       expect(aiResponse, contains('SpaceX'));
+      logger.i(aiResponse);
     });
   });
 }

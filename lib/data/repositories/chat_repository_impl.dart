@@ -28,12 +28,8 @@ class ChatRepositoryImpl implements ChatRepository {
       Provide accurate information and answer the user's questions to the best of your ability.
       """;
 
-  @override
-  Future<String> generateAIResponse(String message,
-      {Map<String, dynamic>? context}) async {
-    logger.i('Generating AI response for message: $message');
-    logger.i('Context of request: ${context.toString()}');
-
+  List<OpenAIChatCompletionChoiceMessageModel> _createRequestMessages(
+      String message, Map<String, dynamic>? context) {
     final systemMessage = OpenAIChatCompletionChoiceMessageModel(
       content: [
         OpenAIChatCompletionChoiceMessageContentItemModel.text(_initialPrompt),
@@ -51,7 +47,17 @@ class ChatRepositoryImpl implements ChatRepository {
       role: OpenAIChatMessageRole.user,
     );
 
-    final requestMessages = [systemMessage, userMessage];
+    return [systemMessage, userMessage];
+  }
+
+  @override
+  Future<String> generateAIResponse(String message,
+      {Map<String, dynamic>? context}) async {
+    logger.i('Generating AI response for message: $message');
+    logger.i('Context of request: ${context.toString()}');
+
+    final requestMessages = _createRequestMessages(message, context);
+
     logger.i('Request messages: $requestMessages');
 
     final response = await OpenAI.instance.chat.create(
