@@ -1,6 +1,7 @@
 import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/data/models/gpt_model.dart';
 import 'package:project_kepler/domain/repositories/chat_repository.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -16,7 +17,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   static Future<OpenAIModelModel> _initModel() async {
-    const modelTitle = "gpt-3.5-turbo";
+    final modelTitle = GPTModel.gpt35Turbo.value;
     return await OpenAI.instance.model.retrieve(modelTitle);
   }
 
