@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_kepler/core/utils/helpers.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:project_kepler/core/utils/notification_service.dart';
 
@@ -36,7 +37,7 @@ class SetFavouriteLaunchUseCase {
     await NotificationService().scheduleNotification(
       launch.id.hashCode,
       '🚀 Launch Reminder',
-      'The launch ${launch.name} is about to start at ${launch.net}',
+      'The launch ${launch.name} start at ${formatDateTime(DateTime.parse(launch.net))} UTC',
       tz.TZDateTime.from(DateTime.parse(launch.net), tz.local),
     );
 
@@ -54,7 +55,7 @@ class SetFavouriteLaunchUseCase {
     // await NotificationService().showNotification(
     //   launch.id.hashCode,
     //   'Launch Reminder',
-    //   'The launch ${launch.name} is about to start',
+    //   'The launch ${launch.name} start at ${formatDateTime(DateTime.parse(launch.net))} UTC',
     // );
   }
 }
