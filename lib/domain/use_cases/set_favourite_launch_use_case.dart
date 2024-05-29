@@ -34,7 +34,6 @@ class SetFavouriteLaunchUseCase {
     });
 
     await NotificationService().scheduleNotification(
-      // TODO: on remove - cancel notification
       launch.id.hashCode,
       '🚀 Launch Reminder',
       'The launch ${launch.name} is about to start',

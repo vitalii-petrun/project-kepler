@@ -85,4 +85,8 @@ class NotificationService {
       logger.e('Failed to schedule notification: $e');
     }
   }
+
+  Future<void> cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
 }
