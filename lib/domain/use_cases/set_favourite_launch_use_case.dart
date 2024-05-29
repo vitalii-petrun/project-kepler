@@ -36,7 +36,7 @@ class SetFavouriteLaunchUseCase {
     await NotificationService().scheduleNotification(
       launch.id.hashCode,
       '🚀 Launch Reminder',
-      'The launch ${launch.name} is about to start',
+      'The launch ${launch.name} is about to start at ${launch.net}',
       tz.TZDateTime.from(DateTime.parse(launch.net), tz.local),
     );
 

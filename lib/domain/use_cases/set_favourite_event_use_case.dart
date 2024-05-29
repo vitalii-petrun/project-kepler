@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/core/utils/notification_service.dart';
 import 'package:project_kepler/domain/entities/event.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class SetFavouriteEventUseCase {
   final FirebaseFirestore firestore;
@@ -29,5 +31,12 @@ class SetFavouriteEventUseCase {
       'id': event.id,
       'name': event.name,
     });
+
+    await NotificationService().scheduleNotification(
+      event.id.hashCode,
+      'Event Reminder',
+      'The event ${event.name} is about to start at ${event.date}',
+      tz.TZDateTime.from(event.date, tz.local),
+    );
   }
 }
