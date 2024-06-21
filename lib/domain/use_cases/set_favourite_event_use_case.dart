@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_kepler/core/global.dart';
+import 'package:project_kepler/core/utils/helpers.dart';
 import 'package:project_kepler/core/utils/notification_service.dart';
 import 'package:project_kepler/domain/entities/event.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -32,11 +33,18 @@ class SetFavouriteEventUseCase {
       'name': event.name,
     });
 
-    await NotificationService().scheduleNotification(
-      event.id.hashCode,
-      'Event Reminder',
-      'The event ${event.name} is about to start at ${event.date}',
-      tz.TZDateTime.from(event.date, tz.local),
-    );
+    _scheduleNotification(event);
   }
+}
+
+void _scheduleNotification(Event event) async {
+  final eventTime = event.date;
+  final notificationTime = eventTime.subtract(const Duration(minutes: 5));
+
+  await NotificationService().scheduleNotification(
+    event.id.hashCode,
+    '🚀 Event Reminder',
+    'The launch ${event.name} starts in 5 minutes at ${formatDateTime(eventTime)} UTC',
+    tz.TZDateTime.from(notificationTime, tz.local),
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:project_kepler/core/di/locator.dart';
+import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/l10n/locale_translation_service.dart';
 
 import '../entities/launch.dart';
@@ -13,6 +14,7 @@ class GetAllLaunchesUseCase {
 
   Future<List<Launch>> call() async {
     final response = await repository.getLaunchList();
+    logger.d('Launches loaded: $response');
     return await _translateArticlesIfNeeded(response);
   }
 

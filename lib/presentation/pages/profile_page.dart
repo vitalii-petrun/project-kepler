@@ -120,10 +120,10 @@ class _ProfileCard extends StatelessWidget {
               title: context.l10n.settings,
               onTap: () => context.router.pushNamed("/settings"),
             ),
-            _ProfileTile(
-                icon: const Icon(Icons.person_outline_rounded),
-                title: context.l10n.friends,
-                onTap: () => context.router.pushNamed("/friends")),
+            // _ProfileTile(
+            //     icon: const Icon(Icons.person_outline_rounded),
+            //     title: context.l10n.friends,
+            //     onTap: () => context.router.pushNamed("/friends")),
           ],
         ),
       ),

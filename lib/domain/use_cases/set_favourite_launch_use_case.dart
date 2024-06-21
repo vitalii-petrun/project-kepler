@@ -34,12 +34,8 @@ class SetFavouriteLaunchUseCase {
       'name': launch.name,
     });
 
-    await NotificationService().scheduleNotification(
-      launch.id.hashCode,
-      '🚀 Launch Reminder',
-      'The launch ${launch.name} start at ${formatDateTime(DateTime.parse(launch.net))} UTC',
-      tz.TZDateTime.from(DateTime.parse(launch.net), tz.local),
-    );
+    // Schedule a notification for the launch
+    _scheduleNotification(launch);
 
     // TEST SCHEDULE NOTIFICATION
     // Schedule a notification 10 seconds from now
@@ -52,10 +48,24 @@ class SetFavouriteLaunchUseCase {
     // );
 
     // TEST SHOW NOTIFICATION
+    // final launchTime = DateTime.parse(launch.net);
+
     // await NotificationService().showNotification(
     //   launch.id.hashCode,
-    //   'Launch Reminder',
-    //   'The launch ${launch.name} start at ${formatDateTime(DateTime.parse(launch.net))} UTC',
+    //   '🚀 Launch Reminder',
+    //   'The launch ${launch.name} starts in 5 minutes at ${formatDateTime(launchTime)} UTC',
     // );
   }
+}
+
+void _scheduleNotification(Launch launch) async {
+  final launchTime = DateTime.parse(launch.net);
+  final notificationTime = launchTime.subtract(const Duration(minutes: 5));
+
+  await NotificationService().scheduleNotification(
+    launch.id.hashCode,
+    '🚀 Launch Reminder',
+    'The launch ${launch.name} starts in 5 minutes at ${formatDateTime(launchTime)} UTC',
+    tz.TZDateTime.from(notificationTime, tz.local),
+  );
 }
