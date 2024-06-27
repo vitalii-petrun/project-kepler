@@ -6,8 +6,8 @@ import 'package:project_kepler/core/global.dart';
 import 'package:project_kepler/presentation/cubits/authentication/authentication_state.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_cubit.dart';
 import 'package:project_kepler/presentation/cubits/events_page/events_state.dart';
-import 'package:project_kepler/presentation/cubits/launches/launches_page_state.dart';
-import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_page_cubit.dart';
+import 'package:project_kepler/presentation/cubits/launches/launches_state.dart';
+import 'package:project_kepler/presentation/cubits/launches/upcoming_launches_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_cubit.dart';
 import 'package:project_kepler/presentation/cubits/news_page/news_state.dart';
 import 'package:project_kepler/presentation/utils/ui_helpers.dart';
@@ -150,21 +150,23 @@ class _HomeBody extends StatelessWidget {
                 onPressed: () => context.router.pushNamed('/launches'),
                 icon: Icons.rocket_rounded,
               ),
-              BlocBuilder<UpcomingLaunchesCubit, LaunchesPageState>(
-                  builder: (context, state) {
-                if (state is LaunchesLoading) {
-                  logger.d('[State] Loading launches...');
-                  return _LaunchesSection.loading();
-                } else if (state is LaunchesLoaded) {
-                  return _LaunchesSection(
-                    launches: state.launches,
-                  );
-                } else if (state is LaunchesError) {
-                  logger.d(state.message);
-                  return FailedBody(message: context.l10n.failedToLoadLaunches);
-                }
-                return const SizedBox.shrink();
-              }),
+              BlocBuilder<UpcomingLaunchesCubit, LaunchesState>(
+                builder: (context, state) {
+                  if (state is LaunchesLoading) {
+                    logger.d('[State] Loading launches...');
+                    return _LaunchesSection.loading();
+                  } else if (state is LaunchesLoaded) {
+                    return _LaunchesSection(
+                      launches: state.launches,
+                    );
+                  } else if (state is LaunchesError) {
+                    logger.d(state.message);
+                    return FailedBody(
+                        message: context.l10n.failedToLoadLaunches);
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
               const SizedBox(height: 16.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),

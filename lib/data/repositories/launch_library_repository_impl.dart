@@ -8,26 +8,32 @@ import 'package:project_kepler/domain/entities/event.dart';
 
 import '../../domain/entities/agency.dart';
 import '../../domain/entities/launch.dart';
-import '../../domain/repositories/space_devs_repository.dart';
+import '../../domain/repositories/launch_library_repository.dart';
 import '../data sources/remote/api_client.dart';
 import '../models/agency_dto.dart';
 
-class SpaceDevsRepositoryImpl implements SpaceDevsRepository {
+class LaunchLibraryRepositoryImpl implements LaunchLibraryRepository {
   final ApiClient _apiClient;
 
   final LaunchDtoToEntityConverter _launchConverter;
   final EventDtoToEntityConverter _eventConverter;
   final AgencyDtoToEntityConverter _agencyConverter;
 
-  SpaceDevsRepositoryImpl(this._apiClient, this._launchConverter,
+  LaunchLibraryRepositoryImpl(this._apiClient, this._launchConverter,
       this._eventConverter, this._agencyConverter);
 
   @override
-  Future<List<Launch>> getLaunchList() async => _fetchLaunches('/launch/');
+  Future<List<Launch>> getLaunchList() async {
+    return _fetchLaunches('/launch/previous/');
+  }
 
   @override
-  Future<List<Launch>> getUpcomingLaunchList() async =>
-      _fetchLaunches('/launch/upcoming/');
+  Future<List<Launch>> getUpcomingLaunchList() async {
+    final launches = await _fetchLaunches('/launch/upcoming/');
+    launches.removeWhere(
+        (launch) => DateTime.parse(launch.net).isBefore(DateTime.now()));
+    return launches;
+  }
 
   @override
   Future<List<Event>> getAllEvents() async => _fetchEvents('/event/');
@@ -58,9 +64,10 @@ class SpaceDevsRepositoryImpl implements SpaceDevsRepository {
   Future<List<Launch>> _fetchLaunches(String endpoint) async {
     try {
       final response = await _apiClient.get(endpoint);
-      final launchDtoList = (response.data["results"] as List)
-          .map((item) => LaunchDTO.fromJson(item))
-          .toList();
+      final launchDtoList = (response.data["results"] as List).map((item) {
+        return LaunchDTO.fromJson(item);
+      }).toList();
+
       return launchDtoList.map(_launchConverter.convert).toList();
     } catch (e) {
       logger.e('Failed to fetch data: $e');

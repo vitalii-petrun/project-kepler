@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_kepler/core/utils/helpers.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:project_kepler/core/utils/notification_service.dart';
 
@@ -33,13 +34,8 @@ class SetFavouriteLaunchUseCase {
       'name': launch.name,
     });
 
-    await NotificationService().scheduleNotification(
-      // TODO: on remove - cancel notification
-      launch.id.hashCode,
-      '🚀 Launch Reminder',
-      'The launch ${launch.name} is about to start',
-      tz.TZDateTime.from(DateTime.parse(launch.net), tz.local),
-    );
+    // Schedule a notification for the launch
+    _scheduleNotification(launch);
 
     // TEST SCHEDULE NOTIFICATION
     // Schedule a notification 10 seconds from now
@@ -52,10 +48,24 @@ class SetFavouriteLaunchUseCase {
     // );
 
     // TEST SHOW NOTIFICATION
+    // final launchTime = DateTime.parse(launch.net);
+
     // await NotificationService().showNotification(
     //   launch.id.hashCode,
-    //   'Launch Reminder',
-    //   'The launch ${launch.name} is about to start',
+    //   '🚀 Launch Reminder',
+    //   'The launch ${launch.name} starts in 5 minutes at ${formatDateTime(launchTime)} UTC',
     // );
   }
+}
+
+void _scheduleNotification(Launch launch) async {
+  final launchTime = DateTime.parse(launch.net);
+  final notificationTime = launchTime.subtract(const Duration(minutes: 5));
+
+  await NotificationService().scheduleNotification(
+    launch.id.hashCode,
+    '🚀 Launch Reminder',
+    'The launch ${launch.name} starts in 5 minutes at ${formatDateTime(launchTime)} UTC',
+    tz.TZDateTime.from(notificationTime, tz.local),
+  );
 }

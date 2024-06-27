@@ -15,16 +15,15 @@ void main() {
       final aiResponse = await chatRepository.generateAIResponse(userMessage);
       expect(aiResponse, isNotEmpty);
       expect(aiResponse, contains('Jupiter'));
-      logger.d(aiResponse);
+      logger.i(aiResponse);
     });
 
     test('generateAIResponse handles context correctly', () async {
       // Arrange
-      const userMessage = 'Who is the creator of the rocket?';
+      const userMessage = 'Who is the main architect of the rocket?';
       Map<String, dynamic> context = {
         'rocket': {
-          'name': 'Falcon 9',
-          'creator': 'SpaceX',
+          'name': 'Saturn V',
         }
       };
 
@@ -34,7 +33,8 @@ void main() {
 
       // Assert
       expect(aiResponse, isNotEmpty);
-      expect(aiResponse, contains('SpaceX'));
+      expect(aiResponse, contains('Wernher von Braun'));
+      logger.i(aiResponse);
     });
   });
 }

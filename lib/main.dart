@@ -28,14 +28,14 @@ late final AppRouter appRouter;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Notification-related things
+  // Initialize Notification-related services
   await _initializeTimezone();
   await NotificationService().init();
 
   // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Load .env file
+  // Load .env file with project configurations
   await dotenv.load(fileName: ".env");
 
   // Initialize the locator

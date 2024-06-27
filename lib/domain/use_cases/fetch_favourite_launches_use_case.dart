@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_kepler/core/di/locator.dart';
 import 'package:project_kepler/core/global.dart';
-import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
+import 'package:project_kepler/domain/repositories/launch_library_repository.dart';
 import 'package:project_kepler/l10n/locale_translation_service.dart';
 
 import '../entities/launch.dart';
@@ -9,7 +9,7 @@ import '../entities/launch.dart';
 class FetchFavouriteLaunchesUseCase {
   final FirebaseFirestore firestore;
   String? userId;
-  final SpaceDevsRepository apiRepository;
+  final LaunchLibraryRepository apiRepository;
 
   FetchFavouriteLaunchesUseCase(
       {required this.firestore, this.userId, required this.apiRepository});

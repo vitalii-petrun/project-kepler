@@ -1,12 +1,12 @@
 import 'package:project_kepler/core/di/locator.dart';
-import 'package:project_kepler/domain/repositories/space_devs_repository.dart';
+import 'package:project_kepler/domain/repositories/launch_library_repository.dart';
 import 'package:project_kepler/l10n/locale_translation_service.dart';
 
 import '../../../domain/entities/launch.dart';
 import '../../../domain/entities/agency.dart';
 
 class GetLaunchDetailsUseCase {
-  final SpaceDevsRepository repository;
+  final LaunchLibraryRepository repository;
 
   GetLaunchDetailsUseCase(this.repository);
 

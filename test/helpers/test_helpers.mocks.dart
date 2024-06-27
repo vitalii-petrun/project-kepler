@@ -19,21 +19,21 @@ import 'package:flutter_local_notifications/src/types.dart' as _i20;
 import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
     as _i15;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:project_kepler/core/utils/language_detection_service.dart'
+    as _i12;
 import 'package:project_kepler/domain/entities/agency.dart' as _i8;
 import 'package:project_kepler/domain/entities/article.dart' as _i10;
 import 'package:project_kepler/domain/entities/event.dart' as _i3;
 import 'package:project_kepler/domain/entities/launch.dart' as _i2;
 import 'package:project_kepler/domain/entities/translatable.dart' as _i6;
-import 'package:project_kepler/domain/repositories/article_repository.dart'
-    as _i4;
-import 'package:project_kepler/domain/repositories/space_devs_repository.dart'
+import 'package:project_kepler/domain/repositories/launch_library_repository.dart'
     as _i5;
+import 'package:project_kepler/domain/repositories/spaceflight_repository.dart'
+    as _i4;
 import 'package:project_kepler/domain/use_cases/fetch_articles_use_case.dart'
     as _i9;
 import 'package:project_kepler/domain/use_cases/get_all_launches_use_case.dart'
     as _i11;
-import 'package:project_kepler/presentation/utils/language_detection_service.dart'
-    as _i12;
 import 'package:timezone/timezone.dart' as _i17;
 
 // ignore_for_file: type=lint
@@ -69,9 +69,9 @@ class _FakeEvent_1 extends _i1.SmartFake implements _i3.Event {
         );
 }
 
-class _FakeArticleRepository_2 extends _i1.SmartFake
-    implements _i4.ArticleRepository {
-  _FakeArticleRepository_2(
+class _FakeSpaceflightRepository_2 extends _i1.SmartFake
+    implements _i4.SpaceflightRepository {
+  _FakeSpaceflightRepository_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -80,9 +80,9 @@ class _FakeArticleRepository_2 extends _i1.SmartFake
         );
 }
 
-class _FakeSpaceDevsRepository_3 extends _i1.SmartFake
-    implements _i5.SpaceDevsRepository {
-  _FakeSpaceDevsRepository_3(
+class _FakeLaunchLibraryRepository_3 extends _i1.SmartFake
+    implements _i5.LaunchLibraryRepository {
+  _FakeLaunchLibraryRepository_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -101,11 +101,11 @@ class _FakeTranslatable_4 extends _i1.SmartFake implements _i6.Translatable {
         );
 }
 
-/// A class which mocks [SpaceDevsRepository].
+/// A class which mocks [LaunchLibraryRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSpaceDevsRepository extends _i1.Mock
-    implements _i5.SpaceDevsRepository {
+class MockLaunchLibraryRepository extends _i1.Mock
+    implements _i5.LaunchLibraryRepository {
   @override
   _i7.Future<List<_i2.Launch>> getUpcomingLaunchList() => (super.noSuchMethod(
         Invocation.method(
@@ -201,17 +201,17 @@ class MockSpaceDevsRepository extends _i1.Mock
 class MockFetchArticlesUseCase extends _i1.Mock
     implements _i9.FetchArticlesUseCase {
   @override
-  _i4.ArticleRepository get repository => (super.noSuchMethod(
+  _i4.SpaceflightRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeArticleRepository_2(
+        returnValue: _FakeSpaceflightRepository_2(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeArticleRepository_2(
+        returnValueForMissingStub: _FakeSpaceflightRepository_2(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i4.ArticleRepository);
+      ) as _i4.SpaceflightRepository);
 
   @override
   _i7.Future<List<_i10.Article>> call() => (super.noSuchMethod(
@@ -231,17 +231,17 @@ class MockFetchArticlesUseCase extends _i1.Mock
 class MockGetAllLaunchesUseCase extends _i1.Mock
     implements _i11.GetAllLaunchesUseCase {
   @override
-  _i5.SpaceDevsRepository get repository => (super.noSuchMethod(
+  _i5.LaunchLibraryRepository get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeSpaceDevsRepository_3(
+        returnValue: _FakeLaunchLibraryRepository_3(
           this,
           Invocation.getter(#repository),
         ),
-        returnValueForMissingStub: _FakeSpaceDevsRepository_3(
+        returnValueForMissingStub: _FakeLaunchLibraryRepository_3(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i5.SpaceDevsRepository);
+      ) as _i5.LaunchLibraryRepository);
 
   @override
   _i7.Future<List<_i2.Launch>> call() => (super.noSuchMethod(

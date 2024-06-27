@@ -50,9 +50,8 @@ class NotificationService {
             ticker: 'ticker');
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', notificationDetails,
-        payload: 'item x');
+    await flutterLocalNotificationsPlugin
+        .show(0, title, body, notificationDetails, payload: 'item x');
   }
 
   Future<void> scheduleNotification(
@@ -84,5 +83,9 @@ class NotificationService {
     } catch (e) {
       logger.e('Failed to schedule notification: $e');
     }
+  }
+
+  Future<void> cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
   }
 }

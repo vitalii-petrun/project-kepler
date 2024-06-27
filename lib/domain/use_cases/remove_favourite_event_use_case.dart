@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_kepler/core/utils/notification_service.dart';
 
 class RemoveFavouriteEventUseCase {
   final FirebaseFirestore firestore;
@@ -18,5 +19,7 @@ class RemoveFavouriteEventUseCase {
         .collection('events')
         .doc(eventId)
         .delete();
+
+    await NotificationService().cancelNotification(eventId.hashCode);
   }
 }

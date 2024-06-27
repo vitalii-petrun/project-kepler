@@ -1,15 +1,15 @@
 import 'package:project_kepler/core/global.dart';
-import 'package:project_kepler/domain/repositories/article_repository.dart';
+import 'package:project_kepler/domain/repositories/spaceflight_repository.dart';
 import '../../domain/converters/article_converter.dart';
 import '../../domain/entities/article.dart';
 import '../data sources/remote/api_client.dart';
 import '../models/article_dto.dart';
 
-class ArticleRepositoryImpl implements ArticleRepository {
+class SpaceflightRepositoryImpl implements SpaceflightRepository {
   final ApiClient apiClient;
   final ArticleDtoToEntityConverter articleConverter;
 
-  ArticleRepositoryImpl(this.apiClient, this.articleConverter);
+  SpaceflightRepositoryImpl(this.apiClient, this.articleConverter);
 
   @override
   Future<List<Article>> fetchArticles() async {
